@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseMold", "DataMold\BaseMold.csproj", "{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmmServerInterfaces", "CmmServerInterfaces\CmmServerInterfaces.csproj", "{74C41EC7-BCB9-4A62-9F67-7F80BF07F25A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmmServer", "CmmServer\CmmServer.csproj", "{341B334C-A1D0-4007-B9F0-5B0E5CAE3778}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74C41EC7-BCB9-4A62-9F67-7F80BF07F25A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74C41EC7-BCB9-4A62-9F67-7F80BF07F25A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74C41EC7-BCB9-4A62-9F67-7F80BF07F25A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74C41EC7-BCB9-4A62-9F67-7F80BF07F25A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{341B334C-A1D0-4007-B9F0-5B0E5CAE3778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{341B334C-A1D0-4007-B9F0-5B0E5CAE3778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{341B334C-A1D0-4007-B9F0-5B0E5CAE3778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{341B334C-A1D0-4007-B9F0-5B0E5CAE3778}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
