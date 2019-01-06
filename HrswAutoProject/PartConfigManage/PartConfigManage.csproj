@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{74C41EC7-BCB9-4A62-9F67-7F80BF07F25A}</ProjectGuid>
+    <ProjectGuid>{DD6B1803-41A6-4E72-A983-830FCCF0BABC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CmmServerInterfaces</RootNamespace>
-    <AssemblyName>CmmServerInterfaces</AssemblyName>
+    <RootNamespace>PartConfigManage</RootNamespace>
+    <AssemblyName>PartConfigManage</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,8 +32,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,10 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICmmControl.cs" />
-    <Compile Include="IPartManage.cs" />
-    <Compile Include="IWorkflowEvent.cs" />
+    <Compile Include="PartConfigManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataMold\BaseMold.csproj">
+      <Project>{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}</Project>
+      <Name>BaseMold</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

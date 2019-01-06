@@ -5,7 +5,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gy.HrswAuto.CmmServerInterfaces
+namespace Gy.HrswAuto.ICmmServer
 {
     [ServiceContract(CallbackContract = typeof(IWorkflowNotify))]
     public interface ICmmControl

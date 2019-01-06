@@ -6,10 +6,10 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gy.HrswAuto.CmmServerInterfaces
+namespace Gy.HrswAuto.ICmmServer
 {
     [ServiceContract]
-    public interface IPartManage
+    public interface IPartConfigService
     {
         /// <summary>
         /// 上传测量零件需要用到的文件集
