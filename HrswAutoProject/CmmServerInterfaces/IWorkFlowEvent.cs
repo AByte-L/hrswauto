@@ -1,6 +1,6 @@
 ﻿using System.ServiceModel;
 
-namespace Gy.HrswAuto.CmmServerInterfaces
+namespace Gy.HrswAuto.ICmmServer
 {
     public interface IWorkflowNotify
     {

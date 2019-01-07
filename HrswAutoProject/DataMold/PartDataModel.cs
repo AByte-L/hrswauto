@@ -11,16 +11,9 @@ namespace Gy.HrswAuto.DataMold
     /// </summary>
     public class PartDataModel
     {
-        private string _reportRptFileName;
-        /// <summary>
-        /// 检测报告文件
-        /// </summary>
-        public string RptFileName
-        {
-            get { return _reportRptFileName; }
-            set { _reportRptFileName = value; }
-        }
+        public string RptFileName { get; set; }
 
+        public string CmmFileName { get; set; }
         /// <summary>
         /// 检测结果是否合格
         /// </summary>
