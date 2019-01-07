@@ -12,17 +12,15 @@ namespace Gy.HrswAuto.PartConfigManage
 {
     public class PartConfigManager
     {
-        public string ProgFilePath { get; set; }
-        public string BladeFilePath { get; set; }
-        public string ReportFilePath { get; set; }
-        public string RootPath { get; set; }
-
         List<PartConfig> _partConfigs;
+
+        PathConfig _pathConfig;
 
         private PartConfigManager()
         {
             _partConfigs = new List<PartConfig>();
-            RootPath = AppDomain.CurrentDomain.BaseDirectory; // 基路径
+            // 获取或设置应用程序的目录设置
+            _pathConfig = new PathConfig();
         }
         
         public void InitPartConfigManager(string partFile)
@@ -32,10 +30,6 @@ namespace Gy.HrswAuto.PartConfigManage
             {
                 LoadPartConfigFromXml(partFile);
             }
-            // 设置文件路径
-            BladeFilePath = Path.Combine(RootPath, "Blades");
-            ProgFilePath = Path.Combine(RootPath, "Programs");
-            ReportFilePath = Path.Combine(RootPath, "Reports");
         }
 
         /// <summary>
@@ -53,6 +47,15 @@ namespace Gy.HrswAuto.PartConfigManage
         {
             PartConfig pc = _partConfigs.Find(part => string.Compare(part.PartID, partId, true) == 0);
             return pc;
+        }
+
+        public void AddPartConfig(PartConfig partConfig)
+        {
+            if (Exists(partConfig.PartID))
+            {
+                return;
+            }
+            _partConfigs.Add(partConfig);
         }
 
         /// <summary>
@@ -84,14 +87,23 @@ namespace Gy.HrswAuto.PartConfigManage
         #region 单件实例
         private static PartConfigManager _partConfigManager;
 
-        public static PartConfigManager Instance()
+        public static PartConfigManager Instance
         {
-            if (_partConfigManager == null)
-            {
-                _partConfigManager = new PartConfigManager();
+            get {
+                if (_partConfigManager == null)
+                {
+                    _partConfigManager = new PartConfigManager();
+                }
+                return _partConfigManager;
             }
-            return _partConfigManager;
-        } 
+        }
+        //{
+        //    if (_partConfigManager == null)
+        //    {
+        //        _partConfigManager = new PartConfigManager();
+        //    }
+        //    return _partConfigManager;
+        //} 
         #endregion
     }
 }

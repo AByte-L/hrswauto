@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Gy.HrswAuto.DataMold;
 using System.IO;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gy.HrswAuto.ICmmServer
 {
@@ -27,6 +23,12 @@ namespace Gy.HrswAuto.ICmmServer
         [OperationContract]
         bool FindPart(string partId);
 
+        /// <summary>
+        /// 在服务器中添加工件配置信息
+        /// </summary>
+        /// <param name="partConfig"></param>
+        [OperationContract]
+        void AddPartConfig(PartConfig partConfig);
         ////下载文件
         //[OperationContract]
         //DownFileResult DownLoadFile(DownFile downfile);

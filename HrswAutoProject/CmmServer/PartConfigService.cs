@@ -1,20 +1,27 @@
 ﻿using Gy.HrswAuto.ICmmServer;
+using Gy.HrswAuto.PartConfigManage;
 using System;
 using System.IO;
 using System.ServiceModel;
+using Gy.HrswAuto.DataMold;
 
-namespace CmmServer
+namespace Gy.HrswAuto.CmmServer
 {
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class PartConfigService : IPartConfigService
     {
+        public void AddPartConfig(PartConfig partConfig)
+        {
+            PartConfigManager.Instance.AddPartConfig(partConfig);
+        }
+
         public bool FindPart(string partId)
         {
-            return false;
+            return PartConfigManager.Instance.Exists(partId);
         }
 
         /// <summary>
-        /// 上传单个文件
+        /// 上传单个文件, 客户端需要多次调用
         /// </summary>
         /// <param name="filedata">文件信息及stream</param>
         /// <returns></returns>

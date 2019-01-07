@@ -7,7 +7,7 @@
     <ProjectGuid>{341B334C-A1D0-4007-B9F0-5B0E5CAE3778}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CmmServer</RootNamespace>
+    <RootNamespace>Gy.HrswAuto.CmmServer</RootNamespace>
     <AssemblyName>CmmServer</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -53,6 +53,10 @@
     <ProjectReference Include="..\DataMold\BaseMold.csproj">
       <Project>{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}</Project>
       <Name>BaseMold</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PartConfigManage\PartConfigManage.csproj">
+      <Project>{DD6B1803-41A6-4E72-A983-830FCCF0BABC}</Project>
+      <Name>PartConfigManage</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

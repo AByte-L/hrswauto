@@ -7,7 +7,7 @@
     <ProjectGuid>{DD6B1803-41A6-4E72-A983-830FCCF0BABC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PartConfigManage</RootNamespace>
+    <RootNamespace>Gy.HrswAuto.PartConfigManage</RootNamespace>
     <AssemblyName>PartConfigManage</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

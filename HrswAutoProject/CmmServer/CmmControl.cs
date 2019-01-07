@@ -44,12 +44,16 @@ namespace Gy.HrswAuto.CmmServer
         public void MeasurePart(string partId)
         {
             _currentPartId = partId;
-            string prgFile = FindProgFile(partId);
-            if (string.IsNullOrEmpty(prgFile))
-            {
-                // 错误处理 
-                return;
-            }
+            string prgFile = FindProgFile(partId); // 返回带扩展名的零件程序
+            //if (string.IsNullOrEmpty(prgFile))
+            //{
+            //    // 错误处理 
+
+            //    return;
+            //}
+            // 正常情况下不会返回空值
+            Debug.Assert(string.IsNullOrEmpty(prgFile));
+
             // 创建blade.txt文件
             //PCDmisUtility.CreateBladeTxtFromNominal(PartManager.GetConfig(partID));
             try
