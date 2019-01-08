@@ -5,6 +5,6 @@ namespace Gy.HrswAuto.ICmmServer
     public interface IWorkflowNotify
     {
         [OperationContract(IsOneWay = true)]
-        void WorkCompleted();
+        void WorkCompleted(bool isPass);
     }
 }

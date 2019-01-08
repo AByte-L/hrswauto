@@ -8,21 +8,20 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Gy.HrswAuto.PartConfigManage
+namespace Gy.HrswAuto.Utilities
 {
     public class PartConfigManager
     {
         List<PartConfig> _partConfigs;
 
-        PathConfig _pathConfig;
+        bool IsInitialed = false; // 
 
         private PartConfigManager()
         {
             _partConfigs = new List<PartConfig>();
-            // 获取或设置应用程序的目录设置
-            _pathConfig = new PathConfig();
         }
-        
+
+        #region 公共方法
         public void InitPartConfigManager(string partFile)
         {
             // 从XML读出文件配置
@@ -30,6 +29,7 @@ namespace Gy.HrswAuto.PartConfigManage
             {
                 LoadPartConfigFromXml(partFile);
             }
+            IsInitialed = true;
         }
 
         /// <summary>
@@ -78,11 +78,11 @@ namespace Gy.HrswAuto.PartConfigManage
         {
             using (XmlWriter writer = new XmlTextWriter(destFile, Encoding.UTF8))
             {
-
                 XmlSerializer serializer = new XmlSerializer(typeof(List<PartConfig>));
                 serializer.Serialize(writer, _partConfigs);
             }
-        }
+        } 
+        #endregion
 
         #region 单件实例
         private static PartConfigManager _partConfigManager;

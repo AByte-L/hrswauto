@@ -10,8 +10,8 @@ namespace Gy.HrswAuto.DataMold
     public class CmmServerConfig
     {
         public int ServerID { get; set; }
-        public int ctrlPost { get; set; }
-        public int partConfigPost { get; set; }
+        public int ControlPost { get; set; }
+        public int PartConfigPost { get; set; }
         public string HostIPAddress { get; set; }
     }
 }

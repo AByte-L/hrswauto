@@ -1,9 +1,9 @@
 ﻿using Gy.HrswAuto.ICmmServer;
-using Gy.HrswAuto.PartConfigManage;
 using System;
 using System.IO;
 using System.ServiceModel;
 using Gy.HrswAuto.DataMold;
+using Gy.HrswAuto.Utilities;
 
 namespace Gy.HrswAuto.CmmServer
 {

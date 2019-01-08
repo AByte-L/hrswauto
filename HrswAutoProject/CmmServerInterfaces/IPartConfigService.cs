@@ -29,6 +29,7 @@ namespace Gy.HrswAuto.ICmmServer
         /// <param name="partConfig"></param>
         [OperationContract]
         void AddPartConfig(PartConfig partConfig);
+        
         ////下载文件
         //[OperationContract]
         //DownFileResult DownLoadFile(DownFile downfile);

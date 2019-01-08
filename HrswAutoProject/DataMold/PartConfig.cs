@@ -27,5 +27,8 @@ namespace Gy.HrswAuto.DataMold
         //public string MathFileName { get; set; }
         //[DataMember]
         //public string OpFileName { get; set; }
+
+        //[DataMember]
+        //public List<string> FileNames { get; set; } = new List<string>();
     }
 }

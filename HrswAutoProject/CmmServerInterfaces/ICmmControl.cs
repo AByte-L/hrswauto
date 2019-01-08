@@ -20,5 +20,7 @@ namespace Gy.HrswAuto.ICmmServer
         void ConnectWFEvents();
         [OperationContract(IsOneWay = true)]
         void DisconnectWFEvents();
+        [OperationContract]
+        bool IsInitialed();
     }
 }
