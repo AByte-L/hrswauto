@@ -67,12 +67,24 @@ namespace Gy.HrswAuto.MasterMold
 
         private void Client_OnPlaceRequestEvent(object sender, FeedRequestArg e)
         {
-            throw new NotImplementedException();
+            CmmClient client = (CmmClient)sender;
+            FeedRequest feedRqst = new FeedRequest();
+            feedRqst.ReqType = RequestType.Request_Place;
+            feedRqst.ClientID = client.CmmSvrConfig.ServerID;
+            feedRqst.Client = client;
+            feedRqst.IsCompleted = false;
+            TaskDispatcher._taskQueue.Enqueue(feedRqst);
         }
 
         private void Client_OnGripRequestEvent(object sender, FeedRequestArg e)
         {
-            throw new NotImplementedException();
+            CmmClient client = (CmmClient)sender;
+            FeedRequest feedRqst = new FeedRequest();
+            feedRqst.ReqType = RequestType.Request_Grip;
+            feedRqst.ClientID = client.CmmSvrConfig.ServerID;
+            feedRqst.Client = client;
+            feedRqst.IsCompleted = false;
+            TaskDispatcher._taskQueue.Enqueue(feedRqst);
         }
 
         #region 单件实现

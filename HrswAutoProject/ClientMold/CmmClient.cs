@@ -112,7 +112,7 @@ namespace Gy.HrswAuto.ClientMold
 
             if (!ok)
             {
-                Debug.WriteLine("文件部署失败，请查证");
+                Debug.WriteLine("文件部署失败，请检查");
                 return;
             }
 
