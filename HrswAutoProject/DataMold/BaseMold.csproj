@@ -45,7 +45,6 @@
     <Compile Include="PartConfig.cs" />
     <Compile Include="PartDataModel.cs" />
     <Compile Include="PathConfig.cs" />
-    <Compile Include="PlcVarTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

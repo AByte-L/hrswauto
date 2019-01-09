@@ -69,10 +69,10 @@ namespace Gy.HrswAuto.MasterMold
         {
             CmmClient client = (CmmClient)sender;
             FeedRequest feedRqst = new FeedRequest();
-            feedRqst.ReqType = RequestType.Request_Place;
+            //feedRqst.ReqType = RequestType.Request_Place;
             feedRqst.ClientID = client.CmmSvrConfig.ServerID;
             feedRqst.Client = client;
-            feedRqst.IsCompleted = false;
+            //feedRqst.IsCompleted = false;
             TaskDispatcher._taskQueue.Enqueue(feedRqst);
         }
 
@@ -80,10 +80,10 @@ namespace Gy.HrswAuto.MasterMold
         {
             CmmClient client = (CmmClient)sender;
             FeedRequest feedRqst = new FeedRequest();
-            feedRqst.ReqType = RequestType.Request_Grip;
+            //feedRqst.ReqType = RequestType.Request_Grip;
             feedRqst.ClientID = client.CmmSvrConfig.ServerID;
             feedRqst.Client = client;
-            feedRqst.IsCompleted = false;
+            //feedRqst.IsCompleted = false;
             TaskDispatcher._taskQueue.Enqueue(feedRqst);
         }
 
