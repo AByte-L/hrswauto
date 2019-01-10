@@ -30,7 +30,8 @@ namespace Gy.HrswAuto.ClientMold
             get { return _IsInitialed; }
             private set { _IsInitialed = value; }
         }
-
+        // todo 是否需要
+        public event EventHandler<FeedRequestArg> OnPlaceAndGripRequestEvent;
         public event EventHandler<FeedRequestArg> OnGripRequestEvent;
         public event EventHandler<FeedRequestArg> OnPlaceRequestEvent;
         #endregion
@@ -166,6 +167,7 @@ namespace Gy.HrswAuto.ClientMold
             return true;
         }
 
+
         /// <summary>
         /// 上传单个文件到服务器
         /// </summary>
@@ -197,22 +199,54 @@ namespace Gy.HrswAuto.ClientMold
         /// </summary>
         public void SendPlaceRequest()
         {
-            FeedRequestArg rarg = new FeedRequestArg();
-            rarg.ClientID = CmmSvrConfig.ServerID;
-            rarg.RqtType = RequestType.Request_Place;
-            OnPlaceRequestEvent?.Invoke(this, rarg);
+            //FeedRequestArg rarg = new FeedRequestArg();
+            //rarg.ClientID = CmmSvrConfig.ServerID;
+            //rarg.RqtType = RequestType.Request_Place;
+            //OnPlaceRequestEvent?.Invoke(this, rarg);
+            PlaceFeedRequest placeFeedRequest = new PlaceFeedRequest();
+            placeFeedRequest.ClientID = CmmSvrConfig.ServerID;
+            placeFeedRequest.PlaceActionCompletedEvent += OnPlaceActionCompletedEvent;
         }
+
+        private void OnPlaceActionCompletedEvent(object sender, ResponsePlcEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 设置下料请求
         /// </summary>
         public void SendGripRequest(bool isPassed)
         {
-            FeedRequestArg rarg = new FeedRequestArg();
-            rarg.ClientID = CmmSvrConfig.ServerID;
-            rarg.RqtType = RequestType.Request_Grip;
-            rarg.IsPassed = isPassed;
-            OnGripRequestEvent?.Invoke(this, rarg);
-        } 
+            //FeedRequestArg rarg = new FeedRequestArg();
+            //rarg.ClientID = CmmSvrConfig.ServerID;
+            //rarg.RqtType = RequestType.Request_Grip;
+            //rarg.IsPassed = isPassed;
+            //OnGripRequestEvent?.Invoke(this, rarg);
+            GripFeedRequest gripFeedRequest = new GripFeedRequest();
+            gripFeedRequest.ClientID = CmmSvrConfig.ServerID;
+            gripFeedRequest.IsPassed = isPassed;
+            gripFeedRequest.GripActionCompletedEvent += OnGripActionCompletedEvent;
+            gripFeedRequest.Perform(); // 执行请求
+        }
+
+        private void OnGripActionCompletedEvent(object sender, ResponsePlcEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendPlaceAndGripRequest(bool isPassed)
+        {
+            PlaceAndGripFeedRequest placeAndGripFeedRequest = new PlaceAndGripFeedRequest();
+            placeAndGripFeedRequest.ClientID = CmmSvrConfig.ServerID;
+            placeAndGripFeedRequest.IsPass = isPassed;
+            placeAndGripFeedRequest.PlaceActionCompletedEvent += OnPlaceActionCompletedEvent;
+        }
+
+        public void SendPartIDError(string partID)
+        {
+            //PlcPartIDErrorResponse(partID);
+        }
         #endregion
 
     }

@@ -1,0 +1,12 @@
+https://blog.csdn.net/appdevelop/article/details/26864641
+https://blog.csdn.net/yanhuatangtang/article/details/77206704 ByteToStructure
+https://www.cnblogs.com/cnxkey/articles/3852591.html
+https://blog.csdn.net/qq_18229381/article/details/52846708
+
+公共资源 
+PLC三坐标个数
+PLC监控时常
+
+问题
+是否将client响应事件取消, 之前的事件是为了解除循环依赖
+将clientManager接受事件转移到client中
