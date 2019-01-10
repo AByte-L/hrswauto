@@ -16,19 +16,22 @@ namespace Gy.HrswAuto.PLCMold
         public int Slot { get; set; } = 0;
         public bool IsConnected { get; set; } = false;
 
-        Timer _initTimer;
-
         public void ResponseGripRequest(int clientID, bool isPassed)
         {
-            throw new NotImplementedException();
+            SetGripFlag(clientID, isPassed);
         }
 
-        AutoResetEvent _initEvent;
 
         public void ResponsePlaceRequest(int clientID)
         {
-            throw new NotImplementedException();
+            SetPlaceFlag(clientID);
         }
+
+        public void ResponsePlaceAndGripFeedRequest(int clientID, bool isPassed)
+        {
+            SetAllFlag(clientID, isPassed);
+        }
+
 
         /// <summary>
         /// 读取大块存储器
@@ -82,14 +85,30 @@ namespace Gy.HrswAuto.PLCMold
             return true;
         }
 
+        public void SetAllFlag(int clientID, bool isPassed)
+        {
+            int[] bn = new int[3];
+            bn[0] = 0;
+            bn[1] = 1;
+            bn[2] = isPassed ? 2 : 3;
+            SetPlcFlags(clientID, 0, true, bn);
+        }
+
+        public void ResetAllOkFlag(int clientId)
+        {
+            int[] bn = { 0, 1 };
+            SetPlcFlags(clientId, 1, false, bn);
+        }
+        
+
         /// <summary>
         /// 清除上料完成标志
         /// </summary>
         /// <param name="clientId"></param>
         public void ResetPlaceOkFlag(int clientId)
         {
-            int[] bn = { 1 };
-            SetPlcFlags(clientId, 0, false, bn);
+            int[] bn = { 0 };
+            SetPlcFlags(clientId, 1, false, bn);
         }
         /// <summary>
         /// 清除抓取完成标志
@@ -97,8 +116,8 @@ namespace Gy.HrswAuto.PLCMold
         /// <param name="clientId"></param>
         public void ResetGripOkFlag(int clientId)
         {
-            int[] bn = { 3, 4, 5 };
-            SetPlcFlags(clientId, 0, false, bn);
+            int[] bn = { 1 };
+            SetPlcFlags(clientId, 1, false, bn);
         }
         /// <summary>
         /// 设置上料请求标志
@@ -116,22 +135,23 @@ namespace Gy.HrswAuto.PLCMold
         /// <param name="Pass"></param>
         public void SetGripFlag(int clientId, bool Pass)
         {
-            int[] bn = new int[1];
-            bn[0] = Pass ? 4 : 5;
+            int[] bn = new int[2];
+            bn[0] = 1;
+            bn[1] = Pass ? 2 : 3;
             SetPlcFlags(clientId, 0, true, bn); // 设置合格位
-            int[] bn1 = { 3 };
-            SetPlcFlags(clientId, 0, true, bn1); // 设置抓取位
+            //int[] bn1 = { 3 };
+            //SetPlcFlags(clientId, 0, true, bn1); // 设置抓取位
         }
 
         public void SetWriteIDFlag(int clientId)
         {
-            int[] bn = { 6 };
+            int[] bn = { 4 };
             SetPlcFlags(clientId, 0, true, bn);
         }
 
         public void SetIDErrorFlag(int clientId)
         {
-            int[] bn = { 7 };
+            int[] bn = { 5 };
             SetPlcFlags(clientId, 0, true, bn);
         }
 
@@ -156,6 +176,41 @@ namespace Gy.HrswAuto.PLCMold
             }
             return S7.GetStringAt(buf, 0);
         }
+
+        /// <summary>
+        /// 验证下料完成标志
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <returns></returns>
+        public bool VerifyGripCompleted(int clientId)
+        {
+            byte[] buf = new byte[1];
+            if (ReadData(clientId, 1, 1, buf))
+            {
+                if (S7.GetBitAt(buf, 0, 1))
+                {
+                    ResetGripOkFlag(clientId); // 重置标志
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool VerifyPlaceCompleted(int clientId)
+        {
+            byte[] buf = new byte[1];
+            if (ReadData(clientId, 1, 1, buf))
+            {
+                if (S7.GetBitAt(buf, 0, 0))
+                {
+                    ResetGripOkFlag(clientId); // 重置标志
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
 
         /// <summary>
         /// 设置PLC存储器字节位
@@ -184,6 +239,9 @@ namespace Gy.HrswAuto.PLCMold
         }
 
         #region 初始化PLC连接
+        Timer _initTimer;
+        AutoResetEvent _initEvent;
+
         public bool Initialize()
         {
             // 连接时效30s

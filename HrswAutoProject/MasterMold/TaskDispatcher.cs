@@ -1,15 +1,18 @@
-﻿using Gy.HrswAuto.ClientMold;
+﻿//
+// 当前逻辑算法暂时没有用到任务调度器类
+//
+//
+using Gy.HrswAuto.ClientMold;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Gy.HrswAuto.MasterMold
 {
+    /// <summary>
+    /// 循环处理上料请求
+    /// </summary>
     public class TaskDispatcher
     {
         #region 数据域

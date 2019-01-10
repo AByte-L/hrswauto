@@ -30,7 +30,8 @@ namespace Gy.HrswAuto.ClientMold
             get { return _IsInitialed; }
             private set { _IsInitialed = value; }
         }
-
+        // todo 是否需要
+        public event EventHandler<FeedRequestArg> OnPlaceAndGripRequestEvent;
         public event EventHandler<FeedRequestArg> OnGripRequestEvent;
         public event EventHandler<FeedRequestArg> OnPlaceRequestEvent;
         #endregion
@@ -166,6 +167,7 @@ namespace Gy.HrswAuto.ClientMold
             return true;
         }
 
+
         /// <summary>
         /// 上传单个文件到服务器
         /// </summary>
@@ -213,6 +215,19 @@ namespace Gy.HrswAuto.ClientMold
             rarg.IsPassed = isPassed;
             OnGripRequestEvent?.Invoke(this, rarg);
         } 
+
+        public void SendPlaceAndGripRequest(bool isPassed)
+        {
+            FeedRequestArg rarg = new FeedRequestArg();
+            rarg.ClientID = CmmSvrConfig.ServerID;
+            rarg.RqtType = RequestType.Request_All;
+            OnPlaceAndGripRequestEvent?.Invoke(this, rarg);
+        }
+
+        public void SendPartIDError(string partID)
+        {
+            //PlcPartIDErrorResponse(partID);
+        }
         #endregion
 
     }

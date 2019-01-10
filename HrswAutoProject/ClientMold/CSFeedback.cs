@@ -24,7 +24,7 @@ namespace Gy.HrswAuto.ClientMold
         public void WorkCompleted(bool isPass)
         {
             // cmmClient发送上下料请求
-            _cmmClient.SendGripRequest(isPass);
+            _cmmClient.SendPlaceAndGripRequest(isPass);
         }
     }
 }

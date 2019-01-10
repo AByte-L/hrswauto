@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseMold", "DataMold\BaseMold.csproj", "{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}"
 EndProject
@@ -16,6 +16,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterMold", "MasterMold\MasterMold.csproj", "{96FF993D-9DC2-422B-9B12-93A1721FDD97}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLCMold", "PLCMold\PLCMold.csproj", "{CCE248F0-66F5-42E4-9D4E-44232CFC114B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3DDD622-9AD6-4EE6-BFF6-00A820ADF451}"
+	ProjectSection(SolutionItems) = preProject
+		Form1.cs = Form1.cs
+		记录.txt = 记录.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
