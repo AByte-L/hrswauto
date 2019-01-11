@@ -10,8 +10,9 @@ namespace Gy.HrswAuto.ClientMold
     [Flags]
     public enum ClientState
     {
-        Client_IsActived = 0x1,
-        Client_IsInitialized = 0x2,
-        Client_Error = 0x3,
+        Actived = 0x1,
+        Initialized = 0x2,
+        Error = 0x3,
+        Continue = 0x4
     }
 }

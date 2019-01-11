@@ -166,6 +166,7 @@ namespace Gy.HrswAuto.PLCMold
             }
         }
 
+
         public string ReadPartID(int clientId)
         {
             byte[] buf = new byte[256];

@@ -43,10 +43,10 @@ namespace Gy.HrswAuto.MasterMold
                 client.InitClient(); // 如果client初始化失败该怎么办？
                 //if (client.IsInitialed)
 
-                // todo 这些事件是否需要
-                client.OnGripRequestEvent += Client_OnGripRequestEvent;
-                client.OnPlaceRequestEvent += Client_OnPlaceRequestEvent;
-                client.OnPlaceAndGripRequestEvent += Client_OnPlaceAndGripRequestEvent;
+                // PLC消息响应事件
+                //client.OnGripRequestEvent += Client_OnGripRequestEvent;
+                //client.OnPlaceRequestEvent += Client_OnPlaceRequestEvent;
+                //client.OnPlaceAndGripRequestEvent += Client_OnPlaceAndGripRequestEvent;
 
                 _cmmClients.Add(client);
             }
@@ -72,67 +72,67 @@ namespace Gy.HrswAuto.MasterMold
         } 
         #endregion
 
-        private void Client_OnPlaceAndGripRequestEvent(object sender, FeedRequestArg e)
-        {
-            CmmClient client = (CmmClient)sender;
-            PlaceAndGripFeedRequest frq = new PlaceAndGripFeedRequest();
-            frq.ClientID = e.ClientID;
-            frq.IsPass = e.IsPassed;
-            frq.PlaceActionCompletedEvent += FeedRequest_PlaceActionCompletedEvent;
-            frq.Perform();
-        }
+        //private void Client_OnPlaceAndGripRequestEvent(object sender, FeedRequestArg e)
+        //{
+        //    CmmClient client = (CmmClient)sender;
+        //    PlaceAndGripFeedRequest frq = new PlaceAndGripFeedRequest();
+        //    frq.ClientID = e.ClientID;
+        //    frq.IsPass = e.IsPassed;
+        //    frq.PlaceActionCompletedEvent += FeedRequest_PlaceActionCompletedEvent;
+        //    frq.Perform();
+        //}
 
-        private void Client_OnPlaceRequestEvent(object sender, FeedRequestArg e)
-        {
-            CmmClient client = (CmmClient)sender;
-            //FeedRequest feedRqst = new FeedRequest();
-            //feedRqst.ReqType = RequestType.Request_Place;
-            //feedRqst.ClientID = client.CmmSvrConfig.ServerID;
-            //feedRqst.Client = client;
-            ////feedRqst.IsCompleted = false;
-            //TaskDispatcher._taskQueue.Enqueue(feedRqst);
+        //private void Client_OnPlaceRequestEvent(object sender, FeedRequestArg e)
+        //{
+        //    CmmClient client = (CmmClient)sender;
+        //    //FeedRequest feedRqst = new FeedRequest();
+        //    //feedRqst.ReqType = RequestType.Request_Place;
+        //    //feedRqst.ClientID = client.CmmSvrConfig.ServerID;
+        //    //feedRqst.Client = client;
+        //    ////feedRqst.IsCompleted = false;
+        //    //TaskDispatcher._taskQueue.Enqueue(feedRqst);
             
-            PlaceFeedRequest frq = new PlaceFeedRequest();
-            frq.ClientID = e.ClientID;
-            frq.PlaceActionCompletedEvent += FeedRequest_PlaceActionCompletedEvent;
-            frq.Perform();
+        //    PlaceFeedRequest frq = new PlaceFeedRequest();
+        //    frq.ClientID = e.ClientID;
+        //    frq.PlaceActionCompletedEvent += FeedRequest_PlaceActionCompletedEvent;
+        //    frq.Perform();
             
-        }
+        //}
 
-        private void Client_OnGripRequestEvent(object sender, FeedRequestArg e)
-        {
-            CmmClient client = (CmmClient)sender;
-            //FeedRequest feedRqst = new FeedRequest();
-            ////feedRqst.ReqType = RequestType.Request_Grip;
-            //feedRqst.ClientID = client.CmmSvrConfig.ServerID;
-            //feedRqst.Client = client;
-            ////feedRqst.IsCompleted = false;
-            //TaskDispatcher._taskQueue.Enqueue(feedRqst);
-            GripFeedRequest frq = new GripFeedRequest();
-            frq.ClientID = e.ClientID;
-            frq.IsPassed = e.IsPassed;
-            frq.GripActionCompletedEvent += Frq_GripActionCompletedEvent;
-            frq.Perform();
-        }
+        //private void Client_OnGripRequestEvent(object sender, FeedRequestArg e)
+        //{
+        //    CmmClient client = (CmmClient)sender;
+        //    //FeedRequest feedRqst = new FeedRequest();
+        //    ////feedRqst.ReqType = RequestType.Request_Grip;
+        //    //feedRqst.ClientID = client.CmmSvrConfig.ServerID;
+        //    //feedRqst.Client = client;
+        //    ////feedRqst.IsCompleted = false;
+        //    //TaskDispatcher._taskQueue.Enqueue(feedRqst);
+        //    GripFeedRequest frq = new GripFeedRequest();
+        //    frq.ClientID = e.ClientID;
+        //    frq.IsPassed = e.IsPassed;
+        //    frq.GripActionCompletedEvent += Frq_GripActionCompletedEvent;
+        //    frq.Perform();
+        //}
 
-        private void FeedRequest_PlaceActionCompletedEvent(object sender, ResponsePlcEventArgs e)
-        {
-            if (_cmmClients[e.ClientID].FindPart(e.PartID))
-            {
-                // todo 设置工件标识错误
-                _cmmClients[e.ClientID].SendPartIDError(e.PartID);
-            }
-            else
-            {
-                // 开始测量工作流程
-                _cmmClients[e.ClientID].StartMeasureWorkFlow(e.PartID);
-            }
-        }
+        //private void FeedRequest_PlaceActionCompletedEvent(object sender, ResponsePlcEventArgs e)
+        //{
+        //    if (_cmmClients[e.ClientID].FindPart(e.PartID))
+        //    {
+        //        // 设置工件标识错误
+        //        _cmmClients[e.ClientID].SendPartIDError(e.PartID);
+        //    }
+        //    else
+        //    {
+        //        // 开始测量工作流程
+        //        _cmmClients[e.ClientID].StartMeasureWorkFlow(e.PartID);
+        //    }
+        //}
 
-        private void Frq_GripActionCompletedEvent(object sender, ResponsePlcEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        //private void Frq_GripActionCompletedEvent(object sender, ResponsePlcEventArgs e)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         #region 单件实现
         ClientManager _clientManager;

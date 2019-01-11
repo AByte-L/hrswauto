@@ -30,10 +30,10 @@ namespace Gy.HrswAuto.ClientMold
             get { return _IsInitialed; }
             private set { _IsInitialed = value; }
         }
-        // todo 是否需要
-        public event EventHandler<FeedRequestArg> OnPlaceAndGripRequestEvent;
-        public event EventHandler<FeedRequestArg> OnGripRequestEvent;
-        public event EventHandler<FeedRequestArg> OnPlaceRequestEvent;
+        // 请求事件
+        //public event EventHandler<FeedRequestArg> OnPlaceAndGripRequestEvent;
+        //public event EventHandler<FeedRequestArg> OnGripRequestEvent;
+        //public event EventHandler<FeedRequestArg> OnPlaceRequestEvent;
         #endregion
 
         #region 初始化
@@ -103,17 +103,18 @@ namespace Gy.HrswAuto.ClientMold
         public void StartMeasureWorkFlow(string partId)
         {
             CurPartId = partId;
-            if (!FindPart(partId))
-            {
-                // 提示未发现工件
-                return;
-            }
+            //if (!FindPart(partId))
+            //{
+            //    // 提示未发现工件
+            //    return;
+            //}
 
             bool ok = SetServerPartConfig(partId);
 
             if (!ok)
             {
                 Debug.WriteLine("文件部署失败，请检查");
+                //State = State | ClientState.Error;
                 return;
             }
 
@@ -195,7 +196,7 @@ namespace Gy.HrswAuto.ClientMold
 
         #region PLC方法
         /// <summary>
-        /// 设置上料请求
+        /// 发送上料请求
         /// </summary>
         public void SendPlaceRequest()
         {
@@ -205,17 +206,33 @@ namespace Gy.HrswAuto.ClientMold
             //OnPlaceRequestEvent?.Invoke(this, rarg);
             PlaceFeedRequest placeFeedRequest = new PlaceFeedRequest();
             placeFeedRequest.ClientID = CmmSvrConfig.ServerID;
-            placeFeedRequest.PlaceActionCompletedEvent += OnPlaceActionCompletedEvent;
-        }
-
-        private void OnPlaceActionCompletedEvent(object sender, ResponsePlcEventArgs e)
-        {
-            throw new NotImplementedException();
+            placeFeedRequest.PlcCompletedEvent += OnPlaceActionCompletedEvent;
+            placeFeedRequest.Perform();
         }
 
         /// <summary>
-        /// 设置下料请求
+        /// 上料完成事件处理函数
         /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnPlaceActionCompletedEvent(object sender, ResponsePlcEventArgs e)
+        {
+            // 工件标识错误，发送工件未找到错误信号
+            if (FindPart(e.PartID))
+            {
+                SendPartIDErrorSign(e.ClientID);
+                Debug.WriteLine("报错处理");
+                State = State | ClientState.Error; // 设置客户端为错误状态
+                return;
+            }
+
+            StartMeasureWorkFlow(e.PartID);
+        }
+
+        /// <summary>
+        /// 发送抓取下料请求
+        /// </summary>
+        /// <param name="isPassed">当前测量工件是否合格</param>
         public void SendGripRequest(bool isPassed)
         {
             //FeedRequestArg rarg = new FeedRequestArg();
@@ -226,26 +243,45 @@ namespace Gy.HrswAuto.ClientMold
             GripFeedRequest gripFeedRequest = new GripFeedRequest();
             gripFeedRequest.ClientID = CmmSvrConfig.ServerID;
             gripFeedRequest.IsPassed = isPassed;
-            gripFeedRequest.GripActionCompletedEvent += OnGripActionCompletedEvent;
+            gripFeedRequest.PlcCompletedEvent += OnGripActionCompletedEvent;
             gripFeedRequest.Perform(); // 执行请求
         }
 
+        /// <summary>
+        /// 下料抓取完成事件处理函数
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnGripActionCompletedEvent(object sender, ResponsePlcEventArgs e)
         {
-            throw new NotImplementedException();
+            if (State.HasFlag(ClientState.Continue)) // 如果客户状态是继续测量则发送上料信号
+            {
+                SendPlaceRequest();
+            }
         }
 
+        /// <summary>
+        /// 发送下料并上料请求
+        /// </summary>
+        /// <param name="isPassed">当前工件是否合格</param>
         public void SendPlaceAndGripRequest(bool isPassed)
         {
             PlaceAndGripFeedRequest placeAndGripFeedRequest = new PlaceAndGripFeedRequest();
             placeAndGripFeedRequest.ClientID = CmmSvrConfig.ServerID;
             placeAndGripFeedRequest.IsPass = isPassed;
-            placeAndGripFeedRequest.PlaceActionCompletedEvent += OnPlaceActionCompletedEvent;
+            placeAndGripFeedRequest.PlcCompletedEvent += OnPlaceActionCompletedEvent;
         }
 
-        public void SendPartIDError(string partID)
+        /// <summary>
+        /// 发送工件标识错误信号
+        /// </summary>
+        /// <param name="partID"></param>
+        public void SendPartIDErrorSign(int clientId)
         {
             //PlcPartIDErrorResponse(partID);
+            ErrorFeedBack partIdErr = new ErrorFeedBack();
+            partIdErr.ClientID = clientId;
+            partIdErr.Perform();
         }
         #endregion
 

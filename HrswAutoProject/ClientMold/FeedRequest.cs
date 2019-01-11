@@ -15,6 +15,7 @@ namespace Gy.HrswAuto.ClientMold
     {
         public int ClientID { get; set; }
         //public CmmClient Client { get; set; }
+        public event EventHandler<ResponsePlcEventArgs> PlcCompletedEvent;
 
         protected PlcClient _plcClient; // 用于PLC读写
 
@@ -36,6 +37,11 @@ namespace Gy.HrswAuto.ClientMold
         {
             throw new NotImplementedException();
         }
+
+        protected void PlcCompletedEventInvoker(object sender, ResponsePlcEventArgs e)
+        {
+            PlcCompletedEvent?.Invoke(sender, e);
+        }
      }
 
     
@@ -44,11 +50,8 @@ namespace Gy.HrswAuto.ClientMold
     /// </summary>
     public class GripFeedRequest : FeedRequest
     {
-        public bool IsPassed { get; set; }
-        /// <summary>
-        /// PLC下料动作完成事件
-        /// </summary>
-        public event EventHandler<ResponsePlcEventArgs> GripActionCompletedEvent;
+        public bool IsPassed { get; set; } // 工件是否合格
+        //public event EventHandler<ResponsePlcEventArgs> GripActionCompletedEvent;
 
         public GripFeedRequest():base()
         {
@@ -64,12 +67,13 @@ namespace Gy.HrswAuto.ClientMold
         public override void _timer_PlcStateMonitor(object sender, ElapsedEventArgs e)
         {
             // base._timer_PlcStateMonitor(sender, e);
-            _timer.Stop(); // 暂停检测
-            if (_plcClient.VerifyGripCompleted(ClientID))
+            _timer.Stop(); // 暂停检测, 避免重复触发
+            if (_plcClient.VerifyGripCompleted(ClientID)) // 抓料完成，调用完成事件
             {
                 ResponsePlcEventArgs args = new ResponsePlcEventArgs();
                 args.ClientID = ClientID;
-                GripActionCompletedEvent?.Invoke(this, args);  // 确定client是否在continue状态，否则停止上料            
+                //GripActionCompletedEvent?.Invoke(this, args);  //           
+                PlcCompletedEventInvoker(this, args); 
                 _timer.Dispose();
                 return;
             }
@@ -82,10 +86,7 @@ namespace Gy.HrswAuto.ClientMold
     /// </summary>
     public class PlaceFeedRequest : FeedRequest
     {
-        /// <summary>
-        /// PLC上料完成事件
-        /// </summary>
-        public event EventHandler<ResponsePlcEventArgs> PlaceActionCompletedEvent;
+        //public event EventHandler<ResponsePlcEventArgs> PlaceActionCompletedEvent;
         public PlaceFeedRequest():base()
         {
 
@@ -100,13 +101,14 @@ namespace Gy.HrswAuto.ClientMold
         {
             // base._timer_PlcStateMonitor(sender, e);
             _timer.Stop(); // 暂停检测
-            if (_plcClient.VerifyPlaceCompleted(ClientID))
+            if (_plcClient.VerifyPlaceCompleted(ClientID)) // 放料完成，调用完成事件
             {
                 string partId = _plcClient.ReadPartID(ClientID);
                 ResponsePlcEventArgs args = new ResponsePlcEventArgs();
                 args.ClientID = ClientID;
                 args.PartID = partId;
-                PlaceActionCompletedEvent?.Invoke(this, args);  // 触发上料完成事件       
+                //PlaceActionCompletedEvent?.Invoke(this, args);  // 触发上料完成事件       
+                PlcCompletedEventInvoker(this, args); 
                 _timer.Dispose();
                 return;
             }
@@ -119,15 +121,9 @@ namespace Gy.HrswAuto.ClientMold
     /// </summary>
     public class PlaceAndGripFeedRequest : FeedRequest
     {
-        public bool IsPass { get; set; } = false;
-        /// <summary>
-        /// PLC下料动作完成事件
-        /// </summary>
+        public bool IsPass { get; set; }
         //public event EventHandler<ResponsePlcEventArgs> GripActionCompletedEvent;
-        /// <summary>
-        /// PLC上料完成事件
-        /// </summary>
-        public event EventHandler<ResponsePlcEventArgs> PlaceActionCompletedEvent;
+        //public event EventHandler<ResponsePlcEventArgs> PlaceActionCompletedEvent;
 
         public PlaceAndGripFeedRequest():base()
         {
@@ -143,17 +139,27 @@ namespace Gy.HrswAuto.ClientMold
         {
             // base._timer_PlcStateMonitor(sender, e);
             _timer.Stop(); // 暂停检测
-            if (_plcClient.VerifyPlaceCompleted(ClientID)) // 上料完成
+            if (_plcClient.VerifyPlaceCompleted(ClientID)) // 放料完成，调用完成事件
             {
                 string partID = _plcClient.ReadPartID(ClientID); // 读取零件标识
                 ResponsePlcEventArgs args = new ResponsePlcEventArgs();
                 args.PartID = partID;
                 args.ClientID = ClientID;
-                PlaceActionCompletedEvent?.Invoke(this, args);
+                //PlaceActionCompletedEvent?.Invoke(this, args);
+                PlcCompletedEventInvoker(this, args);
                 _timer.Dispose();
                 return;
             }
             _timer.Start();
         }
+    }
+
+    public class ErrorFeedBack : FeedRequest
+    {
+        public override void Perform()
+        {
+            _plcClient.SetIDErrorFlag(ClientID);
+        }
+
     }
 }
