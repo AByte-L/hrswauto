@@ -6,6 +6,9 @@ https://blog.csdn.net/qq_18229381/article/details/52846708
 公共资源 
 PLC三坐标个数
 PLC监控时常
+BladeExe路径
+定位安全程序路径
+
 
 问题
 是否将client响应事件取消, 之前的事件是为了解除循环依赖

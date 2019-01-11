@@ -9,7 +9,7 @@ namespace Gy.HrswAuto.Utilities
 {
     public class PathManager
     {
-        public PathConfig AutoPathConfig { get; set; }
+        public PathConfig Configration { get; set; }
 
         #region 单例实现
         private static PathManager _instance;

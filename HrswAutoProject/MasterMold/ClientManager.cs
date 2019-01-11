@@ -27,7 +27,7 @@ namespace Gy.HrswAuto.MasterMold
         public void Initialize()
         {
             // 导入client
-            string path = Path.Combine(PathManager.Instance.AutoPathConfig.SettingsSavePath, SaveSettings.ClientConfigFileName);
+            string path = Path.Combine(PathManager.Instance.Configration.SettingsSavePath, SaveSettings.ClientConfigFileName);
             if (File.Exists(path))
             {
                 LoadClientFromXmlFile(path);

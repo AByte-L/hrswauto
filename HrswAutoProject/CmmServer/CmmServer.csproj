@@ -46,6 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BladeMold\BladeMold.csproj">
+      <Project>{3EC3E1AA-5B80-4189-89E2-6F6314828A00}</Project>
+      <Name>BladeMold</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CmmServerInterfaces\ICmmServer.csproj">
       <Project>{74C41EC7-BCB9-4A62-9F67-7F80BF07F25A}</Project>
       <Name>ICmmServer</Name>

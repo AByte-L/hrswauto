@@ -15,6 +15,9 @@ namespace Gy.HrswAuto.ClientMold
     public class CmmClient
     {
         #region 数据成员属性
+        /// <summary>
+        /// 服务器端IP和端口配置
+        /// </summary>
         public CmmServerConfig CmmSvrConfig { get; set; }
         // 当前检测ID
         public string CurPartId { get; set; } 
@@ -24,13 +27,11 @@ namespace Gy.HrswAuto.ClientMold
         ICmmControl _cmmCtrl;
         IPartConfigService _partConfigService;
         private bool _IsInitialed = false;
-
         public bool IsInitialed
         {
             get { return _IsInitialed; }
             private set { _IsInitialed = value; }
         }
-        // 请求事件
         //public event EventHandler<FeedRequestArg> OnPlaceAndGripRequestEvent;
         //public event EventHandler<FeedRequestArg> OnGripRequestEvent;
         //public event EventHandler<FeedRequestArg> OnPlaceRequestEvent;
@@ -52,7 +53,7 @@ namespace Gy.HrswAuto.ClientMold
                 _proxyFactory = new ProxyFactory(this);
                 _cmmCtrl = _proxyFactory.GetCmmControl(CmmSvrConfig);
                 _partConfigService = _proxyFactory.GetPartConfigService(CmmSvrConfig);
-                _IsInitialed = true;
+                _IsInitialed = _cmmCtrl.IsInitialed(); // 返回服务器端是否初始化
             }
             catch (Exception)
             {
@@ -81,14 +82,15 @@ namespace Gy.HrswAuto.ClientMold
         private bool VerifyLocalFiles(string partId)
         {
             PartConfig partConfig = PartConfigManager.Instance.GetPartConfig(partId);
-            PathConfig pathConfig = PathManager.Instance.AutoPathConfig;
+            PathConfig pathConfig = PathManager.Instance.Configration;
             string filePath = Path.Combine(pathConfig.ProgFilePath, partConfig.ProgFileName);
+            string bladeFilePath = Path.Combine(pathConfig.BladeFilePath, $"{partConfig.PartID}");
             if (!File.Exists(filePath)) return false;
-            filePath = Path.Combine(pathConfig.ProgFilePath, partConfig.FlvFileName);
+            filePath = Path.Combine(bladeFilePath, partConfig.FlvFileName);
             if (!File.Exists(filePath)) return false;
-            filePath = Path.Combine(pathConfig.ProgFilePath, partConfig.NormFileName);
+            filePath = Path.Combine(bladeFilePath, partConfig.NormFileName);
             if (!File.Exists(filePath)) return false;
-            filePath = Path.Combine(pathConfig.ProgFilePath, partConfig.TolFileName);
+            filePath = Path.Combine(bladeFilePath, partConfig.TolFileName);
             if (!File.Exists(filePath)) return false;
             return true;
         }
@@ -148,21 +150,22 @@ namespace Gy.HrswAuto.ClientMold
             // 添加工件配置
             PartConfig partConfig = PartConfigManager.Instance.GetPartConfig(partId);
             _partConfigService.AddPartConfig(partConfig);
-            PathConfig pathConfig = PathManager.Instance.AutoPathConfig;
+            PathConfig pathConfig = PathManager.Instance.Configration;
             // 上传程序文件
             string filePath = Path.Combine(pathConfig.ProgFilePath, partConfig.ProgFileName);
             bool ok = UpFileToServer(partId, filePath);
             if (!ok) return false;
+            string bladeFilePath = Path.Combine(pathConfig.BladeFilePath, $"{partConfig.PartID}");
             // 上传算法Flv文件
-            filePath = Path.Combine(pathConfig.ProgFilePath, partConfig.FlvFileName);
+            filePath = Path.Combine(bladeFilePath, partConfig.FlvFileName);
             ok = UpFileToServer(partId, filePath);
             if (!ok) return false;
             // 上传理论nom文件
-            filePath = Path.Combine(pathConfig.ProgFilePath, partConfig.NormFileName);
+            filePath = Path.Combine(bladeFilePath, partConfig.NormFileName);
             ok = UpFileToServer(partId, filePath);
             if (!ok) return false;
             // 上传公差文件
-            filePath = Path.Combine(pathConfig.ProgFilePath, partConfig.TolFileName);
+            filePath = Path.Combine(bladeFilePath, partConfig.TolFileName);
             ok = UpFileToServer(partId, filePath);
             if (!ok) return false;
             return true;

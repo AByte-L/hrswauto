@@ -1,4 +1,5 @@
-﻿using Gy.HrswAuto.DataMold;
+﻿using Gy.HrswAuto.BladeMold;
+using Gy.HrswAuto.DataMold;
 using Gy.HrswAuto.ICmmServer;
 using Gy.HrswAuto.Utilities;
 using Microsoft.Win32;
@@ -29,6 +30,7 @@ namespace Gy.HrswAuto.CmmServer
         private bool _IsMeasured = false; // 是否测量完成
         public string BladeExePath { get; set; } // 全路径的Blade.exe文件路径
         public string GotoProgFilePath { get; set; } // 全路径的回安全位置程序
+        private BladeMeasAssist _bladeMeasAssist;
         /// <summary>
         /// 事件回调代理接口
         /// </summary>
@@ -52,12 +54,14 @@ namespace Gy.HrswAuto.CmmServer
         {
             _currentPartId = partId;
             string prgFile = FindProgFile(partId); // 返回带扩展名的零件程序
-
             // 正常情况下不会返回空值
             Debug.Assert(string.IsNullOrEmpty(prgFile));
 
+            _bladeMeasAssist = new BladeMeasAssist();
+            _bladeMeasAssist.Part = PartConfigManager.Instance.GetPartConfig(partId);
             // 创建blade.txt文件
-            //PCDmisUtility.CreateBladeTxtFromNominal(PartManager.GetConfig(partID));
+            _bladeMeasAssist.CreateBladeTxtFromNominal();
+
             try
             {
                 _partPrograms.CloseAll();
@@ -67,9 +71,9 @@ namespace Gy.HrswAuto.CmmServer
                 _partProgram.OnExecuteDialogErrorMsg += _partProgram_OnExecuteDialogErrorMsg;
                 //  获取程序中测尖直径
                 PCDLRN.OldBasic ob = _partProgram.OldBasic;
-                //PCDmisUtility._probeDiam = 2 * ob.GetProbeRadius();
-                _outputFileName = FindOutputFileName();
-                // 异步执行
+                _bladeMeasAssist.ProbeDiam = 2 * ob.GetProbeRadius();
+                _bladeMeasAssist.RtfFileName/*_outputFileName*/ = FindOutputFileName();
+                 // 异步执行
                 _partProgram.AsyncExecute();
             }
             catch (Exception ex)
@@ -78,7 +82,6 @@ namespace Gy.HrswAuto.CmmServer
             }
             _IsMeasured = true; // 是否需要
         }
-
 
         public bool IsInitialed()
         {
@@ -144,7 +147,7 @@ namespace Gy.HrswAuto.CmmServer
         {
             // 从工件配置管理器中获得工件列表
             PartConfig pc = PartConfigManager.Instance.GetPartConfig(partId);
-            string filePath = Path.Combine(PathManager.Instance.AutoPathConfig.ProgFilePath, pc.ProgFileName);
+            string filePath = Path.Combine(PathManager.Instance.Configration.ProgFilePath, pc.ProgFileName);
             Debug.Assert(string.IsNullOrEmpty(filePath)); // 正常情况FilePath不是空字符串
             return filePath;
         }
