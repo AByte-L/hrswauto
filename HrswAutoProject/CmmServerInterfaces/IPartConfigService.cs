@@ -14,7 +14,14 @@ namespace Gy.HrswAuto.ICmmServer
         /// <returns></returns>
         [OperationContract]
         UpFileResult UpLoadFile(UpFile filestream);
-
+        /// <summary>
+        /// 上传测量零件需要用到的文件集
+        /// </summary>
+        /// <param name="filestream">文件内容</param>
+        /// <param name="selPath">目录选择</param>
+        /// <returns></returns>
+        [OperationContract]
+        UpFileResult UpLoadFile1(UpFile1 filestream);
         /// <summary>
         /// 到服务器端查找零件是否存在
         /// </summary>
@@ -52,11 +59,27 @@ namespace Gy.HrswAuto.ICmmServer
         [MessageHeader]
         public string FileName { get; set; }
         [MessageHeader]
+        public string FilePath { get; set; } // blades或者progs
+        [MessageHeader]
         public string PartId { get; set; }
         [MessageBodyMember]
         public Stream FileStream { get; set; }
     }
 
+    [MessageContract]
+    public class UpFile1
+    {
+        [MessageHeader]
+        public long FileSize { get; set; }
+        [MessageHeader]
+        public int  selPath { get; set; } // blades或者progs
+        [MessageHeader]
+        public string FileName { get; set; }
+        [MessageHeader]
+        public string PartId { get; set; }
+        [MessageBodyMember]
+        public Stream FileStream { get; set; }
+    }
     //[MessageContract]
     //public class DownFileResult
     //{

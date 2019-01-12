@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MeasureServiceContext.cs" />
     <Compile Include="CmmControl.cs" />
     <Compile Include="PartConfigService.cs" />
+    <Compile Include="PCDmisService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

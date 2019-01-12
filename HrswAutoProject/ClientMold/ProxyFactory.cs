@@ -44,7 +44,7 @@ namespace Gy.HrswAuto.ClientMold
         public ICmmControl GetCmmControl(CmmServerConfig csInfo)
         {
             //int servicePort = 8000 + clientInfo._machineId; // 端口
-            string serviceUri = @"net.tcp://" + csInfo.HostIPAddress + ":" + csInfo.ControlPost.ToString() + @"/CmmControlService";
+            string serviceUri = @"net.tcp://" + csInfo.HostIPAddress + ":" + csInfo.ControlPost.ToString() + @"/cmmcontrolservice";
             ICmmControl cmmControl = null;
             cmmControl = CmmControlFactory.CreateChannel(new EndpointAddress(serviceUri));
             //    连接回调事件
@@ -55,7 +55,7 @@ namespace Gy.HrswAuto.ClientMold
         public IPartConfigService GetPartConfigService(CmmServerConfig clientInfo)
         {
             //int servicePort = 9000 + clientInfo._machineId; // 端口
-            string serviceUri = @"net.tcp://" + clientInfo.HostIPAddress + ":" + clientInfo.PartConfigPost.ToString() + @"/FileService";
+            string serviceUri = @"net.tcp://" + clientInfo.HostIPAddress + ":" + clientInfo.PartConfigPost.ToString() + @"/partconfigservice";
             IPartConfigService fileServiceProxy = null;
             fileServiceProxy = PartConfigServiceFactory.CreateChannel(new EndpointAddress(serviceUri));
             return fileServiceProxy;

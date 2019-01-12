@@ -83,8 +83,10 @@ namespace Gy.HrswAuto.ClientMold
         {
             PartConfig partConfig = PartConfigManager.Instance.GetPartConfig(partId);
             PathConfig pathConfig = PathManager.Instance.Configration;
-            string filePath = Path.Combine(pathConfig.ProgFilePath, partConfig.ProgFileName);
-            string bladeFilePath = Path.Combine(pathConfig.BladeFilePath, $"{partConfig.PartID}");
+            // etc root\Progs\1.prg 
+            string filePath = Path.Combine(pathConfig.RootPath, pathConfig.ProgFilePath, partConfig.ProgFileName);
+            // etc root\blades\partId
+            string bladeFilePath = Path.Combine(pathConfig.RootPath, pathConfig.BladeFilePath, $"{partConfig.PartID}");
             if (!File.Exists(filePath)) return false;
             filePath = Path.Combine(bladeFilePath, partConfig.FlvFileName);
             if (!File.Exists(filePath)) return false;
@@ -151,43 +153,118 @@ namespace Gy.HrswAuto.ClientMold
             PartConfig partConfig = PartConfigManager.Instance.GetPartConfig(partId);
             _partConfigService.AddPartConfig(partConfig);
             PathConfig pathConfig = PathManager.Instance.Configration;
-            // 上传程序文件
-            string filePath = Path.Combine(pathConfig.ProgFilePath, partConfig.ProgFileName);
-            bool ok = UpFileToServer(partId, filePath);
-            if (!ok) return false;
-            string bladeFilePath = Path.Combine(pathConfig.BladeFilePath, $"{partConfig.PartID}");
-            // 上传算法Flv文件
-            filePath = Path.Combine(bladeFilePath, partConfig.FlvFileName);
-            ok = UpFileToServer(partId, filePath);
-            if (!ok) return false;
-            // 上传理论nom文件
-            filePath = Path.Combine(bladeFilePath, partConfig.NormFileName);
-            ok = UpFileToServer(partId, filePath);
-            if (!ok) return false;
-            // 上传公差文件
-            filePath = Path.Combine(bladeFilePath, partConfig.TolFileName);
-            ok = UpFileToServer(partId, filePath);
-            if (!ok) return false;
+            // 上传程序文件 pcdmis programs目录中的文件，包括.prg .cad等 
+            // 目录结构 root\programs\...
+            string ProgFilesPath = Path.Combine(PathManager.Instance.Configration.RootPath, PathManager.Instance.Configration.ProgFilePath);
+            if (!Directory.Exists(ProgFilesPath))
+            {
+                Debug.WriteLine("文件目录错误");
+                return false;
+            }
+            string[] pfileNames = Directory.GetFiles(ProgFilesPath);
+            string progFileWithoutExt = Path.GetFileNameWithoutExtension(partConfig.ProgFileName);
+            bool IsSuccessUpLoad = false;
+            // 程序文件和CAD文件集中在一个目录里，可以公用
+            string filePath = PathManager.Instance.Configration.ProgFilePath;
+            foreach (string item in pfileNames)
+            {
+                // 上传progs目录中的所有相关文件
+                string fileNameWithoutExt = Path.GetFileNameWithoutExtension(item);
+                if (string.Compare(progFileWithoutExt, fileNameWithoutExt,true) == 0)
+                {
+                    IsSuccessUpLoad = UpFileToServer1(partConfig.PartID, item, 0/*filePath*/);
+                    if (!IsSuccessUpLoad)
+                    {
+                        return false;
+                    }
+                }
+            }
+            // 上传Blades文件 
+            // root\blades\partid\...
+            string bladeFilesPath = Path.Combine(PathManager.Instance.Configration.RootPath, PathManager.Instance.Configration.BladeFilePath, partConfig.PartID);
+            if (!Directory.Exists(bladeFilesPath))
+            {
+                Debug.WriteLine("文件目录错误");
+                return false;
+            }
+            string[] bfileNames = Directory.GetFiles(bladeFilesPath);
+            //string bladeFileWithoutExt = Path.GetFileNameWithoutExtension(partConfig.ProgFileName);
+            IsSuccessUpLoad = false;
+            // blades文件进行工件标识分类
+            filePath = Path.Combine(PathManager.Instance.Configration.BladeFilePath, partConfig.PartID);
+            foreach (string item in bfileNames)
+            { 
+                // 上传progs目录中的所有相关文件
+                IsSuccessUpLoad = UpFileToServer1(partConfig.PartID, item, 1/*filePath*/); // 放入服务器的blades文件目录中
+                if (!IsSuccessUpLoad)
+                {
+                    return false;
+                }
+            }
             return true;
+            //string filePath = Path.Combine(pathConfig.RootPath, pathConfig.ProgFilePath, partConfig.ProgFileName);
+            //bool ok = UpFileToServer(partId, filePath);
+            //if (!ok) return false;
+            //string bladeFilePath = Path.Combine(pathConfig.RootPath, pathConfig.BladeFilePath, $"{partConfig.PartID}");
+            //// 上传算法Flv文件
+            //filePath = Path.Combine(bladeFilePath, partConfig.FlvFileName);
+            //ok = UpFileToServer(partId, filePath);
+            //if (!ok) return false;
+            //// 上传理论nom文件
+            //filePath = Path.Combine(bladeFilePath, partConfig.NormFileName);
+            //ok = UpFileToServer(partId, filePath);
+            //if (!ok) return false;
+            //// 上传公差文件
+            //filePath = Path.Combine(bladeFilePath, partConfig.TolFileName);
+            //ok = UpFileToServer(partId, filePath);
+            //if (!ok) return false;
+            //return true;
         }
-
 
         /// <summary>
         /// 上传单个文件到服务器
         /// </summary>
-        /// <param name="partId">工件标示</param>
-        /// <param name="filePath">上传文件路径</param>
+        /// <param name="partId">工件标识</param>
+        /// <param name="filefullPath">文件全路径名</param>
+        /// <param name="filePath">相对路径，baldes\partId或者programs</param>
         /// <returns></returns>
-        private bool UpFileToServer(string partId, string filePath)
+        private bool UpFileToServer(string partId, string filefullPath, string filePath)
         {
-            using (Stream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            using (Stream fs = new FileStream(filefullPath, FileMode.Open, FileAccess.Read))
             {
                 UpFile fileData = new UpFile();
-                fileData.FileName = Path.GetFileName(filePath);
+                fileData.FileName = Path.GetFileName(filefullPath);
                 fileData.FileSize = fs.Length;
+                fileData.FilePath = filePath;
                 fileData.FileStream = fs;
                 fileData.PartId = partId;
                 UpFileResult ures = _partConfigService.UpLoadFile(fileData);
+                //if (ures.IsSuccess)
+                //{
+                //    Debug.WriteLine("File up ok");
+                //}
+                return ures.IsSuccess;
+            }
+        }
+
+        /// <summary>
+        /// 上传单个文件到服务器
+        /// </summary>
+        /// <param name="partId">工件标识</param>
+        /// <param name="filefullPath">文件全路径名</param>
+        /// <param name="selPath">相对路径，baldes\partId或者programs</param>
+        /// <returns></returns>
+        private bool UpFileToServer1(string partId, string filefullPath, int selPath)
+        {
+            using (Stream fs = new FileStream(filefullPath, FileMode.Open, FileAccess.Read))
+            {
+                UpFile1 fileData = new UpFile1();
+                fileData.FileName = Path.GetFileName(filefullPath);
+                fileData.FileSize = fs.Length;
+                fileData.selPath = selPath;
+                fileData.FileStream = fs;
+                fileData.PartId = partId;
+                UpFileResult ures = _partConfigService.UpLoadFile1(fileData);
                 //if (ures.IsSuccess)
                 //{
                 //    Debug.WriteLine("File up ok");

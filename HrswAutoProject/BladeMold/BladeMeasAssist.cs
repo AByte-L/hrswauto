@@ -288,5 +288,20 @@ namespace Gy.HrswAuto.BladeMold
             return sections;
         } 
         #endregion
+
+        /// <summary>
+        /// 通过分析Blade产生的CMM确定产品是否合格
+        /// </summary>
+        /// <param name="cmmFileName">cmm文件路径</param>
+        public void VerifyAnalysisResult(string cmmFileName)
+        {
+            // 前面已经判断了
+            //if (!File.Exists(cmmFileName))
+            //{
+            //    Debug.WriteLine("文件不存在");
+            //    return;
+            //}
+
+        }
     }
 }
