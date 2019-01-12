@@ -83,8 +83,10 @@ namespace Gy.HrswAuto.ClientMold
         {
             PartConfig partConfig = PartConfigManager.Instance.GetPartConfig(partId);
             PathConfig pathConfig = PathManager.Instance.Configration;
-            string filePath = Path.Combine(pathConfig.ProgFilePath, partConfig.ProgFileName);
-            string bladeFilePath = Path.Combine(pathConfig.BladeFilePath, $"{partConfig.PartID}");
+            // etc root\Progs\1.prg 
+            string filePath = Path.Combine(pathConfig.RootPath, pathConfig.ProgFilePath, partConfig.ProgFileName);
+            // etc root\blades\partId
+            string bladeFilePath = Path.Combine(pathConfig.RootPath, pathConfig.BladeFilePath, $"{partConfig.PartID}");
             if (!File.Exists(filePath)) return false;
             filePath = Path.Combine(bladeFilePath, partConfig.FlvFileName);
             if (!File.Exists(filePath)) return false;
@@ -152,10 +154,10 @@ namespace Gy.HrswAuto.ClientMold
             _partConfigService.AddPartConfig(partConfig);
             PathConfig pathConfig = PathManager.Instance.Configration;
             // 上传程序文件
-            string filePath = Path.Combine(pathConfig.ProgFilePath, partConfig.ProgFileName);
+            string filePath = Path.Combine(pathConfig.RootPath, pathConfig.ProgFilePath, partConfig.ProgFileName);
             bool ok = UpFileToServer(partId, filePath);
             if (!ok) return false;
-            string bladeFilePath = Path.Combine(pathConfig.BladeFilePath, $"{partConfig.PartID}");
+            string bladeFilePath = Path.Combine(pathConfig.RootPath, pathConfig.BladeFilePath, $"{partConfig.PartID}");
             // 上传算法Flv文件
             filePath = Path.Combine(bladeFilePath, partConfig.FlvFileName);
             ok = UpFileToServer(partId, filePath);

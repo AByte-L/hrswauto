@@ -29,7 +29,8 @@ namespace Gy.HrswAuto.CmmServer
         {
             UpFileResult result = new UpFileResult();
 
-            string path = AppDomain.CurrentDomain.BaseDirectory + @"\parts\" + filedata.PartId;
+            // etc ..\blades\partId
+            string path = Path.Combine(PathManager.Instance.Configration.RootPath, "blades",  filedata.PartId);
 
             if (!Directory.Exists(path))
             {

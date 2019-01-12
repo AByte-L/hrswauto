@@ -9,6 +9,7 @@ namespace Gy.HrswAuto.Utilities
 {
     public class PathManager
     {
+        // 通过应用程序设置配置目录
         public PathConfig Configration { get; set; }
 
         #region 单例实现
