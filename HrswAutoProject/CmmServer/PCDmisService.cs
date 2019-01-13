@@ -50,7 +50,7 @@ namespace Gy.HrswAuto.CmmServer
                 _pcdApplication.Visible = true;
                 _pcdApplication.AdminPrivileges = true;
                 _IsInitialed = _pcdApplication.WaitUntilReady((int)TimeSpan.FromMinutes(1).TotalSeconds);
-                Thread.Sleep(5000);
+                Thread.Sleep(10000);
                 if (!_IsInitialed)
                 {
                     Debug.WriteLine("PCDMIS初始化超时");
