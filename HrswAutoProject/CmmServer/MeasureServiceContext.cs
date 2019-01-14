@@ -41,10 +41,11 @@ namespace Gy.HrswAuto.CmmServer
             _bladeContext = new BladeContext();
         }
 
-        public void Initialize()
+        public bool Initialize()
         {
             _pcdmisCore.InitialPCDmis();
             //_pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent;
+            return _pcdmisCore._IsInitialed;
         }
 
         /// <summary>
@@ -91,7 +92,7 @@ namespace Gy.HrswAuto.CmmServer
                 // 执行结果分析
 
             }
-        } 
+        }
         #endregion
 
         #region 通信接口实现
@@ -114,7 +115,12 @@ namespace Gy.HrswAuto.CmmServer
         {
             _part = PartConfigManager.Instance.GetPartConfig(partId);
             Debug.Assert(_part != null);
-            string partProgFileName = Path.Combine(PathManager.Instance.Configration.RootPath, "blades", partId, _part.ProgFileName);
+            string partProgFileName = Path.Combine(PathManager.Instance.Configration.RootPath, PathManager.Instance.Configration.ProgFilePath, _part.ProgFileName);
+            if (!File.Exists(partProgFileName))
+            {
+                Debug.WriteLine("程序文件不存在");
+                return;
+            }
             _pcdmisCore.OpenPartProgram(partProgFileName);
             _pcdmisCore.GetProgramCommandParameters(); // 获得测尖直径和输出文件
             if (_pcdmisCore.HasOutputFile) // 如果程序找到输出文件，则设置blade测量辅助

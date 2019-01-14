@@ -33,7 +33,7 @@ namespace PCDServer
             PathConfig ptc = new PathConfig();
             ptc.RootPath = Path.GetDirectoryName(Application.ExecutablePath);
             ptc.ProgFilePath = "PartPrograms";
-            ptc.BladeFilePath = @"blades";
+            ptc.BladeFilePath = "blades";
             PathManager.Instance.Configration = ptc;
             PartConfigManager.Instance.InitPartConfigManager(@"D:\ServerPathRoot\parts.xml");
             _bladeMeasureContext = new MeasureServiceContext();
@@ -73,5 +73,7 @@ namespace PCDServer
             _bladeMeasureContext.IsBladeMeasure = false;
             _bladeMeasureContext.MeasurePart("TestPart");
         }
+
+
     }
 }

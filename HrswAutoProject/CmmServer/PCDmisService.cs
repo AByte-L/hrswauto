@@ -46,21 +46,14 @@ namespace Gy.HrswAuto.CmmServer
                 Type t = Type.GetTypeFromProgID("PCDLRN.Application");
                 SetPCDmisOffline(t); //是否以离线方式启动PCDMIS
                 _pcdApplication = (PCDLRN.Application)Activator.CreateInstance(t);
-                _pcdApplication.UserExit = false;
+                //_pcdApplication.UserExit = false;
+                Thread.Sleep(1000); // 等待PCDmils创建完成
                 _pcdApplication.Visible = true;
-                _pcdApplication.AdminPrivileges = true;
-                _IsInitialed = _pcdApplication.WaitUntilReady((int)TimeSpan.FromMinutes(1).TotalSeconds);
-                Thread.Sleep(10000);
-                if (!_IsInitialed)
-                {
-                    Debug.WriteLine("PCDMIS初始化超时");
-                    return;
-                }
-                _pcdApplication.SetActive();
-                _pcdApplication.Maximize();
+                _IsInitialed = _pcdApplication.WaitUntilReady((int)TimeSpan.FromMinutes(1).TotalSeconds); // 等待初始化
                 _pcdProgramManager = _pcdApplication.PartPrograms;
                 _pcdAppEvents = _pcdApplication.ApplicationEvents;
                 _pcdAppEvents.OnCloseExecutionDialog += _pcdAppEvents_OnCloseExecutionDialog;
+                _pcdApplication.SetActive();
                 _IsInitialed = true;
             }
             catch (Exception)
