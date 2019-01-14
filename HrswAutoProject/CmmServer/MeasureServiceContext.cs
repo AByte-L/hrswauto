@@ -41,10 +41,11 @@ namespace Gy.HrswAuto.CmmServer
             _bladeContext = new BladeContext();
         }
 
-        public void Initialize()
+        public bool Initialize()
         {
             _pcdmisCore.InitialPCDmis();
             //_pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent;
+            return _pcdmisCore._IsInitialed;
         }
 
         /// <summary>
