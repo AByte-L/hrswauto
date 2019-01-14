@@ -30,8 +30,8 @@ namespace PCDClient
         private void Form1_Load(object sender, EventArgs e)
         {
             PathConfig ptcnf = new PathConfig();
-            ptcnf.RootPath = @"D:\ClientPathRoot";
-            ptcnf.ProgFilePath = @"Progs";
+            ptcnf.RootPath = @"E:\temp";
+            ptcnf.ProgFilePath = @"programs";
             ptcnf.BladeFilePath = @"blades";
             PathManager.Instance.Configration = ptcnf;
 

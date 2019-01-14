@@ -145,13 +145,12 @@ namespace Gy.HrswAuto.ClientMold
                 return true;
             }
             // 
-            if (!VerifyLocalFiles(partId))
-            {
-                return false;
-            }
-            // 添加工件配置
+            //if (!VerifyLocalFiles(partId))
+            //{
+            //    Debug.WriteLine("文件缺失");
+            //    return false;
+            //}
             PartConfig partConfig = PartConfigManager.Instance.GetPartConfig(partId);
-            _partConfigService.AddPartConfig(partConfig);
             PathConfig pathConfig = PathManager.Instance.Configration;
             // 上传程序文件 pcdmis programs目录中的文件，包括.prg .cad等 
             // 目录结构 root\programs\...
@@ -201,6 +200,9 @@ namespace Gy.HrswAuto.ClientMold
                     return false;
                 }
             }
+
+            // 上传完毕添加工件配置
+            _partConfigService.AddPartConfig(partConfig);
             return true;
             //string filePath = Path.Combine(pathConfig.RootPath, pathConfig.ProgFilePath, partConfig.ProgFileName);
             //bool ok = UpFileToServer(partId, filePath);

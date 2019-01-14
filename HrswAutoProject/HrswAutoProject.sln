@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseMold", "DataMold\BaseMold.csproj", "{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}"
 EndProject
@@ -90,5 +90,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A58219AE-2F51-425D-81B4-CAE631D18E2A} = {06AA3538-8337-4DC9-8645-5DF647BC2854}
 		{D8DA010C-A951-45DC-A38F-7CCC7A685185} = {06AA3538-8337-4DC9-8645-5DF647BC2854}
+		{5BD8460A-209A-45A6-A4B1-7C79A46C647A} = {06AA3538-8337-4DC9-8645-5DF647BC2854}
 	EndGlobalSection
 EndGlobal
