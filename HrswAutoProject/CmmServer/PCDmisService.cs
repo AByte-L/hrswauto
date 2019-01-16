@@ -80,6 +80,17 @@ namespace Gy.HrswAuto.CmmServer
         }
 
         /// <summary>
+        /// 测量中出错
+        /// </summary>
+        /// <param name="ErrorMsg"></param>
+        private void _partProgram_OnExecuteDialogErrorMsg(string ErrorMsg)
+        {
+            Debug.WriteLine(ErrorMsg);
+            PCDmisEventArgs peArgs = new PCDmisEventArgs() { IsCompleted = false };
+            PCDmisMeasureEvent?.Invoke(this, peArgs);
+        }
+
+        /// <summary>
         /// 打开PCDMIS测量程序
         /// </summary>
         /// <param name="prgFile">测量程序全路径名</param>
@@ -94,6 +105,7 @@ namespace Gy.HrswAuto.CmmServer
             try
             {
                 _pcdProgramManager.CloseAll();
+                _partProgram = null;
                 _pcdApplication.SetActive();
                 _pcdApplication.Maximize();
                 _partProgram = _pcdProgramManager.Open(prgFile, _pcdApplication.DefaultMachineName/*"CMM1"*/);
@@ -130,6 +142,7 @@ namespace Gy.HrswAuto.CmmServer
             if (_IsOpened)
             {
                 // todo 设置程序事件响应函数
+                _partProgram.OnExecuteDialogErrorMsg += _partProgram_OnExecuteDialogErrorMsg;
                 // 执行程序
                 exeOk = _partProgram.AsyncExecute();
             }
@@ -161,7 +174,8 @@ namespace Gy.HrswAuto.CmmServer
         private void SetPCDmisOffline(Type t)
         {
             string clsid = "{" + t.GUID.ToString() + "}";
-            RegistryKey clsKey = Registry.ClassesRoot.OpenSubKey(@"CLSID\" + clsid);
+            RegistryKey classRoot = RegistryKey.OpenBaseKey(RegistryHive.ClassesRoot, RegistryView.Registry64);
+            RegistryKey clsKey = classRoot.OpenSubKey(@"CLSID\" + clsid);
             string[] valueNames = clsKey.GetSubKeyNames();
             List<string> nalist = new List<string>(valueNames);
             string path = "";

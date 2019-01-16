@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCDServer", "PCDServer\PCDS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCDClient", "PCDClient\PCDClient.csproj", "{D8DA010C-A951-45DC-A38F-7CCC7A685185}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmmServerTests", "CmmServerTests\CmmServerTests.csproj", "{5BD8460A-209A-45A6-A4B1-7C79A46C647A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmmServerTests", "CmmServerTests\CmmServerTests.csproj", "{06851460-23CB-4981-914C-2260430978F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,10 +79,10 @@ Global
 		{D8DA010C-A951-45DC-A38F-7CCC7A685185}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8DA010C-A951-45DC-A38F-7CCC7A685185}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8DA010C-A951-45DC-A38F-7CCC7A685185}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5BD8460A-209A-45A6-A4B1-7C79A46C647A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5BD8460A-209A-45A6-A4B1-7C79A46C647A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5BD8460A-209A-45A6-A4B1-7C79A46C647A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5BD8460A-209A-45A6-A4B1-7C79A46C647A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06851460-23CB-4981-914C-2260430978F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06851460-23CB-4981-914C-2260430978F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06851460-23CB-4981-914C-2260430978F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06851460-23CB-4981-914C-2260430978F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +90,5 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A58219AE-2F51-425D-81B4-CAE631D18E2A} = {06AA3538-8337-4DC9-8645-5DF647BC2854}
 		{D8DA010C-A951-45DC-A38F-7CCC7A685185} = {06AA3538-8337-4DC9-8645-5DF647BC2854}
-		{5BD8460A-209A-45A6-A4B1-7C79A46C647A} = {06AA3538-8337-4DC9-8645-5DF647BC2854}
 	EndGlobalSection
 EndGlobal

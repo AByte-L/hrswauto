@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
 
 namespace Gy.HrswAuto.CmmServer.Tests
 {
@@ -13,14 +12,10 @@ namespace Gy.HrswAuto.CmmServer.Tests
     public class PCDmisServiceTests
     {
         [TestMethod()]
-        public void OpenPartProgramTest()
+        public void InitialPCDmisTest()
         {
-            string filename = @"D:\WorkItems\hrswauto\HrswAutoProject\PCDServer\bin\Debug\blades\TestPart\1.prg";
-            PCDmisService pcd = new PCDmisService();
-            pcd.InitialPCDmis();
-            pcd.OpenPartProgram(filename);
-            Thread.Sleep(5000);
-            pcd.Dispose();
+            PCDmisService pcds = new PCDmisService();
+            pcds.InitialPCDmis();
         }
     }
 }

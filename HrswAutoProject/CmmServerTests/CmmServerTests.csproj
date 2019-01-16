@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5BD8460A-209A-45A6-A4B1-7C79A46C647A}</ProjectGuid>
+    <ProjectGuid>{06851460-23CB-4981-914C-2260430978F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CmmServerTests</RootNamespace>
@@ -37,7 +37,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -52,26 +51,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="PartConfigServiceTests.cs" />
     <Compile Include="PCDmisServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CmmServerInterfaces\ICmmServer.csproj">
-      <Project>{74C41EC7-BCB9-4A62-9F67-7F80BF07F25A}</Project>
-      <Name>ICmmServer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CmmServer\CmmServer.csproj">
       <Project>{341B334C-A1D0-4007-B9F0-5B0E5CAE3778}</Project>
       <Name>CmmServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataMold\BaseMold.csproj">
-      <Project>{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}</Project>
-      <Name>BaseMold</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\Utilities.csproj">
-      <Project>{1E12C44C-B625-48B7-B1EA-17DF229A6A01}</Project>
-      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
