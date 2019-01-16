@@ -18,12 +18,14 @@ namespace Gy.HrswAuto.BladeMold
 
         private EventWaitHandle _bladeErrorEvent; // 分析出错事件
         private EventWaitHandle _bladeFinishEvent; // 分析结束事件，由外部程序重置
+        private ManualResetEvent _cmmFileEvent; // Cmm文件创建完成事件
 
         public BladeContext()
         {
             // blade软件完成事件
             _bladeErrorEvent = new EventWaitHandle(false, EventResetMode.ManualReset, "Gy.HrswAuto.BladeErrorEvent");
             _bladeFinishEvent = new EventWaitHandle(false, EventResetMode.ManualReset, "Gy.HrswAuto.BladeFinishEvent");
+            _cmmFileEvent = new ManualResetEvent(false);
             CMMFileCreated = false;
         }
 
@@ -76,7 +78,7 @@ namespace Gy.HrswAuto.BladeMold
             string reportPath = Path.GetDirectoryName(rptFile);
             FileSystemWatcher reportWatcher = new FileSystemWatcher(reportPath, "*.CMM");
             reportWatcher.Created += ReportFiles_Created;
-
+            reportWatcher.EnableRaisingEvents = true;
             // 查找Blade应用，如果已经启动则关闭应用
             if (!CloseBlade()/*CloseBladeInfoDialog()*/)
             {
@@ -122,11 +124,20 @@ namespace Gy.HrswAuto.BladeMold
             {
                 // 分析完成通知主程序
                 Debug.WriteLine("Blade 分析完成");
-                while (!CMMFileCreated) ;
+                if(!_cmmFileEvent.WaitOne(TimeSpan.FromSeconds(30)))
+                {
+                    Debug.WriteLine("CMM文件创建失败");
+                     reportWatcher.Dispose();
+                    return false;
+                }
                 reportWatcher.Dispose();
                 // 等待CMM创建完成
                 // 阻塞
-                WaitForCreated(CMMFileFullPath);
+                if(!WaitForCreated(CMMFileFullPath))
+                {
+                    Debug.WriteLine("创建CMM文件超时");
+                    return false;
+                }
                 return true;
             }
             else if (index == 0)
@@ -141,22 +152,29 @@ namespace Gy.HrswAuto.BladeMold
                 //MessageBox.Show("Blade 分析出错, 请检查.");
                 return false;
             }
+            // 
             return false;
         }
+
 
         /// <summary>
         /// 等待Blade创建CMM完成
         /// </summary>
         /// <param name="cMMFileFullPath"></param>
-        private void WaitForCreated(string cMMFileFullPath)
+        private bool WaitForCreated(string cMMFileFullPath)
         {
             bool inUse = true;
             FileStream fs = null;
             DateTime sdt = DateTime.Now;
             DateTime edt = sdt;
             // 这里可能产生死循环
-            while (inUse && ((edt - sdt) < TimeSpan.FromMinutes(2)))
+            while (inUse)
             {
+                if ((edt - sdt) > TimeSpan.FromMinutes(2))
+                {
+                    // CMM文件创建超时
+                    return false;
+                }
                 try
                 {
                     fs = new FileStream(cMMFileFullPath, FileMode.Open, FileAccess.Read, FileShare.None);
@@ -175,6 +193,7 @@ namespace Gy.HrswAuto.BladeMold
                 }
                 edt = DateTime.Now;
             }
+            return true;
         }
 
         private void ReportFiles_Created(object sender, FileSystemEventArgs e)
@@ -182,6 +201,7 @@ namespace Gy.HrswAuto.BladeMold
             // 等待文件创建完成
             CMMFileCreated = true;
             CMMFileFullPath = e.FullPath;
+            _cmmFileEvent.Set();
         }
 
         /// <summary>

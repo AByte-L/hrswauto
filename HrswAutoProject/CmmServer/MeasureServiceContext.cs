@@ -66,12 +66,21 @@ namespace Gy.HrswAuto.CmmServer
             return filePath;
         }
 
+
+        // 
+        // 测试用设置
+        //
+        public void SetBladeMeasAssist(BladeMeasAssist bma)
+        {
+            _bladeMeasAssist = bma;
+        }
+
         /// <summary>
         /// PCDMIS测量完成事件, 在这里异步执行PCDMIS分析过程
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void _pcdmisCore_PCDmisMeasureEvent(object sender, PCDmisEventArgs e)
+        public async void _pcdmisCore_PCDmisMeasureEvent(object sender, PCDmisEventArgs e)
         {
             if (!e.IsCompleted)
             {
@@ -80,17 +89,18 @@ namespace Gy.HrswAuto.CmmServer
             }
             // 开启Blade异步分析
             string bladeExe = @"C:\Program Files (x86)\Hexagon\PC-DMIS Blade 5.0 (Release)\Blade.exe";
-            string RptFileName = Path.Combine(PathManager.Instance.Configration.ReportFilePath, _part.PartID, Path.GetFileNameWithoutExtension(_pcdmisCore.RtfFileName));
-            RptFileName = RptFileName + DateTime.Now.ToString("MMddhhmmss") + ".rpt";
+            //string RptFileName = Path.Combine(PathManager.Instance.Configration.ReportFilePath, _part.PartID, Path.GetFileNameWithoutExtension(_pcdmisCore.RtfFileName));
+            //RptFileName = RptFileName + DateTime.Now.ToString("MMddhhmmss") + ".rpt";
             bool ok = await Task.Run(() =>
             {
                 _bladeMeasAssist.PCDmisRtfToBladeRpt(); // 转换rtf到rpt文件
-                return _bladeContext.StartBlade(bladeExe, RptFileName);
+                return _bladeContext.StartBlade(bladeExe, _bladeMeasAssist.RptFileName);
             });
             if (ok)
             {
                 // todo 执行结果分析, 分析CMM文件
-
+                bool measResult = _bladeMeasAssist.VerifyAnalysisResult(_bladeContext.CMMFileFullPath);
+                _eventNotify?.WorkCompleted(measResult); // 通知客户端测量结果是否合格
             }
         }
         #endregion

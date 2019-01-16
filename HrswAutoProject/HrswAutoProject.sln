@@ -33,6 +33,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCDClient", "PCDClient\PCDC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BladeMoldTests", "BladeMoldTests\BladeMoldTests.csproj", "{96CC5E2A-ECEE-4490-9B02-0E817322B6E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmmServerTests", "CmmServerTests\CmmServerTests.csproj", "{3B04C955-D88C-4D1E-8279-33D8A929E2C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutBladeCompletedToken", "OutBladeCompletedToken\OutBladeCompletedToken.csproj", "{A3921813-D71E-4C4C-BA7C-654A8679A2E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +87,14 @@ Global
 		{96CC5E2A-ECEE-4490-9B02-0E817322B6E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96CC5E2A-ECEE-4490-9B02-0E817322B6E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96CC5E2A-ECEE-4490-9B02-0E817322B6E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B04C955-D88C-4D1E-8279-33D8A929E2C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B04C955-D88C-4D1E-8279-33D8A929E2C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B04C955-D88C-4D1E-8279-33D8A929E2C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B04C955-D88C-4D1E-8279-33D8A929E2C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3921813-D71E-4C4C-BA7C-654A8679A2E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3921813-D71E-4C4C-BA7C-654A8679A2E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3921813-D71E-4C4C-BA7C-654A8679A2E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3921813-D71E-4C4C-BA7C-654A8679A2E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

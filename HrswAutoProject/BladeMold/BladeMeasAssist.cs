@@ -51,12 +51,20 @@ namespace Gy.HrswAuto.BladeMold
             {
                 return _sectionNum;
             }
+            set
+            {
+                _sectionNum = value;
+            }
         }
 
         private List<string> _sectionNames = new List<string>();
         public List<string> SectionNames
         {
             get { return _sectionNames; }
+            set
+            {
+                value.ForEach(i => _sectionNames.Add(i));
+            }
         }
 
         // 由PCDmis程序中得到，或者固定一个文件名(参考BladeRunning)
@@ -85,14 +93,17 @@ namespace Gy.HrswAuto.BladeMold
                 return;
             }
             // 设置rpt文件名
-            _rptFileName = Path.Combine(PathManager.Instance.Configration.ReportFilePath, $"{_partConfig.PartID}", Path.GetFileNameWithoutExtension(_rtfFileName));
+            string path = Path.Combine(PathManager.Instance.Configration.RootPath, PathManager.Instance.Configration.BladeFilePath);
+            _rptFileName = Path.Combine(path, $"{_partConfig.PartID}", PathManager.Instance.Configration.ReportFilePath, Path.GetFileNameWithoutExtension(_rtfFileName));
+            DateTime dt = DateTime.Now;
+            _rptFileName = _rptFileName + dt.ToString("yyMMddhhmmss") + ".rpt";
 
             // 转换RTF文件为TXT文件
             RichTextBox rtBox = new RichTextBox();
             string rtfText = File.ReadAllText(_rtfFileName);
             rtBox.Rtf = rtfText;
             string plainText = rtBox.Text.Replace("\n", "\r\n");
-            string tmpFile = Path.Combine(PathManager.Instance.Configration.TempFilePath, (Path.GetFileNameWithoutExtension(_rtfFileName) + ".txt"));
+            string tmpFile = Path.Combine(PathManager.Instance.Configration.RootPath, PathManager.Instance.Configration.TempFilePath, (Path.GetFileNameWithoutExtension(_rtfFileName) + ".txt"));
             File.WriteAllText(tmpFile, plainText);
 
             // 读取截面扫描数据
@@ -155,7 +166,7 @@ namespace Gy.HrswAuto.BladeMold
                     //SAVEDP OFF
                     //NUM_SECT  1
                     //SECTION A-A  896   448   448
-                    string path = PathManager.Instance.Configration.BladeFilePath + $"{_partConfig.PartID}";
+                    string path = Path.Combine(PathManager.Instance.Configration.RootPath, PathManager.Instance.Configration.BladeFilePath, $"{_partConfig.PartID}");
                     string timeFormat = @"MM\\dd\\yy HH:mm:ss";
                     strBuilder.AppendLine("FLAVOR " + Path.Combine(path, _partConfig.FlvFileName));
                     strBuilder.AppendLine("PART " + _partConfig.PartID);

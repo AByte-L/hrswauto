@@ -18,7 +18,7 @@ namespace Gy.HrswAuto.BladeMold.Tests
             BladeMeasAssist bma = new BladeMeasAssist();
             string path = @"E:\CSpItems\bladepart\blades\xx10_1\Results\xx10_1_CI8V82MKABUH101_181228_113446.CMM";
             bool outt = bma.VerifyAnalysisResult(path);
-            Debug.Assert(outt);
+            Assert.IsTrue(outt);
         }
     }
 }
