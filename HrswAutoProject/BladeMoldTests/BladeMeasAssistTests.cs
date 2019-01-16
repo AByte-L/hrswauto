@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
+using System.Diagnostics;
 
 namespace Gy.HrswAuto.BladeMold.Tests
 {
@@ -13,11 +13,12 @@ namespace Gy.HrswAuto.BladeMold.Tests
     public class BladeMeasAssistTests
     {
         [TestMethod()]
-        public void PCDmisRtfToBladeRptTest()
+        public void VerifyAnalysisResultTest()
         {
-            string path = "c:\\test\\debug\\b.exe";
-            string fn = Path.GetFileNameWithoutExtension(path);
-            string fn1 = Path.GetFileName(path);
+            BladeMeasAssist bma = new BladeMeasAssist();
+            string path = @"E:\CSpItems\bladepart\blades\xx10_1\Results\xx10_1_CI8V82MKABUH101_181228_113446.CMM";
+            bool outt = bma.VerifyAnalysisResult(path);
+            Debug.Assert(outt);
         }
     }
 }

@@ -18,3 +18,6 @@ BladeExe路径
 问题
 是否将client响应事件取消, 之前的事件是为了解除循环依赖
 将clientManager接受事件转移到client中
+
+如果PCDMIS意外跳出，服务器重新连接PCDMIS
+清除错误

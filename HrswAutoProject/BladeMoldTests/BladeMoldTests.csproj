@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{236A44B7-C96C-41D7-BFA1-87D2EC6955D3}</ProjectGuid>
+    <ProjectGuid>{96CC5E2A-ECEE-4490-9B02-0E817322B6E4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BladeMoldTests</RootNamespace>

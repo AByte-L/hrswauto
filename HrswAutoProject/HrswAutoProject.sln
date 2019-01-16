@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCDServer", "PCDServer\PCDS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCDClient", "PCDClient\PCDClient.csproj", "{D8DA010C-A951-45DC-A38F-7CCC7A685185}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmmServerTests", "CmmServerTests\CmmServerTests.csproj", "{06851460-23CB-4981-914C-2260430978F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BladeMoldTests", "BladeMoldTests\BladeMoldTests.csproj", "{96CC5E2A-ECEE-4490-9B02-0E817322B6E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,10 +79,10 @@ Global
 		{D8DA010C-A951-45DC-A38F-7CCC7A685185}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8DA010C-A951-45DC-A38F-7CCC7A685185}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8DA010C-A951-45DC-A38F-7CCC7A685185}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06851460-23CB-4981-914C-2260430978F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06851460-23CB-4981-914C-2260430978F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06851460-23CB-4981-914C-2260430978F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06851460-23CB-4981-914C-2260430978F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96CC5E2A-ECEE-4490-9B02-0E817322B6E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96CC5E2A-ECEE-4490-9B02-0E817322B6E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96CC5E2A-ECEE-4490-9B02-0E817322B6E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96CC5E2A-ECEE-4490-9B02-0E817322B6E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

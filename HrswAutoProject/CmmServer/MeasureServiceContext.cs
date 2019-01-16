@@ -67,7 +67,7 @@ namespace Gy.HrswAuto.CmmServer
         }
 
         /// <summary>
-        /// PCDMIS测量完成事件
+        /// PCDMIS测量完成事件, 在这里异步执行PCDMIS分析过程
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -75,7 +75,7 @@ namespace Gy.HrswAuto.CmmServer
         {
             if (!e.IsCompleted)
             {
-                Debug.WriteLine("PCDMIS没有完成执行");
+                Debug.WriteLine("PCDMIS没有完成执行或执行出错");
                 return;
             }
             // 开启Blade异步分析
@@ -89,7 +89,7 @@ namespace Gy.HrswAuto.CmmServer
             });
             if (ok)
             {
-                // 执行结果分析
+                // todo 执行结果分析, 分析CMM文件
 
             }
         }

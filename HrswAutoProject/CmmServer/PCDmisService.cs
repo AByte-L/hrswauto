@@ -174,8 +174,13 @@ namespace Gy.HrswAuto.CmmServer
         private void SetPCDmisOffline(Type t)
         {
             string clsid = "{" + t.GUID.ToString() + "}";
-            RegistryKey classRoot = RegistryKey.OpenBaseKey(RegistryHive.ClassesRoot, RegistryView.Registry64);
-            RegistryKey clsKey = classRoot.OpenSubKey(@"CLSID\" + clsid);
+            RegistryKey clsKey = Registry.ClassesRoot.OpenSubKey(@"CLSID\" + clsid);
+            if (clsKey == null) // 处理64位PCDMIS
+            {
+                RegistryKey classRoot = RegistryKey.OpenBaseKey(RegistryHive.ClassesRoot, RegistryView.Registry64);
+                clsKey = classRoot.OpenSubKey(@"CLSID\" + clsid);
+                classRoot.Close();
+            }
             string[] valueNames = clsKey.GetSubKeyNames();
             List<string> nalist = new List<string>(valueNames);
             string path = "";

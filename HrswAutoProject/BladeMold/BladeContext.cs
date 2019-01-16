@@ -152,8 +152,10 @@ namespace Gy.HrswAuto.BladeMold
         {
             bool inUse = true;
             FileStream fs = null;
-            // 这里可能死循环
-            while (inUse)
+            DateTime sdt = DateTime.Now;
+            DateTime edt = sdt;
+            // 这里可能产生死循环
+            while (inUse && ((edt - sdt) < TimeSpan.FromMinutes(2)))
             {
                 try
                 {
@@ -171,6 +173,7 @@ namespace Gy.HrswAuto.BladeMold
                         fs.Close();
                     }
                 }
+                edt = DateTime.Now;
             }
         }
 

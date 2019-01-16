@@ -184,27 +184,13 @@ namespace Gy.HrswAuto.BladeMold
                     }
                 }
             }
-        } 
+        }
         #endregion
 
         #region 创建用于PCDMIS测量叶片的Blade.txt文件
         public void CreateBladeTxtFromNominal()
         {
             // 工件工作目录
-            //string path = System.AppDomain.CurrentDomain.BaseDirectory + @"\parts\" + part.PartID;
-            //string path = @"C:\Users\Administrator\Desktop\AutoMeasure\ServerMainMod\bin\Debug" + @"\parts\" + part.PartID;
-            //if (!part.config.ContainsKey(".nom"))
-            //{
-            //    MessageBox.Show("工件配置中没有找到理论文件名，配置不完整");
-            //    return;
-            //}
-            //string nomFileName = Path.Combine(path, part.config[".nom"]);
-            //if (!File.Exists(nomFileName))
-            //{
-            //    MessageBox.Show("理论文件不存在");
-            //    return;
-            //}
-            // 
             string path = Path.Combine(PathManager.Instance.Configration.BladeFilePath, $"{_partConfig.PartID}", _partConfig.NormFileName);
             Debug.Assert(File.Exists(path)); // 理论文件应该存在
             CreateBladeTxt(path);
@@ -286,14 +272,14 @@ namespace Gy.HrswAuto.BladeMold
                 }
             }
             return sections;
-        } 
+        }
         #endregion
 
         /// <summary>
         /// 通过分析Blade产生的CMM确定产品是否合格
         /// </summary>
         /// <param name="cmmFileName">cmm文件路径</param>
-        public void VerifyAnalysisResult(string cmmFileName)
+        public bool VerifyAnalysisResult(string cmmFileName)
         {
             // 前面已经判断了
             //if (!File.Exists(cmmFileName))
@@ -301,7 +287,43 @@ namespace Gy.HrswAuto.BladeMold
             //    Debug.WriteLine("文件不存在");
             //    return;
             //}
-
+            // todo 分析报告是否合格
+            bool outTol = false;
+            using (StreamReader stream = File.OpenText(cmmFileName))
+            {
+                string line;
+                double result = 0;
+                while (true)
+                {
+                    if (stream.EndOfStream)
+                    {
+                        break;
+                    }
+                    line = stream.ReadLine();
+                    if (line.IndexOf("Section") == 0)
+                    {
+                        line = stream.ReadLine();
+                        while (true)
+                        {
+                            line = stream.ReadLine();
+                            if (string.IsNullOrWhiteSpace(line))
+                            {
+                                break;
+                            }
+                            string[] data = line.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                            if (outTol = double.TryParse(data.Last(), out result))
+                            {
+                                break;
+                            }
+                        }
+                        if (outTol)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+            return outTol;
         }
     }
 }
