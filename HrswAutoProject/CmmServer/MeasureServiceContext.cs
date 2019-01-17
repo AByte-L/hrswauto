@@ -43,10 +43,35 @@ namespace Gy.HrswAuto.CmmServer
 
         public bool Initialize()
         {
-            _pcdmisCore.InitialPCDmis();
-            //_pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent;
+
+            try
+            {
+                _pcdmisCore.InitialPCDmis();
+                //_pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent;
+                _pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent1;
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("初始化PCDmis失败");                
+            }
             return _pcdmisCore._IsInitialed;
         }
+
+        #region 调试用方法
+        // 
+        private void _pcdmisCore_PCDmisMeasureEvent1(object sender, PCDmisEventArgs e)
+        {
+            _eventNotify?.WorkCompleted(true);
+        }
+
+        // 
+        // 测试用设置
+        //
+        public void SetBladeMeasAssist(BladeMeasAssist bma)
+        {
+            _bladeMeasAssist = bma;
+        } 
+        #endregion
 
         /// <summary>
         /// 通过工件标识获得零件检测程序
@@ -61,19 +86,11 @@ namespace Gy.HrswAuto.CmmServer
             {
                 return string.Empty;
             }
-            string filePath = Path.Combine(PathManager.Instance.Configration.ProgFilePath, pc.ProgFileName);
+            string filePath = PathManager.Instance.GetPartProgramPath(pc);
             //Debug.Assert(string.IsNullOrEmpty(filePath)); // 正常情况FilePath不是空字符串
             return filePath;
         }
 
-
-        // 
-        // 测试用设置
-        //
-        public void SetBladeMeasAssist(BladeMeasAssist bma)
-        {
-            _bladeMeasAssist = bma;
-        }
 
         /// <summary>
         /// PCDMIS测量完成事件, 在这里异步执行PCDMIS分析过程
@@ -103,6 +120,19 @@ namespace Gy.HrswAuto.CmmServer
                 _eventNotify?.WorkCompleted(measResult); // 通知客户端测量结果是否合格
             }
         }
+
+        public void ReinitialPCDmist()
+        {
+            try
+            {
+                _pcdmisCore.InitialPCDmis();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         #endregion
 
         #region 通信接口实现
@@ -125,7 +155,7 @@ namespace Gy.HrswAuto.CmmServer
         {
             _part = PartConfigManager.Instance.GetPartConfig(partId);
             Debug.Assert(_part != null);
-            string partProgFileName = Path.Combine(PathManager.Instance.Configration.RootPath, PathManager.Instance.Configration.ProgFilePath, _part.ProgFileName);
+            string partProgFileName = PathManager.Instance.GetPartProgramPath(_part);
             if (!File.Exists(partProgFileName))
             {
                 Debug.WriteLine("程序文件不存在");

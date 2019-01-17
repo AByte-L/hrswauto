@@ -30,11 +30,11 @@ namespace PCDServer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            PathConfig ptc = new PathConfig();
-            ptc.RootPath = Path.GetDirectoryName(Application.ExecutablePath);
-            ptc.ProgFilePath = "PartPrograms";
-            ptc.BladeFilePath = "blades";
-            PathManager.Instance.Configration = ptc;
+            // PathConfig ptc = new PathConfig();
+            PathManager.Instance.RootPath = @"D:\ServerPathRoot"/*Path.GetDirectoryName(Application.ExecutablePath)*/;
+            PathManager.Instance.PartProgramsPath = "PartPrograms";
+            PathManager.Instance.BladesPath = "blades";
+            //PathManager.Instance.Configration = ptc;
             PartConfigManager.Instance.InitPartConfigManager(@"D:\ServerPathRoot\parts.xml");
             _bladeMeasureContext = new MeasureServiceContext();
             _bladeMeasureContext.Initialize();
@@ -55,6 +55,7 @@ namespace PCDServer
             partServiceHost.Close();
             cmmCtrlHost.Close();
             _bladeMeasureContext.Dispose();
+            PartConfigManager.Instance.SavePartConfigToXml(@"D:\ServerPathRoot\parts.xml");
         }
 
         private void select_button_Click(object sender, EventArgs e)
@@ -70,10 +71,16 @@ namespace PCDServer
 
         private void RunProg_button_Click(object sender, EventArgs e)
         {
-            _bladeMeasureContext.IsBladeMeasure = false;
-            _bladeMeasureContext.MeasurePart("TestPart");
+            for (int i = 0; i < 100; i++)
+            {
+                _bladeMeasureContext.IsBladeMeasure = false;
+                _bladeMeasureContext.MeasurePart("TestPart"); 
+            }
         }
 
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            _bladeMeasureContext.ReinitialPCDmist();
+        }
     }
 }

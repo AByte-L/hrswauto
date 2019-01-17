@@ -147,7 +147,7 @@ namespace Gy.HrswAuto.CmmServer
         {
             // 从工件配置管理器中获得工件列表
             PartConfig pc = PartConfigManager.Instance.GetPartConfig(partId);
-            string filePath = Path.Combine(PathManager.Instance.Configration.ProgFilePath, pc.ProgFileName);
+            string filePath = PathManager.Instance.GetPartProgramPath(pc);
             Debug.Assert(string.IsNullOrEmpty(filePath)); // 正常情况FilePath不是空字符串
             return filePath;
         }

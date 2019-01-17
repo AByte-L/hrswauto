@@ -14,7 +14,7 @@ namespace Gy.HrswAuto.Utilities
     {
         List<PartConfig> _partConfigs;
 
-        bool IsInitialed = false; // 
+       // bool IsInitialed = false; // 
 
         private PartConfigManager()
         {
@@ -29,7 +29,7 @@ namespace Gy.HrswAuto.Utilities
             {
                 LoadPartConfigFromXml(partFile);
             }
-            IsInitialed = true;
+ //         IsInitialed = true;
         }
 
         /// <summary>

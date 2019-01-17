@@ -9,6 +9,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Gy.HrswAuto.ClientMold
 {
@@ -20,7 +21,7 @@ namespace Gy.HrswAuto.ClientMold
         /// </summary>
         public CmmServerConfig CmmSvrConfig { get; set; }
         // 当前检测ID
-        public string CurPartId { get; set; } 
+        public string CurPartId { get; set; }
         public ClientState State { get; set; }
         private ProxyFactory _proxyFactory; // 
         // 代理通道
@@ -82,18 +83,13 @@ namespace Gy.HrswAuto.ClientMold
         private bool VerifyLocalFiles(string partId)
         {
             PartConfig partConfig = PartConfigManager.Instance.GetPartConfig(partId);
-            PathConfig pathConfig = PathManager.Instance.Configration;
-            // etc root\Progs\1.prg 
-            string filePath = Path.Combine(pathConfig.RootPath, pathConfig.ProgFilePath, partConfig.ProgFileName);
-            // etc root\blades\partId
-            string bladeFilePath = Path.Combine(pathConfig.RootPath, pathConfig.BladeFilePath, $"{partConfig.PartID}");
-            if (!File.Exists(filePath)) return false;
-            filePath = Path.Combine(bladeFilePath, partConfig.FlvFileName);
-            if (!File.Exists(filePath)) return false;
-            filePath = Path.Combine(bladeFilePath, partConfig.NormFileName);
-            if (!File.Exists(filePath)) return false;
-            filePath = Path.Combine(bladeFilePath, partConfig.TolFileName);
-            if (!File.Exists(filePath)) return false;
+            if (!File.Exists(PathManager.Instance.GetPartProgramPath(partConfig)) ||
+                !File.Exists(PathManager.Instance.GetPartFlvPath(partConfig)) ||
+                !File.Exists(PathManager.Instance.GetPartNomPath(partConfig)) ||
+                !File.Exists(PathManager.Instance.GetPartTolPath(partConfig)))
+            {
+                return false;
+            }
             return true;
         }
 
@@ -144,32 +140,23 @@ namespace Gy.HrswAuto.ClientMold
             {
                 return true;
             }
-            // 
-            //if (!VerifyLocalFiles(partId))
-            //{
-            //    Debug.WriteLine("文件缺失");
-            //    return false;
-            //}
-            PartConfig partConfig = PartConfigManager.Instance.GetPartConfig(partId);
-            PathConfig pathConfig = PathManager.Instance.Configration;
-            // 上传程序文件 pcdmis programs目录中的文件，包括.prg .cad等 
-            // 目录结构 root\programs\...
-            string ProgFilesPath = Path.Combine(PathManager.Instance.Configration.RootPath, PathManager.Instance.Configration.ProgFilePath);
-            if (!Directory.Exists(ProgFilesPath))
+
+            if (!VerifyLocalFiles(partId))
             {
-                Debug.WriteLine("文件目录错误");
+                Debug.WriteLine("文件缺失");
                 return false;
             }
-            string[] pfileNames = Directory.GetFiles(ProgFilesPath);
+            PartConfig partConfig = PartConfigManager.Instance.GetPartConfig(partId);
+            string[] pfileNames = Directory.GetFiles(PathManager.Instance.GetProgsFullPath());
             string progFileWithoutExt = Path.GetFileNameWithoutExtension(partConfig.ProgFileName);
             bool IsSuccessUpLoad = false;
             // 程序文件和CAD文件集中在一个目录里，可以公用
-            string filePath = PathManager.Instance.Configration.ProgFilePath;
             foreach (string item in pfileNames)
             {
                 // 上传progs目录中的所有相关文件
                 string fileNameWithoutExt = Path.GetFileNameWithoutExtension(item);
-                if (string.Compare(progFileWithoutExt, fileNameWithoutExt,true) == 0)
+                string fileExt = Path.GetExtension(item);
+                if (string.Compare(progFileWithoutExt, fileNameWithoutExt, true) == 0 /*&& string.Compare(fileExt, ".PRG^", true) != 0 && string.Compare(fileExt, ".PRG", true) == 0*/)
                 {
                     IsSuccessUpLoad = UpFileToServer1(partConfig.PartID, item, 0/*filePath*/);
                     if (!IsSuccessUpLoad)
@@ -180,19 +167,12 @@ namespace Gy.HrswAuto.ClientMold
             }
             // 上传Blades文件 
             // root\blades\partid\...
-            string bladeFilesPath = Path.Combine(PathManager.Instance.Configration.RootPath, PathManager.Instance.Configration.BladeFilePath, partConfig.PartID);
-            if (!Directory.Exists(bladeFilesPath))
-            {
-                Debug.WriteLine("文件目录错误");
-                return false;
-            }
+            string bladeFilesPath = PathManager.Instance.GetBladesFullPath(partConfig.PartID);
             string[] bfileNames = Directory.GetFiles(bladeFilesPath);
-            //string bladeFileWithoutExt = Path.GetFileNameWithoutExtension(partConfig.ProgFileName);
             IsSuccessUpLoad = false;
             // blades文件进行工件标识分类
-            filePath = Path.Combine(PathManager.Instance.Configration.BladeFilePath, partConfig.PartID);
             foreach (string item in bfileNames)
-            { 
+            {
                 // 上传progs目录中的所有相关文件
                 IsSuccessUpLoad = UpFileToServer1(partConfig.PartID, item, 1/*filePath*/); // 放入服务器的blades文件目录中
                 if (!IsSuccessUpLoad)
@@ -204,23 +184,6 @@ namespace Gy.HrswAuto.ClientMold
             // 上传完毕添加工件配置
             _partConfigService.AddPartConfig(partConfig);
             return true;
-            //string filePath = Path.Combine(pathConfig.RootPath, pathConfig.ProgFilePath, partConfig.ProgFileName);
-            //bool ok = UpFileToServer(partId, filePath);
-            //if (!ok) return false;
-            //string bladeFilePath = Path.Combine(pathConfig.RootPath, pathConfig.BladeFilePath, $"{partConfig.PartID}");
-            //// 上传算法Flv文件
-            //filePath = Path.Combine(bladeFilePath, partConfig.FlvFileName);
-            //ok = UpFileToServer(partId, filePath);
-            //if (!ok) return false;
-            //// 上传理论nom文件
-            //filePath = Path.Combine(bladeFilePath, partConfig.NormFileName);
-            //ok = UpFileToServer(partId, filePath);
-            //if (!ok) return false;
-            //// 上传公差文件
-            //filePath = Path.Combine(bladeFilePath, partConfig.TolFileName);
-            //ok = UpFileToServer(partId, filePath);
-            //if (!ok) return false;
-            //return true;
         }
 
         /// <summary>
@@ -282,10 +245,6 @@ namespace Gy.HrswAuto.ClientMold
         /// </summary>
         public void SendPlaceRequest()
         {
-            //FeedRequestArg rarg = new FeedRequestArg();
-            //rarg.ClientID = CmmSvrConfig.ServerID;
-            //rarg.RqtType = RequestType.Request_Place;
-            //OnPlaceRequestEvent?.Invoke(this, rarg);
             PlaceFeedRequest placeFeedRequest = new PlaceFeedRequest();
             placeFeedRequest.ClientID = CmmSvrConfig.ServerID;
             placeFeedRequest.PlcCompletedEvent += OnPlaceActionCompletedEvent;
@@ -317,11 +276,6 @@ namespace Gy.HrswAuto.ClientMold
         /// <param name="isPassed">当前测量工件是否合格</param>
         public void SendGripRequest(bool isPassed)
         {
-            //FeedRequestArg rarg = new FeedRequestArg();
-            //rarg.ClientID = CmmSvrConfig.ServerID;
-            //rarg.RqtType = RequestType.Request_Grip;
-            //rarg.IsPassed = isPassed;
-            //OnGripRequestEvent?.Invoke(this, rarg);
             GripFeedRequest gripFeedRequest = new GripFeedRequest();
             gripFeedRequest.ClientID = CmmSvrConfig.ServerID;
             gripFeedRequest.IsPassed = isPassed;
@@ -352,6 +306,7 @@ namespace Gy.HrswAuto.ClientMold
             placeAndGripFeedRequest.ClientID = CmmSvrConfig.ServerID;
             placeAndGripFeedRequest.IsPass = isPassed;
             placeAndGripFeedRequest.PlcCompletedEvent += OnPlaceActionCompletedEvent;
+            placeAndGripFeedRequest.Perform();
         }
 
         /// <summary>
@@ -367,5 +322,24 @@ namespace Gy.HrswAuto.ClientMold
         }
         #endregion
 
+        #region 测试方法
+        Timer timer;
+        public int runCount { get; set; } = 0;
+
+        public void WorkContinue()
+        {
+            timer = new Timer(100);
+            timer.Elapsed += Timer_Elapsed;
+            timer.Start();
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            timer.Stop();
+            StartMeasureWorkFlow("TestPart");
+            ++runCount;
+            timer.Dispose();
+        }
+        #endregion
     }
 }

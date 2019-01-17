@@ -93,8 +93,7 @@ namespace Gy.HrswAuto.BladeMold
                 return;
             }
             // 设置rpt文件名
-            string path = Path.Combine(PathManager.Instance.Configration.RootPath, PathManager.Instance.Configration.BladeFilePath);
-            _rptFileName = Path.Combine(path, $"{_partConfig.PartID}", PathManager.Instance.Configration.ReportFilePath, Path.GetFileNameWithoutExtension(_rtfFileName));
+            _rptFileName = Path.Combine(PathManager.Instance.GetReportFullPath(_partConfig.PartID), Path.GetFileNameWithoutExtension(_rtfFileName));
             DateTime dt = DateTime.Now;
             _rptFileName = _rptFileName + dt.ToString("yyMMddhhmmss") + ".rpt";
 
@@ -103,7 +102,7 @@ namespace Gy.HrswAuto.BladeMold
             string rtfText = File.ReadAllText(_rtfFileName);
             rtBox.Rtf = rtfText;
             string plainText = rtBox.Text.Replace("\n", "\r\n");
-            string tmpFile = Path.Combine(PathManager.Instance.Configration.RootPath, PathManager.Instance.Configration.TempFilePath, (Path.GetFileNameWithoutExtension(_rtfFileName) + ".txt"));
+            string tmpFile = Path.Combine(PathManager.Instance.GetTempFullPath(), (Path.GetFileNameWithoutExtension(_rtfFileName) + ".txt"));
             File.WriteAllText(tmpFile, plainText);
 
             // 读取截面扫描数据
@@ -131,20 +130,7 @@ namespace Gy.HrswAuto.BladeMold
                 Debug.WriteLine("测尖直径不正确");
                 return;
             }
-            //string path = System.AppDomain.CurrentDomain.BaseDirectory + @"\parts\" + part.PartID;
-            //string path = @"C:\Users\Administrator\Desktop\AutoMeasure\ServerMainMod\bin\Debug" + @"\parts\" + part.PartID;
-            //DateTime time = DateTime.Now;
-            //int tcode = time.GetHashCode();
-            //_rptName = part.PartID + "_" + tcode.ToString() + ".rpt";
-            //if (part.config.ContainsKey(".rpt"))
-            //{
-            //    part.config[".rpt"] = _rptName;
-            //}
-            //else
-            //{
-            //    part.config.Add(".rpt", _rptName);
-            //}
-            //_fullRptName = Path.Combine(path, _rptName);
+            
             StringBuilder strBuilder = new StringBuilder();
             using (FileStream stream = File.OpenWrite(_rptFileName))
             {
@@ -166,13 +152,12 @@ namespace Gy.HrswAuto.BladeMold
                     //SAVEDP OFF
                     //NUM_SECT  1
                     //SECTION A-A  896   448   448
-                    string path = Path.Combine(PathManager.Instance.Configration.RootPath, PathManager.Instance.Configration.BladeFilePath, $"{_partConfig.PartID}");
                     string timeFormat = @"MM\\dd\\yy HH:mm:ss";
-                    strBuilder.AppendLine("FLAVOR " + Path.Combine(path, _partConfig.FlvFileName));
+                    strBuilder.AppendLine("FLAVOR " + PathManager.Instance.GetPartFlvPath(_partConfig));
                     strBuilder.AppendLine("PART " + _partConfig.PartID);
                     strBuilder.AppendLine("DATE " + DateTime.Now.ToString(timeFormat));
-                    strBuilder.AppendLine("NOMINAL " + Path.Combine(path, _partConfig.NormFileName));
-                    strBuilder.AppendLine("TOLERANCE " + Path.Combine(path, _partConfig.TolFileName));
+                    strBuilder.AppendLine("NOMINAL " + PathManager.Instance.GetPartNomPath(_partConfig));
+                    strBuilder.AppendLine("TOLERANCE " + PathManager.Instance.GetPartTolPath(_partConfig));
                     strBuilder.AppendLine("RADIUS " + string.Format($"{_probeDiam / 2}"));
                     strBuilder.AppendLine("TEXT SERNO = 1");
                     strBuilder.AppendLine("TEXT OPERATION = MesBlade");
@@ -202,7 +187,7 @@ namespace Gy.HrswAuto.BladeMold
         public void CreateBladeTxtFromNominal()
         {
             // 工件工作目录
-            string path = Path.Combine(PathManager.Instance.Configration.BladeFilePath, $"{_partConfig.PartID}", _partConfig.NormFileName);
+            string path = PathManager.Instance.GetPartNomPath(_partConfig);
             Debug.Assert(File.Exists(path)); // 理论文件应该存在
             CreateBladeTxt(path);
         }
@@ -298,7 +283,7 @@ namespace Gy.HrswAuto.BladeMold
             //    Debug.WriteLine("文件不存在");
             //    return;
             //}
-            // todo 分析报告是否合格
+            // 分析报告是否合格
             bool outTol = false;
             using (StreamReader stream = File.OpenText(cmmFileName))
             {

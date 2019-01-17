@@ -30,17 +30,18 @@ namespace PCDClient
         private void Form1_Load(object sender, EventArgs e)
         {
             PathConfig ptcnf = new PathConfig();
-            ptcnf.RootPath = @"E:\temp";
-            ptcnf.ProgFilePath = @"programs";
-            ptcnf.BladeFilePath = @"blades";
-            PathManager.Instance.Configration = ptcnf;
+            PathManager.Instance.RootPath = @"D:\clientPathRoot";
+            PathManager.Instance.PartProgramsPath = @"programs";
+            PathManager.Instance.BladesPath = @"blades";
+            PathManager.Instance.ReportsPath = @"Results";
+            //PathManager.Instance.Configration = ptcnf;
 
             PartConfig prcnf = new PartConfig();
             prcnf.PartID = "TestPart";
             prcnf.ProgFileName = "1.prg";
-            prcnf.FlvFileName = "blade5.flv";
-            prcnf.NormFileName = "blade5.nom";
-            prcnf.TolFileName = "blade5.tol";
+            prcnf.FlvFileName = "xx10_1.flv";
+            prcnf.NormFileName = "xx10_1.nom";
+            prcnf.TolFileName = "xx10_1.tol";
             PartConfigManager.Instance.InitPartConfigManager(@"d:\clientPathRoot\parts.xml");
             PartConfigManager.Instance.AddPartConfig(prcnf);
             PartConfigManager.Instance.SavePartConfigToXml(@"d:\clientPathRoot\parts.xml");
@@ -51,6 +52,12 @@ namespace PCDClient
         private void button1_Click(object sender, EventArgs e)
         {
             _cmmClient.StartMeasureWorkFlow("TestPart");
+            timer1.Start();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            label1.Text = _cmmClient.runCount.ToString();
         }
     }
 }

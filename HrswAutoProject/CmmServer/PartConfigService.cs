@@ -31,7 +31,7 @@ namespace Gy.HrswAuto.CmmServer
             UpFileResult result = new UpFileResult();
 
             // etc ..\blades\partId
-            string path = Path.Combine(PathManager.Instance.Configration.RootPath, filedata.FilePath);
+            string path = Path.Combine(PathManager.Instance.RootPath, filedata.FilePath);
 
             if (!Directory.Exists(path))
             {
@@ -63,14 +63,14 @@ namespace Gy.HrswAuto.CmmServer
 
             //// etc ..\blades\partId
             //string path = Path.Combine(PathManager.Instance.Configration.RootPath, filedata.FilePath);
-            string path = PathManager.Instance.Configration.RootPath;
+            string path;
             if (filedata.selPath == 0) // 程序类文件
             {
-                path = Path.Combine(path, PathManager.Instance.Configration.ProgFilePath);
+                path = PathManager.Instance.GetProgsFullPath();
             }
             else if (filedata.selPath == 1) // Blades类文件
             {
-                path = Path.Combine(path, PathManager.Instance.Configration.BladeFilePath, filedata.PartId);
+                path = PathManager.Instance.GetBladesFullPath(filedata.PartId);
             }
             else
             {
@@ -86,6 +86,11 @@ namespace Gy.HrswAuto.CmmServer
 
             byte[] buffer = new byte[filedata.FileSize];
             string fileFullPath = Path.Combine(path, filedata.FileName);
+            string fileext = Path.GetExtension(filedata.FileName);
+            if (File.Exists(fileFullPath) && (string.Compare(fileext, ".PRG^", true) == 0 || string.Compare(fileext, ".PRG~", true) == 0))
+            {
+                File.Delete(fileFullPath); // 删除PCDmis自动生成的隐藏文件
+            }
             FileStream fs = new FileStream(fileFullPath, FileMode.Create, FileAccess.Write);
 
             int count = 0;

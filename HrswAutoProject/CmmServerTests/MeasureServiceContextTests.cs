@@ -18,11 +18,11 @@ namespace Gy.HrswAuto.CmmServer.Tests
         public void _pcdmisCore_PCDmisMeasureEventTest()
         {
             PathConfig ptcf = new PathConfig();
-            ptcf.RootPath = @"E:\CSpItems\bladepart";
-            ptcf.BladeFilePath = "blades";
-            ptcf.ReportFilePath = "Results";
-            ptcf.TempFilePath = "Temp";
-            PathManager.Instance.Configration = ptcf;
+            PathManager.Instance.RootPath = @"E:\CSpItems\bladepart";
+            PathManager.Instance.BladesPath = "blades";
+            PathManager.Instance.ReportsPath = "Results";
+            PathManager.Instance.TempPath = "Temp";
+            //PathManager.Instance.Configration = ptcf;
             PartConfig part = new PartConfig();
             part.PartID = "xx10_1";
             part.FlvFileName = "xx10_1.flv";

@@ -23,7 +23,7 @@ namespace Gy.HrswAuto.CmmServer
 
         private bool _IsOpened = false;
 
-        public bool _IsInitialed { get; private set; }
+        public bool _IsInitialed { get; private set; } = false;
         public string RtfFileName { get; private set; }
         public double ProbeDiam { get; private set; }
         public bool HasOutputFile { get; private set; } // 程序是否有输出文件
@@ -53,14 +53,34 @@ namespace Gy.HrswAuto.CmmServer
                 _pcdProgramManager = _pcdApplication.PartPrograms;
                 _pcdAppEvents = _pcdApplication.ApplicationEvents;
                 _pcdAppEvents.OnCloseExecutionDialog += _pcdAppEvents_OnCloseExecutionDialog;
+                _pcdAppEvents.OnClosePartProgram += _pcdAppEvents_OnClosePartProgram;
+                _pcdAppEvents.OnSavePartProgram += _pcdAppEvents_OnSavePartProgram;
                 _pcdApplication.SetActive();
                 _IsInitialed = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // 启动失败的处理方式
+                throw ex;
             }
         }
+
+        //public void RestartPCDmist()
+        //{
+        //    InitialPCDmis();
+        //}
+
+        #region 测试PCDmis应用事件
+        private void _pcdAppEvents_OnSavePartProgram(PCDLRN.PartProgram PartProg)
+        {
+            Debug.WriteLine("保存程序");
+        }
+
+        private void _pcdAppEvents_OnClosePartProgram(PCDLRN.PartProgram PartProg)
+        {
+            Debug.WriteLine("关闭程序");
+        } 
+        #endregion
 
         /// <summary>
         /// PCDmis测量完成响应事件
@@ -105,9 +125,12 @@ namespace Gy.HrswAuto.CmmServer
             try
             {
                 _pcdProgramManager.CloseAll();
+                //_pcdProgramManager.Remove(1);
+                //Thread.Sleep(10000);
+                while (_pcdProgramManager.Count != 0) ; // 等待程序关闭
                 _partProgram = null;
-                _pcdApplication.SetActive();
-                _pcdApplication.Maximize();
+                //_pcdApplication.SetActive();
+                //_pcdApplication.Maximize();
                 _partProgram = _pcdProgramManager.Open(prgFile, _pcdApplication.DefaultMachineName/*"CMM1"*/);
                 //_pcdApplication.WaitUntilReady(10);
                 _IsOpened = true;
@@ -126,7 +149,7 @@ namespace Gy.HrswAuto.CmmServer
             if (_IsOpened)
             {
                 //  获取程序中测尖直径
-                PCDLRN.OldBasic ob = _partProgram?.OldBasic;
+                PCDLRN.OldBasic ob = _partProgram.OldBasic;
                 ProbeDiam = 2 * ob.GetProbeRadius();
                 // 获取第一个输出文件名
                 HasOutputFile = FindOutputFileName(); 
@@ -162,7 +185,7 @@ namespace Gy.HrswAuto.CmmServer
             {
                 return string.Empty;
             }
-            string filePath = Path.Combine(PathManager.Instance.Configration.ProgFilePath, pc.ProgFileName);
+            string filePath = PathManager.Instance.GetPartProgramPath(pc);
             //Debug.Assert(string.IsNullOrEmpty(filePath)); // 正常情况FilePath不是空字符串
             return filePath;
         }
