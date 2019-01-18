@@ -90,83 +90,6 @@ namespace Gy.HrswAuto.CmmServer
         }
         #endregion
 
-        /// <summary>
-        /// PCDmis执行监控事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void _monitorTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            Process[] pcs = Process.GetProcessesByName("PCDLRN");
-            TimeSpan exeTime = e.SignalTime - _timerStart;
-            if (pcs.Length > 0)
-            {
-                if (exeTime > _timeout)
-                {
-                    PCDmisEventArgs pce = new PCDmisEventArgs();
-                    pce.IsCompleted = false;
-                    pce.FaultType = PCDmisFaultType.FT_Timeout;
-                    pce.PCDmisRunInfo = "PCDmis执行超时";
-                    PCDmisMeasureEvent?.Invoke(this, pce);
-                    Debug.WriteLine("PCDmis执行超时");
-                    _monitorTimer.Close();
-                }
-            }
-            else if (_ExeOK) // 已经开始异步执行
-            {
-                PCDmisEventArgs pce = new PCDmisEventArgs();
-                pce.IsCompleted = false;
-                pce.FaultType = PCDmisFaultType.FT_FatalError;
-                pce.PCDmisRunInfo = "PCDmis在执行时异常退出";
-                PCDmisMeasureEvent?.Invoke(this, pce);
-                Debug.WriteLine("PCDMIS异常跳出");
-                _monitorTimer.Close();
-            }
-            else
-            {
-                // 外部异常捕获
-            }
-        }
-
-        /// <summary>
-        /// PCDmis测量完成响应事件
-        /// </summary>
-        /// <param name="ExecutionWindow"></param>
-        private void _pcdAppEvents_OnCloseExecutionDialog(PCDLRN.ExecutionWindow ExecutionWindow)
-        {
-            _ExeOK = false;
-            PCDmisEventArgs pce;
-            _monitorTimer.Stop();
-            if (_partProgram.ExecutionWasCancelled)
-            {
-                Debug.WriteLine("执行被终止");
-                pce = new PCDmisEventArgs() { IsCompleted = false };
-                pce.PCDmisRunInfo = "执行被终止";
-                pce.FaultType = PCDmisFaultType.FT_CancelMeasure;
-                PCDmisMeasureEvent?.Invoke(this, pce);
-                return;
-            }
-            // 响应PCDMIS测量结束事件
-            pce = new PCDmisEventArgs() { IsCompleted = true };
-            pce.PCDmisRunInfo = "测量完成";
-            pce.FaultType = PCDmisFaultType.FT_None;
-            PCDmisMeasureEvent?.Invoke(this, pce);
-            Debug.WriteLine("测量结束");
-        }
-
-        /// <summary>
-        /// 测量中出错
-        /// </summary>
-        /// <param name="ErrorMsg"></param>
-        private void _partProgram_OnExecuteDialogErrorMsg(string ErrorMsg)
-        {
-            //_monitorTimer.Stop();
-            Debug.WriteLine(ErrorMsg);
-            PCDmisEventArgs peArgs = new PCDmisEventArgs() { IsCompleted = false };
-            peArgs.PCDmisRunInfo = ErrorMsg; // 出错信息
-            peArgs.FaultType = PCDmisFaultType.FT_MeasureError;
-            PCDmisMeasureEvent?.Invoke(this, peArgs);
-        }
 
         /// <summary>
         /// 打开PCDMIS测量程序
@@ -313,6 +236,84 @@ namespace Gy.HrswAuto.CmmServer
                 }
             }
             return result;
+        }
+
+        /// <summary>
+        /// PCDmis执行监控事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void _monitorTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Process[] pcs = Process.GetProcessesByName("PCDLRN");
+            TimeSpan exeTime = e.SignalTime - _timerStart;
+            if (pcs.Length > 0)
+            {
+                if (exeTime > _timeout)
+                {
+                    PCDmisEventArgs pce = new PCDmisEventArgs();
+                    pce.IsCompleted = false;
+                    pce.FaultType = PCDmisFaultType.FT_Timeout;
+                    pce.PCDmisRunInfo = "PCDmis执行超时";
+                    PCDmisMeasureEvent?.Invoke(this, pce);
+                    Debug.WriteLine("PCDmis执行超时");
+                    _monitorTimer.Close();
+                }
+            }
+            else if (_ExeOK) // 已经开始异步执行
+            {
+                PCDmisEventArgs pce = new PCDmisEventArgs();
+                pce.IsCompleted = false;
+                pce.FaultType = PCDmisFaultType.FT_FatalError;
+                pce.PCDmisRunInfo = "PCDmis在执行时异常退出";
+                PCDmisMeasureEvent?.Invoke(this, pce);
+                Debug.WriteLine("PCDMIS异常跳出");
+                _monitorTimer.Close();
+            }
+            else
+            {
+                // 外部异常捕获
+            }
+        }
+
+        /// <summary>
+        /// PCDmis测量完成响应事件
+        /// </summary>
+        /// <param name="ExecutionWindow"></param>
+        private void _pcdAppEvents_OnCloseExecutionDialog(PCDLRN.ExecutionWindow ExecutionWindow)
+        {
+            _ExeOK = false;
+            PCDmisEventArgs pce;
+            _monitorTimer.Stop();
+            if (_partProgram.ExecutionWasCancelled)
+            {
+                Debug.WriteLine("执行被终止");
+                pce = new PCDmisEventArgs() { IsCompleted = false };
+                pce.PCDmisRunInfo = "执行被终止";
+                pce.FaultType = PCDmisFaultType.FT_CancelMeasure;
+                PCDmisMeasureEvent?.Invoke(this, pce);
+                return;
+            }
+            // 响应PCDMIS测量结束事件
+            pce = new PCDmisEventArgs() { IsCompleted = true };
+            pce.PCDmisRunInfo = "测量完成";
+            pce.FaultType = PCDmisFaultType.FT_None;
+            PCDmisMeasureEvent?.Invoke(this, pce);
+            Debug.WriteLine("测量结束");
+        }
+
+        /// <summary>
+        /// 测量中出错
+        /// </summary>
+        /// <param name="ErrorMsg"></param>
+        private void _partProgram_OnExecuteDialogErrorMsg(string ErrorMsg)
+        {
+            //_monitorTimer.Stop();
+            Debug.WriteLine(ErrorMsg);
+            PCDmisEventArgs peArgs = new PCDmisEventArgs() { IsCompleted = false };
+            peArgs.PCDmisRunInfo = ErrorMsg; // 出错信息
+            peArgs.FaultType = PCDmisFaultType.FT_MeasureError;
+            PCDmisMeasureEvent?.Invoke(this, peArgs);
         }
 
         public void Dispose()
