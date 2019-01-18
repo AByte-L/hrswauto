@@ -46,6 +46,7 @@
     <Compile Include="MeasureServiceContext.cs" />
     <Compile Include="CmmControl.cs" />
     <Compile Include="PartConfigService.cs" />
+    <Compile Include="PCDmisDaemon.cs" />
     <Compile Include="PCDmisService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
