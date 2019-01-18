@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace Gy.HrswAuto.CmmServer
 {
+    /// <summary>
+    /// 处理PCDmis事务，内部方法会抛出异常，需要外部类接收异常并处理
+    /// </summary>
     public class PCDmisService : IDisposable
     {
         //private MeasureServiceContext _bladeMeasureContext; // 辅助测量上下文
@@ -22,6 +25,10 @@ namespace Gy.HrswAuto.CmmServer
         private PCDLRN.ApplicationObjectEvents _pcdAppEvents;
 
         private bool _IsOpened = false;
+        private bool _ExeOK = false;
+        private System.Timers.Timer _monitorTimer;
+        private DateTime _timerStart;
+        private TimeSpan _timeout;
 
         public bool _IsInitialed { get; private set; } = false;
         public string RtfFileName { get; private set; }
@@ -30,9 +37,12 @@ namespace Gy.HrswAuto.CmmServer
 
         public event EventHandler<PCDmisEventArgs> PCDmisMeasureEvent;
 
-        public PCDmisService(/*MeasureServiceContext bmc*/)
+        public PCDmisService(/*MeasureServiceContext bmc*/double timeout)
         {
             //_bladeMeasureContext = bmc;
+            _monitorTimer = new System.Timers.Timer(5000);
+            _monitorTimer.Elapsed += _monitorTimer_Elapsed;
+            _timeout = TimeSpan.FromMinutes(timeout); // 
         }
 
         /// <summary>
@@ -41,34 +51,32 @@ namespace Gy.HrswAuto.CmmServer
         public void InitialPCDmis()
         {
             ClosePCDmis();
-            try
-            {
-                Type t = Type.GetTypeFromProgID("PCDLRN.Application");
-                SetPCDmisOffline(t); //是否以离线方式启动PCDMIS
-                _pcdApplication = (PCDLRN.Application)Activator.CreateInstance(t);
-                //_pcdApplication.UserExit = false;
-                Thread.Sleep(1000); // 等待PCDmils创建完成
-                _pcdApplication.Visible = true;
-                _IsInitialed = _pcdApplication.WaitUntilReady((int)TimeSpan.FromMinutes(1).TotalSeconds); // 等待初始化
-                _pcdProgramManager = _pcdApplication.PartPrograms;
-                _pcdAppEvents = _pcdApplication.ApplicationEvents;
-                _pcdAppEvents.OnCloseExecutionDialog += _pcdAppEvents_OnCloseExecutionDialog;
-                _pcdAppEvents.OnClosePartProgram += _pcdAppEvents_OnClosePartProgram;
-                _pcdAppEvents.OnSavePartProgram += _pcdAppEvents_OnSavePartProgram;
-                _pcdApplication.SetActive();
-                _IsInitialed = true;
-            }
-            catch (Exception ex)
-            {
-                // 启动失败的处理方式
-                throw ex;
-            }
+            //try
+            //{
+            _pcdApplication = null;
+            _pcdProgramManager = null;
+            _pcdAppEvents = null;
+            Type t = Type.GetTypeFromProgID("PCDLRN.Application");
+            SetPCDmisOffline(t); //是否以离线方式启动PCDMIS
+            _pcdApplication = (PCDLRN.Application)Activator.CreateInstance(t);
+            //_pcdApplication.UserExit = true; // 用户无法手动退出PCDMIS
+            Thread.Sleep(1000); // 等待PCDmils创建完成
+            _pcdApplication.Visible = true;
+            _IsInitialed = _pcdApplication.WaitUntilReady((int)TimeSpan.FromMinutes(1).TotalSeconds); // 等待初始化完成
+            _pcdProgramManager = _pcdApplication.PartPrograms;
+            _pcdAppEvents = _pcdApplication.ApplicationEvents;
+            _pcdAppEvents.OnCloseExecutionDialog += _pcdAppEvents_OnCloseExecutionDialog;
+            _pcdAppEvents.OnClosePartProgram += _pcdAppEvents_OnClosePartProgram;
+            _pcdAppEvents.OnSavePartProgram += _pcdAppEvents_OnSavePartProgram;
+            _pcdApplication.SetActive();
+            _IsInitialed = true;
+            //}
+            //catch (Exception ex)
+            //{
+            //    // 启动失败的处理方式
+            //    throw ex;
+            //}
         }
-
-        //public void RestartPCDmist()
-        //{
-        //    InitialPCDmis();
-        //}
 
         #region 测试PCDmis应用事件
         private void _pcdAppEvents_OnSavePartProgram(PCDLRN.PartProgram PartProg)
@@ -79,8 +87,46 @@ namespace Gy.HrswAuto.CmmServer
         private void _pcdAppEvents_OnClosePartProgram(PCDLRN.PartProgram PartProg)
         {
             Debug.WriteLine("关闭程序");
-        } 
+        }
         #endregion
+
+        /// <summary>
+        /// PCDmis执行监控事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void _monitorTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Process[] pcs = Process.GetProcessesByName("PCDLRN");
+            TimeSpan exeTime = e.SignalTime - _timerStart;
+            if (pcs.Length > 0)
+            {
+                if (exeTime > _timeout)
+                {
+                    PCDmisEventArgs pce = new PCDmisEventArgs();
+                    pce.IsCompleted = false;
+                    pce.FaultType = PCDmisFaultType.FT_Timeout;
+                    pce.PCDmisRunInfo = "PCDmis执行超时";
+                    PCDmisMeasureEvent?.Invoke(this, pce);
+                    Debug.WriteLine("PCDmis执行超时");
+                    _monitorTimer.Close();
+                }
+            }
+            else if (_ExeOK) // 已经开始异步执行
+            {
+                PCDmisEventArgs pce = new PCDmisEventArgs();
+                pce.IsCompleted = false;
+                pce.FaultType = PCDmisFaultType.FT_FatalError;
+                pce.PCDmisRunInfo = "PCDmis在执行时异常退出";
+                PCDmisMeasureEvent?.Invoke(this, pce);
+                Debug.WriteLine("PCDMIS异常跳出");
+                _monitorTimer.Close();
+            }
+            else
+            {
+                // 外部异常捕获
+            }
+        }
 
         /// <summary>
         /// PCDmis测量完成响应事件
@@ -88,14 +134,23 @@ namespace Gy.HrswAuto.CmmServer
         /// <param name="ExecutionWindow"></param>
         private void _pcdAppEvents_OnCloseExecutionDialog(PCDLRN.ExecutionWindow ExecutionWindow)
         {
+            _ExeOK = false;
+            PCDmisEventArgs pce;
+            _monitorTimer.Stop();
             if (_partProgram.ExecutionWasCancelled)
             {
                 Debug.WriteLine("执行被终止");
+                pce = new PCDmisEventArgs() { IsCompleted = false };
+                pce.PCDmisRunInfo = "执行被终止";
+                pce.FaultType = PCDmisFaultType.FT_CancelMeasure;
+                PCDmisMeasureEvent?.Invoke(this, pce);
                 return;
             }
             // 响应PCDMIS测量结束事件
-            PCDmisEventArgs peArgs = new PCDmisEventArgs() { IsCompleted = true };
-            PCDmisMeasureEvent?.Invoke(this, peArgs);
+            pce = new PCDmisEventArgs() { IsCompleted = true };
+            pce.PCDmisRunInfo = "测量完成";
+            pce.FaultType = PCDmisFaultType.FT_None;
+            PCDmisMeasureEvent?.Invoke(this, pce);
             Debug.WriteLine("测量结束");
         }
 
@@ -105,8 +160,11 @@ namespace Gy.HrswAuto.CmmServer
         /// <param name="ErrorMsg"></param>
         private void _partProgram_OnExecuteDialogErrorMsg(string ErrorMsg)
         {
+            //_monitorTimer.Stop();
             Debug.WriteLine(ErrorMsg);
             PCDmisEventArgs peArgs = new PCDmisEventArgs() { IsCompleted = false };
+            peArgs.PCDmisRunInfo = ErrorMsg; // 出错信息
+            peArgs.FaultType = PCDmisFaultType.FT_MeasureError;
             PCDmisMeasureEvent?.Invoke(this, peArgs);
         }
 
@@ -114,31 +172,16 @@ namespace Gy.HrswAuto.CmmServer
         /// 打开PCDMIS测量程序
         /// </summary>
         /// <param name="prgFile">测量程序全路径名</param>
-        public void  OpenPartProgram(string prgFile)
+        public void OpenPartProgram(string prgFile)
         {
-            //string prgFile = FindProgFile(partId);
-            //if (string.IsNullOrEmpty(prgFile))
-            //{
-            //    _IsOpened = false;
-            //    return; 
-            //}
-            try
-            {
-                _pcdProgramManager.CloseAll();
-                //_pcdProgramManager.Remove(1);
-                //Thread.Sleep(10000);
-                while (_pcdProgramManager.Count != 0) ; // 等待程序关闭
-                _partProgram = null;
-                //_pcdApplication.SetActive();
-                //_pcdApplication.Maximize();
-                _partProgram = _pcdProgramManager.Open(prgFile, _pcdApplication.DefaultMachineName/*"CMM1"*/);
-                //_pcdApplication.WaitUntilReady(10);
-                _IsOpened = true;
-            }
-            catch (Exception)
-            {
-                Debug.WriteLine("打开测量程序失败");
-            }
+            _pcdProgramManager.CloseAll();
+            while (_pcdProgramManager.Count != 0) ; // 等待程序关闭
+            _partProgram = null;
+            _ExeOK = false;
+            //_pcdApplication.SetActive();
+            //_pcdApplication.Maximize();
+            _partProgram = _pcdProgramManager.Open(prgFile, _pcdApplication.DefaultMachineName/*"CMM1"*/);
+            _IsOpened = true;
         }
 
         /// <summary>
@@ -152,7 +195,7 @@ namespace Gy.HrswAuto.CmmServer
                 PCDLRN.OldBasic ob = _partProgram.OldBasic;
                 ProbeDiam = 2 * ob.GetProbeRadius();
                 // 获取第一个输出文件名
-                HasOutputFile = FindOutputFileName(); 
+                HasOutputFile = FindOutputFileName();
             }
         }
 
@@ -161,15 +204,17 @@ namespace Gy.HrswAuto.CmmServer
         /// </summary>
         public bool ExecutePartProgram()
         {
-            bool exeOk = false;
             if (_IsOpened)
             {
-                // todo 设置程序事件响应函数
+                //设置程序事件响应函数
                 _partProgram.OnExecuteDialogErrorMsg += _partProgram_OnExecuteDialogErrorMsg;
-                // 执行程序
-                exeOk = _partProgram.AsyncExecute();
+                // 开启监控线程，判断PCDMIS是否异常退出
+                _monitorTimer.Start();
+                _timerStart = DateTime.Now;
+                // 异步执行程序
+                _ExeOK = _partProgram.AsyncExecute();
             }
-            return exeOk;
+            return _ExeOK;
         }
 
         /// <summary>
@@ -238,7 +283,7 @@ namespace Gy.HrswAuto.CmmServer
                 if (!result)
                 {
                     item.Kill();
-                    result = item.WaitForExit((int)TimeSpan.FromSeconds(3).TotalMilliseconds);
+                    result = item.WaitForExit((int)TimeSpan.FromSeconds(10).TotalMilliseconds);
                 }
             }
             return result;
@@ -272,9 +317,21 @@ namespace Gy.HrswAuto.CmmServer
 
         public void Dispose()
         {
-            if (_pcdApplication != null)
+            try
             {
-                _pcdApplication.Quit();
+                if (_pcdApplication != null)
+                {
+                    _pcdApplication.Quit(); // PCDMIS异常退出
+                }
+            }
+            catch(Exception)
+            {
+                // 不做处理
+            }
+            finally
+            {
+                _pcdApplication = null;
+                _monitorTimer.Dispose();
             }
         }
     }
@@ -283,5 +340,16 @@ namespace Gy.HrswAuto.CmmServer
     {
         // 测量是否正常完成
         public bool IsCompleted { get; set; }
+        public string PCDmisRunInfo { get; set; }
+        public PCDmisFaultType FaultType { get; set; }
+    }
+
+    public enum PCDmisFaultType
+    {
+        FT_FatalError, // 异常跳出，需要重新初始化
+        FT_MeasureError, // 测量过程中产生的错误
+        FT_Timeout, // 测量超时
+        FT_CancelMeasure, // 人为取消测量
+        FT_None
     }
 }

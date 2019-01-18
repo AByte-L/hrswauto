@@ -8,11 +8,15 @@ https://blog.csdn.net/jessical1020/article/details/61918142
 
 https://www.cnblogs.com/MarchThree/p/3866845.html win64注册表
 
+https://www.cnblogs.com/lonelyxmas/p/9509298.html Task
+
 公共资源 
 PLC三坐标个数
-PLC监控时常
+PLC监控时长
 BladeExe路径
 定位安全程序路径
+PLC IP地址 Rack slot 
+
 
 
 问题
