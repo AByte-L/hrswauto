@@ -52,7 +52,7 @@ namespace Gy.HrswAuto.PLCMold
                     Thread.Sleep(100); // 等待数据交换
                     if (result != 0)
                     {
-                        Debug.WriteLine("PLC 读取错误");
+                        Trace.Write("PLC 读取错误");
                         return false;
                     }
                 }
@@ -77,7 +77,7 @@ namespace Gy.HrswAuto.PLCMold
                     Thread.Sleep(100); // 等待数据交换
                     if (result != 0)
                     {
-                        Debug.WriteLine("PLC 写入错误");
+                        Trace.Write("PLC 写入错误");
                         return false;
                     }
                 }
@@ -250,13 +250,13 @@ namespace Gy.HrswAuto.PLCMold
             bool result = _initEvent.WaitOne((int)TimeSpan.FromSeconds(30).TotalMilliseconds);
             if (!result)
             {
-                Debug.WriteLine("PLC连接失败");
+                Trace.Write("PLC连接失败");
                 return false;
             }
             return true;
         }
 
-        private void InitPlcConnect(object state)
+        private void InitPlcConnect(object state) 
         {
             int result = _s7Client.ConnectTo(PlcIPAddress, Rack, Slot);
             Thread.Sleep(10); // 很小的复位时间

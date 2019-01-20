@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientManager.cs" />
     <Compile Include="ClientState.cs" />
     <Compile Include="CmmClient.cs" />
     <Compile Include="CSFeedback.cs" />

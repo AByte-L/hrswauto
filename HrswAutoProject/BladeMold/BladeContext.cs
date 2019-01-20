@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gy.HrswAuto.ErrorMod;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -85,7 +86,7 @@ namespace Gy.HrswAuto.BladeMold
                 // kill blade进程
                 //if (!CloseBlade())
                 //{
-                Debug.WriteLine("blade 在错误状态");
+                LogCollector.Instance.PostSvrErrorMessage("blade 在错误状态");
                 return false;
                 //}
             }
@@ -117,16 +118,16 @@ namespace Gy.HrswAuto.BladeMold
             if (index == WaitHandle.WaitTimeout) // 等待分析超时
             {
                 // 错误反馈
-                Debug.WriteLine("分析超时");
+                LogCollector.Instance.PostSvrErrorMessage("分析超时");
                 return false;
             }
             else if (index == 1)
             {
                 // 分析完成通知主程序
-                Debug.WriteLine("Blade 分析完成");
+                Trace.Write("Blade 分析完成");
                 if(!_cmmFileEvent.WaitOne(TimeSpan.FromSeconds(30)))
                 {
-                    Debug.WriteLine("CMM文件创建失败");
+                    LogCollector.Instance.PostSvrErrorMessage("CMM文件创建失败");
                      reportWatcher.Dispose();
                     return false;
                 }
@@ -135,7 +136,7 @@ namespace Gy.HrswAuto.BladeMold
                 // 阻塞
                 if(!WaitForCreated(CMMFileFullPath))
                 {
-                    Debug.WriteLine("创建CMM文件超时");
+                    LogCollector.Instance.PostSvrErrorMessage("创建CMM文件超时");
                     return false;
                 }
                 return true;
@@ -143,11 +144,11 @@ namespace Gy.HrswAuto.BladeMold
             else if (index == 0)
             {
                 // blade分析出现错误
-                Debug.WriteLine("Blade 分析出错");
+                LogCollector.Instance.PostSvrErrorMessage("Blade 分析出错");
                 if (t.IsCompleted)
                 {
                     string err = t.Result;
-                    Debug.WriteLine(err);
+                    LogCollector.Instance.PostSvrErrorMessage(err);
                 }
                 //MessageBox.Show("Blade 分析出错, 请检查.");
                 return false;
@@ -182,7 +183,7 @@ namespace Gy.HrswAuto.BladeMold
                 }
                 catch (Exception)
                 {
-                    Debug.WriteLine("打印没有完成请等待");
+                    //LogCollector.Instance.PostSvrErrorMessage("打印没有完成请等待");
                 }
                 finally
                 {

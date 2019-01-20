@@ -6,5 +6,9 @@ namespace Gy.HrswAuto.ICmmServer
     {
         [OperationContract(IsOneWay = true)]
         void WorkCompleted(bool isPass);
+        [OperationContract(IsOneWay = true)]
+        void ServerInErrorStatus(string message);
+        [OperationContract(IsOneWay = true)]
+        void ServerWorkStatus(string message);
     }
 }

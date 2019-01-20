@@ -1,5 +1,6 @@
 ﻿using Gy.HrswAuto.BladeMold;
 using Gy.HrswAuto.DataMold;
+using Gy.HrswAuto.ErrorMod;
 using Gy.HrswAuto.ICmmServer;
 using Gy.HrswAuto.Utilities;
 using System;
@@ -70,7 +71,8 @@ namespace Gy.HrswAuto.CmmServer
             }
             catch (Exception)
             {
-                Debug.WriteLine("初始化PCDmis失败");
+                //Debug.WriteLine("初始化PCDmis失败");
+                LogCollector.Instance.PostSvrErrorMessage("PCDmis未能初始化");
             }
             return _pcdmisCore._IsInitialed;
         }
@@ -81,7 +83,7 @@ namespace Gy.HrswAuto.CmmServer
         {
             if (!e.IsCompleted)
             {
-                Debug.WriteLine("PCDMIS没有完成执行或执行出错");
+                LogCollector.Instance.PostSvrErrorMessage("PCDMIS没有完成执行或执行出错");
                 if (e.FaultType == PCDmisFaultType.FT_FatalError)
                 {
                     ReinitialPCDmist();
@@ -126,7 +128,7 @@ namespace Gy.HrswAuto.CmmServer
         {
             if (!e.IsCompleted)
             {
-                Debug.WriteLine("PCDMIS没有完成执行或执行出错");
+                LogCollector.Instance.PostSvrErrorMessage("PCDMIS没有完成执行或执行出错");
                 if (e.FaultType == PCDmisFaultType.FT_FatalError)
                 {
                     // 异常错误需要重新初始化PCDMIS
@@ -179,7 +181,7 @@ namespace Gy.HrswAuto.CmmServer
             string partProgFileName = PathManager.Instance.GetPartProgramPath(_part);
             if (!File.Exists(partProgFileName))
             {
-                Debug.WriteLine("程序文件不存在");
+                LogCollector.Instance.PostSvrErrorMessage("程序文件不存在");
                 return;
             }
             try
@@ -199,13 +201,13 @@ namespace Gy.HrswAuto.CmmServer
                 }
                 if (!_pcdmisCore.ExecutePartProgram()) // 执行程序
                 {
-                    Debug.WriteLine("pcdmis没有启动执行");
+                    LogCollector.Instance.PostSvrErrorMessage("pcdmis没有启动执行");
                     return;
                 }
             }
             catch (Exception)
             {
-                Debug.WriteLine("PCDmis出错, 重启PCDmis");
+                LogCollector.Instance.PostSvrErrorMessage("PCDmis出错, 重启PCDmis");
                 //处理PCDMIS的CrashSender1402.exe窗口
                 bool result = CloseCrashSender();
                 throw;

@@ -62,6 +62,10 @@
       <Project>{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}</Project>
       <Name>BaseMold</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ErrorMod\ErrorMod.csproj">
+      <Project>{9862FBED-D50B-4646-A839-40FC9290A277}</Project>
+      <Name>ErrorMod</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{1E12C44C-B625-48B7-B1EA-17DF229A6A01}</Project>
       <Name>Utilities</Name>

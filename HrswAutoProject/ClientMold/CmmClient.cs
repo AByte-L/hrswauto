@@ -33,6 +33,9 @@ namespace Gy.HrswAuto.ClientMold
             get { return _IsInitialed; }
             private set { _IsInitialed = value; }
         }
+
+        public bool IsActived { get; set; } = false; // 激活状态
+        public bool CurPartIsPass { get; set; } = false;
         //public event EventHandler<FeedRequestArg> OnPlaceAndGripRequestEvent;
         //public event EventHandler<FeedRequestArg> OnGripRequestEvent;
         //public event EventHandler<FeedRequestArg> OnPlaceRequestEvent;
@@ -93,6 +96,17 @@ namespace Gy.HrswAuto.ClientMold
             return true;
         }
 
+        // 继续上件
+        public void Continue()
+        {
+            // 送抓料取料命令
+            SendPlaceAndGripRequest(CurPartIsPass);
+        }
+
+        public void StartWork()
+        {
+            SendPlaceRequest();
+        }
         #endregion
 
         #region Remote方法
@@ -113,14 +127,14 @@ namespace Gy.HrswAuto.ClientMold
 
             if (!ok)
             {
-                Debug.WriteLine("文件部署失败，请检查");
+                Trace.Write("文件部署失败，请检查");
                 //State = State | ClientState.Error;
                 return;
             }
 
             if (!_cmmCtrl.IsInitialed())
             {
-                Debug.WriteLine("PCDMIS未初始化");
+                Trace.Write("PCDMIS未初始化");
                 return;
             }
 
@@ -143,7 +157,7 @@ namespace Gy.HrswAuto.ClientMold
 
             if (!VerifyLocalFiles(partId))
             {
-                Debug.WriteLine("文件缺失");
+                Trace.Write("文件缺失");
                 return false;
             }
             PartConfig partConfig = PartConfigManager.Instance.GetPartConfig(partId);
@@ -259,11 +273,11 @@ namespace Gy.HrswAuto.ClientMold
         private void OnPlaceActionCompletedEvent(object sender, ResponsePlcEventArgs e)
         {
             // 工件标识错误，发送工件未找到错误信号
-            if (FindPart(e.PartID))
+            if (!FindPart(e.PartID))
             {
                 SendPartIDErrorSign(e.ClientID);
-                Debug.WriteLine("报错处理");
-                State = State | ClientState.Error; // 设置客户端为错误状态
+                Trace.Write("工件标识错误");
+                State = ClientState.CS_Error; // 设置客户端为错误状态
                 return;
             }
 
@@ -290,7 +304,7 @@ namespace Gy.HrswAuto.ClientMold
         /// <param name="e"></param>
         private void OnGripActionCompletedEvent(object sender, ResponsePlcEventArgs e)
         {
-            if (State.HasFlag(ClientState.Continue)) // 如果客户状态是继续测量则发送上料信号
+            if (State.HasFlag(ClientState.CS_Continue)) // 如果客户状态是继续测量则发送上料信号
             {
                 SendPlaceRequest();
             }
@@ -325,6 +339,7 @@ namespace Gy.HrswAuto.ClientMold
         #region 测试方法
         Timer timer;
         public int runCount { get; set; } = 0;
+        public string ErrorInfo { get; internal set; }
 
         public void WorkContinue()
         {

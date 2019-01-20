@@ -1,4 +1,5 @@
 ﻿using Gy.HrswAuto.DataMold;
+using Gy.HrswAuto.ErrorMod;
 using Gy.HrswAuto.Utilities;
 using System;
 using System.Collections.Generic;
@@ -89,7 +90,7 @@ namespace Gy.HrswAuto.BladeMold
         {
             if (!File.Exists(_rtfFileName))
             {
-                Debug.WriteLine("rtf文件不存在");
+                LogCollector.Instance.PostSvrErrorMessage("PCDMIS测量错误，rtf文件未生成");
                 return;
             }
             // 设置rpt文件名
@@ -127,7 +128,7 @@ namespace Gy.HrswAuto.BladeMold
         {
             if (_probeDiam < 0.001)
             {
-                Debug.WriteLine("测尖直径不正确");
+                LogCollector.Instance.PostSvrErrorMessage("PCDMIS程序错误, 没有获取测尖直径");
                 return;
             }
             

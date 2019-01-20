@@ -1,4 +1,5 @@
 ﻿using Gy.HrswAuto.DataMold;
+using Gy.HrswAuto.ErrorMod;
 using Gy.HrswAuto.Utilities;
 using Microsoft.Win32;
 using System;
@@ -37,7 +38,7 @@ namespace Gy.HrswAuto.CmmServer
 
         public event EventHandler<PCDmisEventArgs> PCDmisMeasureEvent;
 
-        public PCDmisService(/*MeasureServiceContext bmc*/double timeout)
+        public PCDmisService(/*MeasureServiceContext bmc*/double timeout = 3)
         {
             //_bladeMeasureContext = bmc;
             _monitorTimer = new System.Timers.Timer(5000);
@@ -256,7 +257,7 @@ namespace Gy.HrswAuto.CmmServer
                     pce.FaultType = PCDmisFaultType.FT_Timeout;
                     pce.PCDmisRunInfo = "PCDmis执行超时";
                     PCDmisMeasureEvent?.Invoke(this, pce);
-                    Debug.WriteLine("PCDmis执行超时");
+                    LogCollector.Instance.PostSvrErrorMessage("PCDmis执行超时");
                     _monitorTimer.Close();
                 }
             }
@@ -267,7 +268,7 @@ namespace Gy.HrswAuto.CmmServer
                 pce.FaultType = PCDmisFaultType.FT_FatalError;
                 pce.PCDmisRunInfo = "PCDmis在执行时异常退出";
                 PCDmisMeasureEvent?.Invoke(this, pce);
-                Debug.WriteLine("PCDMIS异常跳出");
+                LogCollector.Instance.PostSvrErrorMessage("PCDMIS异常跳出");
                 _monitorTimer.Close();
             }
             else
@@ -287,7 +288,7 @@ namespace Gy.HrswAuto.CmmServer
             _monitorTimer.Stop();
             if (_partProgram.ExecutionWasCancelled)
             {
-                Debug.WriteLine("执行被终止");
+                LogCollector.Instance.PostSvrErrorMessage("执行被终止");
                 pce = new PCDmisEventArgs() { IsCompleted = false };
                 pce.PCDmisRunInfo = "执行被终止";
                 pce.FaultType = PCDmisFaultType.FT_CancelMeasure;
@@ -299,7 +300,7 @@ namespace Gy.HrswAuto.CmmServer
             pce.PCDmisRunInfo = "测量完成";
             pce.FaultType = PCDmisFaultType.FT_None;
             PCDmisMeasureEvent?.Invoke(this, pce);
-            Debug.WriteLine("测量结束");
+            LogCollector.Instance.PostSvrWorkStatus("测量结束");
         }
 
         /// <summary>
@@ -309,7 +310,7 @@ namespace Gy.HrswAuto.CmmServer
         private void _partProgram_OnExecuteDialogErrorMsg(string ErrorMsg)
         {
             //_monitorTimer.Stop();
-            Debug.WriteLine(ErrorMsg);
+            LogCollector.Instance.PostSvrErrorMessage(ErrorMsg);
             PCDmisEventArgs peArgs = new PCDmisEventArgs() { IsCompleted = false };
             peArgs.PCDmisRunInfo = ErrorMsg; // 出错信息
             peArgs.FaultType = PCDmisFaultType.FT_MeasureError;

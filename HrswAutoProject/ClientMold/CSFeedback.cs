@@ -22,13 +22,25 @@ namespace Gy.HrswAuto.ClientMold
             _cmmClient = cmmClient;
         }
 
-        public void WorkCompleted(bool isPass)
+        public void ServerInErrorStatus(string message)
         {
-            // cmmClient发送上下料请求
-            // todo 调试注释PLC请求
-            //_cmmClient.SendPlaceAndGripRequest(isPass);
-            //Thread.Sleep(5000);
-            _cmmClient.WorkContinue();
+            _cmmClient.State = ClientState.CS_Error;
+            _cmmClient.ErrorInfo = message;
+            // todo 刷新界面显示
+        }
+
+        public void ServerWorkStatus(string message)
+        {
+            // todo 刷新界面显示
+        }
+
+        public void WorkCompleted(bool isPass) // todo 完成之前，需要与服务器协调报告处理方式
+        {
+            // 由ClientManager循环处理
+            _cmmClient.CurPartIsPass = isPass;
+            _cmmClient.State = ClientState.CS_Continue;
+            // 调试时使用
+            //_cmmClient.WorkContinue();
         }
     }
 }

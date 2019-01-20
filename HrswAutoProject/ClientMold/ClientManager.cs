@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -16,13 +17,14 @@ namespace Gy.HrswAuto.MasterMold
     {
         List<CmmClient> _cmmClients;
         private List<CmmServerConfig> _cmmSvrConfigs;
-
         public List<CmmServerConfig> CmmSvrConfigs
         {
             get { return _cmmSvrConfigs; }
             set { _cmmSvrConfigs = value; }
         }
 
+        private Timer _dispatchTimer;
+        public double DispatchInterval { get; set; } = 3; // 
         #region 客户端管理器初始化
         public void Initialize()
         {
@@ -40,6 +42,7 @@ namespace Gy.HrswAuto.MasterMold
             foreach (var config in CmmSvrConfigs)
             {
                 CmmClient client = new CmmClient(config);
+                client.IsActived = true;
                 client.InitClient(); // 如果client初始化失败该怎么办？
 
                 _cmmClients.Add(client);
@@ -71,6 +74,34 @@ namespace Gy.HrswAuto.MasterMold
         private ClientManager()
         {
             _cmmClients = new List<CmmClient>();
+            _dispatchTimer = new Timer((DispatchInterval>3? DispatchInterval:3) * 1000); // 刷新间隔不小于3s
+            _dispatchTimer.Elapsed += _dispatchTimer_Elapsed;
+        }
+
+        private void _dispatchTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            foreach (var client in _cmmClients)
+            {
+                switch (client.State)
+                {
+                    case ClientState.CS_Idle:
+                        client.State = ClientState.CS_Busy;
+                        client.StartWork();
+                        break;
+                    case ClientState.CS_Busy:
+                        // todo 刷新client状态显示
+                        break;
+                    case ClientState.CS_Error:
+                        // todo 刷新client状态显示
+                        break;
+                    case ClientState.CS_Continue: 
+                        client.State = ClientState.CS_Busy;
+                        client.Continue();
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         public ClientManager Instance

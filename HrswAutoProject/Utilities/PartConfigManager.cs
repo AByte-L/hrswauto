@@ -39,7 +39,7 @@ namespace Gy.HrswAuto.Utilities
         /// <returns></returns>
         public bool Exists(string partId)
         {
-            var list = _partConfigs.FindAll(part => string.Compare(part.PartID, partId, true) == 0);
+            var list = _partConfigs.FindAll(part => part.PartID.Equals(partId, StringComparison.CurrentCultureIgnoreCase));
             return list.Count != 0;
         }
 
