@@ -34,6 +34,8 @@ namespace PCDServer
             PathManager.Instance.RootPath = @"D:\ServerPathRoot"/*Path.GetDirectoryName(Application.ExecutablePath)*/;
             PathManager.Instance.PartProgramsPath = "PartPrograms";
             PathManager.Instance.BladesPath = "blades";
+            PathManager.Instance.ReportsPath = "Results";
+            PathManager.Instance.TempPath = @"D:\ServerPathRoot";
             //PathManager.Instance.Configration = ptc;
             PartConfigManager.Instance.InitPartConfigManager(@"D:\ServerPathRoot\parts.xml");
             _bladeMeasureContext = new MeasureServiceContext();

@@ -26,7 +26,7 @@ namespace Gy.HrswAuto.CmmServer
         private PCDmisService _pcdmisCore; // PCDmis测量核心
         private BladeMeasAssist _bladeMeasAssist; // 工件测量辅助
         private BladeContext _bladeContext; // blade分析
-        public bool IsBladeMeasure { get; set; }
+        public bool IsBladeMeasure { get; set; } = true;
         private PartConfig _part;
         public PartConfig CurPart
         {
@@ -66,8 +66,8 @@ namespace Gy.HrswAuto.CmmServer
             try
             {
                 _pcdmisCore.InitialPCDmis();
-                //_pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent;
-                _pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent1;
+                _pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent;
+                //_pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent1;
             }
             catch (Exception)
             {
@@ -210,7 +210,7 @@ namespace Gy.HrswAuto.CmmServer
                 LogCollector.Instance.PostSvrErrorMessage("PCDmis出错, 重启PCDmis");
                 //处理PCDMIS的CrashSender1402.exe窗口
                 bool result = CloseCrashSender();
-                throw;
+                //throw;
             }
         }
 

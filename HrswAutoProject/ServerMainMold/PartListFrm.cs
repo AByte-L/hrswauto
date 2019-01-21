@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ServerMainMold
 {
-    public partial class Form1 : Form
+    public partial class PartListFrm : Form
     {
-        public Form1()
+        public PartListFrm()
         {
             InitializeComponent();
         }

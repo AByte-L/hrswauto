@@ -32,15 +32,16 @@ namespace Gy.HrswAuto.ErrorMod
             {
                 try
                 {
+                    //LocalLogCollector.WriteMessage(message);
                     SvrNotify?.ServerInErrorStatus(message);
                 }
                 catch (Exception ex)
                 {
-                    WriteMessage(ex.Message); // 记录通信异常事件
+                    LocalLogCollector.WriteMessage(message + ", 回传异常:" + ex.Message); // 记录通信异常事件
                 }
                 finally
                 {
-                    WriteMessage(message); // 工作出错状态信息
+                    LocalLogCollector.WriteMessage(message); // 工作出错状态信息
                 }
             }
         }
@@ -55,11 +56,11 @@ namespace Gy.HrswAuto.ErrorMod
                 }
                 catch (Exception ex)
                 {
-                    WriteMessage(ex.Message); // 记录通信异常事件
+                    LocalLogCollector.WriteMessage(message + ", 回传异常:" + ex.Message); // 记录通信异常事件
                 }
                 finally
                 {
-                    WriteMessage(message); // 服务器工作状态
+                    LocalLogCollector.WriteMessage(message); // 服务器工作状态
                 }
             }
         }  // 传递服务器工作状态信息，同步方法

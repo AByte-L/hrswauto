@@ -49,6 +49,35 @@ namespace Gy.HrswAuto.MasterMold
             }
         }
 
+        private void _dispatchTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            foreach (var client in _cmmClients)
+            {
+                switch (client.State)
+                {
+                    case ClientState.CS_Idle:
+                        client.State = ClientState.CS_Busy;
+                        client.StartWork();
+                        break;
+                    case ClientState.CS_Completed:
+                        // 处理回传报告
+                        client.State = ClientState.CS_Continue;
+                        break;
+                    case ClientState.CS_Busy:
+                        // todo 刷新client状态显示
+                        break;
+                    case ClientState.CS_Error:
+                        // todo 刷新client状态显示
+                        break;
+                    case ClientState.CS_Continue:
+                        client.State = ClientState.CS_Busy;
+                        client.Continue();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
 
         public void LoadClientFromXmlFile(string path)
         {
@@ -76,32 +105,6 @@ namespace Gy.HrswAuto.MasterMold
             _cmmClients = new List<CmmClient>();
             _dispatchTimer = new Timer((DispatchInterval>3? DispatchInterval:3) * 1000); // 刷新间隔不小于3s
             _dispatchTimer.Elapsed += _dispatchTimer_Elapsed;
-        }
-
-        private void _dispatchTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            foreach (var client in _cmmClients)
-            {
-                switch (client.State)
-                {
-                    case ClientState.CS_Idle:
-                        client.State = ClientState.CS_Busy;
-                        client.StartWork();
-                        break;
-                    case ClientState.CS_Busy:
-                        // todo 刷新client状态显示
-                        break;
-                    case ClientState.CS_Error:
-                        // todo 刷新client状态显示
-                        break;
-                    case ClientState.CS_Continue: 
-                        client.State = ClientState.CS_Busy;
-                        client.Continue();
-                        break;
-                    default:
-                        break;
-                }
-            }
         }
 
         public ClientManager Instance

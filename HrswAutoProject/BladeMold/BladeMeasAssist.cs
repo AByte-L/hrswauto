@@ -131,7 +131,14 @@ namespace Gy.HrswAuto.BladeMold
                 LogCollector.Instance.PostSvrErrorMessage("PCDMIS程序错误, 没有获取测尖直径");
                 return;
             }
-            
+
+            // 创建报告目录
+            string dir = Path.GetDirectoryName(_rptFileName);
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+
             StringBuilder strBuilder = new StringBuilder();
             using (FileStream stream = File.OpenWrite(_rptFileName))
             {

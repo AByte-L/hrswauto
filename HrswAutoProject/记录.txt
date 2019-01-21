@@ -13,14 +13,24 @@ https://www.cnblogs.com/lonelyxmas/p/9509298.html Task
 https://www.cnblogs.com/blqw/p/3639360.html 系统日志
 
 公共资源，设置
+
+客户端设置
 PLC三坐标个数
 PLC监控时长
-BladeExe路径
-定位安全程序路径
 PLC IP地址 Rack slot 
 客户端管理器 轮询时间间隔
-PCDmis监控超时时长
+本地log文件
 程序记录文件名
+写入工件标识
+
+服务器端设置
+PCDMIS测量超时时长
+Blade分析超时时长
+本地LOG文件目录
+BladeExe路径
+定位安全程序路径
+服务器端地址 // 配置文件
+是否最小化到托盘图标
 
 
 

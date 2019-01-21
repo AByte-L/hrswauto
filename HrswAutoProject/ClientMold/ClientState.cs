@@ -10,6 +10,7 @@ namespace Gy.HrswAuto.ClientMold
     public enum ClientState
     {
         CS_Idle,
+        CS_Completed,
         CS_Busy,
         CS_Error,
         CS_Continue

@@ -18,19 +18,19 @@ namespace Gy.HrswAuto.CmmServer.Tests
         public void _pcdmisCore_PCDmisMeasureEventTest()
         {
             PathConfig ptcf = new PathConfig();
-            PathManager.Instance.RootPath = @"E:\CSpItems\bladepart";
+            PathManager.Instance.RootPath = @"D:\ServerPathRoot";
             PathManager.Instance.BladesPath = "blades";
             PathManager.Instance.ReportsPath = "Results";
             PathManager.Instance.TempPath = "Temp";
             //PathManager.Instance.Configration = ptcf;
             PartConfig part = new PartConfig();
-            part.PartID = "xx10_1";
+            part.PartID = "TestPart";
             part.FlvFileName = "xx10_1.flv";
             part.NormFileName = "xx10_1.nom";
             part.TolFileName = "xx10_1.tol";
 
             BladeMeasAssist _bladeMeasAssist = new BladeMeasAssist();
-            _bladeMeasAssist.RtfFileName = @"E:\CSpItems\blade.RTF";
+            _bladeMeasAssist.RtfFileName = @"C:\BladeRunner\blade.RTF";
             _bladeMeasAssist.ProbeDiam = 2;
             _bladeMeasAssist.SectionNum = 3;
             List<string> sn = new List<string>() { "8-8", "5-5", "2-2" };
