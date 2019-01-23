@@ -51,6 +51,10 @@
       <Project>{74C41EC7-BCB9-4A62-9F67-7F80BF07F25A}</Project>
       <Name>ICmmServer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UICommonTools\UICommonTools.csproj">
+      <Project>{71EBA0A2-4F87-44EF-8FBC-7AC7F5A3DB43}</Project>
+      <Name>UICommonTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

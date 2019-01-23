@@ -66,8 +66,8 @@ namespace Gy.HrswAuto.CmmServer
             try
             {
                 _pcdmisCore.InitialPCDmis();
-                _pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent;
-                //_pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent1;
+                //_pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent;
+                _pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent1;
             }
             catch (Exception)
             {
@@ -163,7 +163,7 @@ namespace Gy.HrswAuto.CmmServer
         {
             _eventNotify = OperationContext.Current.GetCallbackChannel<IWorkflowNotify>();
             LogCollector.Instance.SvrNotify = _eventNotify;
-            LocalLogCollector.LogFilePath = @"d:\ServerPathRoot\log.txt";
+            LocalLogCollector.LogFilePath = @"G:\AutoMeasureItems\ServerPathRoot\log.txt";
         }
 
         public void DisconnectWFEvents()

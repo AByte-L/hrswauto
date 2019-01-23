@@ -33,12 +33,15 @@ namespace ServerMainMold
 
         private void RefreshRemoteState(bool obj)
         {
-            throw new NotImplementedException();
+
         }
 
         private void RefreshLogListView(string obj)
         {
-            throw new NotImplementedException();
+            ServerUILinker.syncContext.Post(o =>
+            {
+                logListView.Items.Add(obj);
+            }, null);
         }
     }
 }

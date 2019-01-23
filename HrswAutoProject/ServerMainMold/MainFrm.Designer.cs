@@ -107,7 +107,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.0566F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.9434F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 217F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 238F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 239F));
             this.tableLayoutPanel2.Controls.Add(this.setupButton, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.partButton, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.label1, 3, 0);
@@ -135,7 +135,7 @@
             this.partButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.partButton.Location = new System.Drawing.Point(98, 6);
             this.partButton.Name = "partButton";
-            this.partButton.Size = new System.Drawing.Size(90, 64);
+            this.partButton.Size = new System.Drawing.Size(89, 64);
             this.partButton.TabIndex = 1;
             this.partButton.Text = "工件列表";
             this.partButton.UseVisualStyleBackColor = true;
@@ -144,9 +144,9 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(411, 3);
+            this.label1.Location = new System.Drawing.Point(410, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(233, 70);
+            this.label1.Size = new System.Drawing.Size(234, 70);
             this.label1.TabIndex = 2;
             this.label1.Text = "放置图标或服务器文本";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gy.HrswAuto.UICommonTools;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,12 +32,13 @@ namespace Gy.HrswAuto.ErrorMod
                 try
                 {
                     // UILinker.RefreshEventLog 刷新列表显示
-                    string logText = message + "\r\n";
-                    File.AppendAllText(LogFilePath, message);
+                    string logText = message + Environment.NewLine;
+                    File.AppendAllText(LogFilePath, logText);
+                    ServerUILinker.WriteUILog(message);
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("写本地LOG出错"); 
+                    MessageBox.Show("写本地LOG出错");
                 }
             }
         }
