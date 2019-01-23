@@ -8,23 +8,20 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Gy.HrswAuto.PartConfigManage
+namespace Gy.HrswAuto.Utilities
 {
     public class PartConfigManager
     {
-        public string ProgFilePath { get; set; }
-        public string BladeFilePath { get; set; }
-        public string ReportFilePath { get; set; }
-        public string RootPath { get; set; }
-
         List<PartConfig> _partConfigs;
+
+       // bool IsInitialed = false; // 
 
         private PartConfigManager()
         {
             _partConfigs = new List<PartConfig>();
-            RootPath = AppDomain.CurrentDomain.BaseDirectory; // 基路径
         }
-        
+
+        #region 公共方法
         public void InitPartConfigManager(string partFile)
         {
             // 从XML读出文件配置
@@ -32,10 +29,7 @@ namespace Gy.HrswAuto.PartConfigManage
             {
                 LoadPartConfigFromXml(partFile);
             }
-            // 设置文件路径
-            BladeFilePath = Path.Combine(RootPath, "Blades");
-            ProgFilePath = Path.Combine(RootPath, "Programs");
-            ReportFilePath = Path.Combine(RootPath, "Reports");
+ //         IsInitialed = true;
         }
 
         /// <summary>
@@ -45,7 +39,7 @@ namespace Gy.HrswAuto.PartConfigManage
         /// <returns></returns>
         public bool Exists(string partId)
         {
-            var list = _partConfigs.FindAll(part => string.Compare(part.PartID, partId, true) == 0);
+            var list = _partConfigs.FindAll(part => part.PartID.Equals(partId, StringComparison.CurrentCultureIgnoreCase));
             return list.Count != 0;
         }
 
@@ -53,6 +47,15 @@ namespace Gy.HrswAuto.PartConfigManage
         {
             PartConfig pc = _partConfigs.Find(part => string.Compare(part.PartID, partId, true) == 0);
             return pc;
+        }
+
+        public void AddPartConfig(PartConfig partConfig)
+        {
+            if (Exists(partConfig.PartID))
+            {
+                return;
+            }
+            _partConfigs.Add(partConfig);
         }
 
         /// <summary>
@@ -75,23 +78,32 @@ namespace Gy.HrswAuto.PartConfigManage
         {
             using (XmlWriter writer = new XmlTextWriter(destFile, Encoding.UTF8))
             {
-
                 XmlSerializer serializer = new XmlSerializer(typeof(List<PartConfig>));
                 serializer.Serialize(writer, _partConfigs);
             }
-        }
+        } 
+        #endregion
 
         #region 单件实例
         private static PartConfigManager _partConfigManager;
 
-        public static PartConfigManager Instance()
+        public static PartConfigManager Instance
         {
-            if (_partConfigManager == null)
-            {
-                _partConfigManager = new PartConfigManager();
+            get {
+                if (_partConfigManager == null)
+                {
+                    _partConfigManager = new PartConfigManager();
+                }
+                return _partConfigManager;
             }
-            return _partConfigManager;
-        } 
+        }
+        //{
+        //    if (_partConfigManager == null)
+        //    {
+        //        _partConfigManager = new PartConfigManager();
+        //    }
+        //    return _partConfigManager;
+        //} 
         #endregion
     }
 }

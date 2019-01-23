@@ -7,7 +7,7 @@
     <ProjectGuid>{341B334C-A1D0-4007-B9F0-5B0E5CAE3778}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CmmServer</RootNamespace>
+    <RootNamespace>Gy.HrswAuto.CmmServer</RootNamespace>
     <AssemblyName>CmmServer</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -20,6 +20,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,11 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MeasureServiceContext.cs" />
     <Compile Include="CmmControl.cs" />
     <Compile Include="PartConfigService.cs" />
+    <Compile Include="PCDmisService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BladeMold\BladeMold.csproj">
+      <Project>{3EC3E1AA-5B80-4189-89E2-6F6314828A00}</Project>
+      <Name>BladeMold</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CmmServerInterfaces\ICmmServer.csproj">
       <Project>{74C41EC7-BCB9-4A62-9F67-7F80BF07F25A}</Project>
       <Name>ICmmServer</Name>
@@ -53,6 +61,14 @@
     <ProjectReference Include="..\DataMold\BaseMold.csproj">
       <Project>{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}</Project>
       <Name>BaseMold</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ErrorMod\ErrorMod.csproj">
+      <Project>{9862FBED-D50B-4646-A839-40FC9290A277}</Project>
+      <Name>ErrorMod</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{1E12C44C-B625-48B7-B1EA-17DF229A6A01}</Project>
+      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
