@@ -39,7 +39,7 @@ namespace PCDServer
             PathManager.Instance.TempPath = @"D:\ServerPathRoot";
             //PathManager.Instance.Configration = ptc;
             PartConfigManager.Instance.InitPartConfigManager(@"D:\ServerPathRoot\parts.xml");
-            _bladeMeasureContext = new MeasureServiceContext();
+            _bladeMeasureContext = new MeasureServiceContext(10,10);
             _bladeMeasureContext.Initialize();
             cmmCtrlHost = new ServiceHost(_bladeMeasureContext);
             cmmCtrlHost.Opened += Host_Opened;

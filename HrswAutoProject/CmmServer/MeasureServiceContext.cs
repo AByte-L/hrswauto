@@ -2,6 +2,7 @@
 using Gy.HrswAuto.DataMold;
 using Gy.HrswAuto.ErrorMod;
 using Gy.HrswAuto.ICmmServer;
+using Gy.HrswAuto.UICommonTools;
 using Gy.HrswAuto.Utilities;
 using System;
 using System.Collections.Generic;
@@ -37,15 +38,20 @@ namespace Gy.HrswAuto.CmmServer
         //Timer _pcdmisMonitorTimer;
 
         #region 本地功能方法
-        public MeasureServiceContext()
+        public MeasureServiceContext(double pcTimeout, double bdTimeout)
         {
-            _pcdmisCore = new PCDmisService(10/* 测量超时时间 */); // 
+            _pcdmisCore = new PCDmisService(pcTimeout/* 测量超时时间 */); // 
             _bladeMeasAssist = new BladeMeasAssist();
-            _bladeContext = new BladeContext();
+            _bladeContext = new BladeContext(bdTimeout);
             //_pcdmisMonitorTimer = new Timer(3000); // PCDMIS监控定时器
             //_pcdmisMonitorTimer.Elapsed += _pcdmisMonitorTimer_Elapsed;
         }
 
+        public void SetMeasureDuration(double pcTimeout, double bdTimeout)
+        {
+            _pcdmisCore.SetTimeout(pcTimeout);
+            _bladeContext.SetTimeout(bdTimeout);
+        }
         //private void _pcdmisMonitorTimer_Elapsed(object sender, ElapsedEventArgs e)
         //{
         //    // 寻找PCDMIS进程，如果没有则重新初始化
@@ -88,9 +94,11 @@ namespace Gy.HrswAuto.CmmServer
                 {
                     ReinitialPCDmist();
                     // 
+                    ServerUILinker.WriteUILog("PCDMIS异常跳出，重新启动");
                 }
                 return;
             }
+            ServerUILinker.WriteUILog("PCDMIS测量完成");
             _eventNotify?.WorkCompleted(true);
         }
 
@@ -132,8 +140,9 @@ namespace Gy.HrswAuto.CmmServer
                 if (e.FaultType == PCDmisFaultType.FT_FatalError)
                 {
                     // 异常错误需要重新初始化PCDMIS
+                    // 通知客户端
+                    ServerUILinker.WriteUILog("PCDMIS异常跳出，重新启动");
                     ReinitialPCDmist();
-                    // todo 通知客户端
                 }
                 return;
             }
@@ -146,7 +155,7 @@ namespace Gy.HrswAuto.CmmServer
             });
             if (ok)
             {
-                // todo 执行结果分析, 分析CMM文件
+                // 执行结果分析, 分析CMM文件
                 bool measResult = _bladeMeasAssist.VerifyAnalysisResult(_bladeContext.CMMFileFullPath);
                 _eventNotify?.WorkCompleted(measResult); // 通知客户端测量结果是否合格
             }

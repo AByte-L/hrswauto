@@ -2,20 +2,23 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ServerMainMold.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="PCDmisTimeout" Type="System.Double" Scope="User">
+    <Setting Name="PCDmisTimeout" Type="System.String" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
-    <Setting Name="BladeTimeout" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">0</Value>
+    <Setting Name="BladeTimeout" Type="System.String" Scope="User">
+      <Value Profile="(Default)">5</Value>
     </Setting>
     <Setting Name="LogFilePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">"G:\AutoMeasureItems\ServerPathRoot\Log.txt"</Value>
+      <Value Profile="(Default)">G:\AutoMeasureItems\ServerPathRoot\Log.txt</Value>
     </Setting>
     <Setting Name="BladeExe" Type="System.String" Scope="User">
-      <Value Profile="(Default)">"C:\Program Files (x86)\Hexagon\PC-DMIS Blade 5.0 (Release)\Blade.exe"</Value>
+      <Value Profile="(Default)">C:\Program Files (x86)\Hexagon\PC-DMIS Blade 5.0 (Release)\Blade.exe</Value>
     </Setting>
     <Setting Name="GotoProg" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ServiceOpenTimeout" Type="System.String" Scope="User">
+      <Value Profile="(Default)">30</Value>
     </Setting>
   </Settings>
 </SettingsFile>

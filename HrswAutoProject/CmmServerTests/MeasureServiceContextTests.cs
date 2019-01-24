@@ -37,7 +37,7 @@ namespace Gy.HrswAuto.CmmServer.Tests
             _bladeMeasAssist.SectionNames = sn;
             _bladeMeasAssist.Part = part;
 
-            MeasureServiceContext msc = new MeasureServiceContext();
+            MeasureServiceContext msc = new MeasureServiceContext(10,10);
             msc.SetBladeMeasAssist(_bladeMeasAssist);
             PCDmisEventArgs pca = new PCDmisEventArgs();
             pca.IsCompleted = true;

@@ -24,7 +24,7 @@ namespace Gy.HrswAuto.BladeMold.Tests
             {
                 string be = @"C:\Program Files (x86)\Hexagon\PC-DMIS Blade 5.0 (Release)\Blade.exe";
                 string rpt = @"D:\ServerPathRoot\blades\TestPart\Results\blade190121033341.rpt";
-                BladeContext bc = new BladeContext();
+                BladeContext bc = new BladeContext(10);
                 return bc.StartBlade(be, rpt);
             });
             return ok;

@@ -38,7 +38,7 @@ namespace PCDClient
 
             PartConfig prcnf = new PartConfig();
             prcnf.PartID = "TestPart";
-            prcnf.ProgFileName = "XX10_1.prg";
+            prcnf.ProgFileName = "1.prg";
             prcnf.FlvFileName = "xx10_1.flv";
             prcnf.NormFileName = "xx10_1.nom";
             prcnf.TolFileName = "xx10_1.tol";

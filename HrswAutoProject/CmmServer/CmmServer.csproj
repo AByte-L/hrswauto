@@ -66,6 +66,10 @@
       <Project>{9862FBED-D50B-4646-A839-40FC9290A277}</Project>
       <Name>ErrorMod</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UICommonTools\UICommonTools.csproj">
+      <Project>{71EBA0A2-4F87-44EF-8FBC-7AC7F5A3DB43}</Project>
+      <Name>UICommonTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{1E12C44C-B625-48B7-B1EA-17DF229A6A01}</Project>
       <Name>Utilities</Name>

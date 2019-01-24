@@ -107,7 +107,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.0566F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.9434F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 217F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 239F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 243F));
             this.tableLayoutPanel2.Controls.Add(this.setupButton, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.partButton, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.label1, 3, 0);
@@ -125,17 +125,18 @@
             this.setupButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.setupButton.Location = new System.Drawing.Point(6, 6);
             this.setupButton.Name = "setupButton";
-            this.setupButton.Size = new System.Drawing.Size(86, 64);
+            this.setupButton.Size = new System.Drawing.Size(84, 64);
             this.setupButton.TabIndex = 0;
             this.setupButton.Text = "设置";
             this.setupButton.UseVisualStyleBackColor = true;
+            this.setupButton.Click += new System.EventHandler(this.setupButton_Click);
             // 
             // partButton
             // 
             this.partButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.partButton.Location = new System.Drawing.Point(98, 6);
+            this.partButton.Location = new System.Drawing.Point(96, 6);
             this.partButton.Name = "partButton";
-            this.partButton.Size = new System.Drawing.Size(89, 64);
+            this.partButton.Size = new System.Drawing.Size(87, 64);
             this.partButton.TabIndex = 1;
             this.partButton.Text = "工件列表";
             this.partButton.UseVisualStyleBackColor = true;
@@ -144,9 +145,9 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(410, 3);
+            this.label1.Location = new System.Drawing.Point(406, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(234, 70);
+            this.label1.Size = new System.Drawing.Size(238, 70);
             this.label1.TabIndex = 2;
             this.label1.Text = "放置图标或服务器文本";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -274,6 +275,8 @@
             this.Name = "MainFrm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Form1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFrm_FormClosed);
+            this.Load += new System.EventHandler(this.MainFrm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);

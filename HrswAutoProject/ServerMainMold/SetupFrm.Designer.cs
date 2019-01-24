@@ -28,16 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.bladeExeSelButton = new System.Windows.Forms.Button();
             this.logFileSelButton = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.gotoSafeProgButton = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -49,6 +47,13 @@
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.progTextBox = new System.Windows.Forms.TextBox();
+            this.logTextBox = new System.Windows.Forms.TextBox();
+            this.bladeTextBox = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -77,13 +82,6 @@
             this.label2.Text = "Blade";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(82, 30);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(451, 21);
-            this.textBox1.TabIndex = 5;
-            // 
             // bladeExeSelButton
             // 
             this.bladeExeSelButton.Location = new System.Drawing.Point(539, 29);
@@ -92,6 +90,7 @@
             this.bladeExeSelButton.TabIndex = 6;
             this.bladeExeSelButton.Text = "浏览...";
             this.bladeExeSelButton.UseVisualStyleBackColor = true;
+            this.bladeExeSelButton.Click += new System.EventHandler(this.bladeExeSelButton_Click);
             // 
             // logFileSelButton
             // 
@@ -101,13 +100,7 @@
             this.logFileSelButton.TabIndex = 9;
             this.logFileSelButton.Text = "浏览...";
             this.logFileSelButton.UseVisualStyleBackColor = true;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(82, 84);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(451, 21);
-            this.textBox2.TabIndex = 8;
+            this.logFileSelButton.Click += new System.EventHandler(this.logFileSelButton_Click);
             // 
             // label3
             // 
@@ -126,13 +119,7 @@
             this.gotoSafeProgButton.TabIndex = 12;
             this.gotoSafeProgButton.Text = "浏览...";
             this.gotoSafeProgButton.UseVisualStyleBackColor = true;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(82, 57);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(451, 21);
-            this.textBox3.TabIndex = 11;
+            this.gotoSafeProgButton.Click += new System.EventHandler(this.gotoSafeProgButton_Click);
             // 
             // label4
             // 
@@ -162,10 +149,14 @@
             // 
             // textBox4
             // 
+            this.textBox4.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ServerMainMold.Properties.Settings.Default, "PCDmisTimeout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.textBox4.Location = new System.Drawing.Point(115, 133);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(109, 21);
+            this.textBox4.Size = new System.Drawing.Size(67, 21);
             this.textBox4.TabIndex = 15;
+            this.textBox4.Text = global::ServerMainMold.Properties.Settings.Default.PCDmisTimeout;
+            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox4.Validating += new System.ComponentModel.CancelEventHandler(this.textBox4_Validating);
             // 
             // label6
             // 
@@ -197,6 +188,7 @@
             // 
             // cancelButton
             // 
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.Location = new System.Drawing.Point(533, 178);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(81, 37);
@@ -206,10 +198,14 @@
             // 
             // textBox5
             // 
+            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ServerMainMold.Properties.Settings.Default, "BladeTimeout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.textBox5.Location = new System.Drawing.Point(361, 133);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(109, 21);
+            this.textBox5.Size = new System.Drawing.Size(60, 21);
             this.textBox5.TabIndex = 19;
+            this.textBox5.Text = global::ServerMainMold.Properties.Settings.Default.BladeTimeout;
+            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox5.Validating += new System.ComponentModel.CancelEventHandler(this.textBox5_Validating);
             // 
             // label7
             // 
@@ -228,11 +224,67 @@
             this.panel3.Size = new System.Drawing.Size(605, 1);
             this.panel3.TabIndex = 3;
             // 
+            // progTextBox
+            // 
+            this.progTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ServerMainMold.Properties.Settings.Default, "GotoProg", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.progTextBox.Enabled = false;
+            this.progTextBox.Location = new System.Drawing.Point(82, 57);
+            this.progTextBox.Name = "progTextBox";
+            this.progTextBox.Size = new System.Drawing.Size(451, 21);
+            this.progTextBox.TabIndex = 11;
+            this.progTextBox.Text = global::ServerMainMold.Properties.Settings.Default.GotoProg;
+            // 
+            // logTextBox
+            // 
+            this.logTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ServerMainMold.Properties.Settings.Default, "LogFilePath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.logTextBox.Enabled = false;
+            this.logTextBox.Location = new System.Drawing.Point(82, 84);
+            this.logTextBox.Name = "logTextBox";
+            this.logTextBox.Size = new System.Drawing.Size(451, 21);
+            this.logTextBox.TabIndex = 8;
+            this.logTextBox.Text = global::ServerMainMold.Properties.Settings.Default.LogFilePath;
+            // 
+            // bladeTextBox
+            // 
+            this.bladeTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ServerMainMold.Properties.Settings.Default, "BladeExe", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.bladeTextBox.Enabled = false;
+            this.bladeTextBox.Location = new System.Drawing.Point(82, 30);
+            this.bladeTextBox.Name = "bladeTextBox";
+            this.bladeTextBox.Size = new System.Drawing.Size(451, 21);
+            this.bladeTextBox.TabIndex = 5;
+            this.bladeTextBox.Text = global::ServerMainMold.Properties.Settings.Default.BladeExe;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(189, 137);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(29, 12);
+            this.label8.TabIndex = 20;
+            this.label8.Text = "分钟";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(427, 137);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(29, 12);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "分钟";
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // SetupFrm
             // 
+            this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(625, 227);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.label7);
@@ -244,13 +296,13 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.gotoSafeProgButton);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.progTextBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.logFileSelButton);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.logTextBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.bladeExeSelButton);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.bladeTextBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
@@ -259,6 +311,7 @@
             this.Name = "SetupFrm";
             this.Padding = new System.Windows.Forms.Padding(5);
             this.Text = "设置";
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -269,13 +322,13 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox bladeTextBox;
         private System.Windows.Forms.Button bladeExeSelButton;
         private System.Windows.Forms.Button logFileSelButton;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox logTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button gotoSafeProgButton;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox progTextBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel2;
@@ -287,5 +340,8 @@
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

@@ -26,9 +26,9 @@ namespace ServerMainMold.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public double PCDmisTimeout {
+        public string PCDmisTimeout {
             get {
-                return ((double)(this["PCDmisTimeout"]));
+                return ((string)(this["PCDmisTimeout"]));
             }
             set {
                 this["PCDmisTimeout"] = value;
@@ -37,10 +37,10 @@ namespace ServerMainMold.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double BladeTimeout {
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public string BladeTimeout {
             get {
-                return ((double)(this["BladeTimeout"]));
+                return ((string)(this["BladeTimeout"]));
             }
             set {
                 this["BladeTimeout"] = value;
@@ -49,7 +49,7 @@ namespace ServerMainMold.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\"G:\\AutoMeasureItems\\ServerPathRoot\\Log.txt\"")]
+        [global::System.Configuration.DefaultSettingValueAttribute("G:\\AutoMeasureItems\\ServerPathRoot\\Log.txt")]
         public string LogFilePath {
             get {
                 return ((string)(this["LogFilePath"]));
@@ -61,7 +61,7 @@ namespace ServerMainMold.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\"C:\\Program Files (x86)\\Hexagon\\PC-DMIS Blade 5.0 (Release)\\Blade.exe\"")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files (x86)\\Hexagon\\PC-DMIS Blade 5.0 (Release)\\Blade.exe")]
         public string BladeExe {
             get {
                 return ((string)(this["BladeExe"]));
@@ -80,6 +80,18 @@ namespace ServerMainMold.Properties {
             }
             set {
                 this["GotoProg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public string ServiceOpenTimeout {
+            get {
+                return ((string)(this["ServiceOpenTimeout"]));
+            }
+            set {
+                this["ServiceOpenTimeout"] = value;
             }
         }
     }

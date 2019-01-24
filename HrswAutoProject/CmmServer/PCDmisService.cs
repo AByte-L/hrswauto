@@ -43,7 +43,7 @@ namespace Gy.HrswAuto.CmmServer
             //_bladeMeasureContext = bmc;
             _monitorTimer = new System.Timers.Timer(5000);
             _monitorTimer.Elapsed += _monitorTimer_Elapsed;
-            _timeout = TimeSpan.FromMinutes(timeout); // 
+            _timeout = timeout > 3 ? TimeSpan.FromMinutes(timeout) : TimeSpan.FromMinutes(3); // 
         }
 
         /// <summary>
@@ -60,8 +60,8 @@ namespace Gy.HrswAuto.CmmServer
             Type t = Type.GetTypeFromProgID("PCDLRN.Application");
             SetPCDmisOffline(t); //是否以离线方式启动PCDMIS
             _pcdApplication = (PCDLRN.Application)Activator.CreateInstance(t);
-            //_pcdApplication.UserExit = true; // 用户无法手动退出PCDMIS
-            _IsInitialed = _pcdApplication.WaitUntilReady((int)TimeSpan.FromMinutes(1).TotalSeconds); // 等待初始化完成
+            _pcdApplication.UserExit = true; // 用户无法手动退出PCDMIS
+            _IsInitialed = _pcdApplication.WaitUntilReady((int)_timeout.TotalSeconds); // 等待初始化完成
             //Thread.Sleep(5000); // 等待PCDmils创建完成
             _pcdApplication.Visible = true;
             _pcdProgramManager = _pcdApplication.PartPrograms;
@@ -77,6 +77,11 @@ namespace Gy.HrswAuto.CmmServer
             //    // 启动失败的处理方式
             //    throw ex;
             //}
+        }
+
+        public void SetTimeout(double pcTimeout)
+        {
+            _timeout = pcTimeout > 3 ? TimeSpan.FromMinutes(pcTimeout) : TimeSpan.FromMinutes(3);
         }
 
         #region 测试PCDmis应用事件

@@ -14,6 +14,7 @@ namespace Gy.HrswAuto.BladeMold
     {
         private bool CMMFileCreated;
         private Process _bladeProcess;
+        private double _timeout; // 分析超时时间
 
         public string CMMFileFullPath { get; private set; }
 
@@ -21,13 +22,14 @@ namespace Gy.HrswAuto.BladeMold
         private EventWaitHandle _bladeFinishEvent; // 分析结束事件，由外部程序重置
         private ManualResetEvent _cmmFileEvent; // Cmm文件创建完成事件
 
-        public BladeContext()
+        public BladeContext(double timeout)
         {
             // blade软件完成事件
             _bladeErrorEvent = new EventWaitHandle(false, EventResetMode.ManualReset, "Gy.HrswAuto.BladeErrorEvent");
             _bladeFinishEvent = new EventWaitHandle(false, EventResetMode.ManualReset, "Gy.HrswAuto.BladeFinishEvent");
             _cmmFileEvent = new ManualResetEvent(false);
             CMMFileCreated = false;
+            _timeout = timeout > 3? timeout : 3;
         }
 
         /// <summary>
@@ -64,6 +66,11 @@ namespace Gy.HrswAuto.BladeMold
                 }
             }
             return true;
+        }
+
+        public void SetTimeout(double bdTimeout)
+        {
+            _timeout = bdTimeout > 3 ? bdTimeout : 3;
         }
 
         /// <summary>
@@ -113,7 +120,7 @@ namespace Gy.HrswAuto.BladeMold
             var waitHandles = new EventWaitHandle[2] { _bladeErrorEvent, _bladeFinishEvent };
 
             // 等待分析结束
-            int index = WaitHandle.WaitAny(waitHandles, TimeSpan.FromMinutes(5));
+            int index = WaitHandle.WaitAny(waitHandles, TimeSpan.FromMinutes(_timeout));
             cts.Cancel(); // 取消监控线程
             if (index == WaitHandle.WaitTimeout) // 等待分析超时
             {
