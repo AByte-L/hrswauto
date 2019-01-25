@@ -34,7 +34,7 @@ namespace Gy.HrswAuto.ErrorMod
                     // UILinker.RefreshEventLog 刷新列表显示
                     string logText = message + Environment.NewLine;
                     File.AppendAllText(LogFilePath, logText);
-                    ServerUILinker.WriteUILog(message);
+                    //ServerUILinker.WriteUILog(message);
                 }
                 catch (Exception)
                 {

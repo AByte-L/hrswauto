@@ -13,44 +13,18 @@ namespace ServerMainMold
 {
     public partial class SetupFrm : Form
     {
+        public bool MinState
+        {
+            get
+            {
+                return checkBox1.Checked;
+            }
+        }
         public SetupFrm()
         {
             InitializeComponent();
             okButton.DialogResult = DialogResult.OK;
             cancelButton.DialogResult = DialogResult.Cancel;
-        }
-
-        private void bladeExeSelButton_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.CheckFileExists = true;
-            dlg.Filter = "Blade分析软件|Blade.exe";
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                bladeTextBox.Text = dlg.FileName;
-            }
-        }
-
-        private void gotoSafeProgButton_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.CheckFileExists = true;
-            dlg.Filter = "PCDmis定位程序|*.prg";
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                progTextBox.Text = dlg.FileName;
-            }
-        }
-
-        private void logFileSelButton_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.CheckFileExists = true;
-            dlg.Filter = "Log文件|*.txt";
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                logTextBox.Text = dlg.FileName;
-            }
         }
 
         private void textBox4_Validating(object sender, CancelEventArgs e)
@@ -77,6 +51,27 @@ namespace ServerMainMold
                 e.Cancel = true;
             }
             errorProvider1.SetError((Control)sender, error);
+        }
+
+        private void pathSettingButton_Click(object sender, EventArgs e)
+        {
+            PathSettingForm psfrm = new PathSettingForm();
+            psfrm.BladeExe = bladeTextBox.Text;
+            psfrm.GotoProg = progTextBox.Text;
+            psfrm.LogFilePath = logTextBox.Text;
+            psfrm.RootPath = rootPathTextBox.Text;
+            if (psfrm.ShowDialog() == DialogResult.OK)
+            {
+                 bladeTextBox.Text=psfrm.BladeExe;
+                 progTextBox.Text= psfrm.GotoProg;
+                 logTextBox.Text= psfrm.LogFilePath;
+                 rootPathTextBox.Text= psfrm.RootPath;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reset();
         }
     }
 }

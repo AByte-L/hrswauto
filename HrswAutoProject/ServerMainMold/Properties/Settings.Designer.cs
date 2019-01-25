@@ -49,7 +49,7 @@ namespace ServerMainMold.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("G:\\AutoMeasureItems\\ServerPathRoot\\Log.txt")]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\ServerPathRoot\\Log.txt")]
         public string LogFilePath {
             get {
                 return ((string)(this["LogFilePath"]));
@@ -92,6 +92,102 @@ namespace ServerMainMold.Properties {
             }
             set {
                 this["ServiceOpenTimeout"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("d:\\clientPathRoot")]
+        public string RootPath {
+            get {
+                return ((string)(this["RootPath"]));
+            }
+            set {
+                this["RootPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Blades")]
+        public string BladesPath {
+            get {
+                return ((string)(this["BladesPath"]));
+            }
+            set {
+                this["BladesPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("programs")]
+        public string ProgramsPath {
+            get {
+                return ((string)(this["ProgramsPath"]));
+            }
+            set {
+                this["ProgramsPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Settings")]
+        public string SettingsPath {
+            get {
+                return ((string)(this["SettingsPath"]));
+            }
+            set {
+                this["SettingsPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("temp")]
+        public string TempPath {
+            get {
+                return ((string)(this["TempPath"]));
+            }
+            set {
+                this["TempPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Results")]
+        public string ReportsPath {
+            get {
+                return ((string)(this["ReportsPath"]));
+            }
+            set {
+                this["ReportsPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("parts.xml")]
+        public string PartsFile {
+            get {
+                return ((string)(this["PartsFile"]));
+            }
+            set {
+                this["PartsFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Servers.xml")]
+        public string ServersFile {
+            get {
+                return ((string)(this["ServersFile"]));
+            }
+            set {
+                this["ServersFile"] = value;
             }
         }
     }

@@ -1,10 +1,13 @@
 ﻿using Gy.HrswAuto.CmmServer;
+using Gy.HrswAuto.ErrorMod;
 using Gy.HrswAuto.UICommonTools;
+using Gy.HrswAuto.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -21,13 +24,13 @@ namespace ServerMainMold
         ServiceHost _partServiceHost;
         // todo 报告服务处理
 
-        string _bladeExe;
-        string _gotoProg;
-        string _logFileName;
         double _PCDmisTimeout;
         double _BladeTimeout;
         double _ServiceOpenTimeout;
         private string errorInfo;
+        private string _partFile;
+
+        bool _notifyIcon = false;
 
         public MainFrm()
         {
@@ -39,16 +42,33 @@ namespace ServerMainMold
             ServerUILinker.syncContext = SynchronizationContext.Current;
             ServerUILinker.RefreshLog = RefreshLogListView;
             ServerUILinker.RefreshRemoteState = RefreshRemoteState;
+            ServerUILinker.RefreshPartInfo = RefreshPartInfo;
+            notifyIcon1.Visible = false;
         }
 
         private void SetConfigValue()
         {
-            _bladeExe = Properties.Settings.Default.BladeExe;
-            _gotoProg = Properties.Settings.Default.GotoProg;
-            _logFileName = Properties.Settings.Default.LogFilePath;
+            SaveSettings.BladeExe = Properties.Settings.Default.BladeExe;
+            SaveSettings.GotoSafePrg = Properties.Settings.Default.GotoProg;
+            LocalLogCollector.LogFilePath = Properties.Settings.Default.LogFilePath;
             _PCDmisTimeout = double.Parse(Properties.Settings.Default.PCDmisTimeout);
             _BladeTimeout = double.Parse(Properties.Settings.Default.BladeTimeout);
             _ServiceOpenTimeout = double.Parse(Properties.Settings.Default.ServiceOpenTimeout);
+            PathManager.Instance.RootPath = Properties.Settings.Default.RootPath;
+            PathManager.Instance.BladesPath = Properties.Settings.Default.BladesPath;
+            PathManager.Instance.PartProgramsPath = Properties.Settings.Default.ProgramsPath;
+            PathManager.Instance.ReportsPath = Properties.Settings.Default.ReportsPath;
+            PathManager.Instance.SettingsSavePath = Properties.Settings.Default.SettingsPath;
+            PathManager.Instance.TempPath = Properties.Settings.Default.TempPath;
+        }
+
+        private void RefreshPartInfo(string arg1, string arg2)
+        {
+            ServerUILinker.syncContext.Post(o =>
+            {
+                curPartIDTextBox.Text = arg1;
+                pcProgTextBox.Text = arg2;
+            }, null);
         }
 
         private void RefreshRemoteState(bool obj)
@@ -82,6 +102,8 @@ namespace ServerMainMold
                 InitForm initForm = new InitForm(arevt);
                 initForm.ShowDialog();
             });
+            // 初始化工件配置管理器
+            PartConfigManager.Instance.InitPartConfigManager(_partFile);
             if (!_msc.Initialize())
             {
                 //初始化PCDMIS失败
@@ -112,8 +134,33 @@ namespace ServerMainMold
             {
                 SetConfigValue();
                 _msc.SetMeasureDuration(_PCDmisTimeout, _BladeTimeout);
+                _notifyIcon = setupForm.MinState;
                 Properties.Settings.Default.Save();
             }
+        }
+
+        private void clearErrorButton_Click(object sender, EventArgs e)
+        {
+            _msc.ClearServerError();
+        }
+
+        private void MainFrm_SizeChanged(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                if (_notifyIcon)
+                {
+                    ShowInTaskbar = false;
+                    notifyIcon1.Visible = true;
+                }
+            }
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            notifyIcon1.Visible = false;
+            ShowInTaskbar = true;
+            Activate();
         }
     }
 }

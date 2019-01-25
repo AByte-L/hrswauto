@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Gy.HrswAuto.Utilities;
 using Gy.HrswAuto.DataMold;
 using Gy.HrswAuto.BladeMold;
+using Gy.HrswAuto.ErrorMod;
 
 namespace Gy.HrswAuto.CmmServer.Tests
 {
@@ -17,7 +18,7 @@ namespace Gy.HrswAuto.CmmServer.Tests
         [TestMethod()]
         public void _pcdmisCore_PCDmisMeasureEventTest()
         {
-            PathConfig ptcf = new PathConfig();
+            //PathConfig ptcf = new PathConfig();
             PathManager.Instance.RootPath = @"D:\ServerPathRoot";
             PathManager.Instance.BladesPath = "blades";
             PathManager.Instance.ReportsPath = "Results";
@@ -29,6 +30,8 @@ namespace Gy.HrswAuto.CmmServer.Tests
             part.NormFileName = "xx10_1.nom";
             part.TolFileName = "xx10_1.tol";
 
+            LocalLogCollector.LogFilePath = @"d:\log.txt";
+            SaveSettings.BladeExe = @"C:\Program Files (x86)\Hexagon\PC-DMIS Blade 5.0 (Release)\Blade.exe";
             BladeMeasAssist _bladeMeasAssist = new BladeMeasAssist();
             _bladeMeasAssist.RtfFileName = @"C:\BladeRunner\blade.RTF";
             _bladeMeasAssist.ProbeDiam = 2;

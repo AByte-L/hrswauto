@@ -29,7 +29,7 @@ namespace PCDClient
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            PathConfig ptcnf = new PathConfig();
+            //PathConfig ptcnf = new PathConfig();
             PathManager.Instance.RootPath = @"D:\clientPathRoot";
             PathManager.Instance.PartProgramsPath = @"programs";
             PathManager.Instance.BladesPath = @"blades";

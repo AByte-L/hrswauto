@@ -251,6 +251,7 @@ namespace Gy.HrswAuto.CmmServer
         /// <param name="e"></param>
         private void _monitorTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
+            _monitorTimer.Stop();
             Process[] pcs = Process.GetProcessesByName("PCDLRN");
             TimeSpan exeTime = e.SignalTime - _timerStart;
             if (pcs.Length > 0)
@@ -262,7 +263,7 @@ namespace Gy.HrswAuto.CmmServer
                     pce.FaultType = PCDmisFaultType.FT_Timeout;
                     pce.PCDmisRunInfo = "PCDmis执行超时";
                     PCDmisMeasureEvent?.Invoke(this, pce);
-                    LogCollector.Instance.PostSvrErrorMessage("PCDmis执行超时");
+                    //LogCollector.Instance.PostSvrErrorMessage("PCDmis执行超时");
                     _monitorTimer.Close();
                 }
             }
@@ -273,13 +274,14 @@ namespace Gy.HrswAuto.CmmServer
                 pce.FaultType = PCDmisFaultType.FT_FatalError;
                 pce.PCDmisRunInfo = "PCDmis在执行时异常退出";
                 PCDmisMeasureEvent?.Invoke(this, pce);
-                LogCollector.Instance.PostSvrErrorMessage("PCDMIS异常跳出");
+                //LogCollector.Instance.PostSvrErrorMessage("PCDMIS异常跳出");
                 _monitorTimer.Close();
             }
             else
             {
                 // 外部异常捕获
             }
+            _monitorTimer.Start();
         }
 
         /// <summary>

@@ -42,3 +42,7 @@ BladeExe路径
 
 如果PCDMIS意外跳出，服务器重新连接PCDMIS
 清除错误
+
+设置路径 settings
+结果路径 results
+临时文件 temp

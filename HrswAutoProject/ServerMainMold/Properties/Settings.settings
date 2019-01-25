@@ -9,7 +9,7 @@
       <Value Profile="(Default)">5</Value>
     </Setting>
     <Setting Name="LogFilePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">G:\AutoMeasureItems\ServerPathRoot\Log.txt</Value>
+      <Value Profile="(Default)">D:\ServerPathRoot\Log.txt</Value>
     </Setting>
     <Setting Name="BladeExe" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Program Files (x86)\Hexagon\PC-DMIS Blade 5.0 (Release)\Blade.exe</Value>
@@ -19,6 +19,30 @@
     </Setting>
     <Setting Name="ServiceOpenTimeout" Type="System.String" Scope="User">
       <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="RootPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">d:\clientPathRoot</Value>
+    </Setting>
+    <Setting Name="BladesPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Blades</Value>
+    </Setting>
+    <Setting Name="ProgramsPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">programs</Value>
+    </Setting>
+    <Setting Name="SettingsPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Settings</Value>
+    </Setting>
+    <Setting Name="TempPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">temp</Value>
+    </Setting>
+    <Setting Name="ReportsPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Results</Value>
+    </Setting>
+    <Setting Name="PartsFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">parts.xml</Value>
+    </Setting>
+    <Setting Name="ServersFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Servers.xml</Value>
     </Setting>
   </Settings>
 </SettingsFile>

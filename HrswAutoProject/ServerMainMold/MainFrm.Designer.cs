@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.logListView = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.setupButton = new System.Windows.Forms.Button();
             this.partButton = new System.Windows.Forms.Button();
@@ -45,6 +48,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.curPartIDTextBox = new System.Windows.Forms.TextBox();
             this.pcProgTextBox = new System.Windows.Forms.TextBox();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -94,12 +98,21 @@
             // 
             // logListView
             // 
+            this.logListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
             this.logListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.logListView.Location = new System.Drawing.Point(8, 8);
+            this.logListView.MultiSelect = false;
             this.logListView.Name = "logListView";
             this.logListView.Size = new System.Drawing.Size(634, 350);
             this.logListView.TabIndex = 0;
             this.logListView.UseCompatibleStateImageBehavior = false;
+            this.logListView.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "";
+            this.columnHeader1.Width = 629;
             // 
             // tableLayoutPanel2
             // 
@@ -107,7 +120,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.0566F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.9434F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 217F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 243F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 249F));
             this.tableLayoutPanel2.Controls.Add(this.setupButton, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.partButton, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.label1, 3, 0);
@@ -125,7 +138,7 @@
             this.setupButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.setupButton.Location = new System.Drawing.Point(6, 6);
             this.setupButton.Name = "setupButton";
-            this.setupButton.Size = new System.Drawing.Size(84, 64);
+            this.setupButton.Size = new System.Drawing.Size(81, 64);
             this.setupButton.TabIndex = 0;
             this.setupButton.Text = "设置";
             this.setupButton.UseVisualStyleBackColor = true;
@@ -134,9 +147,9 @@
             // partButton
             // 
             this.partButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.partButton.Location = new System.Drawing.Point(96, 6);
+            this.partButton.Location = new System.Drawing.Point(93, 6);
             this.partButton.Name = "partButton";
-            this.partButton.Size = new System.Drawing.Size(87, 64);
+            this.partButton.Size = new System.Drawing.Size(84, 64);
             this.partButton.TabIndex = 1;
             this.partButton.Text = "工件列表";
             this.partButton.UseVisualStyleBackColor = true;
@@ -145,9 +158,9 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(406, 3);
+            this.label1.Location = new System.Drawing.Point(400, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(238, 70);
+            this.label1.Size = new System.Drawing.Size(244, 70);
             this.label1.TabIndex = 2;
             this.label1.Text = "放置图标或服务器文本";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -175,6 +188,7 @@
             // reinitPCDmisButton
             // 
             this.reinitPCDmisButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.reinitPCDmisButton.Enabled = false;
             this.reinitPCDmisButton.Location = new System.Drawing.Point(136, 8);
             this.reinitPCDmisButton.Name = "reinitPCDmisButton";
             this.reinitPCDmisButton.Size = new System.Drawing.Size(122, 62);
@@ -201,6 +215,7 @@
             this.clearErrorButton.TabIndex = 2;
             this.clearErrorButton.Text = "清除错误";
             this.clearErrorButton.UseVisualStyleBackColor = true;
+            this.clearErrorButton.Click += new System.EventHandler(this.clearErrorButton_Click);
             // 
             // tableLayoutPanel4
             // 
@@ -261,6 +276,15 @@
             this.pcProgTextBox.Size = new System.Drawing.Size(541, 14);
             this.pcProgTextBox.TabIndex = 3;
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon1.BalloonTipText = "CmmServer";
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "CmmServer";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
             // MainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -277,6 +301,7 @@
             this.Text = "Form1";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFrm_FormClosed);
             this.Load += new System.EventHandler(this.MainFrm_Load);
+            this.SizeChanged += new System.EventHandler(this.MainFrm_SizeChanged);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -308,6 +333,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox curPartIDTextBox;
         private System.Windows.Forms.TextBox pcProgTextBox;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 }
 

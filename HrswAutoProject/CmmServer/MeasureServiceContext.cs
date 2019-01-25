@@ -35,7 +35,6 @@ namespace Gy.HrswAuto.CmmServer
             private set { _part = value; }
         }
 
-        //Timer _pcdmisMonitorTimer;
 
         #region 本地功能方法
         public MeasureServiceContext(double pcTimeout, double bdTimeout)
@@ -52,23 +51,9 @@ namespace Gy.HrswAuto.CmmServer
             _pcdmisCore.SetTimeout(pcTimeout);
             _bladeContext.SetTimeout(bdTimeout);
         }
-        //private void _pcdmisMonitorTimer_Elapsed(object sender, ElapsedEventArgs e)
-        //{
-        //    // 寻找PCDMIS进程，如果没有则重新初始化
-        //    Process[] pcs = Process.GetProcessesByName("PCDLRN");
-        //    if (pcs.Length > 0)
-        //    {
-        //        Debug.WriteLine("PCDmis正常运行");
-        //        return;
-        //    }
-        //    // todo PCDmis异常, 通知客户端然后重新启动初始化PCDMIS
-            
-        //    ReinitialPCDmist();
-        //}
-
+ 
         public bool Initialize()
         {
-            //_pcdmisMonitorTimer.Start();
             try
             {
                 _pcdmisCore.InitialPCDmis();
@@ -77,7 +62,6 @@ namespace Gy.HrswAuto.CmmServer
             }
             catch (Exception)
             {
-                //Debug.WriteLine("初始化PCDmis失败");
                 LogCollector.Instance.PostSvrErrorMessage("PCDmis未能初始化");
             }
             return _pcdmisCore._IsInitialed;
@@ -90,11 +74,10 @@ namespace Gy.HrswAuto.CmmServer
             if (!e.IsCompleted)
             {
                 LogCollector.Instance.PostSvrErrorMessage("PCDMIS没有完成执行或执行出错");
+                ServerUILinker.WriteUILog(e.PCDmisRunInfo);
                 if (e.FaultType == PCDmisFaultType.FT_FatalError)
                 {
                     ReinitialPCDmist();
-                    // 
-                    ServerUILinker.WriteUILog("PCDMIS异常跳出，重新启动");
                 }
                 return;
             }
@@ -137,17 +120,15 @@ namespace Gy.HrswAuto.CmmServer
             if (!e.IsCompleted)
             {
                 LogCollector.Instance.PostSvrErrorMessage("PCDMIS没有完成执行或执行出错");
+                ServerUILinker.WriteUILog(e.PCDmisRunInfo);
                 if (e.FaultType == PCDmisFaultType.FT_FatalError)
                 {
-                    // 异常错误需要重新初始化PCDMIS
-                    // 通知客户端
-                    ServerUILinker.WriteUILog("PCDMIS异常跳出，重新启动");
                     ReinitialPCDmist();
                 }
                 return;
             }
             // 开启Blade异步分析
-            string bladeExe = @"C:\Program Files (x86)\Hexagon\PC-DMIS Blade 5.0 (Release)\Blade.exe";
+            string bladeExe = SaveSettings.BladeExe;
             bool ok = await Task.Run(() =>
             {
                 _bladeMeasAssist.PCDmisRtfToBladeRpt(); // 转换rtf到rpt文件
@@ -157,13 +138,27 @@ namespace Gy.HrswAuto.CmmServer
             {
                 // 执行结果分析, 分析CMM文件
                 bool measResult = _bladeMeasAssist.VerifyAnalysisResult(_bladeContext.CMMFileFullPath);
-                _eventNotify?.WorkCompleted(measResult); // 通知客户端测量结果是否合格
+                // 如果客户端断开，跳出异常
+                try
+                {
+                    _eventNotify?.WorkCompleted(measResult); // 通知客户端测量结果是否合格
+                    ServerUILinker.WriteUILog("PCDMIS测量完成");
+                }
+                catch (Exception)
+                {
+                    ServerUILinker.WriteUILog("与客户端连接异常");
+                }
             }
+        }
+
+        public void ClearServerError()
+        {
+            // todo 设置客户端可上件状态
         }
 
         public void ReinitialPCDmist()
         {
-                Initialize();
+            Initialize();
         }
         #endregion
 
@@ -172,7 +167,7 @@ namespace Gy.HrswAuto.CmmServer
         {
             _eventNotify = OperationContext.Current.GetCallbackChannel<IWorkflowNotify>();
             LogCollector.Instance.SvrNotify = _eventNotify;
-            LocalLogCollector.LogFilePath = @"G:\AutoMeasureItems\ServerPathRoot\log.txt";
+            //LocalLogCollector.LogFilePath = @"G:\AutoMeasureItems\ServerPathRoot\log.txt";
         }
 
         public void DisconnectWFEvents()
@@ -193,8 +188,10 @@ namespace Gy.HrswAuto.CmmServer
             if (!File.Exists(partProgFileName))
             {
                 LogCollector.Instance.PostSvrErrorMessage("程序文件不存在");
+                ServerUILinker.WriteUILog("程序文件不存在");
                 return;
             }
+            ServerUILinker.RefreshPartInfo(partId, partProgFileName);
             try
             {
                 _pcdmisCore.OpenPartProgram(partProgFileName);
@@ -219,8 +216,10 @@ namespace Gy.HrswAuto.CmmServer
             catch (Exception)
             {
                 LogCollector.Instance.PostSvrErrorMessage("PCDmis出错, 重启PCDmis");
+                ServerUILinker.WriteUILog("PCDmis出错, 重启PCDmis");
                 //处理PCDMIS的CrashSender1402.exe窗口
                 bool result = CloseCrashSender();
+                ReinitialPCDmist();
                 //throw;
             }
         }
