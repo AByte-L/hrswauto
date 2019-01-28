@@ -12,6 +12,10 @@ https://www.cnblogs.com/lonelyxmas/p/9509298.html Task
 
 https://www.cnblogs.com/blqw/p/3639360.html 系统日志
 
+C#470多例winform 界面特效的源码
+https://www.cnblogs.com/wuhuacong/p/3568421.html winform代码生成工具
+https://blog.csdn.net/liufeifeinanfeng/article/details/71812999 开源界面
+
 公共资源，设置
 
 客户端设置
