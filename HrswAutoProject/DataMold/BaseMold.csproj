@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="CmmServerConfig.cs" />
     <Compile Include="PartConfig.cs" />
-    <Compile Include="PartDataModel.cs" />
+    <Compile Include="ReportDataModel.cs" />
     <Compile Include="PathConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

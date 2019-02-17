@@ -35,9 +35,10 @@
             // progressBar1
             // 
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBar1.Location = new System.Drawing.Point(0, 64);
+            this.progressBar1.Location = new System.Drawing.Point(0, 71);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(4);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(267, 20);
+            this.progressBar1.Size = new System.Drawing.Size(362, 25);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 0;
             // 
@@ -45,24 +46,25 @@
             // 
             this.InitLabel.AutoSize = true;
             this.InitLabel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.InitLabel.Location = new System.Drawing.Point(0, 20);
-            this.InitLabel.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
+            this.InitLabel.Location = new System.Drawing.Point(0, 25);
+            this.InitLabel.Margin = new System.Windows.Forms.Padding(13, 0, 4, 0);
             this.InitLabel.Name = "InitLabel";
-            this.InitLabel.Size = new System.Drawing.Size(149, 12);
+            this.InitLabel.Size = new System.Drawing.Size(191, 15);
             this.InitLabel.TabIndex = 1;
             this.InitLabel.Text = "  正在初始化PCDMIS。。。";
             // 
             // InitForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(267, 84);
+            this.ClientSize = new System.Drawing.Size(362, 96);
             this.ControlBox = false;
             this.Controls.Add(this.InitLabel);
             this.Controls.Add(this.progressBar1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "InitForm";
-            this.Padding = new System.Windows.Forms.Padding(0, 20, 0, 0);
+            this.Padding = new System.Windows.Forms.Padding(0, 25, 0, 0);
             this.Text = "AutoMeasure";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.InitForm_FormClosed);
             this.Load += new System.EventHandler(this.InitForm_Load);

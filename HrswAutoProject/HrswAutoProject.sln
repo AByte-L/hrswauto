@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseMold", "DataMold\BaseMold.csproj", "{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}"
 EndProject
@@ -51,6 +51,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErrorModTests", "ErrorModTests\ErrorModTests.csproj", "{CAABF2D9-A7EE-4319-9FA7-AFA32EF1D2AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientMainMold", "ClientMainMold\ClientMainMold.csproj", "{E22E4B4C-82F7-4C98-AD25-FAAC5F2F651C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MainItems", "MainItems", "{F51FD7EA-A627-45F4-A856-2046D88C99AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,5 +139,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A58219AE-2F51-425D-81B4-CAE631D18E2A} = {06AA3538-8337-4DC9-8645-5DF647BC2854}
 		{D8DA010C-A951-45DC-A38F-7CCC7A685185} = {06AA3538-8337-4DC9-8645-5DF647BC2854}
+		{A86FC4F8-4E88-457A-BA9E-317AF230A0D5} = {F51FD7EA-A627-45F4-A856-2046D88C99AA}
+		{E22E4B4C-82F7-4C98-AD25-FAAC5F2F651C} = {F51FD7EA-A627-45F4-A856-2046D88C99AA}
 	EndGlobalSection
 EndGlobal

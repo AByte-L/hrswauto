@@ -62,7 +62,7 @@ namespace Gy.HrswAuto.CmmServer
             _pcdApplication = (PCDLRN.Application)Activator.CreateInstance(t);
             _pcdApplication.UserExit = true; // 用户无法手动退出PCDMIS
             _IsInitialed = _pcdApplication.WaitUntilReady((int)_timeout.TotalSeconds); // 等待初始化完成
-            //Thread.Sleep(5000); // 等待PCDmils创建完成
+            Thread.Sleep(5000); // 等待PCDmils创建完成
             _pcdApplication.Visible = true;
             _pcdProgramManager = _pcdApplication.PartPrograms;
             _pcdAppEvents = _pcdApplication.ApplicationEvents;

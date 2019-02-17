@@ -11,7 +11,7 @@ namespace Gy.HrswAuto.DataMold
     ///  表示检测完成的零件数据模型
     /// </summary>
     [DataContract]
-    public class PartDataModel
+    public class ReportDataModel
     {
         [DataMember]
         public string RptFileName { get; set; }

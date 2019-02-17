@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
@@ -59,12 +60,6 @@
     <Compile Include="MainFrm.Designer.cs">
       <DependentUpon>MainFrm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PartListFrm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PartListFrm.Designer.cs">
-      <DependentUpon>PartListFrm.cs</DependentUpon>
-    </Compile>
     <Compile Include="PathSettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,14 +74,12 @@
     <Compile Include="SetupFrm.Designer.cs">
       <DependentUpon>SetupFrm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SingleInstanceApplication.cs" />
     <EmbeddedResource Include="InitForm.resx">
       <DependentUpon>InitForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainFrm.resx">
       <DependentUpon>MainFrm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PartListFrm.resx">
-      <DependentUpon>PartListFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PathSettingForm.resx">
       <DependentUpon>PathSettingForm.cs</DependentUpon>
@@ -99,6 +92,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="SetupFrm.resx">
       <DependentUpon>SetupFrm.cs</DependentUpon>
@@ -135,7 +129,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\notifyIcon1.ico" />
+    <Content Include="Resources\info.jpg" />
+    <Content Include="Resources\Reset.jpg" />
+    <None Include="Resources\RestartToolStripButton.Image.png" />
+    <Content Include="Resources\setup.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

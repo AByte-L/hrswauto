@@ -191,7 +191,7 @@ namespace Gy.HrswAuto.CmmServer
                 ServerUILinker.WriteUILog("程序文件不存在");
                 return;
             }
-            ServerUILinker.RefreshPartInfo(partId, partProgFileName);
+            //ServerUILinker.RefreshPartInfo(partId, partProgFileName);
             try
             {
                 _pcdmisCore.OpenPartProgram(partProgFileName);

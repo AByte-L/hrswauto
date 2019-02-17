@@ -31,7 +31,7 @@ namespace PCDClient
         {
             //PathConfig ptcnf = new PathConfig();
             PathManager.Instance.RootPath = @"D:\clientPathRoot";
-            PathManager.Instance.PartProgramsPath = @"programs";
+            PathManager.Instance.PartProgramsPath = @"Progs";
             PathManager.Instance.BladesPath = @"blades";
             PathManager.Instance.ReportsPath = @"Results";
             //PathManager.Instance.Configration = ptcnf;
@@ -39,9 +39,9 @@ namespace PCDClient
             PartConfig prcnf = new PartConfig();
             prcnf.PartID = "TestPart";
             prcnf.ProgFileName = "1.prg";
-            prcnf.FlvFileName = "xx10_1.flv";
-            prcnf.NormFileName = "xx10_1.nom";
-            prcnf.TolFileName = "xx10_1.tol";
+            prcnf.FlvFileName = "blade5.flv";
+            prcnf.NormFileName = "blade5.nom";
+            prcnf.TolFileName = "blade5.tol";
             PartConfigManager.Instance.InitPartConfigManager(@"d:\clientPathRoot\parts.xml");
             PartConfigManager.Instance.AddPartConfig(prcnf);
             PartConfigManager.Instance.SavePartConfigToXml(@"d:\clientPathRoot\parts.xml");

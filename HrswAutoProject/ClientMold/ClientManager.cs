@@ -99,7 +99,7 @@ namespace Gy.HrswAuto.MasterMold
         #endregion
 
         #region 单件实现
-        ClientManager _clientManager;
+        private static ClientManager _clientManager;
         private ClientManager()
         {
             _cmmClients = new List<CmmClient>();
@@ -107,7 +107,7 @@ namespace Gy.HrswAuto.MasterMold
             _dispatchTimer.Elapsed += _dispatchTimer_Elapsed;
         }
 
-        public ClientManager Instance
+        public static ClientManager Instance
         {
             get
             {

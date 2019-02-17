@@ -14,7 +14,7 @@ namespace Gy.HrswAuto.UICommonTools
 
         public static Action<string> RefreshLog; // 刷新log字符串
         public static Action<bool> RefreshRemoteState; // 刷新远端状态，心跳信号
-        public static Action<string, string> RefreshPartInfo;
+        //public static Action<string, string> RefreshPartInfo;
 
         public static void WriteUILog(string message)
         {

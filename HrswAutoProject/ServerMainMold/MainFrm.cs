@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -22,7 +21,6 @@ namespace ServerMainMold
         MeasureServiceContext _msc;
         ServiceHost _ctrlHost;
         ServiceHost _partServiceHost;
-        // todo 报告服务处理
 
         double _PCDmisTimeout;
         double _BladeTimeout;
@@ -40,10 +38,19 @@ namespace ServerMainMold
             _ctrlHost = new ServiceHost(_msc);
             _partServiceHost = new ServiceHost(typeof(PartConfigService));
             ServerUILinker.syncContext = SynchronizationContext.Current;
-            ServerUILinker.RefreshLog = RefreshLogListView;
-            ServerUILinker.RefreshRemoteState = RefreshRemoteState;
-            ServerUILinker.RefreshPartInfo = RefreshPartInfo;
+            ServerUILinker.RefreshLog = RefreshInfoView;
             notifyIcon1.Visible = false;
+        }
+
+        private void RefreshInfoView(string obj)
+        {
+            ServerUILinker.syncContext.Post(o =>
+            {
+                //DateTime infoTime = DateTime.Now;
+                int index = infoDataGridView.Rows.Add();
+                infoDataGridView.Rows[index].Cells[0].Value = DateTime.Now.ToLongTimeString();
+                infoDataGridView.Rows[index].Cells[1].Value = obj;
+            }, null);
         }
 
         private void SetConfigValue()
@@ -62,28 +69,6 @@ namespace ServerMainMold
             PathManager.Instance.TempPath = Properties.Settings.Default.TempPath;
         }
 
-        private void RefreshPartInfo(string arg1, string arg2)
-        {
-            ServerUILinker.syncContext.Post(o =>
-            {
-                curPartIDTextBox.Text = arg1;
-                pcProgTextBox.Text = arg2;
-            }, null);
-        }
-
-        private void RefreshRemoteState(bool obj)
-        {
-
-        }
-
-        private void RefreshLogListView(string obj)
-        {
-            ServerUILinker.syncContext.Post(o =>
-            {
-                logListView.Items.Add(obj);
-            }, null);
-        }
-
         private void MainFrm_FormClosed(object sender, FormClosedEventArgs e)
         {
             _partServiceHost.Close();
@@ -97,6 +82,7 @@ namespace ServerMainMold
         private void MainFrm_Load(object sender, EventArgs e)
         {
             AutoResetEvent arevt = new AutoResetEvent(false);
+            errorInfo = "服务器启动成功";
             Task.Run(() =>
             {
                 InitForm initForm = new InitForm(arevt);
@@ -123,25 +109,8 @@ namespace ServerMainMold
             {
                 arevt.Set();
             }
-            logListView.Items.Add(errorInfo);
-        }
-
-        private void setupButton_Click(object sender, EventArgs e)
-        {
-            SetupFrm setupForm = new SetupFrm();
-            DialogResult dr = setupForm.ShowDialog();
-            if (dr == DialogResult.OK)
-            {
-                SetConfigValue();
-                _msc.SetMeasureDuration(_PCDmisTimeout, _BladeTimeout);
-                _notifyIcon = setupForm.MinState;
-                Properties.Settings.Default.Save();
-            }
-        }
-
-        private void clearErrorButton_Click(object sender, EventArgs e)
-        {
-            _msc.ClearServerError();
+            //logListView.Items.Add(errorInfo);
+            RefreshInfoView(errorInfo);
         }
 
         private void MainFrm_SizeChanged(object sender, EventArgs e)
@@ -161,6 +130,34 @@ namespace ServerMainMold
             notifyIcon1.Visible = false;
             ShowInTaskbar = true;
             Activate();
+        }
+
+        private void SetupToolStripButton_Click(object sender, EventArgs e)
+        {
+            SetupFrm setupForm = new SetupFrm();
+            DialogResult dr = setupForm.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                SetConfigValue();
+                _msc.SetMeasureDuration(_PCDmisTimeout, _BladeTimeout);
+                _notifyIcon = setupForm.MinState;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private void ClearErrorToolStripButton_Click(object sender, EventArgs e)
+        {
+            _msc.ClearServerError();
+        }
+
+        private void RestartToolStripButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gotoToolStripButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

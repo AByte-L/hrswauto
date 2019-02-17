@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,16 +47,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="CmmForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="CmmForm.Designer.cs">
+      <DependentUpon>CmmForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CSControls\ControlText.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CSControls\ControlText.Designer.cs" />
+    <Compile Include="CSControls\IPInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CSControls\IPInput.Designer.cs" />
+    <Compile Include="MainFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainFrm.Designer.cs">
+      <DependentUpon>MainFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="SingleInstanceApplication.cs" />
+    <Compile Include="SwPanel.cs" />
+    <EmbeddedResource Include="CmmForm.resx">
+      <DependentUpon>CmmForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CSControls\IPInput.resx" />
+    <EmbeddedResource Include="MainFrm.resx">
+      <DependentUpon>MainFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -78,6 +99,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClientMold\ClientMold.csproj">
+      <Project>{2D308F5E-1B15-47A9-954E-E9292843FD4A}</Project>
+      <Name>ClientMold</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataMold\BaseMold.csproj">
+      <Project>{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}</Project>
+      <Name>BaseMold</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{1E12C44C-B625-48B7-B1EA-17DF229A6A01}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
