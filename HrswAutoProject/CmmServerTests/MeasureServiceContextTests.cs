@@ -31,7 +31,7 @@ namespace Gy.HrswAuto.CmmServer.Tests
             part.TolFileName = "xx10_1.tol";
 
             LocalLogCollector.LogFilePath = @"d:\log.txt";
-            SaveSettings.BladeExe = @"C:\Program Files (x86)\Hexagon\PC-DMIS Blade 5.0 (Release)\Blade.exe";
+            ServerSettings.BladeExe = @"C:\Program Files (x86)\Hexagon\PC-DMIS Blade 5.0 (Release)\Blade.exe";
             BladeMeasAssist _bladeMeasAssist = new BladeMeasAssist();
             _bladeMeasAssist.RtfFileName = @"C:\BladeRunner\blade.RTF";
             _bladeMeasAssist.ProbeDiam = 2;

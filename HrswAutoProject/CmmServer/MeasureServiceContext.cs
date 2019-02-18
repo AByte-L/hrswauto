@@ -128,7 +128,7 @@ namespace Gy.HrswAuto.CmmServer
                 return;
             }
             // 开启Blade异步分析
-            string bladeExe = SaveSettings.BladeExe;
+            string bladeExe = ServerSettings.BladeExe;
             bool ok = await Task.Run(() =>
             {
                 _bladeMeasAssist.PCDmisRtfToBladeRpt(); // 转换rtf到rpt文件

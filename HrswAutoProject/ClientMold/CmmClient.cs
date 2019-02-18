@@ -58,10 +58,12 @@ namespace Gy.HrswAuto.ClientMold
                 _cmmCtrl = _proxyFactory.GetCmmControl(CmmSvrConfig);
                 _partConfigService = _proxyFactory.GetPartConfigService(CmmSvrConfig);
                 _IsInitialed = _cmmCtrl.IsInitialed(); // 返回服务器端是否初始化
+                State = ClientState.CS_Idle;
             }
             catch (Exception)
             {
                 _IsInitialed = false; // 初始化不成功
+                State = ClientState.CS_Error;
             }
         }
         #endregion

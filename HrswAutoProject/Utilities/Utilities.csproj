@@ -43,7 +43,7 @@
     <Compile Include="PartConfigManager.cs" />
     <Compile Include="PathManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SaveSettings.cs" />
+    <Compile Include="ServerSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataMold\BaseMold.csproj">

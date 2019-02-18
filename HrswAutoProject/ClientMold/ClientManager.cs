@@ -1,5 +1,6 @@
 ﻿using Gy.HrswAuto.ClientMold;
 using Gy.HrswAuto.DataMold;
+using Gy.HrswAuto.UICommonTools;
 using Gy.HrswAuto.Utilities;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace Gy.HrswAuto.MasterMold
             get { return _cmmSvrConfigs; }
             set { _cmmSvrConfigs = value; }
         }
+        public string ClientConfigFileName { get; set; } = "clients.xml";
 
         private Timer _dispatchTimer;
         public double DispatchInterval { get; set; } = 3; // 
@@ -29,7 +31,7 @@ namespace Gy.HrswAuto.MasterMold
         public void Initialize()
         {
             // 导入client
-            string path = Path.Combine(PathManager.Instance.SettingsSavePath, SaveSettings.ClientConfigFileName);
+            string path = Path.Combine(PathManager.Instance.SettingsSavePath, ClientConfigFileName);
             if (File.Exists(path))
             {
                 LoadClientFromXmlFile(path);
@@ -43,10 +45,34 @@ namespace Gy.HrswAuto.MasterMold
             {
                 CmmClient client = new CmmClient(config);
                 client.IsActived = true;
-                client.InitClient(); // 如果client初始化失败该怎么办？
+                client.InitClient(); // 
+
+                ClientUICommon.AddCmmToView(config, client.State != ClientState.CS_Error);
 
                 _cmmClients.Add(client);
             }
+        }
+
+        /// <summary>
+        /// 添加客户端
+        /// </summary>
+        /// <param name="csConf"></param>
+        /// <returns>返回false表示客户端已存在，返回true添加成功</returns>
+        public bool AddClient(CmmServerConfig csConf)
+        {
+            // 判断机器是否已经存在
+            if (_cmmSvrConfigs.Where(cl => cl.HostIPAddress.Equals(csConf.HostIPAddress)).Count() == 0)
+            {
+                _cmmSvrConfigs.Add(csConf); //  添加机器配置信息
+                CmmClient client = new CmmClient(csConf);
+                client.IsActived = true;
+                client.InitClient();
+                _cmmClients.Add(client);
+                //
+                ClientUICommon.AddCmmToView(csConf, client.State != ClientState.CS_Error);
+                return true;
+            }
+            return false;
         }
 
         private void _dispatchTimer_Elapsed(object sender, ElapsedEventArgs e)

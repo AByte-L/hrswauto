@@ -1,5 +1,6 @@
 ﻿using Gy.HrswAuto.DataMold;
 using Gy.HrswAuto.MasterMold;
+using Gy.HrswAuto.UICommonTools;
 using Gy.HrswAuto.Utilities;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ClientMainMold
@@ -19,7 +20,33 @@ namespace ClientMainMold
         public MainFrm()
         {
             InitializeComponent();
-            //ShowPanel(SwPanel.partPanel);
+            // 设置Path
+            SetAppPaths();
+            ClientUICommon.syncContext = SynchronizationContext.Current;
+            ClientUICommon.AddCmmToView = AddClientView;
+        }
+
+        private void AddClientView(CmmServerConfig arg1, bool arg2)
+        {
+            int index = CmmView.Rows.Add();
+            DataGridViewRow row = CmmView.Rows[index];
+            row.Cells[0].Value = true;
+            row.Cells[1].Value = "机器1";
+            row.Cells[2].Value = arg1.ServerID;
+            row.Cells[3].Value = arg1.HostIPAddress;
+            row.Cells[4].Value = arg2 ? "正常" : "错误";
+            
+        }
+
+        private static void SetAppPaths()
+        {
+            PathManager.Instance.RootPath = @"D:\clientPathRoot";
+            PathManager.Instance.BladesPath = "blades";
+            PathManager.Instance.PartProgramsPath = "programs";
+            PathManager.Instance.ReportsPath = "results";
+            PathManager.Instance.SettingsPath = "settings";
+            PathManager.Instance.SettingsSavePath = "settingssave";
+            PathManager.Instance.TempPath = "temp";
         }
 
         private void ShowPanel(SwPanel panel)
@@ -76,9 +103,8 @@ namespace ClientMainMold
 
         private void MainFrm_Load(object sender, EventArgs e)
         {
-            // todo 设置PathManager      
+            ShowPanel(SwPanel.cmmPanel);
             ClientManager.Instance.Initialize();
-            ShowPanel(SwPanel.partPanel);
         }
 
 
@@ -90,8 +116,10 @@ namespace ClientMainMold
                 CmmServerConfig csConf = new CmmServerConfig();
                 csConf.HostIPAddress = cf.IpAddress;
                 csConf.ServerID = cf.ServerID;
-                csConf.ControlPost = 6666;
-                csConf.PartConfigPost = 7777;
+                if (!ClientManager.Instance.AddClient(csConf))
+                {
+                    MessageBox.Show("测量机已存在.");
+                }
             }
         }
     }

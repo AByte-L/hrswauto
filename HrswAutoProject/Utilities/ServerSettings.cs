@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Gy.HrswAuto.Utilities
 {
-    public class SaveSettings
+    public class ServerSettings
     {
-        public static string ClientConfigFileName;
         public static string PartConfigFileName;
         public static string BladeExe;
         public static string GotoSafePrg;

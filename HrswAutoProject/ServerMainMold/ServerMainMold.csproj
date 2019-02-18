@@ -131,7 +131,6 @@
   <ItemGroup>
     <Content Include="Resources\info.jpg" />
     <Content Include="Resources\Reset.jpg" />
-    <None Include="Resources\RestartToolStripButton.Image.png" />
     <Content Include="Resources\setup.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -55,8 +55,8 @@ namespace ServerMainMold
 
         private void SetConfigValue()
         {
-            SaveSettings.BladeExe = Properties.Settings.Default.BladeExe;
-            SaveSettings.GotoSafePrg = Properties.Settings.Default.GotoProg;
+            ServerSettings.BladeExe = Properties.Settings.Default.BladeExe;
+            ServerSettings.GotoSafePrg = Properties.Settings.Default.GotoProg;
             LocalLogCollector.LogFilePath = Properties.Settings.Default.LogFilePath;
             _PCDmisTimeout = double.Parse(Properties.Settings.Default.PCDmisTimeout);
             _BladeTimeout = double.Parse(Properties.Settings.Default.BladeTimeout);
