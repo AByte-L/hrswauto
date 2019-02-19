@@ -34,7 +34,14 @@ namespace Gy.HrswAuto.ClientMold
             private set { _IsInitialed = value; }
         }
 
-        public bool IsActived { get; set; } = false; // 激活状态
+        private bool actived = true;
+
+        public bool IsActived
+        {
+            get { return actived; }
+            set { actived = value; }
+        }
+
         public bool CurPartIsPass { get; set; } = false;
         //public event EventHandler<FeedRequestArg> OnPlaceAndGripRequestEvent;
         //public event EventHandler<FeedRequestArg> OnGripRequestEvent;

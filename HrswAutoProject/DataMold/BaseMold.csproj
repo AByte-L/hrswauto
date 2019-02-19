@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientState.cs" />
     <Compile Include="CmmServerConfig.cs" />
     <Compile Include="PartConfig.cs" />
     <Compile Include="ReportDataModel.cs" />

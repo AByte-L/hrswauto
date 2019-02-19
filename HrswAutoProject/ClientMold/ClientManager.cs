@@ -46,8 +46,8 @@ namespace Gy.HrswAuto.MasterMold
                 CmmClient client = new CmmClient(config);
                 client.IsActived = true;
                 client.InitClient(); // 
-
-                ClientUICommon.AddCmmToView(config, client.State != ClientState.CS_Error);
+                // 更新UI界面
+                ClientUICommon.AddCmmToView(config, client.State);
 
                 _cmmClients.Add(client);
             }
@@ -69,7 +69,7 @@ namespace Gy.HrswAuto.MasterMold
                 client.InitClient();
                 _cmmClients.Add(client);
                 //
-                ClientUICommon.AddCmmToView(csConf, client.State != ClientState.CS_Error);
+                ClientUICommon.AddCmmToView(csConf, client.State);
                 return true;
             }
             return false;
@@ -79,6 +79,8 @@ namespace Gy.HrswAuto.MasterMold
         {
             foreach (var client in _cmmClients)
             {
+                if (!client.IsActived) // 未激活不响应自动事件
+                    break;
                 switch (client.State)
                 {
                     case ClientState.CS_Idle:
@@ -143,7 +145,23 @@ namespace Gy.HrswAuto.MasterMold
                 }
                 return _clientManager;
             }
-        } 
+        }
+
         #endregion
+        public void EnableClient(int index)
+        {
+            _cmmClients[index].IsActived = true;
+        }
+
+        public void DisableClient(int index)
+        {
+            _cmmClients[index].IsActived = false;
+        }
+
+        public void DeleteClient(int index)
+        {
+            _cmmClients.RemoveAt(index);
+            CmmSvrConfigs.RemoveAt(index);
+        }
     }
 }

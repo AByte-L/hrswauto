@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientManager.cs" />
-    <Compile Include="ClientState.cs" />
     <Compile Include="CmmClient.cs" />
     <Compile Include="CSFeedback.cs" />
     <Compile Include="FeedRequest.cs" />

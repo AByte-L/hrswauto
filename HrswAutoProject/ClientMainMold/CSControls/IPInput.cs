@@ -23,7 +23,7 @@ namespace IPInputControl.Ctrl
         public void txt_KeyDown(object sender, KeyEventArgs e)
         {
             ParentTxt = (TextBox)sender;
-            if (e.KeyCode == Keys.Left)
+            if (e.KeyCode == Keys.Left )
             {
                 switch (ParentTxt.Name.Split('_')[1])
                 {
@@ -88,7 +88,7 @@ namespace IPInputControl.Ctrl
                         break;
                 }
             }
-            else if (e.KeyCode == Keys.Right)
+            else if (e.KeyCode == Keys.Right || e.KeyCode == Keys.OemPeriod)
             {
                 switch (ParentTxt.Name.Split('_')[1])
                 {

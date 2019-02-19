@@ -1,4 +1,5 @@
-﻿using Gy.HrswAuto.DataMold;
+﻿using Gy.HrswAuto.ClientMold;
+using Gy.HrswAuto.DataMold;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,6 @@ namespace Gy.HrswAuto.UICommonTools
     {
         public static SynchronizationContext syncContext; // 同步上下文
 
-        public static Action<CmmServerConfig, bool> AddCmmToView;
-
-        public static void UpdateCmmView(CmmServerConfig conf, bool state)
-        {
-            AddCmmToView(conf, state);
-        }
+        public static Action<CmmServerConfig, ClientState> AddCmmToView;
     }
 }
