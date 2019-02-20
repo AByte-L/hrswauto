@@ -14,5 +14,7 @@ namespace Gy.HrswAuto.UICommonTools
         public static SynchronizationContext syncContext; // 同步上下文
 
         public static Action<CmmServerConfig, ClientState> AddCmmToView;
+
+        public static Action<PartConfig, string> AddPartToView;
     }
 }

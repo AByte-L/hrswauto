@@ -10,9 +10,9 @@ namespace Gy.HrswAuto.CmmServer
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class PartConfigService : IPartConfigService
     {
-        public void AddPartConfig(PartConfig partConfig)
+        public bool AddPartConfig(PartConfig partConfig)
         {
-            PartConfigManager.Instance.AddPartConfig(partConfig);
+            return PartConfigManager.Instance.AddPartConfig(partConfig);
         }
 
         public bool FindPart(string partId)

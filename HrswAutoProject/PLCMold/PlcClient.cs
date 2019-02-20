@@ -16,22 +16,40 @@ namespace Gy.HrswAuto.PLCMold
         public int Slot { get; set; } = 0;
         public bool IsConnected { get; set; } = false;
 
-        public void ResponseGripRequest(int clientID, bool isPassed)
+        public bool ResponseGripRequest(int clientID, bool isPassed)
         {
-            SetGripFlag(clientID, isPassed);
+            return SetGripFlag(clientID, isPassed);
         }
 
 
-        public void ResponsePlaceRequest(int clientID)
+        public bool ResponsePlaceRequest(int clientID)
         {
-            SetPlaceFlag(clientID);
+            return SetPlaceFlag(clientID);
         }
 
-        public void ResponsePlaceAndGripFeedRequest(int clientID, bool isPassed)
+        public bool ResponsePlaceAndGripFeedRequest(int clientID, bool isPassed)
         {
-            SetAllFlag(clientID, isPassed);
+            return SetAllFlag(clientID, isPassed);
         }
 
+        public bool VerifyWirteIDCompleted()
+        {
+            lock (syncObj)
+            {
+                byte[] buf = new byte[1];
+                int result = _s7Client.MBRead(0, 1, buf);
+                Thread.Sleep(100);
+                if (result == 0)
+                {
+                    return S7.GetBitAt(buf, 0, 0);
+                }
+                else
+                {
+                    // todo 更新界面
+                    return false;
+                }
+            }
+        }
 
         /// <summary>
         /// 读取大块存储器
@@ -85,19 +103,19 @@ namespace Gy.HrswAuto.PLCMold
             return true;
         }
 
-        public void SetAllFlag(int clientID, bool isPassed)
+        public bool SetAllFlag(int clientID, bool isPassed)
         {
             int[] bn = new int[3];
             bn[0] = 0;
             bn[1] = 1;
             bn[2] = isPassed ? 2 : 3;
-            SetPlcFlags(clientID, 0, true, bn);
+            return SetPlcFlags(clientID, 0, true, bn);
         }
 
-        public void ResetAllOkFlag(int clientId)
+        public bool ResetAllOkFlag(int clientId)
         {
             int[] bn = { 0, 1 };
-            SetPlcFlags(clientId, 1, false, bn);
+            return SetPlcFlags(clientId, 1, false, bn);
         }
         
 
@@ -105,65 +123,69 @@ namespace Gy.HrswAuto.PLCMold
         /// 清除上料完成标志
         /// </summary>
         /// <param name="clientId"></param>
-        public void ResetPlaceOkFlag(int clientId)
+        public bool ResetPlaceOkFlag(int clientId)
         {
             int[] bn = { 0 };
-            SetPlcFlags(clientId, 1, false, bn);
+            return SetPlcFlags(clientId, 1, false, bn);
         }
         /// <summary>
         /// 清除抓取完成标志
         /// </summary>
         /// <param name="clientId"></param>
-        public void ResetGripOkFlag(int clientId)
+        public bool ResetGripOkFlag(int clientId)
         {
             int[] bn = { 1 };
-            SetPlcFlags(clientId, 1, false, bn);
+            return SetPlcFlags(clientId, 1, false, bn);
         }
         /// <summary>
         /// 设置上料请求标志
         /// </summary>
         /// <param name="clientId"></param>
-        public void SetPlaceFlag(int clientId)
+        public bool SetPlaceFlag(int clientId)
         {
             int[] bn = { 0 };
-            SetPlcFlags(clientId, 0, true, bn);
+            return SetPlcFlags(clientId, 0, true, bn);
         }
         /// <summary>
         /// 设置下料请求标志
         /// </summary>
         /// <param name="clientId"></param>
         /// <param name="Pass"></param>
-        public void SetGripFlag(int clientId, bool Pass)
+        public bool SetGripFlag(int clientId, bool Pass)
         {
             int[] bn = new int[2];
             bn[0] = 1;
             bn[1] = Pass ? 2 : 3;
-            SetPlcFlags(clientId, 0, true, bn); // 设置合格位
+            return SetPlcFlags(clientId, 0, true, bn); // 设置合格位
             //int[] bn1 = { 3 };
             //SetPlcFlags(clientId, 0, true, bn1); // 设置抓取位
         }
 
-        public void SetWriteIDFlag(int clientId)
+        public bool SetWriteIDFlag(int clientId)
         {
             int[] bn = { 4 };
-            SetPlcFlags(clientId, 0, true, bn);
+            return SetPlcFlags(clientId, 0, true, bn);
         }
 
-        public void SetIDErrorFlag(int clientId)
+        public bool SetIDErrorFlag(int clientId)
         {
             int[] bn = { 5 };
-            SetPlcFlags(clientId, 0, true, bn);
+            return SetPlcFlags(clientId, 0, true, bn);
         }
 
-        public void SetPartID(int clientId, string partId)
+        public bool SetPartID(int clientId, string partId)
         {
+            int result = 0;
             byte[] buf = new byte[256];
             S7.SetStringAt(buf, 0, 256, partId);
             lock(syncObj)
             {
-                int result = _s7Client.DBWrite(clientId, 2, 256, buf);
-                Debug.Assert(result == 0);
+                result = _s7Client.DBWrite(clientId, 2, 256, buf);
+                Thread.Sleep(100); // 等待数据交换
+                // todo 更新状态条
+                //Debug.Assert(result == 0);
             }
+            return result == 0;
         }
 
 
@@ -172,7 +194,8 @@ namespace Gy.HrswAuto.PLCMold
             byte[] buf = new byte[256];
             lock (syncObj)
             {
-                int result = _s7Client.DBWrite(clientId, 2, 256, buf);
+                int result = _s7Client.DBRead(clientId, 2, 256, buf);
+                Thread.Sleep(100); // 等待数据交换
                 Debug.Assert(result == 0);
             }
             return S7.GetStringAt(buf, 0);
@@ -220,7 +243,7 @@ namespace Gy.HrswAuto.PLCMold
         /// <param name="byteOffset">字节偏置</param>
         /// <param name="value">1or0</param>
         /// <param name="bitNbs">要设置的位数组</param>
-        private void SetPlcFlags(int clientId, int byteOffset, bool value, params int[] bitNbs)
+        private bool SetPlcFlags(int clientId, int byteOffset, bool value, params int[] bitNbs)
         {
             lock (syncObj)
             {
@@ -235,7 +258,8 @@ namespace Gy.HrswAuto.PLCMold
                 }
                 result = _s7Client.DBWrite(clientId, byteOffset, 1, buf);
                 Thread.Sleep(100);
-                Debug.Assert(result == 0);
+                //Debug.Assert(result == 0);
+                return result == 0;
             }
         }
 

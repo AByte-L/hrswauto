@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -18,6 +19,7 @@ namespace ClientMainMold
     public partial class MainFrm : Form
     {
         //private ClientManager clientManager; 单件初始化
+        private List<ResultViewRow> resultArray = new List<ResultViewRow>(60);
         public MainFrm()
         {
             InitializeComponent();
@@ -25,52 +27,7 @@ namespace ClientMainMold
             SetAppPaths();
             ClientUICommon.syncContext = SynchronizationContext.Current;
             ClientUICommon.AddCmmToView = AddClientView;
-        }
-
-        private void AddClientView(CmmServerConfig arg1, ClientState arg2)
-        {
-            ClientUICommon.syncContext.Post(o =>
-            {
-                Image errorPic = Properties.Resources.Error;
-                Image okPic = Properties.Resources.ok;
-                int index = CmmView.Rows.Add();
-                DataGridViewRow row = CmmView.Rows[index];
-                row.Cells[0].Value = true;
-                row.Cells[1].Value = arg1.ServerID;
-                row.Cells[2].Value = arg1.HostIPAddress;
-                string stateInfo = "";
-                switch (arg2)
-                {
-                    case ClientState.CS_Idle:
-                        stateInfo = "空闲";
-                        break;
-                    case ClientState.CS_Completed:
-                        stateInfo = "完成";
-                        break;
-                    case ClientState.CS_Busy:
-                        stateInfo = "忙碌";
-                        break;
-                    case ClientState.CS_Error:
-                        stateInfo = "出错";
-                        break;
-                    case ClientState.CS_Continue:
-                        stateInfo = "等待";
-                        break;
-                    default:
-                        stateInfo = "未知";
-                        break;
-                }
-                row.Cells[3].Value = stateInfo;
-                if (arg2 == ClientState.CS_Error)
-                {
-                    row.Cells[4].Value = errorPic;
-                }
-                else
-                {
-                    row.Cells[4].Value = okPic;
-                }
-            }, null);
-
+            //ClientUICommon.AddPartToView = AddPartToView;
         }
 
         private static void SetAppPaths()
@@ -146,10 +103,56 @@ namespace ClientMainMold
         private void MainFrm_Load(object sender, EventArgs e)
         {
             ShowPanel(SwPanel.cmmPanel);
+            CreateResultView();
             ClientManager.Instance.Initialize();
         }
 
-        #region Cmm工具条事件
+        #region 测量机Panel
+        private void AddClientView(CmmServerConfig arg1, ClientState arg2)
+        {
+            ClientUICommon.syncContext.Post(o =>
+            {
+                Image errorPic = Properties.Resources.Error;
+                Image okPic = Properties.Resources.ok;
+                int index = CmmView.Rows.Add();
+                DataGridViewRow row = CmmView.Rows[index];
+                row.Cells[0].Value = true;
+                row.Cells[1].Value = arg1.ServerID;
+                row.Cells[2].Value = arg1.HostIPAddress;
+                string stateInfo = "";
+                switch (arg2)
+                {
+                    case ClientState.CS_Idle:
+                        stateInfo = "空闲";
+                        break;
+                    case ClientState.CS_Completed:
+                        stateInfo = "完成";
+                        break;
+                    case ClientState.CS_Busy:
+                        stateInfo = "忙碌";
+                        break;
+                    case ClientState.CS_Error:
+                        stateInfo = "出错";
+                        break;
+                    case ClientState.CS_Continue:
+                        stateInfo = "等待";
+                        break;
+                    default:
+                        stateInfo = "未知";
+                        break;
+                }
+                row.Cells[3].Value = stateInfo;
+                if (arg2 == ClientState.CS_Error)
+                {
+                    row.Cells[4].Value = errorPic;
+                }
+                else
+                {
+                    row.Cells[4].Value = okPic;
+                }
+            }, null);
+
+        }
         private void addCmmTsb_Click(object sender, EventArgs e)
         {
             CmmForm cf = new CmmForm();
@@ -203,17 +206,111 @@ namespace ClientMainMold
 
         #endregion
 
+        #region 工件Panel
         private void addPartToolStripButton_Click(object sender, EventArgs e)
         {
             PartConfForm pcfm = new PartConfForm();
             if (pcfm.ShowDialog() == DialogResult.OK)
             {
+                // 查找blades文件
+                string path = PathManager.Instance.GetBladesFullPath(pcfm.PartID);
+                if (!Directory.Exists(path))
+                {
+                    MessageBox.Show("blades目录不存在");
+                    // todo 更新状态条
+
+                    return;
+                }
+                else
+                {
+                    if (Directory.GetFiles(path, "*.nom", SearchOption.TopDirectoryOnly).Length != 1 ||
+                       Directory.GetFiles(path, "*.flv", SearchOption.TopDirectoryOnly).Length != 1 ||
+                       Directory.GetFiles(path, "*.tol", SearchOption.TopDirectoryOnly).Length != 1)
+                    {
+                        MessageBox.Show("blades文件缺失");
+                        return;
+                    }
+                }
+                // 添加工件配置
+                PartConfig pc = new PartConfig();
+                pc.FlvFileName = Path.GetFileName(Directory.GetFiles(path, "*.flv", SearchOption.TopDirectoryOnly)[0]);
+                pc.NormFileName = Path.GetFileName(Directory.GetFiles(path, "*.nom", SearchOption.TopDirectoryOnly)[0]);
+                pc.TolFileName = Path.GetFileName(Directory.GetFiles(path, "*.Tol", SearchOption.TopDirectoryOnly)[0]);
+                pc.PartID = pcfm.PartID;
+                pc.ProgFileName = Path.GetFileName(pcfm.PartProgram);
+                if (!PartConfigManager.Instance.AddPartConfig(pc))
+                {
+                    MessageBox.Show("工件已存在");
+                    return;
+                }
+
+                // 更新工件Panel
                 int index = partView.Rows.Add();
                 partView.Rows[index].Cells[0].Value = pcfm.PartID;
                 partView.Rows[index].Cells[1].Value = pcfm.PartProgram;
-                partView.Rows[index].Cells[2].Value = pcfm.PartDescription;
+                partView.Rows[index].Cells[2].Value = pc.NormFileName;
+                partView.Rows[index].Cells[3].Value = pc.FlvFileName;
+                partView.Rows[index].Cells[4].Value = pc.TolFileName;
+                partView.Rows[index].Cells[5].Value = pcfm.PartDescription;
             }
 
+        }
+
+        //private void AddPartToView(PartConfig pconf, string description)
+        //{
+        //    ClientUICommon.syncContext.Post(o =>
+        //   {
+        //       int index = partView.Rows.Add();
+        //       partView.Rows[index].Cells[0].Value = pconf.PartID;
+        //       partView.Rows[index].Cells[1].Value = pconf.ProgFileName;
+        //       partView.Rows[index].Cells[2].Value = pconf.NormFileName;
+        //       partView.Rows[index].Cells[3].Value = pconf.FlvFileName;
+        //       partView.Rows[index].Cells[4].Value = pconf.TolFileName;
+        //       partView.Rows[index].Cells[5].Value = description;
+        //   }, null);
+        //}
+
+        private void modifyToolStripButton1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void delPartToolStripButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void writePartIDToPlcToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (partView.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("请选择一个工件");
+                return;
+            }
+            WritePartIDForm wpform = new WritePartIDForm();
+            wpform.PartId = partView.SelectedRows[0].Cells[0].Value.ToString();
+            wpform.ShowDialog();
+        }
+        #endregion
+
+        private void CreateResultView()
+        {
+            for (int i = 0; i < 60; i++)
+            {
+                int index = ResultView.Rows.Add();
+                ResultView.Rows[index].Cells[0].Value = (i + 1).ToString();
+                ResultViewRow rvrow = new ResultViewRow();
+                rvrow.ID = i + 1;
+                
+            }
+        }
+
+        private void RefreshResultView()
+        {
+            foreach (DataGridViewRow r in ResultView.Rows)
+            {
+
+            }
         }
     }
 }

@@ -31,7 +31,30 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
+            this.resultTtoolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.cmmToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.partToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.plcToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
+            this.resultPanel = new System.Windows.Forms.Panel();
+            this.ResultView = new System.Windows.Forms.DataGridView();
+            this.label3 = new System.Windows.Forms.Label();
+            this.partPanel = new System.Windows.Forms.Panel();
+            this.partView = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.addPartToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.modifyToolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.delPartToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.writePartIDToPlcToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.cmmPanel = new System.Windows.Forms.Panel();
             this.CmmView = new System.Windows.Forms.DataGridView();
             this.Column6 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -39,49 +62,35 @@
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.label2 = new System.Windows.Forms.Label();
             this.cmmToolStrip = new System.Windows.Forms.ToolStrip();
-            this.partPanel = new System.Windows.Forms.Panel();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.plcPanel = new System.Windows.Forms.Panel();
-            this.resultPanel = new System.Windows.Forms.Panel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.label1 = new System.Windows.Forms.Label();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.partView = new System.Windows.Forms.DataGridView();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.resultTtoolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.cmmToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.partToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.plcToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.addPartToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.delPartToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.writePartIDToPlcToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.addCmmTsb = new System.Windows.Forms.ToolStripButton();
             this.deleteCmmTsb = new System.Windows.Forms.ToolStripButton();
             this.enableCmmTsb = new System.Windows.Forms.ToolStripButton();
             this.disableCmmTsb = new System.Windows.Forms.ToolStripButton();
-            this.modifyToolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.plcPanel = new System.Windows.Forms.Panel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column17 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Column18 = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.mainToolStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.resultPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ResultView)).BeginInit();
+            this.partPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.partView)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.cmmPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CmmView)).BeginInit();
             this.cmmToolStrip.SuspendLayout();
-            this.partPanel.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.partView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -100,10 +109,10 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitter1);
+            this.splitContainer1.Panel2.Controls.Add(this.resultPanel);
             this.splitContainer1.Panel2.Controls.Add(this.partPanel);
             this.splitContainer1.Panel2.Controls.Add(this.cmmPanel);
             this.splitContainer1.Panel2.Controls.Add(this.plcPanel);
-            this.splitContainer1.Panel2.Controls.Add(this.resultPanel);
             this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);
             this.splitContainer1.Size = new System.Drawing.Size(1069, 803);
             this.splitContainer1.SplitterDistance = 121;
@@ -126,236 +135,6 @@
             this.mainToolStrip.Size = new System.Drawing.Size(745, 121);
             this.mainToolStrip.TabIndex = 1;
             this.mainToolStrip.Text = "toolStrip1";
-            // 
-            // splitter1
-            // 
-            this.splitter1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter1.Location = new System.Drawing.Point(10, 10);
-            this.splitter1.Margin = new System.Windows.Forms.Padding(2);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(1049, 2);
-            this.splitter1.TabIndex = 0;
-            this.splitter1.TabStop = false;
-            // 
-            // cmmPanel
-            // 
-            this.cmmPanel.Controls.Add(this.CmmView);
-            this.cmmPanel.Controls.Add(this.cmmToolStrip);
-            this.cmmPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmmPanel.Location = new System.Drawing.Point(10, 10);
-            this.cmmPanel.Margin = new System.Windows.Forms.Padding(2);
-            this.cmmPanel.Name = "cmmPanel";
-            this.cmmPanel.Size = new System.Drawing.Size(1049, 669);
-            this.cmmPanel.TabIndex = 4;
-            // 
-            // CmmView
-            // 
-            this.CmmView.AllowUserToAddRows = false;
-            this.CmmView.AllowUserToDeleteRows = false;
-            this.CmmView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.CmmView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CmmView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column6,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column5});
-            this.CmmView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CmmView.Location = new System.Drawing.Point(0, 0);
-            this.CmmView.MultiSelect = false;
-            this.CmmView.Name = "CmmView";
-            this.CmmView.ReadOnly = true;
-            this.CmmView.RowTemplate.Height = 50;
-            this.CmmView.Size = new System.Drawing.Size(1049, 642);
-            this.CmmView.TabIndex = 1;
-            // 
-            // Column6
-            // 
-            this.Column6.FillWeight = 20F;
-            this.Column6.HeaderText = "激活";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.FillWeight = 89.54314F;
-            this.Column2.HeaderText = "服务号";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Column3
-            // 
-            this.Column3.FillWeight = 89.54314F;
-            this.Column3.HeaderText = "IP地址";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Column4
-            // 
-            this.Column4.FillWeight = 89.54314F;
-            this.Column4.HeaderText = "状态";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Column5
-            // 
-            this.Column5.FillWeight = 50F;
-            this.Column5.HeaderText = "";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            this.Column5.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // cmmToolStrip
-            // 
-            this.cmmToolStrip.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.cmmToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.cmmToolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.cmmToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addCmmTsb,
-            this.deleteCmmTsb,
-            this.enableCmmTsb,
-            this.disableCmmTsb});
-            this.cmmToolStrip.Location = new System.Drawing.Point(0, 642);
-            this.cmmToolStrip.Name = "cmmToolStrip";
-            this.cmmToolStrip.Size = new System.Drawing.Size(1049, 27);
-            this.cmmToolStrip.TabIndex = 0;
-            this.cmmToolStrip.Text = "toolStrip2";
-            // 
-            // partPanel
-            // 
-            this.partPanel.Controls.Add(this.splitContainer2);
-            this.partPanel.Controls.Add(this.label1);
-            this.partPanel.Controls.Add(this.toolStrip1);
-            this.partPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.partPanel.Location = new System.Drawing.Point(10, 10);
-            this.partPanel.Margin = new System.Windows.Forms.Padding(2);
-            this.partPanel.Name = "partPanel";
-            this.partPanel.Size = new System.Drawing.Size(1049, 669);
-            this.partPanel.TabIndex = 1;
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.AutoSize = false;
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addPartToolStripButton,
-            this.modifyToolStripButton1,
-            this.delPartToolStripButton,
-            this.toolStripSeparator1,
-            this.writePartIDToPlcToolStripButton});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 644);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1049, 25);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // plcPanel
-            // 
-            this.plcPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.plcPanel.Location = new System.Drawing.Point(10, 10);
-            this.plcPanel.Margin = new System.Windows.Forms.Padding(2);
-            this.plcPanel.Name = "plcPanel";
-            this.plcPanel.Size = new System.Drawing.Size(1049, 669);
-            this.plcPanel.TabIndex = 3;
-            // 
-            // resultPanel
-            // 
-            this.resultPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.resultPanel.Location = new System.Drawing.Point(10, 10);
-            this.resultPanel.Margin = new System.Windows.Forms.Padding(2);
-            this.resultPanel.Name = "resultPanel";
-            this.resultPanel.Size = new System.Drawing.Size(1049, 669);
-            this.resultPanel.TabIndex = 2;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Location = new System.Drawing.Point(0, 803);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 11, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1069, 22);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // label1
-            // 
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(1049, 10);
-            this.label1.TabIndex = 1;
-            // 
-            // splitContainer2
-            // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 10);
-            this.splitContainer2.Name = "splitContainer2";
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.partView);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainer2.Size = new System.Drawing.Size(1049, 634);
-            this.splitContainer2.SplitterDistance = 663;
-            this.splitContainer2.TabIndex = 2;
-            // 
-            // partView
-            // 
-            this.partView.AllowUserToAddRows = false;
-            this.partView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.partView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.partView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column7,
-            this.Column8});
-            this.partView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.partView.Location = new System.Drawing.Point(0, 0);
-            this.partView.Name = "partView";
-            this.partView.RowTemplate.Height = 23;
-            this.partView.Size = new System.Drawing.Size(663, 634);
-            this.partView.TabIndex = 0;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(382, 634);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "工件ID";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "检测程序";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "工件说明";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
             // 
             // resultTtoolStripButton
             // 
@@ -418,6 +197,152 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // splitter1
+            // 
+            this.splitter1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.splitter1.Location = new System.Drawing.Point(10, 10);
+            this.splitter1.Margin = new System.Windows.Forms.Padding(2);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(1049, 2);
+            this.splitter1.TabIndex = 0;
+            this.splitter1.TabStop = false;
+            // 
+            // resultPanel
+            // 
+            this.resultPanel.Controls.Add(this.ResultView);
+            this.resultPanel.Controls.Add(this.label3);
+            this.resultPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.resultPanel.Location = new System.Drawing.Point(10, 10);
+            this.resultPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.resultPanel.Name = "resultPanel";
+            this.resultPanel.Size = new System.Drawing.Size(1049, 669);
+            this.resultPanel.TabIndex = 2;
+            // 
+            // ResultView
+            // 
+            this.ResultView.AllowUserToAddRows = false;
+            this.ResultView.AllowUserToDeleteRows = false;
+            this.ResultView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.ResultView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ResultView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column12,
+            this.Column13,
+            this.Column14,
+            this.Column15,
+            this.Column16,
+            this.Column17,
+            this.Column18});
+            this.ResultView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ResultView.Location = new System.Drawing.Point(0, 10);
+            this.ResultView.Name = "ResultView";
+            this.ResultView.ReadOnly = true;
+            this.ResultView.RowTemplate.Height = 23;
+            this.ResultView.Size = new System.Drawing.Size(1049, 659);
+            this.ResultView.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label3.Location = new System.Drawing.Point(0, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(1049, 10);
+            this.label3.TabIndex = 2;
+            // 
+            // partPanel
+            // 
+            this.partPanel.Controls.Add(this.partView);
+            this.partPanel.Controls.Add(this.label1);
+            this.partPanel.Controls.Add(this.toolStrip1);
+            this.partPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.partPanel.Location = new System.Drawing.Point(10, 10);
+            this.partPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.partPanel.Name = "partPanel";
+            this.partPanel.Size = new System.Drawing.Size(1049, 669);
+            this.partPanel.TabIndex = 1;
+            // 
+            // partView
+            // 
+            this.partView.AllowUserToAddRows = false;
+            this.partView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.partView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.partView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column7,
+            this.Column9,
+            this.Column10,
+            this.Column11,
+            this.Column8});
+            this.partView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.partView.Location = new System.Drawing.Point(0, 10);
+            this.partView.Name = "partView";
+            this.partView.RowTemplate.Height = 23;
+            this.partView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.partView.Size = new System.Drawing.Size(1049, 634);
+            this.partView.TabIndex = 0;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "工件ID";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "检测程序";
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "理论文件";
+            this.Column9.Name = "Column9";
+            this.Column9.ReadOnly = true;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "算法文件";
+            this.Column10.Name = "Column10";
+            this.Column10.ReadOnly = true;
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "公差文件";
+            this.Column11.Name = "Column11";
+            this.Column11.ReadOnly = true;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "工件说明";
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
+            // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(1049, 10);
+            this.label1.TabIndex = 1;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.AutoSize = false;
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addPartToolStripButton,
+            this.modifyToolStripButton1,
+            this.delPartToolStripButton,
+            this.toolStripSeparator1,
+            this.writePartIDToPlcToolStripButton});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 644);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(1049, 25);
+            this.toolStrip1.TabIndex = 0;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
             // addPartToolStripButton
             // 
             this.addPartToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -428,6 +353,16 @@
             this.addPartToolStripButton.Text = "toolStripButton1";
             this.addPartToolStripButton.Click += new System.EventHandler(this.addPartToolStripButton_Click);
             // 
+            // modifyToolStripButton1
+            // 
+            this.modifyToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.modifyToolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("modifyToolStripButton1.Image")));
+            this.modifyToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.modifyToolStripButton1.Name = "modifyToolStripButton1";
+            this.modifyToolStripButton1.Size = new System.Drawing.Size(24, 22);
+            this.modifyToolStripButton1.Text = "toolStripButton1";
+            this.modifyToolStripButton1.Click += new System.EventHandler(this.modifyToolStripButton1_Click);
+            // 
             // delPartToolStripButton
             // 
             this.delPartToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -436,6 +371,12 @@
             this.delPartToolStripButton.Name = "delPartToolStripButton";
             this.delPartToolStripButton.Size = new System.Drawing.Size(24, 22);
             this.delPartToolStripButton.Text = "toolStripButton2";
+            this.delPartToolStripButton.Click += new System.EventHandler(this.delPartToolStripButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // writePartIDToPlcToolStripButton
             // 
@@ -445,6 +386,103 @@
             this.writePartIDToPlcToolStripButton.Name = "writePartIDToPlcToolStripButton";
             this.writePartIDToPlcToolStripButton.Size = new System.Drawing.Size(24, 22);
             this.writePartIDToPlcToolStripButton.Text = "toolStripButton1";
+            this.writePartIDToPlcToolStripButton.Click += new System.EventHandler(this.writePartIDToPlcToolStripButton_Click);
+            // 
+            // cmmPanel
+            // 
+            this.cmmPanel.Controls.Add(this.CmmView);
+            this.cmmPanel.Controls.Add(this.label2);
+            this.cmmPanel.Controls.Add(this.cmmToolStrip);
+            this.cmmPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmmPanel.Location = new System.Drawing.Point(10, 10);
+            this.cmmPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.cmmPanel.Name = "cmmPanel";
+            this.cmmPanel.Size = new System.Drawing.Size(1049, 669);
+            this.cmmPanel.TabIndex = 4;
+            // 
+            // CmmView
+            // 
+            this.CmmView.AllowUserToAddRows = false;
+            this.CmmView.AllowUserToDeleteRows = false;
+            this.CmmView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.CmmView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.CmmView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column6,
+            this.Column2,
+            this.Column3,
+            this.Column4,
+            this.Column5});
+            this.CmmView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CmmView.Location = new System.Drawing.Point(0, 10);
+            this.CmmView.MultiSelect = false;
+            this.CmmView.Name = "CmmView";
+            this.CmmView.ReadOnly = true;
+            this.CmmView.RowTemplate.Height = 50;
+            this.CmmView.Size = new System.Drawing.Size(1049, 632);
+            this.CmmView.TabIndex = 1;
+            // 
+            // Column6
+            // 
+            this.Column6.FillWeight = 20F;
+            this.Column6.HeaderText = "激活";
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.FillWeight = 89.54314F;
+            this.Column2.HeaderText = "服务号";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Column3
+            // 
+            this.Column3.FillWeight = 89.54314F;
+            this.Column3.HeaderText = "IP地址";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Column4
+            // 
+            this.Column4.FillWeight = 89.54314F;
+            this.Column4.HeaderText = "状态";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Column5
+            // 
+            this.Column5.FillWeight = 50F;
+            this.Column5.HeaderText = "";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            this.Column5.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // label2
+            // 
+            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(1049, 10);
+            this.label2.TabIndex = 2;
+            // 
+            // cmmToolStrip
+            // 
+            this.cmmToolStrip.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.cmmToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.cmmToolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.cmmToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addCmmTsb,
+            this.deleteCmmTsb,
+            this.enableCmmTsb,
+            this.disableCmmTsb});
+            this.cmmToolStrip.Location = new System.Drawing.Point(0, 642);
+            this.cmmToolStrip.Name = "cmmToolStrip";
+            this.cmmToolStrip.Size = new System.Drawing.Size(1049, 27);
+            this.cmmToolStrip.TabIndex = 0;
+            this.cmmToolStrip.Text = "toolStrip2";
             // 
             // addCmmTsb
             // 
@@ -490,14 +528,67 @@
             this.disableCmmTsb.ToolTipText = "单机处理";
             this.disableCmmTsb.Click += new System.EventHandler(this.disableCmmTsb_Click);
             // 
-            // modifyToolStripButton1
+            // plcPanel
             // 
-            this.modifyToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.modifyToolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("modifyToolStripButton1.Image")));
-            this.modifyToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.modifyToolStripButton1.Name = "modifyToolStripButton1";
-            this.modifyToolStripButton1.Size = new System.Drawing.Size(24, 22);
-            this.modifyToolStripButton1.Text = "toolStripButton1";
+            this.plcPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.plcPanel.Location = new System.Drawing.Point(10, 10);
+            this.plcPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.plcPanel.Name = "plcPanel";
+            this.plcPanel.Size = new System.Drawing.Size(1049, 669);
+            this.plcPanel.TabIndex = 3;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 803);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 11, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(1069, 22);
+            this.statusStrip1.TabIndex = 0;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // Column12
+            // 
+            this.Column12.FillWeight = 50F;
+            this.Column12.HeaderText = "块架槽号";
+            this.Column12.Name = "Column12";
+            this.Column12.ReadOnly = true;
+            // 
+            // Column13
+            // 
+            this.Column13.HeaderText = "工件标号";
+            this.Column13.Name = "Column13";
+            this.Column13.ReadOnly = true;
+            // 
+            // Column14
+            // 
+            this.Column14.HeaderText = "检测程序";
+            this.Column14.Name = "Column14";
+            this.Column14.ReadOnly = true;
+            // 
+            // Column15
+            // 
+            this.Column15.HeaderText = "工件槽状态";
+            this.Column15.Name = "Column15";
+            this.Column15.ReadOnly = true;
+            // 
+            // Column16
+            // 
+            this.Column16.HeaderText = "是否合格";
+            this.Column16.Name = "Column16";
+            this.Column16.ReadOnly = true;
+            // 
+            // Column17
+            // 
+            this.Column17.HeaderText = "查看报告";
+            this.Column17.Name = "Column17";
+            this.Column17.ReadOnly = true;
+            // 
+            // Column18
+            // 
+            this.Column18.HeaderText = "报告目录";
+            this.Column18.Name = "Column18";
+            this.Column18.ReadOnly = true;
             // 
             // MainFrm
             // 
@@ -517,20 +608,18 @@
             this.splitContainer1.ResumeLayout(false);
             this.mainToolStrip.ResumeLayout(false);
             this.mainToolStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.resultPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ResultView)).EndInit();
+            this.partPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.partView)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.cmmPanel.ResumeLayout(false);
             this.cmmPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CmmView)).EndInit();
             this.cmmToolStrip.ResumeLayout(false);
             this.cmmToolStrip.PerformLayout();
-            this.partPanel.ResumeLayout(false);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.partView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -563,18 +652,29 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewImageColumn Column5;
-        private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView partView;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ToolStripButton addPartToolStripButton;
         private System.Windows.Forms.ToolStripButton delPartToolStripButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton writePartIDToPlcToolStripButton;
         private System.Windows.Forms.ToolStripButton modifyToolStripButton1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridView ResultView;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column16;
+        private System.Windows.Forms.DataGridViewButtonColumn Column17;
+        private System.Windows.Forms.DataGridViewButtonColumn Column18;
     }
 }
 

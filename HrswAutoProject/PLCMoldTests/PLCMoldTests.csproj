@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{56C94E79-11CA-4834-BB7F-36BFC1AE23F2}</ProjectGuid>
+    <ProjectGuid>{3C07E31B-CEC9-4F2D-AD04-562E6C5CEFA4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClientMainMoldTests</RootNamespace>
-    <AssemblyName>ClientMainMoldTests</AssemblyName>
+    <RootNamespace>PLCMoldTests</RootNamespace>
+    <AssemblyName>PLCMoldTests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -51,14 +51,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="PartConfFormTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WritePartIDFormTests.cs" />
+    <Compile Include="S7ClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClientMainMold\ClientMainMold.csproj">
-      <Project>{E22E4B4C-82F7-4C98-AD25-FAAC5F2F651C}</Project>
-      <Name>ClientMainMold</Name>
+    <ProjectReference Include="..\PLCMold\PLCMold.csproj">
+      <Project>{CCE248F0-66F5-42E4-9D4E-44232CFC114B}</Project>
+      <Name>PLCMold</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

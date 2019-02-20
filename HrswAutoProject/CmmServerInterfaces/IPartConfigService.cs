@@ -35,7 +35,7 @@ namespace Gy.HrswAuto.ICmmServer
         /// </summary>
         /// <param name="partConfig"></param>
         [OperationContract]
-        void AddPartConfig(PartConfig partConfig);
+        bool AddPartConfig(PartConfig partConfig);
         
         ////下载文件
         //[OperationContract]

@@ -49,13 +49,15 @@ namespace Gy.HrswAuto.Utilities
             return pc;
         }
 
-        public void AddPartConfig(PartConfig partConfig)
+        public bool AddPartConfig(PartConfig partConfig)
         {
             if (Exists(partConfig.PartID))
             {
-                return;
+                //System.Windows.Forms.MessageBox.Show("");
+                return false;
             }
             _partConfigs.Add(partConfig);
+            return true;
         }
 
         /// <summary>
