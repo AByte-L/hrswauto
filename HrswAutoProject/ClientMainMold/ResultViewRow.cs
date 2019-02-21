@@ -12,7 +12,7 @@ namespace ClientMainMold
         public string PartID { get; set; } = "";
         public string Program { get; set; } = "";
         public SlotState State { get; set; } = SlotState.S_NoPart; // 工作槽状态，有（检测，未检测），无
-        public string IsPassed { get; set; } = ""; // 是否超差
+        public bool IsPassed { get; set; } = false; // 是否超差
     }
 
     public enum SlotState

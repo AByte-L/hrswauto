@@ -39,6 +39,13 @@
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.resultPanel = new System.Windows.Forms.Panel();
             this.ResultView = new System.Windows.Forms.DataGridView();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column17 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Column18 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.label3 = new System.Windows.Forms.Label();
             this.partPanel = new System.Windows.Forms.Panel();
             this.partView = new System.Windows.Forms.DataGridView();
@@ -70,13 +77,6 @@
             this.disableCmmTsb = new System.Windows.Forms.ToolStripButton();
             this.plcPanel = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column17 = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Column18 = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -121,6 +121,7 @@
             // 
             // mainToolStrip
             // 
+            this.mainToolStrip.BackColor = System.Drawing.Color.White;
             this.mainToolStrip.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.mainToolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -129,10 +130,10 @@
             this.cmmToolStripButton,
             this.partToolStripButton,
             this.plcToolStripButton});
-            this.mainToolStrip.Location = new System.Drawing.Point(324, 0);
+            this.mainToolStrip.Location = new System.Drawing.Point(634, 0);
             this.mainToolStrip.Name = "mainToolStrip";
             this.mainToolStrip.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.mainToolStrip.Size = new System.Drawing.Size(745, 121);
+            this.mainToolStrip.Size = new System.Drawing.Size(435, 121);
             this.mainToolStrip.TabIndex = 1;
             this.mainToolStrip.Text = "toolStrip1";
             // 
@@ -189,11 +190,17 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pictureBox1.ErrorImage = null;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(324, 121);
+            this.pictureBox1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 15);
+            this.pictureBox1.Size = new System.Drawing.Size(634, 121);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -238,8 +245,52 @@
             this.ResultView.Name = "ResultView";
             this.ResultView.ReadOnly = true;
             this.ResultView.RowTemplate.Height = 23;
+            this.ResultView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ResultView.Size = new System.Drawing.Size(1049, 659);
             this.ResultView.TabIndex = 3;
+            // 
+            // Column12
+            // 
+            this.Column12.FillWeight = 50F;
+            this.Column12.HeaderText = "块架槽号";
+            this.Column12.Name = "Column12";
+            this.Column12.ReadOnly = true;
+            // 
+            // Column13
+            // 
+            this.Column13.HeaderText = "工件标号";
+            this.Column13.Name = "Column13";
+            this.Column13.ReadOnly = true;
+            // 
+            // Column14
+            // 
+            this.Column14.HeaderText = "检测程序";
+            this.Column14.Name = "Column14";
+            this.Column14.ReadOnly = true;
+            // 
+            // Column15
+            // 
+            this.Column15.HeaderText = "工件槽状态";
+            this.Column15.Name = "Column15";
+            this.Column15.ReadOnly = true;
+            // 
+            // Column16
+            // 
+            this.Column16.HeaderText = "是否合格";
+            this.Column16.Name = "Column16";
+            this.Column16.ReadOnly = true;
+            // 
+            // Column17
+            // 
+            this.Column17.HeaderText = "查看报告";
+            this.Column17.Name = "Column17";
+            this.Column17.ReadOnly = true;
+            // 
+            // Column18
+            // 
+            this.Column18.HeaderText = "报告目录";
+            this.Column18.Name = "Column18";
+            this.Column18.ReadOnly = true;
             // 
             // label3
             // 
@@ -546,49 +597,6 @@
             this.statusStrip1.Size = new System.Drawing.Size(1069, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // Column12
-            // 
-            this.Column12.FillWeight = 50F;
-            this.Column12.HeaderText = "块架槽号";
-            this.Column12.Name = "Column12";
-            this.Column12.ReadOnly = true;
-            // 
-            // Column13
-            // 
-            this.Column13.HeaderText = "工件标号";
-            this.Column13.Name = "Column13";
-            this.Column13.ReadOnly = true;
-            // 
-            // Column14
-            // 
-            this.Column14.HeaderText = "检测程序";
-            this.Column14.Name = "Column14";
-            this.Column14.ReadOnly = true;
-            // 
-            // Column15
-            // 
-            this.Column15.HeaderText = "工件槽状态";
-            this.Column15.Name = "Column15";
-            this.Column15.ReadOnly = true;
-            // 
-            // Column16
-            // 
-            this.Column16.HeaderText = "是否合格";
-            this.Column16.Name = "Column16";
-            this.Column16.ReadOnly = true;
-            // 
-            // Column17
-            // 
-            this.Column17.HeaderText = "查看报告";
-            this.Column17.Name = "Column17";
-            this.Column17.ReadOnly = true;
-            // 
-            // Column18
-            // 
-            this.Column18.HeaderText = "报告目录";
-            this.Column18.Name = "Column18";
-            this.Column18.ReadOnly = true;
             // 
             // MainFrm
             // 

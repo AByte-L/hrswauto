@@ -104,7 +104,10 @@ namespace ClientMainMold
         {
             ShowPanel(SwPanel.cmmPanel);
             CreateResultView();
+            //ClientManager.Instance.ClientConfigFileName = "clients.xml";
+            //PartConfigManager.Instance.PartConfFile = "parts.xml";
             ClientManager.Instance.Initialize();
+            PartConfigManager.Instance.InitPartConfigManager();
         }
 
         #region 测量机Panel
@@ -298,19 +301,9 @@ namespace ClientMainMold
             for (int i = 0; i < 60; i++)
             {
                 int index = ResultView.Rows.Add();
-                ResultView.Rows[index].Cells[0].Value = (i + 1).ToString();
-                ResultViewRow rvrow = new ResultViewRow();
-                rvrow.ID = i + 1;
-                
+                ResultView.Rows[index].Cells[0].Value = i+1;
             }
         }
 
-        private void RefreshResultView()
-        {
-            foreach (DataGridViewRow r in ResultView.Rows)
-            {
-
-            }
-        }
     }
 }

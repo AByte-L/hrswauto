@@ -14,20 +14,21 @@ namespace Gy.HrswAuto.Utilities
     {
         List<PartConfig> _partConfigs;
 
-       // bool IsInitialed = false; // 
-
+        // bool IsInitialed = false; // 
+        public string PartConfFile { get; set; } = "parts.xml";
         private PartConfigManager()
         {
             _partConfigs = new List<PartConfig>();
         }
 
         #region 公共方法
-        public void InitPartConfigManager(string partFile)
+        public void InitPartConfigManager()
         {
+            string path = Path.Combine(PathManager.Instance.SettingsSavePath, PartConfFile);
             // 从XML读出文件配置
-            if (File.Exists(partFile))
+            if (File.Exists(path))
             {
-                LoadPartConfigFromXml(partFile);
+                LoadPartConfigFromXml(path);
             }
  //         IsInitialed = true;
         }
