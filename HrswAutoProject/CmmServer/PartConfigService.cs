@@ -15,11 +15,13 @@ namespace Gy.HrswAuto.CmmServer
             return PartConfigManager.Instance.AddPartConfig(partConfig);
         }
 
+
         public bool FindPart(string partId)
         {
             return PartConfigManager.Instance.Exists(partId);
         }
 
+        #region 上传文件实现
         /// <summary>
         /// 上传单个文件, 客户端需要多次调用
         /// 客户端控制文件保存路径
@@ -107,5 +109,53 @@ namespace Gy.HrswAuto.CmmServer
 
             return result;
         }
+        #endregion
+
+        /// <summary>
+        /// 下载文件服务实现
+        /// </summary>
+        /// <param name="downfile">表示文件类型</param>
+        /// <returns>文件流</returns>
+        public DownFileResult DownLoadFile(DownFile downfile)
+        {
+            DownFileResult result = new DownFileResult();
+
+            //string path = System.AppDomain.CurrentDomain.BaseDirectory + @"\service\" + filedata.FileName;
+            string path = ""; 
+            if (downfile.FileType.Equals("cmm", StringComparison.CurrentCultureIgnoreCase))
+            {
+                path = PathManager.Instance.ReportsPath;
+            }
+            else if (downfile.FileType.Equals("rpt", StringComparison.CurrentCultureIgnoreCase))
+            {
+                path = PathManager.Instance.RptFilePath;
+            }
+            else
+            {
+                path = string.Empty;
+            }
+
+            if (!File.Exists(path))
+            {
+                result.IsSuccess = false;
+                result.FileSize = 0;
+                result.Message = "服务器不存在此文件";
+                result.FileStream = new MemoryStream();
+                return result;
+            }
+            Stream ms = new MemoryStream();
+            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            fs.CopyTo(ms);
+            ms.Position = 0;  //重要，不为0的话，客户端读取有问题
+            result.IsSuccess = true;
+            result.FileSize = ms.Length;
+            result.Message = path; // 文件在服务器上的路径
+            result.FileStream = ms;
+
+            fs.Flush();
+            fs.Close();
+            return result;
+        }
+
     }
 }

@@ -89,7 +89,7 @@ namespace ServerMainMold
                 initForm.ShowDialog();
             });
             // 初始化工件配置管理器
-            PartConfigManager.Instance.InitPartConfigManager(_partFile);
+            PartConfigManager.Instance.InitPartConfigManager(/*_partFile*/);
             if (!_msc.Initialize())
             {
                 //初始化PCDMIS失败

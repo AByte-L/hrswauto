@@ -36,10 +36,14 @@ namespace Gy.HrswAuto.ICmmServer
         /// <param name="partConfig"></param>
         [OperationContract]
         bool AddPartConfig(PartConfig partConfig);
-        
-        ////下载文件
-        //[OperationContract]
-        //DownFileResult DownLoadFile(DownFile downfile);
+
+        /// <summary>
+        /// 下载结果文件集
+        /// </summary>
+        /// <param name="downfile"></param>
+        /// <returns></returns>
+        [OperationContract]
+        DownFileResult DownLoadFile(DownFile downfile);
     }
 
     [MessageContract]
@@ -80,23 +84,24 @@ namespace Gy.HrswAuto.ICmmServer
         [MessageBodyMember]
         public Stream FileStream { get; set; }
     }
-    //[MessageContract]
-    //public class DownFileResult
-    //{
-    //    [MessageHeader]
-    //    public long FileSize { get; set; }
-    //    [MessageHeader]
-    //    public bool IsSuccess { get; set; }
-    //    [MessageHeader]
-    //    public string Message { get; set; }
-    //    [MessageBodyMember]
-    //    public Stream FileStream { get; set; }
-    //}
 
-    //[MessageContract]
-    //public class DownFile
-    //{
-    //    [MessageHeader]
-    //    public string FileName { get; set; }
-    //}
+    [MessageContract]
+    public class DownFileResult
+    {
+        [MessageHeader]
+        public long FileSize { get; set; }
+        [MessageHeader]
+        public bool IsSuccess { get; set; }
+        [MessageHeader]
+        public string Message { get; set; }
+        [MessageBodyMember]
+        public Stream FileStream { get; set; }
+    }
+
+    [MessageContract]
+    public class DownFile
+    {
+        [MessageHeader]
+        public string FileType { get; set; } // cmm or rpt
+    }
 }

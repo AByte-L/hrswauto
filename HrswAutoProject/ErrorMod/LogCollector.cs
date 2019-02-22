@@ -1,4 +1,5 @@
 ﻿using Gy.HrswAuto.ICmmServer;
+using Gy.HrswAuto.UICommonTools;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -42,6 +43,7 @@ namespace Gy.HrswAuto.ErrorMod
                 finally
                 {
                     LocalLogCollector.WriteMessage(message); // 工作出错状态信息
+                    ServerUILinker.WriteUILog(message);
                 }
             }
         }
@@ -61,6 +63,7 @@ namespace Gy.HrswAuto.ErrorMod
                 finally
                 {
                     LocalLogCollector.WriteMessage(message); // 服务器工作状态
+                    ServerUILinker.WriteUILog(message);
                 }
             }
         }  // 传递服务器工作状态信息，同步方法

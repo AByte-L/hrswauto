@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -51,7 +52,7 @@ namespace Gy.HrswAuto.CmmServer
             _pcdmisCore.SetTimeout(pcTimeout);
             _bladeContext.SetTimeout(bdTimeout);
         }
- 
+
         public bool Initialize()
         {
             try
@@ -67,7 +68,7 @@ namespace Gy.HrswAuto.CmmServer
             return _pcdmisCore._IsInitialed;
         }
 
-        #region 调试用方法
+        #region 调试方法
         // 
         private void _pcdmisCore_PCDmisMeasureEvent1(object sender, PCDmisEventArgs e)
         {
@@ -120,7 +121,7 @@ namespace Gy.HrswAuto.CmmServer
             if (!e.IsCompleted)
             {
                 LogCollector.Instance.PostSvrErrorMessage("PCDMIS没有完成执行或执行出错");
-                ServerUILinker.WriteUILog(e.PCDmisRunInfo);
+                //ServerUILinker.WriteUILog(e.PCDmisRunInfo);
                 if (e.FaultType == PCDmisFaultType.FT_FatalError)
                 {
                     ReinitialPCDmist();
@@ -132,11 +133,13 @@ namespace Gy.HrswAuto.CmmServer
             bool ok = await Task.Run(() =>
             {
                 _bladeMeasAssist.PCDmisRtfToBladeRpt(); // 转换rtf到rpt文件
+                PathManager.Instance.RptFilePath = _bladeMeasAssist.RptFileName; // rptfilename 全路径
                 return _bladeContext.StartBlade(bladeExe, _bladeMeasAssist.RptFileName);
             });
             if (ok)
             {
                 // 执行结果分析, 分析CMM文件
+                PathManager.Instance.ReportsPath = _bladeContext.CMMFileFullPath; 
                 bool measResult = _bladeMeasAssist.VerifyAnalysisResult(_bladeContext.CMMFileFullPath);
                 // 如果客户端断开，跳出异常
                 try
@@ -188,25 +191,40 @@ namespace Gy.HrswAuto.CmmServer
             if (!File.Exists(partProgFileName))
             {
                 LogCollector.Instance.PostSvrErrorMessage("程序文件不存在");
-                ServerUILinker.WriteUILog("程序文件不存在");
+                //ServerUILinker.WriteUILog("程序文件不存在");
                 return;
             }
-            //ServerUILinker.RefreshPartInfo(partId, partProgFileName);
+            ServerUILinker.RefreshLog($"测量工件: {partId}, 程序:{partProgFileName}");
             try
             {
                 _pcdmisCore.OpenPartProgram(partProgFileName);
+                Thread.Sleep(100); // 等待开启测量程序
+                                   //if (IsBladeMeasure)
+                                   //{
                 _pcdmisCore.GetProgramCommandParameters(); // 获得测尖直径和输出文件
-                if (_pcdmisCore.HasOutputFile) // 如果程序找到输出文件，则设置blade测量辅助
+                if (!_pcdmisCore.HasOutputFile)
                 {
-                    _bladeMeasAssist.Part = _part;
-                    _bladeMeasAssist.ProbeDiam = _pcdmisCore.ProbeDiam;
-                    _bladeMeasAssist.RtfFileName = _pcdmisCore.RtfFileName;
-                    // 创建Blade.txt文件
-                    if (IsBladeMeasure) // 
-                    {
-                        _bladeMeasAssist.CreateBladeTxtFromNominal();
-                    }
+                    ServerUILinker.WriteUILog("测量程序无输出，无法进行叶片计算");
+                    LogCollector.Instance.PostSvrErrorMessage("测量程序无输出，无法进行叶片计算");
+                    return;
                 }
+                // 
+                _bladeMeasAssist.Part = _part;
+                _bladeMeasAssist.ProbeDiam = _pcdmisCore.ProbeDiam;
+                _bladeMeasAssist.RtfFileName = _pcdmisCore.RtfFileName;
+                // 创建Blade.txt文件
+                _bladeMeasAssist.CreateBladeTxtFromNominal();
+                //}
+                //if (_pcdmisCore.HasOutputFile) // 如果程序找到输出文件，则设置blade测量辅助
+                //{
+                //    _bladeMeasAssist.Part = _part;
+                //    _bladeMeasAssist.ProbeDiam = _pcdmisCore.ProbeDiam;
+                //    _bladeMeasAssist.RtfFileName = _pcdmisCore.RtfFileName;
+                //    if (IsBladeMeasure) // 
+                //    {
+                //        _bladeMeasAssist.CreateBladeTxtFromNominal();
+                //    }
+                //}
                 if (!_pcdmisCore.ExecutePartProgram()) // 执行程序
                 {
                     LogCollector.Instance.PostSvrErrorMessage("pcdmis没有启动执行");
@@ -216,7 +234,7 @@ namespace Gy.HrswAuto.CmmServer
             catch (Exception)
             {
                 LogCollector.Instance.PostSvrErrorMessage("PCDmis出错, 重启PCDmis");
-                ServerUILinker.WriteUILog("PCDmis出错, 重启PCDmis");
+                //ServerUILinker.WriteUILog("PCDmis出错, 重启PCDmis");
                 //处理PCDMIS的CrashSender1402.exe窗口
                 bool result = CloseCrashSender();
                 ReinitialPCDmist();

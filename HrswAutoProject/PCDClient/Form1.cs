@@ -42,7 +42,7 @@ namespace PCDClient
             prcnf.FlvFileName = "blade5.flv";
             prcnf.NormFileName = "blade5.nom";
             prcnf.TolFileName = "blade5.tol";
-            PartConfigManager.Instance.InitPartConfigManager(@"d:\clientPathRoot\parts.xml");
+            PartConfigManager.Instance.InitPartConfigManager(/*@"d:\clientPathRoot\parts.xml"*/);
             PartConfigManager.Instance.AddPartConfig(prcnf);
             PartConfigManager.Instance.SavePartConfigToXml(@"d:\clientPathRoot\parts.xml");
             _cmmClient = new CmmClient(serverCnf);

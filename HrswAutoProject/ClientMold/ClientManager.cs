@@ -101,6 +101,10 @@ namespace Gy.HrswAuto.MasterMold
                         client.State = ClientState.CS_Busy;
                         client.Continue();
                         break;
+                    case ClientState.CS_PullReports:
+                        client.State = ClientState.CS_Completed;
+                        client.PullReport();
+                        break;
                     default:
                         break;
                 }

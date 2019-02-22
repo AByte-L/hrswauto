@@ -38,10 +38,10 @@ namespace Gy.HrswAuto.ClientMold
         public void WorkCompleted(bool isPass) // todo 完成之前，需要与服务器协调报告处理方式
         {
             // 由ClientManager循环处理
-            //_cmmClient.CurPartIsPass = isPass;
-            //_cmmClient.State = ClientState.CS_Continue;
+            _cmmClient.CurPartIsPass = isPass;
+            _cmmClient.State = ClientState.CS_PullReports;
             // 调试时使用
-            _cmmClient.WorkContinue();
+            //_cmmClient.WorkContinue();
         }
     }
 }

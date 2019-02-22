@@ -19,6 +19,7 @@ namespace Gy.HrswAuto.Utilities
         public string BladesPath { get; set; }
         public string TempPath { get; set; }
         public string ReportsPath { get; set; }
+        public string RptFilePath { get; set; }
         public string SettingsPath { get; set; }
 
         public string GetProgsFullPath()

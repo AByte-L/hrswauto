@@ -304,10 +304,10 @@ namespace Gy.HrswAuto.CmmServer
             }
             // 响应PCDMIS测量结束事件
             pce = new PCDmisEventArgs() { IsCompleted = true };
-            pce.PCDmisRunInfo = "测量完成";
+            pce.PCDmisRunInfo = "程序执行完成";
             pce.FaultType = PCDmisFaultType.FT_None;
             PCDmisMeasureEvent?.Invoke(this, pce);
-            LogCollector.Instance.PostSvrWorkStatus("测量结束");
+            LogCollector.Instance.PostSvrWorkStatus("程序执行完成");
         }
 
         /// <summary>

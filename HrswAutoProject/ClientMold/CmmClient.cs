@@ -116,6 +116,51 @@ namespace Gy.HrswAuto.ClientMold
         {
             SendPlaceRequest();
         }
+
+        public void PullReport()
+        {
+            // 获取当前的cmm和rpt报告文件
+            bool ok = DownFileFromServer("cmm");
+            if (!ok)
+            {
+                // todo 更新用户界面
+                return;
+            }
+            ok = DownFileFromServer("rpt");
+            if (!ok)
+            {
+                // todo 更新用户界面
+                return;
+            }
+            // todo 更新用户界面
+        }
+
+        private bool DownFileFromServer(string v)
+        {
+            DownFile df = new DownFile();
+            df.FileType = v;
+            DownFileResult res = _partConfigService.DownLoadFile(df);
+            if (res.IsSuccess)
+            {
+                string path = Path.GetDirectoryName(res.Message);
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                byte[] buffer = new byte[res.FileSize];
+                using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write))
+                {
+                    int count = 0;
+                    while ((count = res.FileStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        fs.Write(buffer, 0, count);
+                    }
+                    fs.Flush();
+                    fs.Close();
+                }
+            }
+            return res.IsSuccess;
+        }
         #endregion
 
         #region Remote方法
