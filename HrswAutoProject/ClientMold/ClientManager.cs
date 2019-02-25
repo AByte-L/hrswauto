@@ -83,27 +83,24 @@ namespace Gy.HrswAuto.MasterMold
                     break;
                 switch (client.State)
                 {
-                    case ClientState.CS_Idle:
+                    case ClientState.CS_Idle: // 启示空闲状态
                         client.State = ClientState.CS_Busy;
                         client.StartWork();
                         break;
-                    case ClientState.CS_Completed:
+                    case ClientState.CS_Completed: // 测量完成状态
                         // 处理回传报告
-                        client.State = ClientState.CS_Continue;
+                        client.State = ClientState.CS_Busy;
+                        client.PullReport();
                         break;
-                    case ClientState.CS_Busy:
-                        // todo 刷新client状态显示
-                        break;
-                    case ClientState.CS_Error:
-                        // todo 刷新client状态显示
-                        break;
-                    case ClientState.CS_Continue:
+                    case ClientState.CS_Continue: // 继续测量状态
                         client.State = ClientState.CS_Busy;
                         client.Continue();
                         break;
-                    case ClientState.CS_PullReports:
-                        client.State = ClientState.CS_Completed;
-                        client.PullReport();
+                    case ClientState.CS_Busy: // 忙碌状态
+                        // todo 刷新client状态显示
+                        break;
+                    case ClientState.CS_Error: // 出错状态
+                        // todo 刷新client状态显示
                         break;
                     default:
                         break;

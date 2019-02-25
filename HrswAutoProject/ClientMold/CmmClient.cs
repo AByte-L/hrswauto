@@ -13,6 +13,13 @@ using System.Timers;
 
 namespace Gy.HrswAuto.ClientMold
 {
+    public class ResultRecord
+    {
+        public string CmmFileName { get; set; }
+        public string RptFileName { get; set; }
+        public string FilePath { get; set; }
+        public bool IsPass { get; set; }
+    }
     public class CmmClient
     {
         #region 数据成员属性
@@ -42,7 +49,11 @@ namespace Gy.HrswAuto.ClientMold
             set { actived = value; }
         }
 
-        public bool CurPartIsPass { get; set; } = false;
+        public ResultRecord CurPartRecord { get; set; }
+
+        //记录结果文件
+        List<ResultRecord> resultRecord = new List<ResultRecord>();
+
         //public event EventHandler<FeedRequestArg> OnPlaceAndGripRequestEvent;
         //public event EventHandler<FeedRequestArg> OnGripRequestEvent;
         //public event EventHandler<FeedRequestArg> OnPlaceRequestEvent;
@@ -55,6 +66,7 @@ namespace Gy.HrswAuto.ClientMold
         public CmmClient(CmmServerConfig cmmSvrConfig)
         {
             CmmSvrConfig = cmmSvrConfig;
+            CurPartRecord = new ResultRecord();
         }
 
         public void InitClient()
@@ -106,10 +118,12 @@ namespace Gy.HrswAuto.ClientMold
         }
 
         // 继续上件
+        // todo 抓取工件后，机器人将工件放置到槽中，返回槽号，刷新结果界面
         public void Continue()
         {
             // 送抓料取料命令
-            SendPlaceAndGripRequest(CurPartIsPass);
+            //SendPlaceAndGripRequest(CurPartRecord.IsPass);
+            SendGripRequest(CurPartRecord.IsPass);
         }
 
         public void StartWork()
@@ -117,50 +131,7 @@ namespace Gy.HrswAuto.ClientMold
             SendPlaceRequest();
         }
 
-        public void PullReport()
-        {
-            // 获取当前的cmm和rpt报告文件
-            bool ok = DownFileFromServer("cmm");
-            if (!ok)
-            {
-                // todo 更新用户界面
-                return;
-            }
-            ok = DownFileFromServer("rpt");
-            if (!ok)
-            {
-                // todo 更新用户界面
-                return;
-            }
-            // todo 更新用户界面
-        }
 
-        private bool DownFileFromServer(string v)
-        {
-            DownFile df = new DownFile();
-            df.FileType = v;
-            DownFileResult res = _partConfigService.DownLoadFile(df);
-            if (res.IsSuccess)
-            {
-                string path = Path.GetDirectoryName(res.Message);
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                byte[] buffer = new byte[res.FileSize];
-                using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write))
-                {
-                    int count = 0;
-                    while ((count = res.FileStream.Read(buffer, 0, buffer.Length)) > 0)
-                    {
-                        fs.Write(buffer, 0, count);
-                    }
-                    fs.Flush();
-                    fs.Close();
-                }
-            }
-            return res.IsSuccess;
-        }
         #endregion
 
         #region Remote方法
@@ -305,6 +276,62 @@ namespace Gy.HrswAuto.ClientMold
                 return ures.IsSuccess;
             }
         }
+        public void PullReport()
+        {
+            // 获取当前的cmm和rpt报告文件
+            bool ok = DownFileFromServer("cmm");
+            if (!ok)
+            {
+                // todo 更新用户界面
+                State = ClientState.CS_Error;
+                return;
+            }
+            ok = DownFileFromServer("rpt");
+            if (!ok)
+            {
+                // todo 更新用户界面
+                State = ClientState.CS_Error;
+                return;
+            }
+            // todo 更新用户界面
+        }
+        private bool DownFileFromServer(string v)
+        {
+            DownFile df = new DownFile();
+            df.FileType = v;
+            DownFileResult res = _partConfigService.DownLoadFile(df);
+            if (res.IsSuccess)
+            {
+                string path = Path.GetDirectoryName(res.Message); // 在客户端建立相同的目录
+                // 记录结果信息
+                CurPartRecord.FilePath = path;
+                if (v.Equals("cmm", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    CurPartRecord.CmmFileName = Path.GetFileName(res.Message);
+                }
+                else
+                {
+                    CurPartRecord.RptFileName = Path.GetFileName(res.Message);
+                }
+
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                byte[] buffer = new byte[res.FileSize];
+                using (FileStream fs = new FileStream(res.Message, FileMode.Create, FileAccess.Write))
+                {
+                    int count = 0;
+                    while ((count = res.FileStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        fs.Write(buffer, 0, count);
+                    }
+                    fs.Flush();
+                    fs.Close();
+                }
+            }
+            return res.IsSuccess;
+        }
         #endregion
 
         #region PLC方法
@@ -351,6 +378,7 @@ namespace Gy.HrswAuto.ClientMold
             gripFeedRequest.Perform(); // 执行请求
         }
 
+        // todo 抓取完成之后，需要等待机器人放置工件
         /// <summary>
         /// 下料抓取完成事件处理函数
         /// </summary>
@@ -362,6 +390,7 @@ namespace Gy.HrswAuto.ClientMold
             {
                 SendPlaceRequest();
             }
+
         }
 
         /// <summary>

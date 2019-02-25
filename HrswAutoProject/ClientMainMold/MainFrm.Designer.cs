@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
@@ -39,13 +40,6 @@
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.resultPanel = new System.Windows.Forms.Panel();
             this.ResultView = new System.Windows.Forms.DataGridView();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column17 = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Column18 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.label3 = new System.Windows.Forms.Label();
             this.partPanel = new System.Windows.Forms.Panel();
             this.partView = new System.Windows.Forms.DataGridView();
@@ -77,6 +71,14 @@
             this.disableCmmTsb = new System.Windows.Forms.ToolStripButton();
             this.plcPanel = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.resultRowBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReportFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column17 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Column18 = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -91,6 +93,7 @@
             this.cmmPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CmmView)).BeginInit();
             this.cmmToolStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.resultRowBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -230,16 +233,18 @@
             // 
             this.ResultView.AllowUserToAddRows = false;
             this.ResultView.AllowUserToDeleteRows = false;
+            this.ResultView.AutoGenerateColumns = false;
             this.ResultView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.ResultView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ResultView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column12,
             this.Column13,
-            this.Column14,
             this.Column15,
             this.Column16,
+            this.ReportFileName,
             this.Column17,
             this.Column18});
+            this.ResultView.DataSource = this.resultRowBindingSource;
             this.ResultView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ResultView.Location = new System.Drawing.Point(0, 10);
             this.ResultView.Name = "ResultView";
@@ -248,49 +253,6 @@
             this.ResultView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ResultView.Size = new System.Drawing.Size(1049, 659);
             this.ResultView.TabIndex = 3;
-            // 
-            // Column12
-            // 
-            this.Column12.FillWeight = 50F;
-            this.Column12.HeaderText = "块架槽号";
-            this.Column12.Name = "Column12";
-            this.Column12.ReadOnly = true;
-            // 
-            // Column13
-            // 
-            this.Column13.HeaderText = "工件标号";
-            this.Column13.Name = "Column13";
-            this.Column13.ReadOnly = true;
-            // 
-            // Column14
-            // 
-            this.Column14.HeaderText = "检测程序";
-            this.Column14.Name = "Column14";
-            this.Column14.ReadOnly = true;
-            // 
-            // Column15
-            // 
-            this.Column15.HeaderText = "工件槽状态";
-            this.Column15.Name = "Column15";
-            this.Column15.ReadOnly = true;
-            // 
-            // Column16
-            // 
-            this.Column16.HeaderText = "是否合格";
-            this.Column16.Name = "Column16";
-            this.Column16.ReadOnly = true;
-            // 
-            // Column17
-            // 
-            this.Column17.HeaderText = "查看报告";
-            this.Column17.Name = "Column17";
-            this.Column17.ReadOnly = true;
-            // 
-            // Column18
-            // 
-            this.Column18.HeaderText = "报告目录";
-            this.Column18.Name = "Column18";
-            this.Column18.ReadOnly = true;
             // 
             // label3
             // 
@@ -598,6 +560,58 @@
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // resultRowBindingSource
+            // 
+            this.resultRowBindingSource.DataSource = typeof(ClientMainMold.PartResult);
+            // 
+            // Column12
+            // 
+            this.Column12.DataPropertyName = "SlotID";
+            this.Column12.FillWeight = 50F;
+            this.Column12.HeaderText = "块架槽号";
+            this.Column12.Name = "Column12";
+            this.Column12.ReadOnly = true;
+            // 
+            // Column13
+            // 
+            this.Column13.DataPropertyName = "PartID";
+            this.Column13.HeaderText = "工件标号";
+            this.Column13.Name = "Column13";
+            this.Column13.ReadOnly = true;
+            // 
+            // Column15
+            // 
+            this.Column15.DataPropertyName = "SlotState";
+            this.Column15.HeaderText = "工件槽状态";
+            this.Column15.Name = "Column15";
+            this.Column15.ReadOnly = true;
+            // 
+            // Column16
+            // 
+            this.Column16.DataPropertyName = "IsPass";
+            this.Column16.HeaderText = "是否合格";
+            this.Column16.Name = "Column16";
+            this.Column16.ReadOnly = true;
+            // 
+            // ReportFileName
+            // 
+            this.ReportFileName.DataPropertyName = "ReportFileName";
+            this.ReportFileName.HeaderText = "报告名";
+            this.ReportFileName.Name = "ReportFileName";
+            this.ReportFileName.ReadOnly = true;
+            // 
+            // Column17
+            // 
+            this.Column17.HeaderText = "查看报告";
+            this.Column17.Name = "Column17";
+            this.Column17.ReadOnly = true;
+            // 
+            // Column18
+            // 
+            this.Column18.HeaderText = "报告目录";
+            this.Column18.Name = "Column18";
+            this.Column18.ReadOnly = true;
+            // 
             // MainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -608,6 +622,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Name = "MainFrm";
             this.Text = "Form1";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainFrm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
@@ -628,6 +643,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.CmmView)).EndInit();
             this.cmmToolStrip.ResumeLayout(false);
             this.cmmToolStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.resultRowBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -676,11 +692,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView ResultView;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.BindingSource resultRowBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column16;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ReportFileName;
         private System.Windows.Forms.DataGridViewButtonColumn Column17;
         private System.Windows.Forms.DataGridViewButtonColumn Column18;
     }

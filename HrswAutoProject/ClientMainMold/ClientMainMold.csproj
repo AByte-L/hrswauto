@@ -75,7 +75,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResultViewRow.cs" />
+    <Compile Include="PartResult.cs" />
     <Compile Include="SingleInstanceApplication.cs" />
     <Compile Include="SwPanel.cs" />
     <Compile Include="WritePartIDForm.cs">
@@ -107,6 +107,7 @@
     <EmbeddedResource Include="WritePartIDForm.resx">
       <DependentUpon>WritePartIDForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\ResultRow.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

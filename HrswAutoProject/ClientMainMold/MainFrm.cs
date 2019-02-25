@@ -18,8 +18,7 @@ namespace ClientMainMold
 {
     public partial class MainFrm : Form
     {
-        //private ClientManager clientManager; 单件初始化
-        private List<ResultViewRow> resultArray = new List<ResultViewRow>(60);
+        BindingList<PartResult> resultList = new BindingList<PartResult>();
         public MainFrm()
         {
             InitializeComponent();
@@ -103,7 +102,8 @@ namespace ClientMainMold
         private void MainFrm_Load(object sender, EventArgs e)
         {
             ShowPanel(SwPanel.cmmPanel);
-            CreateResultView();
+            ResultView.DataSource = resultList;
+            InitResult();
             //ClientManager.Instance.ClientConfigFileName = "clients.xml";
             //PartConfigManager.Instance.PartConfFile = "parts.xml";
             ClientManager.Instance.Initialize();
@@ -296,14 +296,30 @@ namespace ClientMainMold
         }
         #endregion
 
-        private void CreateResultView()
+        private void InitResult()
         {
             for (int i = 0; i < 60; i++)
             {
-                int index = ResultView.Rows.Add();
-                ResultView.Rows[index].Cells[0].Value = i+1;
+                PartResult row = new PartResult()
+                {
+                    SlotID = i + 1,
+                    PartID = "",
+                    PcProgram = "",
+                    SlotState = "",
+                    IsPass = ""
+                };
+                resultList.Add(row);
             }
         }
 
+        private void RefreshResult()
+        {
+
+        }
+
+        private void ResetResult()
+        {
+
+        }    
     }
 }

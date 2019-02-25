@@ -13,8 +13,7 @@ namespace Gy.HrswAuto.ClientMold
         CS_Completed,
         CS_Busy,
         CS_Error,
-        CS_Continue,
-        CS_PullReports
+        CS_Continue
     }
 
 }

@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.infoDataGridView = new System.Windows.Forms.DataGridView();
@@ -53,10 +53,11 @@
             // 
             this.groupBox1.Controls.Add(this.infoDataGridView);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(10, 3);
+            this.groupBox1.Location = new System.Drawing.Point(8, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(8);
-            this.groupBox1.Size = new System.Drawing.Size(811, 581);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBox1.Size = new System.Drawing.Size(607, 465);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "信息";
@@ -70,18 +71,19 @@
             this.Column1,
             this.Column2});
             this.infoDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.infoDataGridView.Location = new System.Drawing.Point(8, 26);
+            this.infoDataGridView.Location = new System.Drawing.Point(6, 20);
+            this.infoDataGridView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.infoDataGridView.MultiSelect = false;
             this.infoDataGridView.Name = "infoDataGridView";
             this.infoDataGridView.ReadOnly = true;
             this.infoDataGridView.RowTemplate.Height = 27;
-            this.infoDataGridView.Size = new System.Drawing.Size(795, 547);
+            this.infoDataGridView.Size = new System.Drawing.Size(595, 439);
             this.infoDataGridView.TabIndex = 0;
             // 
             // Column1
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle3;
             this.Column1.HeaderText = "时间";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
@@ -90,8 +92,8 @@
             // Column2
             // 
             this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle4;
             this.Column2.HeaderText = "信息";
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
@@ -113,9 +115,9 @@
             this.gotoToolStripButton,
             this.RestartToolStripButton,
             this.ClearErrorToolStripButton});
-            this.toolStrip1.Location = new System.Drawing.Point(10, 584);
+            this.toolStrip1.Location = new System.Drawing.Point(8, 467);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(811, 47);
+            this.toolStrip1.Size = new System.Drawing.Size(607, 47);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -137,7 +139,7 @@
             this.gotoToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.gotoToolStripButton.Name = "gotoToolStripButton";
             this.gotoToolStripButton.Size = new System.Drawing.Size(73, 44);
-            this.gotoToolStripButton.Text = "定位";
+            this.gotoToolStripButton.Text = "回安全位";
             this.gotoToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.gotoToolStripButton.Click += new System.EventHandler(this.gotoToolStripButton_Click);
             // 
@@ -157,7 +159,7 @@
             this.ClearErrorToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearErrorToolStripButton.Image")));
             this.ClearErrorToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ClearErrorToolStripButton.Name = "ClearErrorToolStripButton";
-            this.ClearErrorToolStripButton.Size = new System.Drawing.Size(73, 44);
+            this.ClearErrorToolStripButton.Size = new System.Drawing.Size(60, 44);
             this.ClearErrorToolStripButton.Text = "清除错误";
             this.ClearErrorToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.ClearErrorToolStripButton.Click += new System.EventHandler(this.ClearErrorToolStripButton_Click);
@@ -166,9 +168,10 @@
             // 
             this.statusStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Location = new System.Drawing.Point(10, 631);
+            this.statusStrip1.Location = new System.Drawing.Point(8, 514);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(811, 28);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(607, 13);
             this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
@@ -176,23 +179,24 @@
             // notifyIcon1
             // 
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Text = "服务器";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
             // 
             // MainFrm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(831, 664);
+            this.ClientSize = new System.Drawing.Size(623, 531);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.Name = "MainFrm";
-            this.Padding = new System.Windows.Forms.Padding(10, 3, 10, 5);
+            this.Padding = new System.Windows.Forms.Padding(8, 2, 8, 4);
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "MainFrm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFrm_FormClosed);
