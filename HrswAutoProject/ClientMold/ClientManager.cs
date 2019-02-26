@@ -61,7 +61,7 @@ namespace Gy.HrswAuto.MasterMold
         public bool AddClient(CmmServerConfig csConf)
         {
             // 判断机器是否已经存在
-            if (_cmmSvrConfigs.Where(cl => cl.HostIPAddress.Equals(csConf.HostIPAddress)).Count() == 0)
+            if (_cmmSvrConfigs.Where(cl => cl.HostIPAddress.Equals(csConf.HostIPAddress)).Count() == 0 && _cmmSvrConfigs.Where(cl => cl.ServerID == csConf.ServerID).Count() == 0)
             {
                 _cmmSvrConfigs.Add(csConf); //  添加机器配置信息
                 CmmClient client = new CmmClient(csConf);
@@ -161,6 +161,10 @@ namespace Gy.HrswAuto.MasterMold
 
         public void DeleteClient(int index)
         {
+            if (index <0)
+            {
+                return;
+            }
             _cmmClients.RemoveAt(index);
             CmmSvrConfigs.RemoveAt(index);
         }

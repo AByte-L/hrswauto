@@ -75,9 +75,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PartResult.cs" />
     <Compile Include="SingleInstanceApplication.cs" />
     <Compile Include="SwPanel.cs" />
+    <Compile Include="UIDataGridRecords.cs" />
     <Compile Include="WritePartIDForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +107,9 @@
     <EmbeddedResource Include="WritePartIDForm.resx">
       <DependentUpon>WritePartIDForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\CmmDataRecord.datasource" />
+    <None Include="Properties\DataSources\Gy.HrswAuto.ClientMold.CmmClient.datasource" />
+    <None Include="Properties\DataSources\PartResultRecord.datasource" />
     <None Include="Properties\DataSources\ResultRow.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

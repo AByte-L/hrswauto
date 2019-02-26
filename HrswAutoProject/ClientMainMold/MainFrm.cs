@@ -18,11 +18,14 @@ namespace ClientMainMold
 {
     public partial class MainFrm : Form
     {
-        BindingList<PartResult> resultList = new BindingList<PartResult>();
+        BindingList<PartResultRecord> resultRecordList = new BindingList<PartResultRecord>();
+        BindingList<CmmDataRecord> cmmRecordList = new BindingList<CmmDataRecord>();
+
         public MainFrm()
         {
             InitializeComponent();
             // 设置Path
+            cmmDataRecordBindingSource.DataSource = cmmRecordList;
             SetAppPaths();
             ClientUICommon.syncContext = SynchronizationContext.Current;
             ClientUICommon.AddCmmToView = AddClientView;
@@ -102,7 +105,8 @@ namespace ClientMainMold
         private void MainFrm_Load(object sender, EventArgs e)
         {
             ShowPanel(SwPanel.cmmPanel);
-            ResultView.DataSource = resultList;
+            CmmView.AutoGenerateColumns = false;
+            ResultView.DataSource = resultRecordList;
             InitResult();
             //ClientManager.Instance.ClientConfigFileName = "clients.xml";
             //PartConfigManager.Instance.PartConfFile = "parts.xml";
@@ -115,46 +119,14 @@ namespace ClientMainMold
         {
             ClientUICommon.syncContext.Post(o =>
             {
-                Image errorPic = Properties.Resources.Error;
-                Image okPic = Properties.Resources.ok;
-                int index = CmmView.Rows.Add();
-                DataGridViewRow row = CmmView.Rows[index];
-                row.Cells[0].Value = true;
-                row.Cells[1].Value = arg1.ServerID;
-                row.Cells[2].Value = arg1.HostIPAddress;
-                string stateInfo = "";
-                switch (arg2)
-                {
-                    case ClientState.CS_Idle:
-                        stateInfo = "空闲";
-                        break;
-                    case ClientState.CS_Completed:
-                        stateInfo = "完成";
-                        break;
-                    case ClientState.CS_Busy:
-                        stateInfo = "忙碌";
-                        break;
-                    case ClientState.CS_Error:
-                        stateInfo = "出错";
-                        break;
-                    case ClientState.CS_Continue:
-                        stateInfo = "等待";
-                        break;
-                    default:
-                        stateInfo = "未知";
-                        break;
-                }
-                row.Cells[3].Value = stateInfo;
-                if (arg2 == ClientState.CS_Error)
-                {
-                    row.Cells[4].Value = errorPic;
-                }
-                else
-                {
-                    row.Cells[4].Value = okPic;
-                }
+                CmmDataRecord cmmRecord = new CmmDataRecord(arg1, true, arg2);
+                //cmmRecord.IsActived = true;
+                //cmmRecord.ServerID = arg1.ServerID;
+                //cmmRecord.IPAddress = arg1.HostIPAddress;
+                //cmmRecord.State = cmmStateInfo[arg2];
+                //cmmRecord.IsFault = arg2 == ClientState.CS_Error ? true : false;
+                cmmRecordList.Add(cmmRecord);
             }, null);
-
         }
         private void addCmmTsb_Click(object sender, EventArgs e)
         {
@@ -175,11 +147,8 @@ namespace ClientMainMold
         {
             foreach (DataGridViewRow r in CmmView.SelectedRows)
             {
-                if (!r.IsNewRow)
-                {
-                    CmmView.Rows.Remove(r);
-                    ClientManager.Instance.DeleteClient(r.Index);
-                }
+                ClientManager.Instance.DeleteClient(r.Index);
+                cmmRecordList.RemoveAt(r.Index);
             }
         }
 
@@ -187,24 +156,20 @@ namespace ClientMainMold
         {
             foreach (DataGridViewRow r in CmmView.SelectedRows)
             {
-                if (!(bool)r.Cells[0].Value)
-                {
-                    r.Cells[0].Value = true;
-                    ClientManager.Instance.EnableClient(r.Index);
-                }
+                ClientManager.Instance.EnableClient(r.Index);
+                cmmRecordList[r.Index].IsActived = true;
             }
+            CmmView.Invalidate();
         }
 
         private void disableCmmTsb_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow r in CmmView.SelectedRows)
             {
-                if ((bool)r.Cells[0].Value)
-                {
-                    r.Cells[0].Value = false;
-                    ClientManager.Instance.DisableClient(r.Index);
-                }
+                ClientManager.Instance.DisableClient(r.Index);
+                cmmRecordList[r.Index].IsActived = false;
             }
+            CmmView.Invalidate();
         }
 
         #endregion
@@ -300,15 +265,15 @@ namespace ClientMainMold
         {
             for (int i = 0; i < 60; i++)
             {
-                PartResult row = new PartResult()
+                PartResultRecord row = new PartResultRecord()
                 {
                     SlotID = i + 1,
                     PartID = "",
                     PcProgram = "",
-                    SlotState = "",
+                    SlotState = "未放件",
                     IsPass = ""
                 };
-                resultList.Add(row);
+                resultRecordList.Add(row);
             }
         }
 
@@ -320,6 +285,6 @@ namespace ClientMainMold
         private void ResetResult()
         {
 
-        }    
+        }
     }
 }

@@ -40,10 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PartRack.cs" />
     <Compile Include="PlcClient.cs" />
     <Compile Include="PlcMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="snap7.net.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataMold\BaseMold.csproj">
+      <Project>{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}</Project>
+      <Name>BaseMold</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,25 +1,16 @@
-﻿using Gy.HrswAuto.DataMold;
+﻿using Gy.HrswAuto.ClientMold;
+using Gy.HrswAuto.DataMold;
 using Gy.HrswAuto.ICmmServer;
 using Gy.HrswAuto.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace Gy.HrswAuto.ClientMold
 {
-    public class ResultRecord
-    {
-        public string CmmFileName { get; set; }
-        public string RptFileName { get; set; }
-        public string FilePath { get; set; }
-        public bool IsPass { get; set; }
-    }
+
     public class CmmClient
     {
         #region 数据成员属性
@@ -31,7 +22,7 @@ namespace Gy.HrswAuto.ClientMold
         public string CurPartId { get; set; }
         public ClientState State { get; set; }
         private ProxyFactory _proxyFactory; // 
-        // 代理通道
+                                            // 代理通道
         ICmmControl _cmmCtrl;
         IPartConfigService _partConfigService;
         private bool _IsInitialed = false;
@@ -52,7 +43,7 @@ namespace Gy.HrswAuto.ClientMold
         public ResultRecord CurPartRecord { get; set; }
 
         //记录结果文件
-        List<ResultRecord> resultRecord = new List<ResultRecord>();
+        List<ResultRecord> resultRecords = new List<ResultRecord>();
 
         //public event EventHandler<FeedRequestArg> OnPlaceAndGripRequestEvent;
         //public event EventHandler<FeedRequestArg> OnGripRequestEvent;
@@ -293,8 +284,11 @@ namespace Gy.HrswAuto.ClientMold
                 State = ClientState.CS_Error;
                 return;
             }
-            // todo 更新用户界面
+            // 添加报告记录，并且更改成可继续测量状态
+            resultRecords.Add(CurPartRecord);
+            State = ClientState.CS_Continue;
         }
+
         private bool DownFileFromServer(string v)
         {
             DownFile df = new DownFile();
@@ -303,7 +297,7 @@ namespace Gy.HrswAuto.ClientMold
             if (res.IsSuccess)
             {
                 string path = Path.GetDirectoryName(res.Message); // 在客户端建立相同的目录
-                // 记录结果信息
+                                                                  // 记录结果信息
                 CurPartRecord.FilePath = path;
                 if (v.Equals("cmm", StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -386,10 +380,11 @@ namespace Gy.HrswAuto.ClientMold
         /// <param name="e"></param>
         private void OnGripActionCompletedEvent(object sender, ResponsePlcEventArgs e)
         {
-            if (State.HasFlag(ClientState.CS_Continue)) // 如果客户状态是继续测量则发送上料信号
-            {
-                SendPlaceRequest();
-            }
+            //if (State.HasFlag(ClientState.CS_Continue)) // 如果客户状态是继续测量则发送上料信号
+            //{
+
+            SendPlaceRequest();
+            //}
 
         }
 
@@ -441,3 +436,4 @@ namespace Gy.HrswAuto.ClientMold
         #endregion
     }
 }
+
