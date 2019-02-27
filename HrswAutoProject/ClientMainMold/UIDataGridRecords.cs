@@ -12,9 +12,9 @@ namespace ClientMainMold
 
     public class PartResultRecord
     {
-        public int SlotID { get; set; }
+        public string SlotID { get; set; }
         public string PartID { get; set; }
-        public string SlotState { get; set; }
+        //public string SlotState { get; set; }
         public string PcProgram { get; set; }
         public string IsPass { get; set; }
         public string ReportFileName { get; set; }

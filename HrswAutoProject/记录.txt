@@ -18,6 +18,8 @@ https://blog.csdn.net/liufeifeinanfeng/article/details/71812999 开源界面
 https://www.easyicon.net/ 图标搜索
 https://blog.csdn.net/u010927640/article/details/49492841 状态模式
 https://www.cnblogs.com/yzeng/p/3725663.html DataGridView 添加Image
+https://www.cnblogs.com/HopeGi/p/3352903.html DataGridView 行分组
+https://download.csdn.net/download/yzx6181/2213092 分组
 
 公共资源，设置
 

@@ -12,5 +12,6 @@ namespace Gy.HrswAuto.DataMold
         public string RptFileName { get; set; }
         public string FilePath { get; set; }
         public bool IsPass { get; set; }
+        public string PartID { get; set; }
     }
 }

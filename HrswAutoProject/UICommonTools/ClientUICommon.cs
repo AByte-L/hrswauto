@@ -16,6 +16,7 @@ namespace Gy.HrswAuto.UICommonTools
         public static Action<CmmServerConfig, ClientState> AddCmmToView;
 
         public static Action<PartConfig, string> AddPartToView;
-        
+
+        public static Action<ResultRecord, int> RefreshRackView;
     }
 }

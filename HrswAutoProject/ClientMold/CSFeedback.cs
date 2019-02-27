@@ -38,7 +38,7 @@ namespace Gy.HrswAuto.ClientMold
         public void WorkCompleted(bool isPass)
         {
             // 由ClientManager循环处理
-            _cmmClient.CurPartRecord.IsPass = isPass; 
+            _cmmClient.IsPass = isPass; 
             _cmmClient.State = ClientState.CS_Completed;
             // 调试时使用
             //_cmmClient.WorkContinue();

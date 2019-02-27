@@ -1,6 +1,7 @@
 ﻿using Gy.HrswAuto.ClientMold;
 using Gy.HrswAuto.DataMold;
 using Gy.HrswAuto.ICmmServer;
+using Gy.HrswAuto.PLCMold;
 using Gy.HrswAuto.Utilities;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,9 @@ namespace Gy.HrswAuto.ClientMold
             set { actived = value; }
         }
 
-        public ResultRecord CurPartRecord { get; set; }
+        //public ResultRecord CurPartRecord { get; set; }
+        public bool IsPass { get; set; } = false;
+        private ResultRecord _resultRecord;
 
         //记录结果文件
         List<ResultRecord> resultRecords = new List<ResultRecord>();
@@ -57,7 +60,6 @@ namespace Gy.HrswAuto.ClientMold
         public CmmClient(CmmServerConfig cmmSvrConfig)
         {
             CmmSvrConfig = cmmSvrConfig;
-            CurPartRecord = new ResultRecord();
         }
 
         public void InitClient()
@@ -114,7 +116,7 @@ namespace Gy.HrswAuto.ClientMold
         {
             // 送抓料取料命令
             //SendPlaceAndGripRequest(CurPartRecord.IsPass);
-            SendGripRequest(CurPartRecord.IsPass);
+            SendGripRequest(IsPass);
         }
 
         public void StartWork()
@@ -270,6 +272,10 @@ namespace Gy.HrswAuto.ClientMold
         public void PullReport()
         {
             // 获取当前的cmm和rpt报告文件
+            _resultRecord = null;
+            _resultRecord = new ResultRecord();
+            _resultRecord.PartID = CurPartId;
+            _resultRecord.IsPass = IsPass;
             bool ok = DownFileFromServer("cmm");
             if (!ok)
             {
@@ -285,7 +291,7 @@ namespace Gy.HrswAuto.ClientMold
                 return;
             }
             // 添加报告记录，并且更改成可继续测量状态
-            resultRecords.Add(CurPartRecord);
+            resultRecords.Add(_resultRecord);
             State = ClientState.CS_Continue;
         }
 
@@ -298,14 +304,14 @@ namespace Gy.HrswAuto.ClientMold
             {
                 string path = Path.GetDirectoryName(res.Message); // 在客户端建立相同的目录
                                                                   // 记录结果信息
-                CurPartRecord.FilePath = path;
+                _resultRecord.FilePath = path;
                 if (v.Equals("cmm", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    CurPartRecord.CmmFileName = Path.GetFileName(res.Message);
+                    _resultRecord.CmmFileName = Path.GetFileName(res.Message);
                 }
                 else
                 {
-                    CurPartRecord.RptFileName = Path.GetFileName(res.Message);
+                    _resultRecord.RptFileName = Path.GetFileName(res.Message);
                 }
 
                 if (!Directory.Exists(path))
@@ -382,7 +388,7 @@ namespace Gy.HrswAuto.ClientMold
         {
             //if (State.HasFlag(ClientState.CS_Continue)) // 如果客户状态是继续测量则发送上料信号
             //{
-
+            PartRack.Instance.RefreshSlots(_resultRecord);
             SendPlaceRequest();
             //}
 

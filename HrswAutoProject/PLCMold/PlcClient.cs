@@ -32,6 +32,24 @@ namespace Gy.HrswAuto.PLCMold
             return SetAllFlag(clientID, isPassed);
         }
 
+        public bool ReadUnloadFlag()
+        {
+            lock (syncObj)
+            {
+                byte[] buf = new byte[1];
+                int result = _s7Client.DBRead(15, 0, 1, buf);
+                Thread.Sleep(100);
+                if (result == 0)
+                {
+                    return S7.GetBitAt(buf, 0, 0);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         public bool VerifyWirteIDCompleted()
         {
             lock (syncObj)
@@ -48,6 +66,26 @@ namespace Gy.HrswAuto.PLCMold
                     // todo 更新界面
                     return false;
                 }
+            }
+        }
+
+        internal bool ReadSlotNumber(out int slotNumber)
+        {
+            bool ok = true;
+            lock (syncObj)
+            {
+                byte[] buf = new byte[2];
+                int result = _s7Client.DBRead(15, 2, 2, buf);
+                Thread.Sleep(100);
+                if (ok = (result == 0))
+                {
+                    slotNumber = S7.GetIntAt(buf, 0);
+                }
+                else
+                {
+                    slotNumber = 0;
+                 }
+                return ok;
             }
         }
 

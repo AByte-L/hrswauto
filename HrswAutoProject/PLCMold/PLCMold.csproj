@@ -51,6 +51,10 @@
       <Project>{93D10DB5-3A20-4FD0-BD6A-4E52B3DA4CB0}</Project>
       <Name>BaseMold</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UICommonTools\UICommonTools.csproj">
+      <Project>{71EBA0A2-4F87-44EF-8FBC-7AC7F5A3DB43}</Project>
+      <Name>UICommonTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

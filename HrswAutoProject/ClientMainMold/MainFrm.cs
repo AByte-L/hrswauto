@@ -26,9 +26,11 @@ namespace ClientMainMold
             InitializeComponent();
             // 设置Path
             cmmDataRecordBindingSource.DataSource = cmmRecordList;
+            resultRowBindingSource.DataSource = resultRecordList;
             SetAppPaths();
             ClientUICommon.syncContext = SynchronizationContext.Current;
             ClientUICommon.AddCmmToView = AddClientView;
+            ClientUICommon.RefreshRackView = RefreshRackView;
             //ClientUICommon.AddPartToView = AddPartToView;
         }
 
@@ -106,6 +108,7 @@ namespace ClientMainMold
         {
             ShowPanel(SwPanel.cmmPanel);
             CmmView.AutoGenerateColumns = false;
+            ResultView.AutoGenerateColumns = false;
             ResultView.DataSource = resultRecordList;
             InitResult();
             //ClientManager.Instance.ClientConfigFileName = "clients.xml";
@@ -120,11 +123,6 @@ namespace ClientMainMold
             ClientUICommon.syncContext.Post(o =>
             {
                 CmmDataRecord cmmRecord = new CmmDataRecord(arg1, true, arg2);
-                //cmmRecord.IsActived = true;
-                //cmmRecord.ServerID = arg1.ServerID;
-                //cmmRecord.IPAddress = arg1.HostIPAddress;
-                //cmmRecord.State = cmmStateInfo[arg2];
-                //cmmRecord.IsFault = arg2 == ClientState.CS_Error ? true : false;
                 cmmRecordList.Add(cmmRecord);
             }, null);
         }
@@ -263,28 +261,43 @@ namespace ClientMainMold
 
         private void InitResult()
         {
-            for (int i = 0; i < 60; i++)
+            for (int i = 0; i < 6; i++)
             {
-                PartResultRecord row = new PartResultRecord()
+                for (int j = 1; j <= 10; j++)
                 {
-                    SlotID = i + 1,
-                    PartID = "",
-                    PcProgram = "",
-                    SlotState = "未放件",
-                    IsPass = ""
-                };
-                resultRecordList.Add(row);
+                    PartResultRecord row = new PartResultRecord()
+                    {
+                        SlotID = string.Format($"第{i}排-{j}"),
+                        PartID = string.Empty,
+                        PcProgram = string.Empty,
+                        IsPass = string.Empty
+                    };
+                    resultRecordList.Add(row); 
+                }
             }
         }
 
-        private void RefreshResult()
+        private void RefreshRackView(ResultRecord result, int slotNumber)
         {
-
+            resultRecordList[slotNumber].PartID = result.PartID;
+            resultRecordList[slotNumber].IsPass = result.IsPass ? "合格" : "不合格";
+            resultRecordList[slotNumber].ReportFileName = result.CmmFileName;
+            resultRecordList[slotNumber].RptFileName = result.RptFileName;
+            resultRecordList[slotNumber].ReportFilePath = result.FilePath;
+            ResultView.Invalidate();
         }
-
+    
         private void ResetResult()
         {
-
+            for (int i = 0; i < 60; i++)
+            {
+                resultRecordList[i].PartID = string.Empty;
+                resultRecordList[i].IsPass = string.Empty;
+                 resultRecordList[i].ReportFileName = string.Empty;
+                resultRecordList[i].RptFileName = string.Empty;
+                resultRecordList[i].ReportFilePath = string.Empty;
+                ResultView.Invalidate();
+            }
         }
     }
 }
