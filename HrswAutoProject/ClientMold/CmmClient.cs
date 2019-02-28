@@ -15,6 +15,9 @@ namespace Gy.HrswAuto.ClientMold
     public class CmmClient
     {
         #region 数据成员属性
+        private static object syncObj = new object(); // 同步对象
+        private static Dictionary<string, int> _partNbSet = new Dictionary<string, int>();
+
         /// <summary>
         /// 服务器端IP和端口配置
         /// </summary>
@@ -47,10 +50,6 @@ namespace Gy.HrswAuto.ClientMold
 
         //记录结果文件
         List<ResultRecord> resultRecords = new List<ResultRecord>();
-
-        //public event EventHandler<FeedRequestArg> OnPlaceAndGripRequestEvent;
-        //public event EventHandler<FeedRequestArg> OnGripRequestEvent;
-        //public event EventHandler<FeedRequestArg> OnPlaceRequestEvent;
         #endregion
 
         #region 初始化
@@ -70,11 +69,18 @@ namespace Gy.HrswAuto.ClientMold
                 _cmmCtrl = _proxyFactory.GetCmmControl(CmmSvrConfig);
                 _partConfigService = _proxyFactory.GetPartConfigService(CmmSvrConfig);
                 _IsInitialed = _cmmCtrl.IsInitialed(); // 返回服务器端是否初始化
-                State = ClientState.CS_Idle;
+                if (_IsInitialed)
+                {
+                    State = ClientState.CS_Idle;
+                }
+                else
+                {
+                    State = ClientState.CS_InitError;
+                }
             }
             catch (Exception)
             {
-                _IsInitialed = false; // 初始化不成功
+                //_IsInitialed = false; // 初始化不成功
                 State = ClientState.CS_Error;
             }
         }
@@ -140,6 +146,14 @@ namespace Gy.HrswAuto.ClientMold
             //    // 提示未发现工件
             //    return;
             //}
+            // 添加工件标识Dictionary到记录相同工件个数
+            lock (syncObj)
+            {
+                if (!_partNbSet.ContainsKey(partId))
+                {
+                    _partNbSet.Add(partId, 0);
+                }
+            }
 
             bool ok = SetServerPartConfig(partId);
 
@@ -269,13 +283,21 @@ namespace Gy.HrswAuto.ClientMold
                 return ures.IsSuccess;
             }
         }
-        public void PullReport()
+        public void PullReport() // TODO 调试下载文件
         {
             // 获取当前的cmm和rpt报告文件
+            int partCount;
+            lock (syncObj)
+            {
+                partCount = _partNbSet[CurPartId]; // 获得当前工件标识的工件个数
+            }
             _resultRecord = null;
             _resultRecord = new ResultRecord();
             _resultRecord.PartID = CurPartId;
             _resultRecord.IsPass = IsPass;
+            _resultRecord.ServerID = CmmSvrConfig.ServerID;
+            _resultRecord.MeasDateTime = DateTime.Now.ToString("yy-MM-dd hh:mm:ss");
+            _resultRecord.PartNumber = ++partCount;
             bool ok = DownFileFromServer("cmm");
             if (!ok)
             {
