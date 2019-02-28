@@ -31,9 +31,11 @@ namespace ClientMainMold
             ClientUICommon.syncContext = SynchronizationContext.Current;
             ClientUICommon.AddCmmToView = AddClientView;
             ClientUICommon.RefreshRackView = RefreshRackView;
+            ClientUICommon.RefreshCmmViewState = RefreshCmmViewState;
             //ClientUICommon.AddPartToView = AddPartToView;
         }
 
+        #region 主界面
         private static void SetAppPaths()
         {
             PathManager.Instance.RootPath = @"D:\clientPathRoot";
@@ -115,7 +117,8 @@ namespace ClientMainMold
             //PartConfigManager.Instance.PartConfFile = "parts.xml";
             ClientManager.Instance.Initialize();
             PartConfigManager.Instance.InitPartConfigManager();
-        }
+        } 
+        #endregion
 
         #region 测量机Panel
         private void AddClientView(CmmServerConfig arg1, ClientState arg2)
@@ -126,6 +129,23 @@ namespace ClientMainMold
                 cmmRecordList.Add(cmmRecord);
             }, null);
         }
+
+        /// <summary>
+        /// 刷新三坐标服务器状态
+        /// </summary>
+        /// <param name="ServerID">三坐标号</param>
+        /// <param name="state">三坐标服务器状态</param>
+        private void RefreshCmmViewState(int ServerID, ClientState state)
+        {
+            ClientUICommon.syncContext.Post(o =>
+            {
+                cmmRecordList[ServerID - 1].IsFault = (state == ClientState.CS_InitError ||
+                state == ClientState.CS_Error);
+                cmmRecordList[ServerID - 1].State = CmmDataRecord.cmmStateInfo[state];
+                CmmView.Invalidate();
+            }, null);
+        }
+
         private void addCmmTsb_Click(object sender, EventArgs e)
         {
             CmmForm cf = new CmmForm();
@@ -170,6 +190,10 @@ namespace ClientMainMold
             CmmView.Invalidate();
         }
 
+        private void InitClientTsb_Click(object sender, EventArgs e)
+        {
+            ClientManager.Instance.InitClients();
+        }
         #endregion
 
         #region 工件Panel
@@ -267,10 +291,11 @@ namespace ClientMainMold
                 {
                     PartResultRecord row = new PartResultRecord()
                     {
-                        SlotID = string.Format($"第{i}排-{j}"),
+                        SlotID = string.Format($"第{i}排-{j}号槽"),
                         PartID = string.Empty,
                         PcProgram = string.Empty,
-                        IsPass = string.Empty
+                        IsPass = string.Empty,
+                        ServerID = string.Empty,
                     };
                     resultRecordList.Add(row); 
                 }
@@ -281,9 +306,12 @@ namespace ClientMainMold
         {
             resultRecordList[slotNumber].PartID = result.PartID;
             resultRecordList[slotNumber].IsPass = result.IsPass ? "合格" : "不合格";
+            resultRecordList[slotNumber].ServerID = result.ServerID.ToString();
             resultRecordList[slotNumber].ReportFileName = result.CmmFileName;
             resultRecordList[slotNumber].RptFileName = result.RptFileName;
             resultRecordList[slotNumber].ReportFilePath = result.FilePath;
+            resultRecordList[slotNumber].PartNumber = result.PartNumber.ToString();
+            resultRecordList[slotNumber].MeasDateTime = result.MeasDateTime;
             ResultView.Invalidate();
         }
     
@@ -293,11 +321,14 @@ namespace ClientMainMold
             {
                 resultRecordList[i].PartID = string.Empty;
                 resultRecordList[i].IsPass = string.Empty;
-                 resultRecordList[i].ReportFileName = string.Empty;
+                resultRecordList[i].ServerID = string.Empty;
+                resultRecordList[i].ReportFileName = string.Empty;
                 resultRecordList[i].RptFileName = string.Empty;
                 resultRecordList[i].ReportFilePath = string.Empty;
                 ResultView.Invalidate();
             }
         }
+
+
     }
 }

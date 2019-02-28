@@ -74,7 +74,17 @@ namespace Gy.HrswAuto.MasterMold
             }
             return false;
         }
-
+        /// <summary>
+        /// 连接三坐标服务器
+        /// </summary>
+        public void InitClients()
+        {
+            foreach (CmmClient client in _cmmClients)
+            {
+                client.InitClient();
+                ClientUICommon.RefreshCmmViewState(client.CmmSvrConfig.ServerID, client.State); // 初始化是否成功
+            }
+        }
         private void _dispatchTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             foreach (var client in _cmmClients)

@@ -12,19 +12,22 @@ namespace ClientMainMold
 
     public class PartResultRecord
     {
-        public string SlotID { get; set; }
-        public string PartID { get; set; }
+        public string SlotID { get; set; } // 槽号
+        public string PartID { get; set; } // 零件标识
         //public string SlotState { get; set; }
-        public string PcProgram { get; set; }
-        public string IsPass { get; set; }
-        public string ReportFileName { get; set; }
-        public string ReportFilePath { get; set; }
-        public string RptFileName { get; set; }
-    }
+        public string PartNumber { get; set; } // 零件号
+        public string ServerID { get; set; } // 服务器ID
+        public string PcProgram { get; set; } // 测量程序
+        public string IsPass { get; set; } // 是否合格
+        public string ReportFileName { get; set; } // cmm报告文件
+        public string ReportFilePath { get; set; } // 报告文件路径
+        public string RptFileName { get; set; } // rpt结果文件
+        public string MeasDateTime { get; set; } // 日期-时间
+      }
 
     public class CmmDataRecord
     {
-        Dictionary<ClientState, string> cmmStateInfo = new Dictionary<ClientState, string>()
+        public static Dictionary<ClientState, string> cmmStateInfo = new Dictionary<ClientState, string>()
         {
             {
                 ClientState.CS_Idle, "三坐标空闲"
@@ -40,6 +43,9 @@ namespace ClientMainMold
             },
             {
                 ClientState.CS_Busy, "三坐标忙碌状态"
+            },
+            {
+                ClientState.CS_InitError, "三坐标初始化错误"
             }
         };
         public CmmDataRecord(CmmServerConfig conf, bool active, ClientState state)
