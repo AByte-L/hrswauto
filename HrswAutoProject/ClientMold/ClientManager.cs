@@ -66,7 +66,7 @@ namespace Gy.HrswAuto.MasterMold
                 _cmmSvrConfigs.Add(csConf); //  添加机器配置信息
                 CmmClient client = new CmmClient(csConf);
                 client.IsActived = true;
-                client.InitClient();
+                //client.InitClient(); // 添加client时不做初始化
                 _cmmClients.Add(client);
                 //
                 ClientUICommon.AddCmmToView(csConf, client.State);
@@ -79,12 +79,18 @@ namespace Gy.HrswAuto.MasterMold
         /// </summary>
         public void InitClients()
         {
-            foreach (CmmClient client in _cmmClients)
+            //foreach (CmmClient client in _cmmClients)
+            for (int i = 0; i < _cmmClients.Count; i++)
             {
-                client.InitClient();
-                ClientUICommon.RefreshCmmViewState(client.CmmSvrConfig.ServerID, client.State); // 初始化是否成功
+                if (_cmmClients[i].IsInitialed)
+                {
+                    continue;
+                }
+                _cmmClients[i].InitClient();
+                ClientUICommon.RefreshCmmViewState(i, _cmmClients[i].State); // 初始化是否成功
             }
         }
+
         private void _dispatchTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             foreach (var client in _cmmClients)

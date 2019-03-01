@@ -32,7 +32,8 @@ namespace Gy.HrswAuto.ClientMold
         /// <summary>
         /// 初始化错误
         /// </summary>
-        CS_InitError
+        CS_InitError,
+        CS_None
     }
 
 }

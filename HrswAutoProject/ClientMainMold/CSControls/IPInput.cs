@@ -88,7 +88,7 @@ namespace IPInputControl.Ctrl
                         break;
                 }
             }
-            else if (e.KeyCode == Keys.Right || e.KeyCode == Keys.OemPeriod)
+            else if (e.KeyCode == Keys.Right || e.KeyCode == Keys.OemPeriod || e.KeyCode == Keys.Decimal)
             {
                 switch (ParentTxt.Name.Split('_')[1])
                 {

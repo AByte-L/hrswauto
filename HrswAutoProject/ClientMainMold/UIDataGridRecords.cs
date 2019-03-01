@@ -12,6 +12,26 @@ namespace ClientMainMold
 
     public class PartResultRecord
     {
+        //private PartResultRecord partResultRecord;
+
+        public PartResultRecord()
+        {
+
+        }
+        public PartResultRecord(PartResultRecord partResultRecord)
+        {
+            SlotID = partResultRecord.SlotID;
+            PartID = partResultRecord.PartID;
+            PartNumber = partResultRecord.PartNumber;
+            ServerID = partResultRecord.ServerID;
+            PcProgram = partResultRecord.PcProgram;
+            IsPass = partResultRecord.IsPass;
+            ReportFileName = partResultRecord.ReportFileName;
+            ReportFilePath = partResultRecord.ReportFilePath;
+            RptFileName = partResultRecord.RptFileName;
+            MeasDateTime = partResultRecord.MeasDateTime;
+        }
+
         public string SlotID { get; set; } // 槽号
         public string PartID { get; set; } // 零件标识
         //public string SlotState { get; set; }
@@ -46,35 +66,68 @@ namespace ClientMainMold
             },
             {
                 ClientState.CS_InitError, "三坐标初始化错误"
+            },
+            {
+                ClientState.CS_None, ""
             }
         };
+
+        private ClientState _state;
+        public void SetClientState(ClientState state)
+        {
+            _state = state;
+        }
+
         public CmmDataRecord(CmmServerConfig conf, bool active, ClientState state)
         {
             IsActived = active;
             ServerID = conf.ServerID;
             IPAddress = conf.HostIPAddress;
+            _state = state;
             IsFault = state == ClientState.CS_Error ? true : false;
-            State = cmmStateInfo[state];
+            //State = cmmStateInfo[state];
         }
         public bool IsActived { get; set; }
         public int ServerID { get; set; }
         public string IPAddress { get; set; }
-        public string State { get; set; }
-        public bool IsFault { get; set; } = false;
+
+        public string State {
+            get
+            {
+                return cmmStateInfo[_state];
+            }
+        }
+        private bool _isFault = false;
+        public bool IsFault
+        {
+            get
+            {
+                return _isFault;
+            }
+            set
+            {
+                _isFault = value;
+                if (_state == ClientState.CS_None)
+                {
+                    return;
+                }
+                if (IsFault)
+                {
+                    _stateImage = Properties.Resources.Error;
+                }
+                else
+                {
+                    _stateImage = Properties.Resources.ok;
+                }
+            }
+        }
+        private Image _stateImage = new Bitmap(200,50); 
+                
         public Image StateImage
         {
             get
             {
-                Image gridImage;
-                if (IsFault)
-                {
-                    gridImage = Properties.Resources.Error;
-                }
-                else
-                {
-                    gridImage = Properties.Resources.ok;
-                }
-                return gridImage;
+                return _stateImage; ;
             }
         }
     }

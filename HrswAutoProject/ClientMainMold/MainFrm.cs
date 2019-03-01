@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -18,22 +19,30 @@ namespace ClientMainMold
 {
     public partial class MainFrm : Form
     {
+        // 料架上的工件结果
+        BindingList<PartResultRecord> RackResultRecordList = new BindingList<PartResultRecord>();
+        // 工件结果记录
         BindingList<PartResultRecord> resultRecordList = new BindingList<PartResultRecord>();
         BindingList<CmmDataRecord> cmmRecordList = new BindingList<CmmDataRecord>();
-
         public MainFrm()
         {
             InitializeComponent();
             // 设置Path
             cmmDataRecordBindingSource.DataSource = cmmRecordList;
-            resultRowBindingSource.DataSource = resultRecordList;
+            resultRowBindingSource.DataSource = RackResultRecordList;
             SetAppPaths();
             ClientUICommon.syncContext = SynchronizationContext.Current;
             ClientUICommon.AddCmmToView = AddClientView;
             ClientUICommon.RefreshRackView = RefreshRackView;
             ClientUICommon.RefreshCmmViewState = RefreshCmmViewState;
+            //ClientUICommon.AddPartResult = AddPartResult;
             //ClientUICommon.AddPartToView = AddPartToView;
         }
+
+        //private void AddPartResult(ResultRecord resultRecord)
+        //{
+        //    PartResultRecord
+        //}
 
         #region 主界面
         private static void SetAppPaths()
@@ -111,7 +120,7 @@ namespace ClientMainMold
             ShowPanel(SwPanel.cmmPanel);
             CmmView.AutoGenerateColumns = false;
             ResultView.AutoGenerateColumns = false;
-            ResultView.DataSource = resultRecordList;
+            ResultView.DataSource = RackResultRecordList;
             InitResult();
             //ClientManager.Instance.ClientConfigFileName = "clients.xml";
             //PartConfigManager.Instance.PartConfFile = "parts.xml";
@@ -135,14 +144,16 @@ namespace ClientMainMold
         /// </summary>
         /// <param name="ServerID">三坐标号</param>
         /// <param name="state">三坐标服务器状态</param>
-        private void RefreshCmmViewState(int ServerID, ClientState state)
+        private void RefreshCmmViewState(int index, ClientState state)
         {
             ClientUICommon.syncContext.Post(o =>
             {
-                cmmRecordList[ServerID - 1].IsFault = (state == ClientState.CS_InitError ||
+                //cmmRecordList[index].State = CmmDataRecord.cmmStateInfo[state];
+                cmmRecordList[index].SetClientState(state);
+                cmmRecordList[index].IsFault = (state == ClientState.CS_InitError ||
                 state == ClientState.CS_Error);
-                cmmRecordList[ServerID - 1].State = CmmDataRecord.cmmStateInfo[state];
-                CmmView.Invalidate();
+                //cmmRecordList[index].StateImage = cmmRecordList[index].StateImage;
+                CmmView.InvalidateRow(index);
             }, null);
         }
 
@@ -291,44 +302,56 @@ namespace ClientMainMold
                 {
                     PartResultRecord row = new PartResultRecord()
                     {
-                        SlotID = string.Format($"第{i}排-{j}号槽"),
+                        SlotID = string.Format($"第{i+1}排-{j}号槽"),
                         PartID = string.Empty,
                         PcProgram = string.Empty,
                         IsPass = string.Empty,
                         ServerID = string.Empty,
                     };
-                    resultRecordList.Add(row); 
+                    RackResultRecordList.Add(row); 
                 }
             }
         }
 
         private void RefreshRackView(ResultRecord result, int slotNumber)
         {
-            resultRecordList[slotNumber].PartID = result.PartID;
-            resultRecordList[slotNumber].IsPass = result.IsPass ? "合格" : "不合格";
-            resultRecordList[slotNumber].ServerID = result.ServerID.ToString();
-            resultRecordList[slotNumber].ReportFileName = result.CmmFileName;
-            resultRecordList[slotNumber].RptFileName = result.RptFileName;
-            resultRecordList[slotNumber].ReportFilePath = result.FilePath;
-            resultRecordList[slotNumber].PartNumber = result.PartNumber.ToString();
-            resultRecordList[slotNumber].MeasDateTime = result.MeasDateTime;
-            ResultView.Invalidate();
+            if (slotNumber <= 0)
+            {
+                return;
+            }
+            int pos = slotNumber - 1;
+            RackResultRecordList[pos].PartID = result.PartID;
+            RackResultRecordList[pos].IsPass = result.IsPass ? "合格" : "不合格";
+            RackResultRecordList[pos].ServerID = result.ServerID.ToString();
+            RackResultRecordList[pos].ReportFileName = result.CmmFileName;
+            RackResultRecordList[pos].RptFileName = result.RptFileName;
+            RackResultRecordList[pos].ReportFilePath = result.FilePath;
+            RackResultRecordList[pos].PartNumber = result.PartNumber.ToString();
+            RackResultRecordList[pos].MeasDateTime = result.MeasDateTime;
+            ResultView.InvalidateRow(pos);
+            resultRecordList.Add(new PartResultRecord(RackResultRecordList[pos]));
+            dataGridView1.InvalidateRow(resultRecordList.Count - 1);
         }
     
         private void ResetResult()
         {
             for (int i = 0; i < 60; i++)
             {
-                resultRecordList[i].PartID = string.Empty;
-                resultRecordList[i].IsPass = string.Empty;
-                resultRecordList[i].ServerID = string.Empty;
-                resultRecordList[i].ReportFileName = string.Empty;
-                resultRecordList[i].RptFileName = string.Empty;
-                resultRecordList[i].ReportFilePath = string.Empty;
+                RackResultRecordList[i].PartID = string.Empty;
+                RackResultRecordList[i].IsPass = string.Empty;
+                RackResultRecordList[i].ServerID = string.Empty;
+                RackResultRecordList[i].ReportFileName = string.Empty;
+                RackResultRecordList[i].RptFileName = string.Empty;
+                RackResultRecordList[i].ReportFilePath = string.Empty;
+                RackResultRecordList[i].MeasDateTime = string.Empty;
+                RackResultRecordList[i].PartNumber = string.Empty;
                 ResultView.Invalidate();
             }
         }
 
-
+        private void ClearLogInfoTsb_Click(object sender, EventArgs e)
+        {
+            cmmInfoListBox.Items.Clear();
+        }
     }
 }

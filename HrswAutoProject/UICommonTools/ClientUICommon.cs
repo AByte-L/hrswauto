@@ -20,5 +20,7 @@ namespace Gy.HrswAuto.UICommonTools
         public static Action<ResultRecord, int> RefreshRackView;
 
         public static Action<int, ClientState> RefreshCmmViewState; // 三坐标号、状态
+
+        public static Action<ResultRecord> AddPartResult;
     }
 }

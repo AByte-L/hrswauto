@@ -2,6 +2,7 @@
 using Gy.HrswAuto.DataMold;
 using Gy.HrswAuto.ICmmServer;
 using Gy.HrswAuto.PLCMold;
+using Gy.HrswAuto.UICommonTools;
 using Gy.HrswAuto.Utilities;
 using System;
 using System.Collections.Generic;
@@ -59,6 +60,7 @@ namespace Gy.HrswAuto.ClientMold
         public CmmClient(CmmServerConfig cmmSvrConfig)
         {
             CmmSvrConfig = cmmSvrConfig;
+            State = ClientState.CS_None;
         }
 
         public void InitClient()
@@ -80,7 +82,7 @@ namespace Gy.HrswAuto.ClientMold
             }
             catch (Exception)
             {
-                //_IsInitialed = false; // 初始化不成功
+                _IsInitialed = false; // 初始化不成功
                 State = ClientState.CS_Error;
             }
         }
@@ -289,7 +291,7 @@ namespace Gy.HrswAuto.ClientMold
             int partCount;
             lock (syncObj)
             {
-                partCount = _partNbSet[CurPartId]; // 获得当前工件标识的工件个数
+                partCount = _partNbSet[CurPartId]; // 获得标识的工件个数
             }
             _resultRecord = null;
             _resultRecord = new ResultRecord();
@@ -314,6 +316,7 @@ namespace Gy.HrswAuto.ClientMold
             }
             // 添加报告记录，并且更改成可继续测量状态
             resultRecords.Add(_resultRecord);
+            //ClientUICommon.AddPartResult(_resultRecord);
             State = ClientState.CS_Continue;
         }
 
