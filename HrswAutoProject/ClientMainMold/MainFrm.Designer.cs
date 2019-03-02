@@ -42,6 +42,23 @@
             this.plcToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
+            this.cmmPanel = new System.Windows.Forms.Panel();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.CmmView = new System.Windows.Forms.DataGridView();
+            this.cmmToolStrip = new System.Windows.Forms.ToolStrip();
+            this.addCmmTsb = new System.Windows.Forms.ToolStripButton();
+            this.deleteCmmTsb = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.enableCmmTsb = new System.Windows.Forms.ToolStripButton();
+            this.disableCmmTsb = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.InitClientTsb = new System.Windows.Forms.ToolStripButton();
+            this.ClearErrorTsb = new System.Windows.Forms.ToolStripButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cmmInfoListBox = new System.Windows.Forms.ListBox();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.ClearLogInfoTsb = new System.Windows.Forms.ToolStripButton();
+            this.label2 = new System.Windows.Forms.Label();
             this.resultPanel = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -72,23 +89,6 @@
             this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.label3 = new System.Windows.Forms.Label();
-            this.cmmPanel = new System.Windows.Forms.Panel();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.CmmView = new System.Windows.Forms.DataGridView();
-            this.cmmToolStrip = new System.Windows.Forms.ToolStrip();
-            this.addCmmTsb = new System.Windows.Forms.ToolStripButton();
-            this.deleteCmmTsb = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.enableCmmTsb = new System.Windows.Forms.ToolStripButton();
-            this.disableCmmTsb = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.InitClientTsb = new System.Windows.Forms.ToolStripButton();
-            this.ClearErrorTsb = new System.Windows.Forms.ToolStripButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cmmInfoListBox = new System.Windows.Forms.ListBox();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.ClearLogInfoTsb = new System.Windows.Forms.ToolStripButton();
-            this.label2 = new System.Windows.Forms.Label();
             this.partPanel = new System.Windows.Forms.Panel();
             this.partView = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -129,14 +129,6 @@
             this.splitContainer1.SuspendLayout();
             this.mainToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.resultPanel.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ResultView)).BeginInit();
-            this.toolStrip3.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.toolStrip4.SuspendLayout();
             this.cmmPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -146,6 +138,14 @@
             this.cmmToolStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            this.resultPanel.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ResultView)).BeginInit();
+            this.toolStrip3.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.toolStrip4.SuspendLayout();
             this.partPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.partView)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -170,14 +170,13 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitter1);
+            this.splitContainer1.Panel2.Controls.Add(this.partPanel);
             this.splitContainer1.Panel2.Controls.Add(this.cmmPanel);
             this.splitContainer1.Panel2.Controls.Add(this.resultPanel);
-            this.splitContainer1.Panel2.Controls.Add(this.partPanel);
             this.splitContainer1.Panel2.Controls.Add(this.plcPanel);
-            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);
-            this.splitContainer1.Size = new System.Drawing.Size(1094, 803);
-            this.splitContainer1.SplitterDistance = 95;
-            this.splitContainer1.SplitterWidth = 3;
+            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(12, 12, 12, 0);
+            this.splitContainer1.Size = new System.Drawing.Size(1368, 1009);
+            this.splitContainer1.SplitterDistance = 119;
             this.splitContainer1.TabIndex = 0;
             // 
             // mainToolStrip
@@ -196,10 +195,10 @@
             this.partToolStripButton,
             this.toolStripLabel1,
             this.plcToolStripButton});
-            this.mainToolStrip.Location = new System.Drawing.Point(506, 0);
+            this.mainToolStrip.Location = new System.Drawing.Point(632, 0);
             this.mainToolStrip.Name = "mainToolStrip";
             this.mainToolStrip.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.mainToolStrip.Size = new System.Drawing.Size(588, 95);
+            this.mainToolStrip.Size = new System.Drawing.Size(736, 119);
             this.mainToolStrip.Stretch = true;
             this.mainToolStrip.TabIndex = 1;
             this.mainToolStrip.Text = "toolStrip1";
@@ -292,8 +291,8 @@
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 15);
-            this.pictureBox1.Size = new System.Drawing.Size(506, 95);
+            this.pictureBox1.Padding = new System.Windows.Forms.Padding(12, 12, 12, 19);
+            this.pictureBox1.Size = new System.Drawing.Size(632, 119);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -302,338 +301,44 @@
             // 
             this.splitter1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter1.Location = new System.Drawing.Point(10, 10);
+            this.splitter1.Location = new System.Drawing.Point(12, 12);
             this.splitter1.Margin = new System.Windows.Forms.Padding(2);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(1074, 2);
+            this.splitter1.Size = new System.Drawing.Size(1344, 2);
             this.splitter1.TabIndex = 0;
             this.splitter1.TabStop = false;
-            // 
-            // resultPanel
-            // 
-            this.resultPanel.Controls.Add(this.tabControl1);
-            this.resultPanel.Controls.Add(this.label3);
-            this.resultPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.resultPanel.Location = new System.Drawing.Point(10, 10);
-            this.resultPanel.Margin = new System.Windows.Forms.Padding(2);
-            this.resultPanel.Name = "resultPanel";
-            this.resultPanel.Size = new System.Drawing.Size(1074, 695);
-            this.resultPanel.TabIndex = 2;
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.ItemSize = new System.Drawing.Size(80, 30);
-            this.tabControl1.Location = new System.Drawing.Point(0, 10);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1074, 685);
-            this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.tabControl1.TabIndex = 4;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage1.Controls.Add(this.ResultView);
-            this.tabPage1.Controls.Add(this.toolStrip3);
-            this.tabPage1.Location = new System.Drawing.Point(4, 34);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1066, 647);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "料架";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // ResultView
-            // 
-            this.ResultView.AllowUserToAddRows = false;
-            this.ResultView.AllowUserToDeleteRows = false;
-            this.ResultView.AllowUserToResizeRows = false;
-            this.ResultView.AutoGenerateColumns = false;
-            this.ResultView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.ResultView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ResultView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.slotIDDataGridViewTextBoxColumn,
-            this.partIDDataGridViewTextBoxColumn,
-            this.PartNumber,
-            this.ServerID,
-            this.isPassDataGridViewTextBoxColumn,
-            this.reportFileNameDataGridViewTextBoxColumn,
-            this.dataGridViewTextBoxColumn1,
-            this.Column17,
-            this.Column18});
-            this.ResultView.DataSource = this.resultRowBindingSource;
-            this.ResultView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ResultView.Location = new System.Drawing.Point(3, 3);
-            this.ResultView.Name = "ResultView";
-            this.ResultView.ReadOnly = true;
-            this.ResultView.RowTemplate.Height = 30;
-            this.ResultView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ResultView.Size = new System.Drawing.Size(1058, 599);
-            this.ResultView.TabIndex = 3;
-            // 
-            // PartNumber
-            // 
-            this.PartNumber.DataPropertyName = "PartNumber";
-            this.PartNumber.HeaderText = "工件号";
-            this.PartNumber.Name = "PartNumber";
-            this.PartNumber.ReadOnly = true;
-            // 
-            // ServerID
-            // 
-            this.ServerID.DataPropertyName = "ServerID";
-            this.ServerID.HeaderText = "测量机号";
-            this.ServerID.Name = "ServerID";
-            this.ServerID.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "MeasDataTime";
-            this.dataGridViewTextBoxColumn1.HeaderText = "日期-时间";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // Column17
-            // 
-            this.Column17.HeaderText = "查看报告";
-            this.Column17.Name = "Column17";
-            this.Column17.ReadOnly = true;
-            this.Column17.Visible = false;
-            // 
-            // Column18
-            // 
-            this.Column18.HeaderText = "报告目录";
-            this.Column18.Name = "Column18";
-            this.Column18.ReadOnly = true;
-            this.Column18.Visible = false;
-            // 
-            // toolStrip3
-            // 
-            this.toolStrip3.AutoSize = false;
-            this.toolStrip3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolStrip3.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel8,
-            this.toolStripTextBox1,
-            this.toolStripLabel5,
-            this.toolStripLabel6,
-            this.toolStripTextBox2,
-            this.toolStripLabel7,
-            this.toolStripLabel9,
-            this.toolStripButton1,
-            this.toolStripSeparator4,
-            this.toolStripButton3,
-            this.toolStripButton4,
-            this.toolStripButton5});
-            this.toolStrip3.Location = new System.Drawing.Point(3, 602);
-            this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(1058, 40);
-            this.toolStrip3.TabIndex = 4;
-            this.toolStrip3.Text = "toolStrip3";
-            // 
-            // toolStripLabel8
-            // 
-            this.toolStripLabel8.AutoSize = false;
-            this.toolStripLabel8.Name = "toolStripLabel8";
-            this.toolStripLabel8.Size = new System.Drawing.Size(40, 37);
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(40, 40);
-            // 
-            // toolStripLabel5
-            // 
-            this.toolStripLabel5.Name = "toolStripLabel5";
-            this.toolStripLabel5.Size = new System.Drawing.Size(20, 37);
-            this.toolStripLabel5.Text = "排";
-            // 
-            // toolStripLabel6
-            // 
-            this.toolStripLabel6.Name = "toolStripLabel6";
-            this.toolStripLabel6.Size = new System.Drawing.Size(13, 37);
-            this.toolStripLabel6.Text = "-";
-            // 
-            // toolStripTextBox2
-            // 
-            this.toolStripTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBox2.Name = "toolStripTextBox2";
-            this.toolStripTextBox2.Size = new System.Drawing.Size(40, 40);
-            // 
-            // toolStripLabel7
-            // 
-            this.toolStripLabel7.Name = "toolStripLabel7";
-            this.toolStripLabel7.Size = new System.Drawing.Size(20, 37);
-            this.toolStripLabel7.Text = "槽";
-            // 
-            // toolStripLabel9
-            // 
-            this.toolStripLabel9.AutoSize = false;
-            this.toolStripLabel9.Name = "toolStripLabel9";
-            this.toolStripLabel9.Size = new System.Drawing.Size(10, 37);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(52, 37);
-            this.toolStripButton1.Text = "选择";
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 40);
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(76, 37);
-            this.toolStripButton3.Text = "查看报告";
-            // 
-            // toolStripButton4
-            // 
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(52, 37);
-            this.toolStripButton4.Text = "浏览";
-            // 
-            // toolStripButton5
-            // 
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(85, 37);
-            this.toolStripButton5.Text = "Blade分析";
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage2.Controls.Add(this.dataGridView1);
-            this.tabPage2.Controls.Add(this.toolStrip4);
-            this.tabPage2.Location = new System.Drawing.Point(4, 34);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1066, 647);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "报告";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.AutoGenerateColumns = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.partIDDataGridViewTextBoxColumn1,
-            this.partNumberDataGridViewTextBoxColumn,
-            this.serverIDDataGridViewTextBoxColumn1,
-            this.isPassDataGridViewTextBoxColumn1,
-            this.reportFileNameDataGridViewTextBoxColumn1,
-            this.MeasDataTime});
-            this.dataGridView1.DataSource = this.partResultRecordBindingSource;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowTemplate.Height = 30;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1058, 599);
-            this.dataGridView1.TabIndex = 1;
-            // 
-            // MeasDataTime
-            // 
-            this.MeasDataTime.DataPropertyName = "MeasDataTime";
-            this.MeasDataTime.HeaderText = "日期-时间";
-            this.MeasDataTime.Name = "MeasDataTime";
-            this.MeasDataTime.ReadOnly = true;
-            // 
-            // toolStrip4
-            // 
-            this.toolStrip4.AutoSize = false;
-            this.toolStrip4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolStrip4.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton2,
-            this.toolStripButton6,
-            this.toolStripButton7});
-            this.toolStrip4.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.toolStrip4.Location = new System.Drawing.Point(3, 602);
-            this.toolStrip4.Name = "toolStrip4";
-            this.toolStrip4.Size = new System.Drawing.Size(1058, 40);
-            this.toolStrip4.TabIndex = 0;
-            this.toolStrip4.Text = "toolStrip4";
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(76, 37);
-            this.toolStripButton2.Text = "查看报告";
-            // 
-            // toolStripButton6
-            // 
-            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(76, 37);
-            this.toolStripButton6.Text = "浏览目录";
-            // 
-            // toolStripButton7
-            // 
-            this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(85, 37);
-            this.toolStripButton7.Text = "Blade分析";
-            // 
-            // label3
-            // 
-            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label3.Location = new System.Drawing.Point(0, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(1074, 10);
-            this.label3.TabIndex = 2;
             // 
             // cmmPanel
             // 
             this.cmmPanel.Controls.Add(this.splitContainer2);
             this.cmmPanel.Controls.Add(this.label2);
             this.cmmPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmmPanel.Location = new System.Drawing.Point(10, 10);
+            this.cmmPanel.Location = new System.Drawing.Point(12, 12);
             this.cmmPanel.Margin = new System.Windows.Forms.Padding(2);
             this.cmmPanel.Name = "cmmPanel";
-            this.cmmPanel.Size = new System.Drawing.Size(1074, 695);
+            this.cmmPanel.Size = new System.Drawing.Size(1344, 874);
             this.cmmPanel.TabIndex = 4;
             // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 10);
+            this.splitContainer2.Location = new System.Drawing.Point(0, 12);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.Controls.Add(this.CmmView);
             this.splitContainer2.Panel1.Controls.Add(this.cmmToolStrip);
-            this.splitContainer2.Panel1.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.splitContainer2.Panel1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainer2.Size = new System.Drawing.Size(1074, 685);
-            this.splitContainer2.SplitterDistance = 708;
+            this.splitContainer2.Panel2.Controls.Add(this.toolStrip2);
+            this.splitContainer2.Size = new System.Drawing.Size(1344, 862);
+            this.splitContainer2.SplitterDistance = 885;
+            this.splitContainer2.SplitterWidth = 5;
             this.splitContainer2.TabIndex = 0;
             // 
             // CmmView
@@ -652,13 +357,14 @@
             this.stateImageDataGridViewImageColumn});
             this.CmmView.DataSource = this.cmmDataRecordBindingSource;
             this.CmmView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CmmView.Location = new System.Drawing.Point(0, 6);
+            this.CmmView.Location = new System.Drawing.Point(0, 8);
+            this.CmmView.Margin = new System.Windows.Forms.Padding(4);
             this.CmmView.MultiSelect = false;
             this.CmmView.Name = "CmmView";
             this.CmmView.ReadOnly = true;
             this.CmmView.RowTemplate.Height = 50;
             this.CmmView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.CmmView.Size = new System.Drawing.Size(708, 616);
+            this.CmmView.Size = new System.Drawing.Size(885, 791);
             this.CmmView.TabIndex = 1;
             // 
             // cmmToolStrip
@@ -676,9 +382,9 @@
             this.toolStripSeparator3,
             this.InitClientTsb,
             this.ClearErrorTsb});
-            this.cmmToolStrip.Location = new System.Drawing.Point(0, 622);
+            this.cmmToolStrip.Location = new System.Drawing.Point(0, 799);
             this.cmmToolStrip.Name = "cmmToolStrip";
-            this.cmmToolStrip.Size = new System.Drawing.Size(708, 63);
+            this.cmmToolStrip.Size = new System.Drawing.Size(885, 63);
             this.cmmToolStrip.TabIndex = 0;
             this.cmmToolStrip.Text = "toolStrip2";
             // 
@@ -764,11 +470,12 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.cmmInfoListBox);
-            this.groupBox1.Controls.Add(this.toolStrip2);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(362, 685);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(454, 799);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "info";
@@ -778,10 +485,11 @@
             this.cmmInfoListBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmmInfoListBox.Enabled = false;
             this.cmmInfoListBox.FormattingEnabled = true;
-            this.cmmInfoListBox.ItemHeight = 12;
-            this.cmmInfoListBox.Location = new System.Drawing.Point(3, 17);
+            this.cmmInfoListBox.ItemHeight = 15;
+            this.cmmInfoListBox.Location = new System.Drawing.Point(4, 22);
+            this.cmmInfoListBox.Margin = new System.Windows.Forms.Padding(4);
             this.cmmInfoListBox.Name = "cmmInfoListBox";
-            this.cmmInfoListBox.Size = new System.Drawing.Size(356, 605);
+            this.cmmInfoListBox.Size = new System.Drawing.Size(446, 773);
             this.cmmInfoListBox.TabIndex = 1;
             // 
             // toolStrip2
@@ -790,12 +498,13 @@
             this.toolStrip2.BackColor = System.Drawing.Color.Transparent;
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ClearLogInfoTsb});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 622);
+            this.toolStrip2.Location = new System.Drawing.Point(0, 799);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.toolStrip2.Size = new System.Drawing.Size(356, 60);
+            this.toolStrip2.Size = new System.Drawing.Size(454, 63);
             this.toolStrip2.TabIndex = 0;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -814,9 +523,315 @@
             // 
             this.label2.Dock = System.Windows.Forms.DockStyle.Top;
             this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(1074, 10);
+            this.label2.Size = new System.Drawing.Size(1344, 12);
             this.label2.TabIndex = 2;
+            // 
+            // resultPanel
+            // 
+            this.resultPanel.Controls.Add(this.tabControl1);
+            this.resultPanel.Controls.Add(this.label3);
+            this.resultPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.resultPanel.Location = new System.Drawing.Point(12, 12);
+            this.resultPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.resultPanel.Name = "resultPanel";
+            this.resultPanel.Size = new System.Drawing.Size(1344, 874);
+            this.resultPanel.TabIndex = 2;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.ItemSize = new System.Drawing.Size(80, 30);
+            this.tabControl1.Location = new System.Drawing.Point(0, 12);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1344, 862);
+            this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.tabControl1.TabIndex = 4;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage1.Controls.Add(this.ResultView);
+            this.tabPage1.Controls.Add(this.toolStrip3);
+            this.tabPage1.Location = new System.Drawing.Point(4, 34);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage1.Size = new System.Drawing.Size(1336, 824);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "料架";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // ResultView
+            // 
+            this.ResultView.AllowUserToAddRows = false;
+            this.ResultView.AllowUserToDeleteRows = false;
+            this.ResultView.AllowUserToResizeRows = false;
+            this.ResultView.AutoGenerateColumns = false;
+            this.ResultView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.ResultView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ResultView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.slotIDDataGridViewTextBoxColumn,
+            this.partIDDataGridViewTextBoxColumn,
+            this.PartNumber,
+            this.ServerID,
+            this.isPassDataGridViewTextBoxColumn,
+            this.reportFileNameDataGridViewTextBoxColumn,
+            this.dataGridViewTextBoxColumn1,
+            this.Column17,
+            this.Column18});
+            this.ResultView.DataSource = this.resultRowBindingSource;
+            this.ResultView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ResultView.Location = new System.Drawing.Point(4, 4);
+            this.ResultView.Margin = new System.Windows.Forms.Padding(4);
+            this.ResultView.Name = "ResultView";
+            this.ResultView.ReadOnly = true;
+            this.ResultView.RowTemplate.Height = 30;
+            this.ResultView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.ResultView.Size = new System.Drawing.Size(1326, 764);
+            this.ResultView.TabIndex = 3;
+            // 
+            // PartNumber
+            // 
+            this.PartNumber.DataPropertyName = "PartNumber";
+            this.PartNumber.HeaderText = "工件号";
+            this.PartNumber.Name = "PartNumber";
+            this.PartNumber.ReadOnly = true;
+            // 
+            // ServerID
+            // 
+            this.ServerID.DataPropertyName = "ServerID";
+            this.ServerID.HeaderText = "测量机号";
+            this.ServerID.Name = "ServerID";
+            this.ServerID.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "MeasDataTime";
+            this.dataGridViewTextBoxColumn1.HeaderText = "日期-时间";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // Column17
+            // 
+            this.Column17.HeaderText = "查看报告";
+            this.Column17.Name = "Column17";
+            this.Column17.ReadOnly = true;
+            this.Column17.Visible = false;
+            // 
+            // Column18
+            // 
+            this.Column18.HeaderText = "报告目录";
+            this.Column18.Name = "Column18";
+            this.Column18.ReadOnly = true;
+            this.Column18.Visible = false;
+            // 
+            // toolStrip3
+            // 
+            this.toolStrip3.AutoSize = false;
+            this.toolStrip3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip3.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip3.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel8,
+            this.toolStripTextBox1,
+            this.toolStripLabel5,
+            this.toolStripLabel6,
+            this.toolStripTextBox2,
+            this.toolStripLabel7,
+            this.toolStripLabel9,
+            this.toolStripButton1,
+            this.toolStripSeparator4,
+            this.toolStripButton3,
+            this.toolStripButton4,
+            this.toolStripButton5});
+            this.toolStrip3.Location = new System.Drawing.Point(4, 768);
+            this.toolStrip3.Name = "toolStrip3";
+            this.toolStrip3.Size = new System.Drawing.Size(1326, 50);
+            this.toolStrip3.TabIndex = 4;
+            this.toolStrip3.Text = "toolStrip3";
+            // 
+            // toolStripLabel8
+            // 
+            this.toolStripLabel8.AutoSize = false;
+            this.toolStripLabel8.Name = "toolStripLabel8";
+            this.toolStripLabel8.Size = new System.Drawing.Size(40, 37);
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(50, 50);
+            // 
+            // toolStripLabel5
+            // 
+            this.toolStripLabel5.Name = "toolStripLabel5";
+            this.toolStripLabel5.Size = new System.Drawing.Size(24, 47);
+            this.toolStripLabel5.Text = "排";
+            // 
+            // toolStripLabel6
+            // 
+            this.toolStripLabel6.Name = "toolStripLabel6";
+            this.toolStripLabel6.Size = new System.Drawing.Size(15, 47);
+            this.toolStripLabel6.Text = "-";
+            // 
+            // toolStripTextBox2
+            // 
+            this.toolStripTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.toolStripTextBox2.Name = "toolStripTextBox2";
+            this.toolStripTextBox2.Size = new System.Drawing.Size(50, 50);
+            // 
+            // toolStripLabel7
+            // 
+            this.toolStripLabel7.Name = "toolStripLabel7";
+            this.toolStripLabel7.Size = new System.Drawing.Size(24, 47);
+            this.toolStripLabel7.Text = "槽";
+            // 
+            // toolStripLabel9
+            // 
+            this.toolStripLabel9.AutoSize = false;
+            this.toolStripLabel9.Name = "toolStripLabel9";
+            this.toolStripLabel9.Size = new System.Drawing.Size(10, 37);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(63, 47);
+            this.toolStripButton1.Text = "选择";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 50);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(93, 47);
+            this.toolStripButton3.Text = "查看报告";
+            // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(63, 47);
+            this.toolStripButton4.Text = "浏览";
+            // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
+            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(103, 47);
+            this.toolStripButton5.Text = "Blade分析";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage2.Controls.Add(this.dataGridView1);
+            this.tabPage2.Controls.Add(this.toolStrip4);
+            this.tabPage2.Location = new System.Drawing.Point(4, 34);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage2.Size = new System.Drawing.Size(1336, 824);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "报告";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToOrderColumns = true;
+            this.dataGridView1.AllowUserToResizeRows = false;
+            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.partIDDataGridViewTextBoxColumn1,
+            this.partNumberDataGridViewTextBoxColumn,
+            this.serverIDDataGridViewTextBoxColumn1,
+            this.isPassDataGridViewTextBoxColumn1,
+            this.reportFileNameDataGridViewTextBoxColumn1,
+            this.MeasDataTime});
+            this.dataGridView1.DataSource = this.partResultRecordBindingSource;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(4, 4);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowTemplate.Height = 30;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(1326, 764);
+            this.dataGridView1.TabIndex = 1;
+            // 
+            // MeasDataTime
+            // 
+            this.MeasDataTime.DataPropertyName = "MeasDataTime";
+            this.MeasDataTime.HeaderText = "日期-时间";
+            this.MeasDataTime.Name = "MeasDataTime";
+            this.MeasDataTime.ReadOnly = true;
+            // 
+            // toolStrip4
+            // 
+            this.toolStrip4.AutoSize = false;
+            this.toolStrip4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip4.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip4.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton2,
+            this.toolStripButton6,
+            this.toolStripButton7});
+            this.toolStrip4.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.toolStrip4.Location = new System.Drawing.Point(4, 768);
+            this.toolStrip4.Name = "toolStrip4";
+            this.toolStrip4.Size = new System.Drawing.Size(1326, 50);
+            this.toolStrip4.TabIndex = 0;
+            this.toolStrip4.Text = "toolStrip4";
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(93, 47);
+            this.toolStripButton2.Text = "查看报告";
+            // 
+            // toolStripButton6
+            // 
+            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
+            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton6.Name = "toolStripButton6";
+            this.toolStripButton6.Size = new System.Drawing.Size(93, 47);
+            this.toolStripButton6.Text = "浏览目录";
+            // 
+            // toolStripButton7
+            // 
+            this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
+            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton7.Name = "toolStripButton7";
+            this.toolStripButton7.Size = new System.Drawing.Size(103, 47);
+            this.toolStripButton7.Text = "Blade分析";
+            // 
+            // label3
+            // 
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label3.Location = new System.Drawing.Point(0, 0);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(1344, 12);
+            this.label3.TabIndex = 2;
             // 
             // partPanel
             // 
@@ -824,10 +839,10 @@
             this.partPanel.Controls.Add(this.label1);
             this.partPanel.Controls.Add(this.toolStrip1);
             this.partPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.partPanel.Location = new System.Drawing.Point(10, 10);
+            this.partPanel.Location = new System.Drawing.Point(12, 12);
             this.partPanel.Margin = new System.Windows.Forms.Padding(2);
             this.partPanel.Name = "partPanel";
-            this.partPanel.Size = new System.Drawing.Size(1074, 695);
+            this.partPanel.Size = new System.Drawing.Size(1344, 874);
             this.partPanel.TabIndex = 1;
             // 
             // partView
@@ -843,11 +858,12 @@
             this.Column11,
             this.Column8});
             this.partView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.partView.Location = new System.Drawing.Point(0, 10);
+            this.partView.Location = new System.Drawing.Point(0, 12);
+            this.partView.Margin = new System.Windows.Forms.Padding(4);
             this.partView.Name = "partView";
             this.partView.RowTemplate.Height = 23;
             this.partView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.partView.Size = new System.Drawing.Size(1074, 660);
+            this.partView.Size = new System.Drawing.Size(1344, 831);
             this.partView.TabIndex = 0;
             // 
             // Column1
@@ -890,8 +906,9 @@
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(1074, 10);
+            this.label1.Size = new System.Drawing.Size(1344, 12);
             this.label1.TabIndex = 1;
             // 
             // toolStrip1
@@ -906,9 +923,9 @@
             this.delPartToolStripButton,
             this.toolStripSeparator1,
             this.writePartIDToPlcToolStripButton});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 670);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 843);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1074, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1344, 31);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -918,7 +935,7 @@
             this.addPartToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("addPartToolStripButton.Image")));
             this.addPartToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addPartToolStripButton.Name = "addPartToolStripButton";
-            this.addPartToolStripButton.Size = new System.Drawing.Size(24, 22);
+            this.addPartToolStripButton.Size = new System.Drawing.Size(24, 28);
             this.addPartToolStripButton.Text = "toolStripButton1";
             this.addPartToolStripButton.Click += new System.EventHandler(this.addPartToolStripButton_Click);
             // 
@@ -928,7 +945,7 @@
             this.modifyToolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("modifyToolStripButton1.Image")));
             this.modifyToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.modifyToolStripButton1.Name = "modifyToolStripButton1";
-            this.modifyToolStripButton1.Size = new System.Drawing.Size(24, 22);
+            this.modifyToolStripButton1.Size = new System.Drawing.Size(24, 28);
             this.modifyToolStripButton1.Text = "toolStripButton1";
             this.modifyToolStripButton1.Click += new System.EventHandler(this.modifyToolStripButton1_Click);
             // 
@@ -938,14 +955,14 @@
             this.delPartToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("delPartToolStripButton.Image")));
             this.delPartToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.delPartToolStripButton.Name = "delPartToolStripButton";
-            this.delPartToolStripButton.Size = new System.Drawing.Size(24, 22);
+            this.delPartToolStripButton.Size = new System.Drawing.Size(24, 28);
             this.delPartToolStripButton.Text = "toolStripButton2";
             this.delPartToolStripButton.Click += new System.EventHandler(this.delPartToolStripButton_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // writePartIDToPlcToolStripButton
             // 
@@ -953,26 +970,25 @@
             this.writePartIDToPlcToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("writePartIDToPlcToolStripButton.Image")));
             this.writePartIDToPlcToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.writePartIDToPlcToolStripButton.Name = "writePartIDToPlcToolStripButton";
-            this.writePartIDToPlcToolStripButton.Size = new System.Drawing.Size(24, 22);
+            this.writePartIDToPlcToolStripButton.Size = new System.Drawing.Size(24, 28);
             this.writePartIDToPlcToolStripButton.Text = "toolStripButton1";
             this.writePartIDToPlcToolStripButton.Click += new System.EventHandler(this.writePartIDToPlcToolStripButton_Click);
             // 
             // plcPanel
             // 
             this.plcPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.plcPanel.Location = new System.Drawing.Point(10, 10);
+            this.plcPanel.Location = new System.Drawing.Point(12, 12);
             this.plcPanel.Margin = new System.Windows.Forms.Padding(2);
             this.plcPanel.Name = "plcPanel";
-            this.plcPanel.Size = new System.Drawing.Size(1074, 695);
+            this.plcPanel.Size = new System.Drawing.Size(1344, 874);
             this.plcPanel.TabIndex = 3;
             // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Location = new System.Drawing.Point(0, 803);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1009);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 11, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1094, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1368, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -1008,6 +1024,7 @@
             // 
             this.stateImageDataGridViewImageColumn.DataPropertyName = "StateImage";
             this.stateImageDataGridViewImageColumn.HeaderText = "";
+            this.stateImageDataGridViewImageColumn.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.stateImageDataGridViewImageColumn.Name = "stateImageDataGridViewImageColumn";
             this.stateImageDataGridViewImageColumn.ReadOnly = true;
             // 
@@ -1088,13 +1105,14 @@
             // 
             // MainFrm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1094, 825);
+            this.ClientSize = new System.Drawing.Size(1368, 1031);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainFrm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainFrm_Load);
@@ -1105,16 +1123,6 @@
             this.mainToolStrip.ResumeLayout(false);
             this.mainToolStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.resultPanel.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ResultView)).EndInit();
-            this.toolStrip3.ResumeLayout(false);
-            this.toolStrip3.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.toolStrip4.ResumeLayout(false);
-            this.toolStrip4.PerformLayout();
             this.cmmPanel.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
@@ -1127,6 +1135,16 @@
             this.groupBox1.ResumeLayout(false);
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            this.resultPanel.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ResultView)).EndInit();
+            this.toolStrip3.ResumeLayout(false);
+            this.toolStrip3.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.toolStrip4.ResumeLayout(false);
+            this.toolStrip4.PerformLayout();
             this.partPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.partView)).EndInit();
             this.toolStrip1.ResumeLayout(false);
