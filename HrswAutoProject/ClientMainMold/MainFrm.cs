@@ -24,14 +24,15 @@ namespace ClientMainMold
         // 工件结果记录
         BindingList<PartResultRecord> resultRecordList = new BindingList<PartResultRecord>();
         BindingList<CmmDataRecord> cmmRecordList = new BindingList<CmmDataRecord>();
-        BindingList<PartConfig> partConfList = new BindingList<PartConfig>();
+        //BindingList<PartConfig> partConfList = new BindingList<PartConfig>();
+        BindingSource partConfBs = new BindingSource();
         public MainFrm()
         {
             InitializeComponent();
             // 设置Path
             cmmDataRecordBindingSource.DataSource = cmmRecordList;
             resultRowBindingSource.DataSource = RackResultRecordList;
-            partConfigBindingSource.DataSource = partConfList;
+            //partConfigBindingSource.DataSource = partConfList;
             SetAppPaths();
             ClientUICommon.syncContext = SynchronizationContext.Current;
             ClientUICommon.AddCmmToView = AddClientView;
@@ -128,14 +129,16 @@ namespace ClientMainMold
             //PartConfigManager.Instance.PartConfFile = "parts.xml";
             ClientManager.Instance.Initialize();
             PartConfigManager.Instance.InitPartConfigManager();
+            partConfBs.DataSource = PartConfigManager.Instance.PartConfList;
+            partConfigBindingSource.DataSource = partConfBs;
             // 初始化工件界面
-            InitPartConfView();
+            //InitPartConfView();
         }
 
         private void InitPartConfView()
         {
-            PartConfigManager.Instance.PartConfList.ForEach(pc =>
-            partConfList.Add(pc));
+            //PartConfigManager.Instance.PartConfList.ForEach(pc =>
+            //partConfList.Add(pc));
         }
         #endregion
 
@@ -249,14 +252,15 @@ namespace ClientMainMold
                 pc.TolFileName = Path.GetFileName(Directory.GetFiles(path, "*.Tol", SearchOption.TopDirectoryOnly)[0]);
                 pc.PartID = pcfm.PartID;
                 pc.ProgFileName = Path.GetFileName(pcfm.PartProgram);
-                if (!PartConfigManager.Instance.AddPartConfig(pc))
+                if (PartConfigManager.Instance./*AddPartConfig*/Exists(pc.PartID))
                 {
                     MessageBox.Show("工件已存在");
                     return;
                 }
+                partConfBs.Add(pc);
 
                 // 更新工件Panel
-                partConfList.Add(pc);
+                //partConfList.Add(pc);
                 //partView.Refresh();
             }
 
