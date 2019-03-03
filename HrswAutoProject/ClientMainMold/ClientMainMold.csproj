@@ -109,8 +109,8 @@
     </EmbeddedResource>
     <None Include="Properties\DataSources\CmmDataRecord.datasource" />
     <None Include="Properties\DataSources\Gy.HrswAuto.ClientMold.CmmClient.datasource" />
+    <None Include="Properties\DataSources\Gy.HrswAuto.DataMold.PartConfig.datasource" />
     <None Include="Properties\DataSources\PartResultRecord.datasource" />
-    <None Include="Properties\DataSources\ResultRow.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -153,10 +153,7 @@
     <None Include="Resources\ok.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Image1.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MainToolBackgroundImage.bmp" />
+    <None Include="Resources\MainBtnBack.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

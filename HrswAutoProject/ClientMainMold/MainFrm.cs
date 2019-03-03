@@ -24,12 +24,14 @@ namespace ClientMainMold
         // 工件结果记录
         BindingList<PartResultRecord> resultRecordList = new BindingList<PartResultRecord>();
         BindingList<CmmDataRecord> cmmRecordList = new BindingList<CmmDataRecord>();
+        BindingList<PartConfig> partConfList = new BindingList<PartConfig>();
         public MainFrm()
         {
             InitializeComponent();
             // 设置Path
             cmmDataRecordBindingSource.DataSource = cmmRecordList;
             resultRowBindingSource.DataSource = RackResultRecordList;
+            partConfigBindingSource.DataSource = partConfList;
             SetAppPaths();
             ClientUICommon.syncContext = SynchronizationContext.Current;
             ClientUICommon.AddCmmToView = AddClientView;
@@ -126,7 +128,15 @@ namespace ClientMainMold
             //PartConfigManager.Instance.PartConfFile = "parts.xml";
             ClientManager.Instance.Initialize();
             PartConfigManager.Instance.InitPartConfigManager();
-        } 
+            // 初始化工件界面
+            InitPartConfView();
+        }
+
+        private void InitPartConfView()
+        {
+            PartConfigManager.Instance.PartConfList.ForEach(pc =>
+            partConfList.Add(pc));
+        }
         #endregion
 
         #region 测量机Panel
@@ -246,13 +256,8 @@ namespace ClientMainMold
                 }
 
                 // 更新工件Panel
-                int index = partView.Rows.Add();
-                partView.Rows[index].Cells[0].Value = pcfm.PartID;
-                partView.Rows[index].Cells[1].Value = pcfm.PartProgram;
-                partView.Rows[index].Cells[2].Value = pc.NormFileName;
-                partView.Rows[index].Cells[3].Value = pc.FlvFileName;
-                partView.Rows[index].Cells[4].Value = pc.TolFileName;
-                partView.Rows[index].Cells[5].Value = pcfm.PartDescription;
+                partConfList.Add(pc);
+                //partView.Refresh();
             }
 
         }
@@ -352,6 +357,12 @@ namespace ClientMainMold
         private void ClearLogInfoTsb_Click(object sender, EventArgs e)
         {
             cmmInfoListBox.Items.Clear();
+        }
+
+        private void MainFrm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            
+            PartConfigManager.Instance.SavePartConfig();
         }
     }
 }

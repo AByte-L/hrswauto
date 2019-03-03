@@ -30,34 +30,30 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
+            System.Windows.Forms.Label flvFileNameLabel;
+            System.Windows.Forms.Label normFileNameLabel;
+            System.Windows.Forms.Label tolFileNameLabel;
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
-            this.resultTtoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
-            this.cmmToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.partToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.plcToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
+            this.partPanel = new System.Windows.Forms.Panel();
+            this.partView = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.cmmPanel = new System.Windows.Forms.Panel();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.CmmView = new System.Windows.Forms.DataGridView();
             this.cmmToolStrip = new System.Windows.Forms.ToolStrip();
-            this.addCmmTsb = new System.Windows.Forms.ToolStripButton();
-            this.deleteCmmTsb = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.enableCmmTsb = new System.Windows.Forms.ToolStripButton();
-            this.disableCmmTsb = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.InitClientTsb = new System.Windows.Forms.ToolStripButton();
-            this.ClearErrorTsb = new System.Windows.Forms.ToolStripButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cmmInfoListBox = new System.Windows.Forms.ListBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.ClearLogInfoTsb = new System.Windows.Forms.ToolStripButton();
             this.label2 = new System.Windows.Forms.Label();
             this.resultPanel = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -76,36 +72,46 @@
             this.toolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabel7 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel9 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.MeasDataTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip4 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.label3 = new System.Windows.Forms.Label();
-            this.partPanel = new System.Windows.Forms.Panel();
-            this.partView = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.plcPanel = new System.Windows.Forms.Panel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.resultTtoolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.cmmToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.partToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.plcToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.addPartToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.modifyToolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.delPartToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.writePartIDToPlcToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.plcPanel = new System.Windows.Forms.Panel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.addCmmTsb = new System.Windows.Forms.ToolStripButton();
+            this.deleteCmmTsb = new System.Windows.Forms.ToolStripButton();
+            this.enableCmmTsb = new System.Windows.Forms.ToolStripButton();
+            this.disableCmmTsb = new System.Windows.Forms.ToolStripButton();
+            this.InitClientTsb = new System.Windows.Forms.ToolStripButton();
+            this.ClearErrorTsb = new System.Windows.Forms.ToolStripButton();
+            this.ClearLogInfoTsb = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
+            this.partConfigBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.partIDDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.progFileNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.flvFileNameTextBox = new System.Windows.Forms.TextBox();
+            this.normFileNameTextBox = new System.Windows.Forms.TextBox();
+            this.tolFileNameTextBox = new System.Windows.Forms.TextBox();
             this.serverIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.iPAddressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.isActivedDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -123,12 +129,17 @@
             this.isPassDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.reportFileNameDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.partResultRecordBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            flvFileNameLabel = new System.Windows.Forms.Label();
+            normFileNameLabel = new System.Windows.Forms.Label();
+            tolFileNameLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.mainToolStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.partPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.partView)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.cmmPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -146,9 +157,13 @@
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.toolStrip4.SuspendLayout();
-            this.partPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.partView)).BeginInit();
-            this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.partConfigBindingSource)).BeginInit();
+            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmmDataRecordBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.resultRowBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.partResultRecordBindingSource)).BeginInit();
@@ -209,37 +224,11 @@
             this.toolStripLabel4.Name = "toolStripLabel4";
             this.toolStripLabel4.Size = new System.Drawing.Size(35, 100);
             // 
-            // resultTtoolStripButton
-            // 
-            this.resultTtoolStripButton.AutoSize = false;
-            this.resultTtoolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("resultTtoolStripButton.Image")));
-            this.resultTtoolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.resultTtoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.resultTtoolStripButton.Name = "resultTtoolStripButton";
-            this.resultTtoolStripButton.Size = new System.Drawing.Size(100, 106);
-            this.resultTtoolStripButton.Text = "报告";
-            this.resultTtoolStripButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.resultTtoolStripButton.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
-            this.resultTtoolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.resultTtoolStripButton.Click += new System.EventHandler(this.resultTtoolStripButton_Click);
-            // 
             // toolStripLabel3
             // 
             this.toolStripLabel3.AutoSize = false;
             this.toolStripLabel3.Name = "toolStripLabel3";
             this.toolStripLabel3.Size = new System.Drawing.Size(18, 100);
-            // 
-            // cmmToolStripButton
-            // 
-            this.cmmToolStripButton.AutoSize = false;
-            this.cmmToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("cmmToolStripButton.Image")));
-            this.cmmToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cmmToolStripButton.Name = "cmmToolStripButton";
-            this.cmmToolStripButton.Size = new System.Drawing.Size(100, 106);
-            this.cmmToolStripButton.Text = "三坐标";
-            this.cmmToolStripButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.cmmToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.cmmToolStripButton.Click += new System.EventHandler(this.cmmToolStripButton_Click);
             // 
             // toolStripLabel2
             // 
@@ -247,55 +236,11 @@
             this.toolStripLabel2.Name = "toolStripLabel2";
             this.toolStripLabel2.Size = new System.Drawing.Size(18, 100);
             // 
-            // partToolStripButton
-            // 
-            this.partToolStripButton.AutoSize = false;
-            this.partToolStripButton.BackColor = System.Drawing.Color.Transparent;
-            this.partToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("partToolStripButton.Image")));
-            this.partToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.partToolStripButton.Name = "partToolStripButton";
-            this.partToolStripButton.RightToLeftAutoMirrorImage = true;
-            this.partToolStripButton.Size = new System.Drawing.Size(100, 106);
-            this.partToolStripButton.Text = "工件";
-            this.partToolStripButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.partToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.partToolStripButton.Click += new System.EventHandler(this.partToolStripButton_Click);
-            // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.AutoSize = false;
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(18, 100);
-            // 
-            // plcToolStripButton
-            // 
-            this.plcToolStripButton.AutoSize = false;
-            this.plcToolStripButton.BackColor = System.Drawing.Color.Transparent;
-            this.plcToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("plcToolStripButton.Image")));
-            this.plcToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.plcToolStripButton.Name = "plcToolStripButton";
-            this.plcToolStripButton.Size = new System.Drawing.Size(100, 106);
-            this.plcToolStripButton.Text = "任务控制";
-            this.plcToolStripButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.plcToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.plcToolStripButton.Click += new System.EventHandler(this.plcToolStripButton_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Padding = new System.Windows.Forms.Padding(12, 12, 12, 19);
-            this.pictureBox1.Size = new System.Drawing.Size(632, 119);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // splitter1
             // 
@@ -307,6 +252,71 @@
             this.splitter1.Size = new System.Drawing.Size(1344, 2);
             this.splitter1.TabIndex = 0;
             this.splitter1.TabStop = false;
+            // 
+            // partPanel
+            // 
+            this.partPanel.Controls.Add(this.splitContainer3);
+            this.partPanel.Controls.Add(this.label1);
+            this.partPanel.Controls.Add(this.toolStrip1);
+            this.partPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.partPanel.Location = new System.Drawing.Point(12, 12);
+            this.partPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.partPanel.Name = "partPanel";
+            this.partPanel.Size = new System.Drawing.Size(1344, 874);
+            this.partPanel.TabIndex = 1;
+            // 
+            // partView
+            // 
+            this.partView.AllowUserToAddRows = false;
+            this.partView.AutoGenerateColumns = false;
+            this.partView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.partView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.partView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.partIDDataGridViewTextBoxColumn2,
+            this.progFileNameDataGridViewTextBoxColumn,
+            this.Column1});
+            this.partView.DataSource = this.partConfigBindingSource;
+            this.partView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.partView.Location = new System.Drawing.Point(5, 5);
+            this.partView.Margin = new System.Windows.Forms.Padding(4);
+            this.partView.Name = "partView";
+            this.partView.ReadOnly = true;
+            this.partView.RowTemplate.Height = 23;
+            this.partView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.partView.Size = new System.Drawing.Size(820, 821);
+            this.partView.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(1344, 12);
+            this.label1.TabIndex = 1;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.AutoSize = false;
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addPartToolStripButton,
+            this.modifyToolStripButton1,
+            this.delPartToolStripButton,
+            this.toolStripSeparator1,
+            this.writePartIDToPlcToolStripButton});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 843);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(1344, 31);
+            this.toolStrip1.TabIndex = 0;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // cmmPanel
             // 
@@ -388,84 +398,15 @@
             this.cmmToolStrip.TabIndex = 0;
             this.cmmToolStrip.Text = "toolStrip2";
             // 
-            // addCmmTsb
-            // 
-            this.addCmmTsb.AutoSize = false;
-            this.addCmmTsb.Image = ((System.Drawing.Image)(resources.GetObject("addCmmTsb.Image")));
-            this.addCmmTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.addCmmTsb.Name = "addCmmTsb";
-            this.addCmmTsb.Size = new System.Drawing.Size(60, 41);
-            this.addCmmTsb.Text = "添加";
-            this.addCmmTsb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.addCmmTsb.ToolTipText = "添加三坐标";
-            this.addCmmTsb.Click += new System.EventHandler(this.addCmmTsb_Click);
-            // 
-            // deleteCmmTsb
-            // 
-            this.deleteCmmTsb.AutoSize = false;
-            this.deleteCmmTsb.Image = ((System.Drawing.Image)(resources.GetObject("deleteCmmTsb.Image")));
-            this.deleteCmmTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.deleteCmmTsb.Name = "deleteCmmTsb";
-            this.deleteCmmTsb.Size = new System.Drawing.Size(60, 41);
-            this.deleteCmmTsb.Text = "删除";
-            this.deleteCmmTsb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.deleteCmmTsb.ToolTipText = "删除三坐标";
-            this.deleteCmmTsb.Click += new System.EventHandler(this.deleteCmmTsb_Click);
-            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 63);
             // 
-            // enableCmmTsb
-            // 
-            this.enableCmmTsb.AutoSize = false;
-            this.enableCmmTsb.Image = ((System.Drawing.Image)(resources.GetObject("enableCmmTsb.Image")));
-            this.enableCmmTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.enableCmmTsb.Name = "enableCmmTsb";
-            this.enableCmmTsb.Size = new System.Drawing.Size(60, 41);
-            this.enableCmmTsb.Text = "激活";
-            this.enableCmmTsb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.enableCmmTsb.ToolTipText = "激活";
-            this.enableCmmTsb.Click += new System.EventHandler(this.enableCmmTsb_Click);
-            // 
-            // disableCmmTsb
-            // 
-            this.disableCmmTsb.AutoSize = false;
-            this.disableCmmTsb.Image = ((System.Drawing.Image)(resources.GetObject("disableCmmTsb.Image")));
-            this.disableCmmTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.disableCmmTsb.Name = "disableCmmTsb";
-            this.disableCmmTsb.Size = new System.Drawing.Size(60, 41);
-            this.disableCmmTsb.Text = "离线";
-            this.disableCmmTsb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.disableCmmTsb.ToolTipText = "单机处理";
-            this.disableCmmTsb.Click += new System.EventHandler(this.disableCmmTsb_Click);
-            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 63);
-            // 
-            // InitClientTsb
-            // 
-            this.InitClientTsb.AutoSize = false;
-            this.InitClientTsb.Image = ((System.Drawing.Image)(resources.GetObject("InitClientTsb.Image")));
-            this.InitClientTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.InitClientTsb.Name = "InitClientTsb";
-            this.InitClientTsb.Size = new System.Drawing.Size(60, 41);
-            this.InitClientTsb.Text = "初始化";
-            this.InitClientTsb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.InitClientTsb.Click += new System.EventHandler(this.InitClientTsb_Click);
-            // 
-            // ClearErrorTsb
-            // 
-            this.ClearErrorTsb.AutoSize = false;
-            this.ClearErrorTsb.Image = ((System.Drawing.Image)(resources.GetObject("ClearErrorTsb.Image")));
-            this.ClearErrorTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ClearErrorTsb.Name = "ClearErrorTsb";
-            this.ClearErrorTsb.Size = new System.Drawing.Size(60, 60);
-            this.ClearErrorTsb.Text = "清除错误";
-            this.ClearErrorTsb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // groupBox1
             // 
@@ -507,17 +448,6 @@
             this.toolStrip2.Size = new System.Drawing.Size(454, 63);
             this.toolStrip2.TabIndex = 0;
             this.toolStrip2.Text = "toolStrip2";
-            // 
-            // ClearLogInfoTsb
-            // 
-            this.ClearLogInfoTsb.AutoSize = false;
-            this.ClearLogInfoTsb.Image = ((System.Drawing.Image)(resources.GetObject("ClearLogInfoTsb.Image")));
-            this.ClearLogInfoTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ClearLogInfoTsb.Name = "ClearLogInfoTsb";
-            this.ClearLogInfoTsb.Size = new System.Drawing.Size(60, 60);
-            this.ClearLogInfoTsb.Text = "清空";
-            this.ClearLogInfoTsb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.ClearLogInfoTsb.Click += new System.EventHandler(this.ClearLogInfoTsb_Click);
             // 
             // label2
             // 
@@ -698,42 +628,10 @@
             this.toolStripLabel9.Name = "toolStripLabel9";
             this.toolStripLabel9.Size = new System.Drawing.Size(10, 37);
             // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(63, 47);
-            this.toolStripButton1.Text = "选择";
-            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 50);
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(93, 47);
-            this.toolStripButton3.Text = "查看报告";
-            // 
-            // toolStripButton4
-            // 
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(63, 47);
-            this.toolStripButton4.Text = "浏览";
-            // 
-            // toolStripButton5
-            // 
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(103, 47);
-            this.toolStripButton5.Text = "Blade分析";
             // 
             // tabPage2
             // 
@@ -800,30 +698,6 @@
             this.toolStrip4.TabIndex = 0;
             this.toolStrip4.Text = "toolStrip4";
             // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(93, 47);
-            this.toolStripButton2.Text = "查看报告";
-            // 
-            // toolStripButton6
-            // 
-            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(93, 47);
-            this.toolStripButton6.Text = "浏览目录";
-            // 
-            // toolStripButton7
-            // 
-            this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(103, 47);
-            this.toolStripButton7.Text = "Blade分析";
-            // 
             // label3
             // 
             this.label3.Dock = System.Windows.Forms.DockStyle.Top;
@@ -833,101 +707,118 @@
             this.label3.Size = new System.Drawing.Size(1344, 12);
             this.label3.TabIndex = 2;
             // 
-            // partPanel
+            // plcPanel
             // 
-            this.partPanel.Controls.Add(this.partView);
-            this.partPanel.Controls.Add(this.label1);
-            this.partPanel.Controls.Add(this.toolStrip1);
-            this.partPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.partPanel.Location = new System.Drawing.Point(12, 12);
-            this.partPanel.Margin = new System.Windows.Forms.Padding(2);
-            this.partPanel.Name = "partPanel";
-            this.partPanel.Size = new System.Drawing.Size(1344, 874);
-            this.partPanel.TabIndex = 1;
+            this.plcPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.plcPanel.Location = new System.Drawing.Point(12, 12);
+            this.plcPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.plcPanel.Name = "plcPanel";
+            this.plcPanel.Size = new System.Drawing.Size(1344, 874);
+            this.plcPanel.TabIndex = 3;
             // 
-            // partView
+            // statusStrip1
             // 
-            this.partView.AllowUserToAddRows = false;
-            this.partView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.partView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.partView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column7,
-            this.Column9,
-            this.Column10,
-            this.Column11,
-            this.Column8});
-            this.partView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.partView.Location = new System.Drawing.Point(0, 12);
-            this.partView.Margin = new System.Windows.Forms.Padding(4);
-            this.partView.Name = "partView";
-            this.partView.RowTemplate.Height = 23;
-            this.partView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.partView.Size = new System.Drawing.Size(1344, 831);
-            this.partView.TabIndex = 0;
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1009);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1368, 22);
+            this.statusStrip1.TabIndex = 0;
+            this.statusStrip1.Text = "statusStrip1";
             // 
-            // Column1
+            // splitContainer3
             // 
-            this.Column1.HeaderText = "工件ID";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 12);
+            this.splitContainer3.Name = "splitContainer3";
             // 
-            // Column7
+            // splitContainer3.Panel1
             // 
-            this.Column7.HeaderText = "检测程序";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
+            this.splitContainer3.Panel1.Controls.Add(this.partView);
+            this.splitContainer3.Panel1.Padding = new System.Windows.Forms.Padding(5);
             // 
-            // Column9
+            // splitContainer3.Panel2
             // 
-            this.Column9.HeaderText = "理论文件";
-            this.Column9.Name = "Column9";
-            this.Column9.ReadOnly = true;
+            this.splitContainer3.Panel2.Controls.Add(this.groupBox2);
+            this.splitContainer3.Size = new System.Drawing.Size(1344, 831);
+            this.splitContainer3.SplitterDistance = 830;
+            this.splitContainer3.TabIndex = 2;
             // 
-            // Column10
+            // resultTtoolStripButton
             // 
-            this.Column10.HeaderText = "算法文件";
-            this.Column10.Name = "Column10";
-            this.Column10.ReadOnly = true;
+            this.resultTtoolStripButton.AutoSize = false;
+            this.resultTtoolStripButton.BackgroundImage = global::ClientMainMold.Properties.Resources.MainBtnBack;
+            this.resultTtoolStripButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.resultTtoolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("resultTtoolStripButton.Image")));
+            this.resultTtoolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.resultTtoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.resultTtoolStripButton.Name = "resultTtoolStripButton";
+            this.resultTtoolStripButton.Size = new System.Drawing.Size(100, 106);
+            this.resultTtoolStripButton.Text = "报告";
+            this.resultTtoolStripButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.resultTtoolStripButton.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
+            this.resultTtoolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.resultTtoolStripButton.Click += new System.EventHandler(this.resultTtoolStripButton_Click);
             // 
-            // Column11
+            // cmmToolStripButton
             // 
-            this.Column11.HeaderText = "公差文件";
-            this.Column11.Name = "Column11";
-            this.Column11.ReadOnly = true;
+            this.cmmToolStripButton.AutoSize = false;
+            this.cmmToolStripButton.BackgroundImage = global::ClientMainMold.Properties.Resources.MainBtnBack;
+            this.cmmToolStripButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.cmmToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("cmmToolStripButton.Image")));
+            this.cmmToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cmmToolStripButton.Name = "cmmToolStripButton";
+            this.cmmToolStripButton.Size = new System.Drawing.Size(100, 106);
+            this.cmmToolStripButton.Text = "三坐标";
+            this.cmmToolStripButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.cmmToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.cmmToolStripButton.Click += new System.EventHandler(this.cmmToolStripButton_Click);
             // 
-            // Column8
+            // partToolStripButton
             // 
-            this.Column8.HeaderText = "工件说明";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
+            this.partToolStripButton.AutoSize = false;
+            this.partToolStripButton.BackColor = System.Drawing.Color.Transparent;
+            this.partToolStripButton.BackgroundImage = global::ClientMainMold.Properties.Resources.MainBtnBack;
+            this.partToolStripButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.partToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("partToolStripButton.Image")));
+            this.partToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.partToolStripButton.Name = "partToolStripButton";
+            this.partToolStripButton.RightToLeftAutoMirrorImage = true;
+            this.partToolStripButton.Size = new System.Drawing.Size(100, 106);
+            this.partToolStripButton.Text = "工件";
+            this.partToolStripButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.partToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.partToolStripButton.Click += new System.EventHandler(this.partToolStripButton_Click);
             // 
-            // label1
+            // plcToolStripButton
             // 
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(1344, 12);
-            this.label1.TabIndex = 1;
+            this.plcToolStripButton.AutoSize = false;
+            this.plcToolStripButton.BackColor = System.Drawing.Color.Transparent;
+            this.plcToolStripButton.BackgroundImage = global::ClientMainMold.Properties.Resources.MainBtnBack;
+            this.plcToolStripButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.plcToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("plcToolStripButton.Image")));
+            this.plcToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.plcToolStripButton.Name = "plcToolStripButton";
+            this.plcToolStripButton.Size = new System.Drawing.Size(100, 106);
+            this.plcToolStripButton.Text = "任务控制";
+            this.plcToolStripButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.plcToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.plcToolStripButton.Click += new System.EventHandler(this.plcToolStripButton_Click);
             // 
-            // toolStrip1
+            // pictureBox1
             // 
-            this.toolStrip1.AutoSize = false;
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addPartToolStripButton,
-            this.modifyToolStripButton1,
-            this.delPartToolStripButton,
-            this.toolStripSeparator1,
-            this.writePartIDToPlcToolStripButton});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 843);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1344, 31);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pictureBox1.ErrorImage = null;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Padding = new System.Windows.Forms.Padding(12, 12, 12, 19);
+            this.pictureBox1.Size = new System.Drawing.Size(632, 119);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // addPartToolStripButton
             // 
@@ -959,11 +850,6 @@
             this.delPartToolStripButton.Text = "toolStripButton2";
             this.delPartToolStripButton.Click += new System.EventHandler(this.delPartToolStripButton_Click);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
-            // 
             // writePartIDToPlcToolStripButton
             // 
             this.writePartIDToPlcToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -974,23 +860,232 @@
             this.writePartIDToPlcToolStripButton.Text = "toolStripButton1";
             this.writePartIDToPlcToolStripButton.Click += new System.EventHandler(this.writePartIDToPlcToolStripButton_Click);
             // 
-            // plcPanel
+            // addCmmTsb
             // 
-            this.plcPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.plcPanel.Location = new System.Drawing.Point(12, 12);
-            this.plcPanel.Margin = new System.Windows.Forms.Padding(2);
-            this.plcPanel.Name = "plcPanel";
-            this.plcPanel.Size = new System.Drawing.Size(1344, 874);
-            this.plcPanel.TabIndex = 3;
+            this.addCmmTsb.AutoSize = false;
+            this.addCmmTsb.Image = ((System.Drawing.Image)(resources.GetObject("addCmmTsb.Image")));
+            this.addCmmTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.addCmmTsb.Name = "addCmmTsb";
+            this.addCmmTsb.Size = new System.Drawing.Size(60, 41);
+            this.addCmmTsb.Text = "添加";
+            this.addCmmTsb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.addCmmTsb.ToolTipText = "添加三坐标";
+            this.addCmmTsb.Click += new System.EventHandler(this.addCmmTsb_Click);
             // 
-            // statusStrip1
+            // deleteCmmTsb
             // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1009);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1368, 22);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
+            this.deleteCmmTsb.AutoSize = false;
+            this.deleteCmmTsb.Image = ((System.Drawing.Image)(resources.GetObject("deleteCmmTsb.Image")));
+            this.deleteCmmTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.deleteCmmTsb.Name = "deleteCmmTsb";
+            this.deleteCmmTsb.Size = new System.Drawing.Size(60, 41);
+            this.deleteCmmTsb.Text = "删除";
+            this.deleteCmmTsb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.deleteCmmTsb.ToolTipText = "删除三坐标";
+            this.deleteCmmTsb.Click += new System.EventHandler(this.deleteCmmTsb_Click);
+            // 
+            // enableCmmTsb
+            // 
+            this.enableCmmTsb.AutoSize = false;
+            this.enableCmmTsb.Image = ((System.Drawing.Image)(resources.GetObject("enableCmmTsb.Image")));
+            this.enableCmmTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.enableCmmTsb.Name = "enableCmmTsb";
+            this.enableCmmTsb.Size = new System.Drawing.Size(60, 41);
+            this.enableCmmTsb.Text = "激活";
+            this.enableCmmTsb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.enableCmmTsb.ToolTipText = "激活";
+            this.enableCmmTsb.Click += new System.EventHandler(this.enableCmmTsb_Click);
+            // 
+            // disableCmmTsb
+            // 
+            this.disableCmmTsb.AutoSize = false;
+            this.disableCmmTsb.Image = ((System.Drawing.Image)(resources.GetObject("disableCmmTsb.Image")));
+            this.disableCmmTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.disableCmmTsb.Name = "disableCmmTsb";
+            this.disableCmmTsb.Size = new System.Drawing.Size(60, 41);
+            this.disableCmmTsb.Text = "离线";
+            this.disableCmmTsb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.disableCmmTsb.ToolTipText = "单机处理";
+            this.disableCmmTsb.Click += new System.EventHandler(this.disableCmmTsb_Click);
+            // 
+            // InitClientTsb
+            // 
+            this.InitClientTsb.AutoSize = false;
+            this.InitClientTsb.Image = ((System.Drawing.Image)(resources.GetObject("InitClientTsb.Image")));
+            this.InitClientTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.InitClientTsb.Name = "InitClientTsb";
+            this.InitClientTsb.Size = new System.Drawing.Size(60, 41);
+            this.InitClientTsb.Text = "初始化";
+            this.InitClientTsb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.InitClientTsb.Click += new System.EventHandler(this.InitClientTsb_Click);
+            // 
+            // ClearErrorTsb
+            // 
+            this.ClearErrorTsb.AutoSize = false;
+            this.ClearErrorTsb.Image = ((System.Drawing.Image)(resources.GetObject("ClearErrorTsb.Image")));
+            this.ClearErrorTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ClearErrorTsb.Name = "ClearErrorTsb";
+            this.ClearErrorTsb.Size = new System.Drawing.Size(60, 60);
+            this.ClearErrorTsb.Text = "清除错误";
+            this.ClearErrorTsb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // ClearLogInfoTsb
+            // 
+            this.ClearLogInfoTsb.AutoSize = false;
+            this.ClearLogInfoTsb.Image = ((System.Drawing.Image)(resources.GetObject("ClearLogInfoTsb.Image")));
+            this.ClearLogInfoTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ClearLogInfoTsb.Name = "ClearLogInfoTsb";
+            this.ClearLogInfoTsb.Size = new System.Drawing.Size(60, 60);
+            this.ClearLogInfoTsb.Text = "清空";
+            this.ClearLogInfoTsb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.ClearLogInfoTsb.Click += new System.EventHandler(this.ClearLogInfoTsb_Click);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(63, 47);
+            this.toolStripButton1.Text = "选择";
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(93, 47);
+            this.toolStripButton3.Text = "查看报告";
+            // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(63, 47);
+            this.toolStripButton4.Text = "浏览";
+            // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
+            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(103, 47);
+            this.toolStripButton5.Text = "Blade分析";
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(93, 47);
+            this.toolStripButton2.Text = "查看报告";
+            // 
+            // toolStripButton6
+            // 
+            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
+            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton6.Name = "toolStripButton6";
+            this.toolStripButton6.Size = new System.Drawing.Size(93, 47);
+            this.toolStripButton6.Text = "浏览目录";
+            // 
+            // toolStripButton7
+            // 
+            this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
+            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton7.Name = "toolStripButton7";
+            this.toolStripButton7.Size = new System.Drawing.Size(103, 47);
+            this.toolStripButton7.Text = "Blade分析";
+            // 
+            // partConfigBindingSource
+            // 
+            this.partConfigBindingSource.DataSource = typeof(Gy.HrswAuto.DataMold.PartConfig);
+            // 
+            // partIDDataGridViewTextBoxColumn2
+            // 
+            this.partIDDataGridViewTextBoxColumn2.DataPropertyName = "PartID";
+            this.partIDDataGridViewTextBoxColumn2.HeaderText = "工件标识";
+            this.partIDDataGridViewTextBoxColumn2.Name = "partIDDataGridViewTextBoxColumn2";
+            this.partIDDataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // progFileNameDataGridViewTextBoxColumn
+            // 
+            this.progFileNameDataGridViewTextBoxColumn.DataPropertyName = "ProgFileName";
+            this.progFileNameDataGridViewTextBoxColumn.HeaderText = "测量程序";
+            this.progFileNameDataGridViewTextBoxColumn.Name = "progFileNameDataGridViewTextBoxColumn";
+            this.progFileNameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "工件说明";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(flvFileNameLabel);
+            this.groupBox2.Controls.Add(this.flvFileNameTextBox);
+            this.groupBox2.Controls.Add(normFileNameLabel);
+            this.groupBox2.Controls.Add(this.normFileNameTextBox);
+            this.groupBox2.Controls.Add(tolFileNameLabel);
+            this.groupBox2.Controls.Add(this.tolFileNameTextBox);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(510, 831);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Blade文件信息";
+            // 
+            // flvFileNameLabel
+            // 
+            flvFileNameLabel.AutoSize = true;
+            flvFileNameLabel.Location = new System.Drawing.Point(30, 48);
+            flvFileNameLabel.Name = "flvFileNameLabel";
+            flvFileNameLabel.Size = new System.Drawing.Size(75, 15);
+            flvFileNameLabel.TabIndex = 0;
+            flvFileNameLabel.Text = "算法文件:";
+            // 
+            // flvFileNameTextBox
+            // 
+            this.flvFileNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.partConfigBindingSource, "FlvFileName", true));
+            this.flvFileNameTextBox.Location = new System.Drawing.Point(163, 45);
+            this.flvFileNameTextBox.Name = "flvFileNameTextBox";
+            this.flvFileNameTextBox.Size = new System.Drawing.Size(308, 25);
+            this.flvFileNameTextBox.TabIndex = 1;
+            // 
+            // normFileNameLabel
+            // 
+            normFileNameLabel.AutoSize = true;
+            normFileNameLabel.Location = new System.Drawing.Point(30, 79);
+            normFileNameLabel.Name = "normFileNameLabel";
+            normFileNameLabel.Size = new System.Drawing.Size(60, 15);
+            normFileNameLabel.TabIndex = 2;
+            normFileNameLabel.Text = "理论值:";
+            // 
+            // normFileNameTextBox
+            // 
+            this.normFileNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.partConfigBindingSource, "NormFileName", true));
+            this.normFileNameTextBox.Location = new System.Drawing.Point(163, 76);
+            this.normFileNameTextBox.Name = "normFileNameTextBox";
+            this.normFileNameTextBox.Size = new System.Drawing.Size(308, 25);
+            this.normFileNameTextBox.TabIndex = 3;
+            // 
+            // tolFileNameLabel
+            // 
+            tolFileNameLabel.AutoSize = true;
+            tolFileNameLabel.Location = new System.Drawing.Point(30, 112);
+            tolFileNameLabel.Name = "tolFileNameLabel";
+            tolFileNameLabel.Size = new System.Drawing.Size(75, 15);
+            tolFileNameLabel.TabIndex = 8;
+            tolFileNameLabel.Text = "公差文件:";
+            // 
+            // tolFileNameTextBox
+            // 
+            this.tolFileNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.partConfigBindingSource, "TolFileName", true));
+            this.tolFileNameTextBox.Location = new System.Drawing.Point(163, 109);
+            this.tolFileNameTextBox.Name = "tolFileNameTextBox";
+            this.tolFileNameTextBox.Size = new System.Drawing.Size(308, 25);
+            this.tolFileNameTextBox.TabIndex = 9;
             // 
             // serverIDDataGridViewTextBoxColumn
             // 
@@ -1115,6 +1210,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainFrm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFrm_FormClosed);
             this.Load += new System.EventHandler(this.MainFrm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -1122,7 +1218,10 @@
             this.splitContainer1.ResumeLayout(false);
             this.mainToolStrip.ResumeLayout(false);
             this.mainToolStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.partPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.partView)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.cmmPanel.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
@@ -1145,10 +1244,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.toolStrip4.ResumeLayout(false);
             this.toolStrip4.PerformLayout();
-            this.partPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.partView)).EndInit();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.partConfigBindingSource)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmmDataRecordBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.resultRowBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.partResultRecordBindingSource)).EndInit();
@@ -1186,12 +1289,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton writePartIDToPlcToolStripButton;
         private System.Windows.Forms.ToolStripButton modifyToolStripButton1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.BindingSource resultRowBindingSource;
@@ -1252,6 +1349,15 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn isActivedDataGridViewCheckBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn stateDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewImageColumn stateImageDataGridViewImageColumn;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn partIDDataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn progFileNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.BindingSource partConfigBindingSource;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox flvFileNameTextBox;
+        private System.Windows.Forms.TextBox normFileNameTextBox;
+        private System.Windows.Forms.TextBox tolFileNameTextBox;
     }
 }
 

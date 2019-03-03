@@ -13,7 +13,13 @@ namespace Gy.HrswAuto.Utilities
     public class PartConfigManager
     {
         List<PartConfig> _partConfigs;
-
+        public List<PartConfig> PartConfList
+        {
+            get
+            {
+                return _partConfigs;
+            }
+        }
         // bool IsInitialed = false; // 
         public string PartConfFile { get; set; } = "parts.xml";
         private PartConfigManager()
@@ -24,7 +30,7 @@ namespace Gy.HrswAuto.Utilities
         #region 公共方法
         public void InitPartConfigManager()
         {
-            string path = Path.Combine(PathManager.Instance.SettingsSavePath, PartConfFile);
+            string path = Path.Combine(PathManager.Instance.GetSettingsPath(), PartConfFile);
             // 从XML读出文件配置
             if (File.Exists(path))
             {
@@ -85,6 +91,7 @@ namespace Gy.HrswAuto.Utilities
                 serializer.Serialize(writer, _partConfigs);
             }
         } 
+
         #endregion
 
         #region 单件实例
@@ -99,6 +106,12 @@ namespace Gy.HrswAuto.Utilities
                 }
                 return _partConfigManager;
             }
+        }
+
+        public void SavePartConfig()
+        {
+            string path = Path.Combine(PathManager.Instance.GetSettingsPath(), PartConfigManager.Instance.PartConfFile);
+            SavePartConfigToXml(path);
         }
         //{
         //    if (_partConfigManager == null)
