@@ -63,6 +63,26 @@ namespace ClientMainMold.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap BladePic {
+            get {
+                object obj = ResourceManager.GetObject("BladePic", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap buttonBack {
+            get {
+                object obj = ResourceManager.GetObject("buttonBack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap Error {
             get {
                 object obj = ResourceManager.GetObject("Error", resourceCulture);
@@ -73,9 +93,9 @@ namespace ClientMainMold.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap MainBtnBack {
+        internal static System.Drawing.Bitmap ok {
             get {
-                object obj = ResourceManager.GetObject("MainBtnBack", resourceCulture);
+                object obj = ResourceManager.GetObject("ok", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +103,9 @@ namespace ClientMainMold.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap ok {
+        internal static System.Drawing.Bitmap tabpageback {
             get {
-                object obj = ResourceManager.GetObject("ok", resourceCulture);
+                object obj = ResourceManager.GetObject("tabpageback", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

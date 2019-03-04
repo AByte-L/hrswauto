@@ -48,6 +48,7 @@ namespace Gy.HrswAuto.PLCMold
                     if (sw.Elapsed > TimeSpan.FromSeconds(2.5))
                     {
                         // todo 读取失败，更新状态条
+                        ClientUICommon.RefreshStatusInfomation("读取槽号失败");
                         IsReadOk = false;
                         break;
                     }

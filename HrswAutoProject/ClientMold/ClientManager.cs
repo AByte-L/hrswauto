@@ -31,7 +31,7 @@ namespace Gy.HrswAuto.MasterMold
         public void Initialize()
         {
             // 导入client
-            string path = Path.Combine(PathManager.Instance.SettingsSavePath, ClientConfigFileName);
+            string path = Path.Combine(PathManager.Instance.GetSettingsPath(), ClientConfigFileName);
             if (File.Exists(path))
             {
                 LoadClientFromXmlFile(path);
@@ -45,7 +45,7 @@ namespace Gy.HrswAuto.MasterMold
             {
                 CmmClient client = new CmmClient(config);
                 client.IsActived = true;
-                client.InitClient(); // 
+                //client.InitClient(); // 
                 // 更新UI界面
                 ClientUICommon.AddCmmToView(config, client.State);
 
@@ -74,6 +74,7 @@ namespace Gy.HrswAuto.MasterMold
             }
             return false;
         }
+
         /// <summary>
         /// 连接三坐标服务器
         /// </summary>
@@ -89,6 +90,16 @@ namespace Gy.HrswAuto.MasterMold
                 _cmmClients[i].InitClient();
                 ClientUICommon.RefreshCmmViewState(i, _cmmClients[i].State); // 初始化是否成功
             }
+        }
+
+        public void RunDispatchTask()
+        {
+            _dispatchTimer.Start();
+        }
+
+        public void PauseDispatchTask()
+        {
+            _dispatchTimer.Stop();
         }
 
         private void _dispatchTimer_Elapsed(object sender, ElapsedEventArgs e)
