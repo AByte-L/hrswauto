@@ -82,15 +82,16 @@ namespace ClientMainMold
         {
             IsActived = active;
             ServerID = conf.ServerID;
+            ServerName = "三坐标 " + ServerID.ToString();
             IPAddress = conf.HostIPAddress;
             _state = state;
-            IsFault = state == ClientState.CS_Error ? true : false;
+            IsFault = (state == ClientState.CS_Error) ? true : false;
             //State = cmmStateInfo[state];
         }
         public bool IsActived { get; set; }
         public int ServerID { get; set; }
         public string IPAddress { get; set; }
-
+        public string ServerName { get; set; }
         public string State {
             get
             {

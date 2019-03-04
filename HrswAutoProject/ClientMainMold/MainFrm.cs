@@ -118,10 +118,11 @@ namespace ClientMainMold
         private void MainFrm_Load(object sender, EventArgs e)
         {
             ShowPanel(SwPanel.cmmPanel);
-            CmmView.AutoGenerateColumns = false;
-            ResultView.AutoGenerateColumns = false;
+            //CmmView.AutoGenerateColumns = false;
+            //ResultView.AutoGenerateColumns = false;
             ResultView.DataSource = RackResultRecordList;
             InitResult();
+            
             //ClientManager.Instance.ClientConfigFileName = "clients.xml";
             //PartConfigManager.Instance.PartConfFile = "parts.xml";
             ClientManager.Instance.Initialize();
@@ -133,7 +134,7 @@ namespace ClientMainMold
         }
         private void MainFrm_FormClosed(object sender, FormClosedEventArgs e)
         {
-
+            ClientManager.Instance.SaveCmmServer();
             PartConfigManager.Instance.SavePartConfig();
         }
 
@@ -525,8 +526,40 @@ namespace ClientMainMold
         {
 
         }
+
         #endregion
 
+        // 控件自绘制
+        private void comboBox1_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+            Font drawFont = e.Font;
+            bool outFont = false;
 
+            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+            {
+                outFont = true;
+                drawFont = new Font(drawFont, FontStyle.Bold); // 黑体显示
+            }
+
+            using (Brush brush = new SolidBrush(e.ForeColor))
+            {
+                CmmDataRecord cd = (CmmDataRecord)comboBox1.Items[e.Index];
+                string str = cd.ServerName;
+                if (cd.IsFault)
+                {
+                    str = cd.ServerName + "   " + "错误";
+                }
+                e.Graphics.DrawString(str, drawFont, brush, e.Bounds);
+                if (outFont) drawFont.Dispose();
+            }
+
+            e.DrawFocusRectangle();
+        }
+
+        private void startMeasureTaskButton_Click(object sender, EventArgs e)
+        {
+            ClientManager.Instance.RunDispatchTask();
+        }
     }
 }
