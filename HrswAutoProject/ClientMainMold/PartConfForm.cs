@@ -79,5 +79,11 @@ namespace ClientMainMold
             PartID = textBox1.Text;
             PartDescription = textBox3.Text;
         }
+
+        private void PartConfForm_Load(object sender, EventArgs e)
+        {
+            textBox1.Text = PartID;
+            textBox3.Text = PartDescription;
+        }
     }
 }

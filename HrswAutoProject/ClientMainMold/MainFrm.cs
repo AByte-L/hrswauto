@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -26,6 +27,7 @@ namespace ClientMainMold
         BindingList<CmmDataRecord> cmmRecordList = new BindingList<CmmDataRecord>();
         //BindingList<PartConfig> partConfList = new BindingList<PartConfig>();
         BindingSource partConfBs = new BindingSource();
+        string bladePath = @"C:\Program Files (x86)\Hexagon\PC-DMIS Blade 5.0 (Release)\Blade.exe";
         public MainFrm()
         {
             InitializeComponent();
@@ -41,11 +43,6 @@ namespace ClientMainMold
             //ClientUICommon.AddPartResult = AddPartResult;
             //ClientUICommon.AddPartToView = AddPartToView;
         }
-
-        //private void AddPartResult(ResultRecord resultRecord)
-        //{
-        //    PartResultRecord
-        //}
 
         #region 主界面
         private static void SetAppPaths()
@@ -134,12 +131,12 @@ namespace ClientMainMold
             // 初始化工件界面
             //InitPartConfView();
         }
-
-        private void InitPartConfView()
+        private void MainFrm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //PartConfigManager.Instance.PartConfList.ForEach(pc =>
-            //partConfList.Add(pc));
+
+            PartConfigManager.Instance.SavePartConfig();
         }
+
         #endregion
 
         #region 测量机Panel
@@ -218,6 +215,10 @@ namespace ClientMainMold
         {
             ClientManager.Instance.InitClients();
         }
+        private void ClearLogInfoTsb_Click(object sender, EventArgs e)
+        {
+            cmmInfoListBox.Items.Clear();
+        }
         #endregion
 
         #region 工件Panel
@@ -230,7 +231,7 @@ namespace ClientMainMold
                 string path = PathManager.Instance.GetBladesFullPath(pcfm.PartID);
                 if (!Directory.Exists(path))
                 {
-                    MessageBox.Show("blades目录不存在");
+                    MessageBox.Show("blades目录不存在", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     // todo 更新状态条
 
                     return;
@@ -241,22 +242,23 @@ namespace ClientMainMold
                        Directory.GetFiles(path, "*.flv", SearchOption.TopDirectoryOnly).Length != 1 ||
                        Directory.GetFiles(path, "*.tol", SearchOption.TopDirectoryOnly).Length != 1)
                     {
-                        MessageBox.Show("blades文件缺失");
+                        MessageBox.Show("blades文件缺失", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }
                 // 添加工件配置
+                if (PartConfigManager.Instance./*AddPartConfig*/Exists(pcfm.PartID))
+                {
+                    MessageBox.Show("工件已存在", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
                 PartConfig pc = new PartConfig();
                 pc.FlvFileName = Path.GetFileName(Directory.GetFiles(path, "*.flv", SearchOption.TopDirectoryOnly)[0]);
                 pc.NormFileName = Path.GetFileName(Directory.GetFiles(path, "*.nom", SearchOption.TopDirectoryOnly)[0]);
                 pc.TolFileName = Path.GetFileName(Directory.GetFiles(path, "*.Tol", SearchOption.TopDirectoryOnly)[0]);
                 pc.PartID = pcfm.PartID;
                 pc.ProgFileName = Path.GetFileName(pcfm.PartProgram);
-                if (PartConfigManager.Instance./*AddPartConfig*/Exists(pc.PartID))
-                {
-                    MessageBox.Show("工件已存在");
-                    return;
-                }
+
                 partConfBs.Add(pc);
 
                 // 更新工件Panel
@@ -282,19 +284,62 @@ namespace ClientMainMold
 
         private void modifyToolStripButton1_Click(object sender, EventArgs e)
         {
-
+            if (partView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("请选择一个工件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
+            int index = partView.SelectedRows[0].Index;
+            PartConfForm pcForm = new PartConfForm();
+            pcForm.PartID = ((PartConfig)partConfBs[index]).PartID;
+            pcForm.PartProgram = ((PartConfig)partConfBs[index]).ProgFileName;
+            if (pcForm.ShowDialog() == DialogResult.OK)
+            {
+                string path = PathManager.Instance.GetBladesFullPath(pcForm.PartID);
+                if (!Directory.Exists(path))
+                {
+                    MessageBox.Show("blades目录不存在", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                else
+                {
+                    if (Directory.GetFiles(path, "*.nom", SearchOption.TopDirectoryOnly).Length != 1 ||
+                       Directory.GetFiles(path, "*.flv", SearchOption.TopDirectoryOnly).Length != 1 ||
+                       Directory.GetFiles(path, "*.tol", SearchOption.TopDirectoryOnly).Length != 1)
+                    {
+                        MessageBox.Show("blades文件缺失", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+                if (PartConfigManager.Instance./*AddPartConfig*/Exists(pcForm.PartID))
+                {
+                    MessageBox.Show("工件已存在", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                ((PartConfig)partConfBs[index]).FlvFileName = Path.GetFileName(Directory.GetFiles(path, "*.flv", SearchOption.TopDirectoryOnly)[0]);
+                ((PartConfig)partConfBs[index]).NormFileName = Path.GetFileName(Directory.GetFiles(path, "*.nom", SearchOption.TopDirectoryOnly)[0]);
+                ((PartConfig)partConfBs[index]).TolFileName = Path.GetFileName(Directory.GetFiles(path, "*.Tol", SearchOption.TopDirectoryOnly)[0]);
+                ((PartConfig)partConfBs[index]).PartID = pcForm.PartID;
+                ((PartConfig)partConfBs[index]).ProgFileName = Path.GetFileName(pcForm.PartProgram);
+            }
         }
 
         private void delPartToolStripButton_Click(object sender, EventArgs e)
         {
-
+            if (partView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("请选择一个工件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
+            int index = partView.SelectedRows[0].Index;
+            partConfBs.RemoveAt(index);
         }
 
         private void writePartIDToPlcToolStripButton_Click(object sender, EventArgs e)
         {
             if (partView.SelectedRows.Count != 1)
             {
-                MessageBox.Show("请选择一个工件");
+                MessageBox.Show("请选择一个工件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             WritePartIDForm wpform = new WritePartIDForm();
@@ -303,6 +348,7 @@ namespace ClientMainMold
         }
         #endregion
 
+        #region 报告Panel
         private void InitResult()
         {
             for (int i = 0; i < 6; i++)
@@ -311,37 +357,42 @@ namespace ClientMainMold
                 {
                     PartResultRecord row = new PartResultRecord()
                     {
-                        SlotID = string.Format($"第{i+1}排-{j}号槽"),
+                        SlotID = string.Format($"第{i + 1}排-{j}号槽"),
                         PartID = string.Empty,
                         PcProgram = string.Empty,
                         IsPass = string.Empty,
                         ServerID = string.Empty,
                     };
-                    RackResultRecordList.Add(row); 
+                    RackResultRecordList.Add(row);
                 }
             }
         }
 
         private void RefreshRackView(ResultRecord result, int slotNumber)
         {
-            if (slotNumber <= 0)
-            {
-                return;
-            }
-            int pos = slotNumber - 1;
-            RackResultRecordList[pos].PartID = result.PartID;
-            RackResultRecordList[pos].IsPass = result.IsPass ? "合格" : "不合格";
-            RackResultRecordList[pos].ServerID = result.ServerID.ToString();
-            RackResultRecordList[pos].ReportFileName = result.CmmFileName;
-            RackResultRecordList[pos].RptFileName = result.RptFileName;
-            RackResultRecordList[pos].ReportFilePath = result.FilePath;
-            RackResultRecordList[pos].PartNumber = result.PartNumber.ToString();
-            RackResultRecordList[pos].MeasDateTime = result.MeasDateTime;
-            ResultView.InvalidateRow(pos);
-            resultRecordList.Add(new PartResultRecord(RackResultRecordList[pos]));
-            dataGridView1.InvalidateRow(resultRecordList.Count - 1);
+            // 刷新块架报告
+            ClientUICommon.syncContext.Post(o =>
+           {
+               if (slotNumber <= 0)
+               {
+                   // todo 槽号不能小于0
+                   return;
+               }
+               int pos = slotNumber - 1;
+               RackResultRecordList[pos].PartID = result.PartID;
+               RackResultRecordList[pos].IsPass = result.IsPass ? "合格" : "不合格";
+               RackResultRecordList[pos].ServerID = result.ServerID.ToString();
+               RackResultRecordList[pos].ReportFileName = result.CmmFileName;
+               RackResultRecordList[pos].RptFileName = result.RptFileName;
+               RackResultRecordList[pos].ReportFilePath = result.FilePath;
+               RackResultRecordList[pos].PartNumber = result.PartNumber.ToString();
+               RackResultRecordList[pos].MeasDateTime = result.MeasDateTime;
+               ResultView.InvalidateRow(pos);
+               resultRecordList.Add(new PartResultRecord(RackResultRecordList[pos]));
+               dataGridView1.InvalidateRow(resultRecordList.Count - 1);
+           }, null);
         }
-    
+
         private void ResetResult()
         {
             for (int i = 0; i < 60; i++)
@@ -358,15 +409,124 @@ namespace ClientMainMold
             }
         }
 
-        private void ClearLogInfoTsb_Click(object sender, EventArgs e)
+        private void checkReportTtoolStripButton_Click(object sender, EventArgs e)
         {
-            cmmInfoListBox.Items.Clear();
+            if (ResultView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("请选择一个零件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            int index = ResultView.SelectedRows[0].Index;
+            // 
+            if (string.IsNullOrEmpty(RackResultRecordList[index].PartID))
+            {
+                MessageBox.Show("当前选择槽未放置零件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            string path = PathManager.Instance.GetReportFullPath(RackResultRecordList[index].PartID);
+
+            // 用记事本查看CMM报告
+            Process.Start("Notepad.exe", Path.Combine(path, RackResultRecordList[index].ReportFileName));
         }
 
-        private void MainFrm_FormClosed(object sender, FormClosedEventArgs e)
+        private void browseToolStripButton_Click(object sender, EventArgs e)
         {
-            
-            PartConfigManager.Instance.SavePartConfig();
+            if (ResultView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("请选择一个零件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            int index = ResultView.SelectedRows[0].Index;
+            if (string.IsNullOrEmpty(RackResultRecordList[index].PartID))
+            {
+                MessageBox.Show("当前选择槽未放置零件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            string path = PathManager.Instance.GetReportFullPath(RackResultRecordList[index].PartID);
+
+            Process.Start("Explorer.exe", path);
         }
+
+        private void runBladeToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (ResultView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("请选择一个零件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            int index = ResultView.SelectedRows[0].Index;
+            if (string.IsNullOrEmpty(RackResultRecordList[index].PartID))
+            {
+                MessageBox.Show("当前选择槽未放置零件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            string path = PathManager.Instance.GetReportFullPath(RackResultRecordList[index].PartID);
+
+            Process.Start(bladePath, Path.Combine(path, RackResultRecordList[index].RptFileName));
+        }
+
+        private void ResetToolStripButton_Click(object sender, EventArgs e)
+        {
+            ResetResult();
+        }
+
+        private void wholeCheckToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("请选择一个零件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            int index = dataGridView1.SelectedRows[0].Index;
+            // 
+
+            string path = PathManager.Instance.GetReportFullPath(resultRecordList[index].PartID);
+
+            // 用记事本查看CMM报告
+            Process.Start("Notepad.exe", Path.Combine(path, resultRecordList[index].ReportFileName));
+        }
+
+        private void wholeBrowseToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("请选择一个零件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            int index = dataGridView1.SelectedRows[0].Index;
+            // 
+
+            string path = PathManager.Instance.GetReportFullPath(resultRecordList[index].PartID);
+
+            // 用记事本查看CMM报告
+            Process.Start("Explorer.exe", path);
+        }
+
+        private void wholeToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (ResultView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("请选择一个零件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            int index = ResultView.SelectedRows[0].Index;
+            if (string.IsNullOrEmpty(RackResultRecordList[index].PartID))
+            {
+                MessageBox.Show("当前选择槽未放置零件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            string path = PathManager.Instance.GetReportFullPath(RackResultRecordList[index].PartID);
+
+            Process.Start(bladePath, Path.Combine(path, RackResultRecordList[index].RptFileName));
+        }
+
+        private void ClearErrorTsb_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+
     }
 }

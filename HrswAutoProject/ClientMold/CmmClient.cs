@@ -403,7 +403,7 @@ namespace Gy.HrswAuto.ClientMold
             gripFeedRequest.Perform(); // 执行请求
         }
 
-        // todo 抓取完成之后，需要等待机器人放置工件
+        // 抓取完成之后，需要等待机器人放置工件
         /// <summary>
         /// 下料抓取完成事件处理函数
         /// </summary>

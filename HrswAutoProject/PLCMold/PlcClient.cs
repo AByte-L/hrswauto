@@ -213,15 +213,18 @@ namespace Gy.HrswAuto.PLCMold
 
         public bool SetPartID(int clientId, string partId)
         {
-            int result = 0;
+            int result = 1;
             byte[] buf = new byte[256];
             S7.SetStringAt(buf, 0, 256, partId);
             lock(syncObj)
             {
-                result = _s7Client.DBWrite(clientId, 2, 256, buf);
-                Thread.Sleep(100); // 等待数据交换
-                // todo 更新状态条
-                //Debug.Assert(result == 0);
+                if (_s7Client.Connected())
+                {
+                    result = _s7Client.DBWrite(clientId, 2, 256, buf);
+                    Thread.Sleep(100); // 等待数据交换
+                                       // todo 更新状态条
+                                       //Debug.Assert(result == 0); 
+                }
             }
             return result == 0;
         }
@@ -334,6 +337,7 @@ namespace Gy.HrswAuto.PLCMold
         {
             _initEvent = new AutoResetEvent(false);
             _s7Client = new S7Client();
+
         }
 
         private static PlcClient _plcClient;

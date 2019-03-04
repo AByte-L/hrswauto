@@ -155,6 +155,14 @@
   <ItemGroup>
     <None Include="Resources\MainBtnBack.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tabpageback.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RecordLog.txt" />
+    <None Include="Resources\BladePic.png" />
+    <None Include="Resources\buttonBack.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -30,6 +30,7 @@ namespace ClientMainMold
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
+            timer.Stop();
             if (PlcClient.Instance.VerifyWirteIDCompleted())
             {
                 // 
@@ -37,25 +38,19 @@ namespace ClientMainMold
                 timer.Close();
 
                 Thread.Sleep(2000);
-                Invoke( ()=>
-                {
-                    Close();
-                    return null;
-                });
+                Invoke(new MethodInvoker(Close));
             }
+            timer.Start();
         }
 
-        private void Invoke(Func<object> p)
-        {
-            throw new NotImplementedException();
-        }
 
         private void WritePartIDForm_Shown(object sender, System.EventArgs e)
         {
             // 
             if (!WriePartID())
             {
-                MessageBox.Show("写入标识出错");
+                MessageBox.Show("写入标识出错", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
                 return;
             }
             label1.Text = "正在写入工件标识...";
@@ -65,7 +60,7 @@ namespace ClientMainMold
         {
             if (partId.Trim().Length == 0)
             {
-                MessageBox.Show("工件ID不能为空");
+                MessageBox.Show("工件ID不能为空", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             bool wresult = PlcClient.Instance.SetPartID(0, partId);
