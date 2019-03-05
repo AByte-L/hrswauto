@@ -160,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="RecordLog.txt" />
+    <None Include="Resources\稿定设计导出-20190304-212911.png" />
     <None Include="Resources\BladePic.png" />
     <None Include="Resources\buttonBack.png" />
   </ItemGroup>

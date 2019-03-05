@@ -151,7 +151,15 @@ namespace Gy.HrswAuto.MasterMold
                 XmlSerializer serializer = new XmlSerializer(typeof(List<CmmServerConfig>));
                 serializer.Serialize(writer, _cmmSvrConfigs);
             }
-        } 
+        }
+
+        public void SaveCmmServer()
+        {
+            string path = PathManager.Instance.GetSettingsPath();
+            path = Path.Combine(path, ClientConfigFileName);
+            SaveClientToXmlFile(path);
+
+        }
         #endregion
 
         #region 单件实现
