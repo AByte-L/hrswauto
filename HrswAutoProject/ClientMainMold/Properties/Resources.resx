@@ -228,4 +228,10 @@
   <data name="busy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\busy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="稿定设计导出_20190305_205920" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\稿定设计导出-20190305-205920.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="稿定设计导出_20190305_211858" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\稿定设计导出-20190305-211858.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

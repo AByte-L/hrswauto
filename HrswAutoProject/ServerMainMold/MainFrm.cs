@@ -65,7 +65,7 @@ namespace ServerMainMold
             PathManager.Instance.BladesPath = Properties.Settings.Default.BladesPath;
             PathManager.Instance.PartProgramsPath = Properties.Settings.Default.ProgramsPath;
             PathManager.Instance.ReportsPath = Properties.Settings.Default.ReportsPath;
-            PathManager.Instance.SettingsSavePath = Properties.Settings.Default.SettingsPath;
+            PathManager.Instance.SettingsPath = Properties.Settings.Default.SettingsPath;
             PathManager.Instance.TempPath = Properties.Settings.Default.TempPath;
         }
 

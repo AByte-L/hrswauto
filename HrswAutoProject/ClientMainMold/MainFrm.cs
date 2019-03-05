@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ClientMainMold
@@ -41,6 +42,7 @@ namespace ClientMainMold
             ClientUICommon.RefreshRackView = RefreshRackView;
             ClientUICommon.RefreshCmmViewState = RefreshCmmViewState;
             ClientUICommon.RefreshCmmEventLogAction = RefreshCmmEventLog;
+
         }
 
         private void RefreshCmmEventLog(string obj)
@@ -62,6 +64,7 @@ namespace ClientMainMold
             PathManager.Instance.SettingsPath = "settings";
             PathManager.Instance.SettingsSavePath = "settingssave";
             PathManager.Instance.TempPath = "temp";
+
         }
 
         private void ShowPanel(SwPanel panel)
@@ -129,18 +132,38 @@ namespace ClientMainMold
         }
         private void MainFrm_Load(object sender, EventArgs e)
         {
+            //
+            AutoResetEvent arevt = new AutoResetEvent(false);
+            InitForm initForm = null;
+            Task.Run(() =>
+            {
+                initForm = new InitForm(arevt);
+                initForm.ShowDialog();
+            });
             SetAppPaths();
+            initForm?.SetInitInfo("正在初始化三坐标控制器...");
             ClientManager.Instance.Initialize();
-            PartConfigManager.Instance.InitPartConfigManager();
+            Thread.Sleep(1000); //
+            initForm?.SetInitInfo("正在初始化工件管理器...");
+PartConfigManager.Instance.InitPartConfigManager();
+            Thread.Sleep(1000);
+            //initForm?.SetInitInfo("正在连接PLC控制器...");
+            //PlcClient.Instance.Initialize();
+
+            arevt.Set();
+
             splitContainer5.Show();
+
             ShowPanel(SwPanel.plcPanel);
             ResultView.DataSource = RackResultRecordList;
             InitResult();
             partConfBs.DataSource = PartConfigManager.Instance.PartConfList;
             partConfigBindingSource.DataSource = partConfBs;
+            WindowState = FormWindowState.Maximized;
             // 初始化工件界面
             //InitPartConfView();
         }
+
         private void MainFrm_FormClosed(object sender, FormClosedEventArgs e)
         {
             ClientManager.Instance.SaveCmmServer();
@@ -540,6 +563,8 @@ namespace ClientMainMold
         // 控件自绘制
         private void comboBox1_DrawItem(object sender, DrawItemEventArgs e)
         {
+            if (e.Index < 0)
+                return;
             e.DrawBackground();
             Font drawFont = e.Font;
             bool outFont = false;
@@ -549,7 +574,7 @@ namespace ClientMainMold
                 outFont = true;
                 drawFont = new Font(drawFont, FontStyle.Bold); // 黑体显示
             }
-
+            
             using (Brush brush = new SolidBrush(e.ForeColor))
             {
                 CmmDataRecord cd = (CmmDataRecord)comboBox1.Items[e.Index];
@@ -567,6 +592,8 @@ namespace ClientMainMold
 
         private void comboBox2_DrawItem(object sender, DrawItemEventArgs e)
         {
+            if (e.Index < 0)
+                return;
             e.DrawBackground();
             Font drawFont = e.Font;
             bool outFont = false;

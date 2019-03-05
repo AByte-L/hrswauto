@@ -416,7 +416,9 @@ namespace Gy.HrswAuto.ClientMold
             if (!FindPart(e.PartID))
             {
                 SendPartIDErrorSign(e.ClientID);
-                Trace.Write("工件标识错误");
+                //Trace.Write("工件标识错误");
+                string str = "三坐标" + e.ClientID.ToString() + ":" + "读取工件标识错误";
+                ClientUICommon.RefreshCmmEventLog(str);
                 State = ClientState.CS_Error; // 设置客户端为错误状态
                 return;
             }

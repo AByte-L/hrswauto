@@ -117,7 +117,6 @@ namespace Gy.HrswAuto.ClientMold
             {
                 _state = _plcClient.ResponsePlaceRequest(ClientID);
             }
-
             else
             {
                 if (_plcClient.VerifyPlaceCompleted(ClientID)) // 放料完成，调用完成事件
