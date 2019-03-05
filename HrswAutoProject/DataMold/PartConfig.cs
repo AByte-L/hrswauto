@@ -23,6 +23,8 @@ namespace Gy.HrswAuto.DataMold
         public string TolFileName { get; set; }
         [DataMember]
         public string ProgFileName { get; set; }
+        [DataMember]
+        public string Description { get; set; }
         //[DataMember]
         //public string MathFileName { get; set; }
         //[DataMember]

@@ -33,6 +33,10 @@ namespace Gy.HrswAuto.ClientMold
         /// 初始化错误
         /// </summary>
         CS_InitError,
+        /// <summary>
+        /// 测量机连接错误
+        /// </summary>
+        CS_ConnectError,
         CS_None
     }
 

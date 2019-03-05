@@ -24,5 +24,12 @@ namespace Gy.HrswAuto.UICommonTools
         public static Action<ResultRecord> AddPartResult;
 
         public static Action<string> RefreshStatusInfomation; // 刷新状态条
+
+        public static Action<string> RefreshCmmEventLogAction;
+
+        public static void RefreshCmmEventLog(string cmmError)
+        {
+            RefreshCmmEventLogAction(cmmError);
+        }
     }
 }

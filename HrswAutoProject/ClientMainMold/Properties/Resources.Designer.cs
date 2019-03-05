@@ -73,9 +73,9 @@ namespace ClientMainMold.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap BladePic {
+        internal static System.Drawing.Bitmap busy {
             get {
-                object obj = ResourceManager.GetObject("BladePic", resourceCulture);
+                object obj = ResourceManager.GetObject("busy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -86,6 +86,26 @@ namespace ClientMainMold.Properties {
         internal static System.Drawing.Bitmap buttonBack {
             get {
                 object obj = ResourceManager.GetObject("buttonBack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap buttonBack1 {
+            get {
+                object obj = ResourceManager.GetObject("buttonBack1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap buttonback2 {
+            get {
+                object obj = ResourceManager.GetObject("buttonback2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -116,6 +136,16 @@ namespace ClientMainMold.Properties {
         internal static System.Drawing.Bitmap tabpageback {
             get {
                 object obj = ResourceManager.GetObject("tabpageback", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap test {
+            get {
+                object obj = ResourceManager.GetObject("test", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

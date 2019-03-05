@@ -83,7 +83,7 @@ namespace Gy.HrswAuto.MasterMold
             //foreach (CmmClient client in _cmmClients)
             for (int i = 0; i < _cmmClients.Count; i++)
             {
-                if (_cmmClients[i].IsInitialed)
+                if (_cmmClients[i].Connected)
                 {
                     continue;
                 }
@@ -128,6 +128,10 @@ namespace Gy.HrswAuto.MasterMold
                         break;
                     case ClientState.CS_Error: // 出错状态
                         // todo 刷新client状态显示
+                        break;
+                    case ClientState.CS_ConnectError: // 连接错误不做处理
+                        break;
+                    case ClientState.CS_InitError:
                         break;
                     default:
                         break;

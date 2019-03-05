@@ -68,6 +68,9 @@ namespace ClientMainMold
                 ClientState.CS_InitError, "三坐标初始化错误"
             },
             {
+                ClientState.CS_ConnectError, "三坐标连接错误"
+            },
+            {
                 ClientState.CS_None, ""
             }
         };
@@ -108,17 +111,21 @@ namespace ClientMainMold
             set
             {
                 _isFault = value;
-                if (_state == ClientState.CS_None)
-                {
-                    return;
-                }
+                //if (_state == ClientState.CS_None)
+                //{
+                //    return;
+                //}
                 if (IsFault)
                 {
                     _stateImage = Properties.Resources.Error;
                 }
-                else
+                else if (_state != ClientState.CS_Busy)
                 {
                     _stateImage = Properties.Resources.ok;
+                }
+                else
+                {
+                    _stateImage = Properties.Resources.busy;
                 }
             }
         }

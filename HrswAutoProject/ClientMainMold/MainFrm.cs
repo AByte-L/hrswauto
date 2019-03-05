@@ -1,6 +1,7 @@
 ﻿using Gy.HrswAuto.ClientMold;
 using Gy.HrswAuto.DataMold;
 using Gy.HrswAuto.MasterMold;
+using Gy.HrswAuto.PLCMold;
 using Gy.HrswAuto.UICommonTools;
 using Gy.HrswAuto.Utilities;
 using System;
@@ -25,23 +26,30 @@ namespace ClientMainMold
         // 工件结果记录
         BindingList<PartResultRecord> resultRecordList = new BindingList<PartResultRecord>();
         BindingList<CmmDataRecord> cmmRecordList = new BindingList<CmmDataRecord>();
-        //BindingList<PartConfig> partConfList = new BindingList<PartConfig>();
         BindingSource partConfBs = new BindingSource();
         string bladePath = @"C:\Program Files (x86)\Hexagon\PC-DMIS Blade 5.0 (Release)\Blade.exe";
+
+        bool IsRunning = false; // 
         public MainFrm()
         {
             InitializeComponent();
             // 设置Path
             cmmDataRecordBindingSource.DataSource = cmmRecordList;
             resultRowBindingSource.DataSource = RackResultRecordList;
-            //partConfigBindingSource.DataSource = partConfList;
-            SetAppPaths();
             ClientUICommon.syncContext = SynchronizationContext.Current;
             ClientUICommon.AddCmmToView = AddClientView;
             ClientUICommon.RefreshRackView = RefreshRackView;
             ClientUICommon.RefreshCmmViewState = RefreshCmmViewState;
-            //ClientUICommon.AddPartResult = AddPartResult;
-            //ClientUICommon.AddPartToView = AddPartToView;
+            ClientUICommon.RefreshCmmEventLogAction = RefreshCmmEventLog;
+        }
+
+        private void RefreshCmmEventLog(string obj)
+        {
+            ClientUICommon.syncContext.Post(o =>
+            {
+                string info = DateTime.Now.ToShortTimeString() + " " +  obj;
+                cmmInfoListBox.Items.Add(info);
+            }, null);
         }
 
         #region 主界面
@@ -101,32 +109,33 @@ namespace ClientMainMold
 
         private void cmmToolStripButton_Click(object sender, EventArgs e)
         {
+            splitContainer5.Hide();
             ShowPanel(SwPanel.cmmPanel);
         }
         private void partToolStripButton_Click(object sender, EventArgs e)
         {
+            splitContainer5.Show();
             ShowPanel(SwPanel.partPanel);
         }
         private void resultTtoolStripButton_Click(object sender, EventArgs e)
         {
+            splitContainer5.Hide();
             ShowPanel(SwPanel.resultPanel);
         }
         private void plcToolStripButton_Click(object sender, EventArgs e)
         {
+            splitContainer5.Show();
             ShowPanel(SwPanel.plcPanel);
         }
         private void MainFrm_Load(object sender, EventArgs e)
         {
-            ShowPanel(SwPanel.cmmPanel);
-            //CmmView.AutoGenerateColumns = false;
-            //ResultView.AutoGenerateColumns = false;
-            ResultView.DataSource = RackResultRecordList;
-            InitResult();
-            
-            //ClientManager.Instance.ClientConfigFileName = "clients.xml";
-            //PartConfigManager.Instance.PartConfFile = "parts.xml";
+            SetAppPaths();
             ClientManager.Instance.Initialize();
             PartConfigManager.Instance.InitPartConfigManager();
+            splitContainer5.Show();
+            ShowPanel(SwPanel.plcPanel);
+            ResultView.DataSource = RackResultRecordList;
+            InitResult();
             partConfBs.DataSource = PartConfigManager.Instance.PartConfList;
             partConfigBindingSource.DataSource = partConfBs;
             // 初始化工件界面
@@ -159,11 +168,9 @@ namespace ClientMainMold
         {
             ClientUICommon.syncContext.Post(o =>
             {
-                //cmmRecordList[index].State = CmmDataRecord.cmmStateInfo[state];
                 cmmRecordList[index].SetClientState(state);
                 cmmRecordList[index].IsFault = (state == ClientState.CS_InitError ||
                 state == ClientState.CS_Error);
-                //cmmRecordList[index].StateImage = cmmRecordList[index].StateImage;
                 CmmView.InvalidateRow(index);
             }, null);
         }
@@ -233,9 +240,7 @@ namespace ClientMainMold
                 if (!Directory.Exists(path))
                 {
                     MessageBox.Show("blades目录不存在", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    // todo 更新状态条
-
-                    return;
+                     return;
                 }
                 else
                 {
@@ -259,6 +264,7 @@ namespace ClientMainMold
                 pc.TolFileName = Path.GetFileName(Directory.GetFiles(path, "*.Tol", SearchOption.TopDirectoryOnly)[0]);
                 pc.PartID = pcfm.PartID;
                 pc.ProgFileName = Path.GetFileName(pcfm.PartProgram);
+                pc.Description = pcfm.PartDescription;
 
                 partConfBs.Add(pc);
 
@@ -294,6 +300,7 @@ namespace ClientMainMold
             PartConfForm pcForm = new PartConfForm();
             pcForm.PartID = ((PartConfig)partConfBs[index]).PartID;
             pcForm.PartProgram = ((PartConfig)partConfBs[index]).ProgFileName;
+            pcForm.PartDescription = ((PartConfig)partConfBs[index]).Description;
             if (pcForm.ShowDialog() == DialogResult.OK)
             {
                 string path = PathManager.Instance.GetBladesFullPath(pcForm.PartID);
@@ -312,16 +319,17 @@ namespace ClientMainMold
                         return;
                     }
                 }
-                if (PartConfigManager.Instance./*AddPartConfig*/Exists(pcForm.PartID))
-                {
-                    MessageBox.Show("工件已存在", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
+                //if (PartConfigManager.Instance./*AddPartConfig*/Exists(pcForm.PartID))
+                //{
+                //    MessageBox.Show("工件已存在", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //    return;
+                //}
                 ((PartConfig)partConfBs[index]).FlvFileName = Path.GetFileName(Directory.GetFiles(path, "*.flv", SearchOption.TopDirectoryOnly)[0]);
                 ((PartConfig)partConfBs[index]).NormFileName = Path.GetFileName(Directory.GetFiles(path, "*.nom", SearchOption.TopDirectoryOnly)[0]);
                 ((PartConfig)partConfBs[index]).TolFileName = Path.GetFileName(Directory.GetFiles(path, "*.Tol", SearchOption.TopDirectoryOnly)[0]);
                 ((PartConfig)partConfBs[index]).PartID = pcForm.PartID;
                 ((PartConfig)partConfBs[index]).ProgFileName = Path.GetFileName(pcForm.PartProgram);
+                ((PartConfig)partConfBs[index]).Description = pcForm.PartDescription;
             }
         }
 
@@ -557,9 +565,59 @@ namespace ClientMainMold
             e.DrawFocusRectangle();
         }
 
-        private void startMeasureTaskButton_Click(object sender, EventArgs e)
+        private void comboBox2_DrawItem(object sender, DrawItemEventArgs e)
         {
-            ClientManager.Instance.RunDispatchTask();
+            e.DrawBackground();
+            Font drawFont = e.Font;
+            bool outFont = false;
+
+            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+            {
+                outFont = true;
+                drawFont = new Font(drawFont, FontStyle.Bold); // 黑体显示
+            }
+
+            using (Brush brush = new SolidBrush(e.ForeColor))
+            {
+                PartConfig cd = (PartConfig)comboBox2.Items[e.Index];
+                string str = cd.PartID + " " + cd.Description;
+                
+                e.Graphics.DrawString(str, drawFont, brush, e.Bounds);
+                if (outFont) drawFont.Dispose();
+            }
+
+            e.DrawFocusRectangle();
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            if (!IsRunning)
+            {
+                ClientManager.Instance.RunDispatchTask();
+                toolStripButton1.Text = "暂停";
+                IsRunning = true;
+            }
+            else
+            {
+                ClientManager.Instance.PauseDispatchTask();
+                toolStripButton1.Text = "启动";
+                IsRunning = false;
+            }
+        }
+
+        private void initConnectToolStripButton_Click(object sender, EventArgs e)
+        {
+            // 连接PLC
+            string ipAddress = "192.168.0.1";
+            PlcClient.Instance.SetConnectParam(ipAddress, 0, 0);
+            PlcClient.Instance.Initialize();
+            // 连接CMM
+            ClientManager.Instance.InitClients();
         }
     }
 }

@@ -30,22 +30,29 @@ namespace Gy.HrswAuto.ClientMold
                                             // 代理通道
         ICmmControl _cmmCtrl;
         IPartConfigService _partConfigService;
+        // 远端服务器是否初始化
         private bool _IsInitialed = false;
         public bool IsInitialed
         {
             get { return _IsInitialed; }
             private set { _IsInitialed = value; }
         }
-
+        // 是否激活可用
         private bool actived = true;
-
         public bool IsActived
         {
             get { return actived; }
             set { actived = value; }
         }
+        // 与远端连接失败
+        private bool _connected;
+        public bool Connected
+        {
+            get { return _connected; }
+            set { _connected = value; }
+        }
 
-        //public ResultRecord CurPartRecord { get; set; }
+        // 结果处理
         public bool IsPass { get; set; } = false;
         private ResultRecord _resultRecord;
 
@@ -67,23 +74,30 @@ namespace Gy.HrswAuto.ClientMold
         {
             try
             {
+                _proxyFactory = null;
                 _proxyFactory = new ProxyFactory(this);
                 _cmmCtrl = _proxyFactory.GetCmmControl(CmmSvrConfig);
                 _partConfigService = _proxyFactory.GetPartConfigService(CmmSvrConfig);
                 _IsInitialed = _cmmCtrl.IsInitialed(); // 返回服务器端是否初始化
+                Connected = true;
                 if (_IsInitialed)
                 {
                     State = ClientState.CS_Idle;
                 }
                 else
                 {
-                    State = ClientState.CS_InitError;
+                    State = ClientState.CS_InitError;  // 
+                    string cmmError = string.Format($"三坐标{CmmSvrConfig.ServerID}没有初始化");
+                    ClientUICommon.RefreshCmmEventLog(cmmError);
                 }
             }
             catch (Exception)
             {
                 _IsInitialed = false; // 初始化不成功
-                State = ClientState.CS_Error;
+                string cmmError = string.Format($"三坐标{CmmSvrConfig.ServerID} 连接错误");
+                _connected = false;
+                ClientUICommon.RefreshCmmEventLog(cmmError);
+                State = ClientState.CS_ConnectError;
             }
         }
         #endregion
@@ -157,23 +171,33 @@ namespace Gy.HrswAuto.ClientMold
                 }
             }
 
-            bool ok = SetServerPartConfig(partId);
-
-            if (!ok)
+            try
             {
-                Trace.Write("文件部署失败，请检查");
-                //State = State | ClientState.Error;
-                return;
-            }
+                bool ok = SetServerPartConfig(partId);
 
-            if (!_cmmCtrl.IsInitialed())
-            {
-                Trace.Write("PCDMIS未初始化");
-                return;
-            }
+                if (!ok)
+                {
+                    Trace.Write("文件部署失败，请检查");
+                    //State = State | ClientState.Error;
+                    return;
+                }
 
-            // 启动测量
-            _cmmCtrl.MeasurePart(partId);
+                if (!_cmmCtrl.IsInitialed())
+                {
+                    Trace.Write("PCDMIS未初始化");
+                    return;
+                }
+
+                // 启动测量
+                _cmmCtrl.MeasurePart(partId);
+            }
+            catch (Exception ex)
+	        {
+                string cmmError = string.Format($"三坐标{CmmSvrConfig.ServerID} 连接异常， 异常信息：{ex.Message}");
+                _connected = false;
+                ClientUICommon.RefreshCmmEventLog(cmmError);
+                State = ClientState.CS_Error;
+            }
         }
 
         /// <summary>
@@ -183,6 +207,7 @@ namespace Gy.HrswAuto.ClientMold
         /// <returns></returns>
         private bool SetServerPartConfig(string partId)
         {
+
             // 发现远端存在工件配置
             if (_partConfigService.FindPart(partId))
             {
@@ -228,10 +253,19 @@ namespace Gy.HrswAuto.ClientMold
                     return false;
                 }
             }
-
             // 上传完毕添加工件配置
             _partConfigService.AddPartConfig(partConfig);
             return true;
+            //catch (Exception ex) // 处理
+            //{
+            //    string cmmError = string.Format($"三坐标{CmmSvrConfig.ServerID} 文件部署错误， 异常信息：{ex.Message}");
+            //    _connected = false;
+            //    ClientUICommon.RefreshCmmEventLog(cmmError);
+            //    State = ClientState.CS_Error;
+            //    throw ex
+            //}
+            //return false;
+
         }
 
         /// <summary>

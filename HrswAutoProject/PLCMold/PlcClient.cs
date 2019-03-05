@@ -280,7 +280,7 @@ namespace Gy.HrswAuto.PLCMold
         /// <summary>
         /// 设置PLC存储器字节位
         /// </summary>
-        /// <param name="clientId">客户号或存储器号</param>
+        /// <param name="clientId">存储器号</param>
         /// <param name="byteOffset">字节偏置</param>
         /// <param name="value">1or0</param>
         /// <param name="bitNbs">要设置的位数组</param>
@@ -352,7 +352,14 @@ namespace Gy.HrswAuto.PLCMold
                 }
                 return _plcClient;
             }
-        } 
+        }
+
         #endregion
+        public void SetConnectParam(string ipAddress, int v1, int v2)
+        {
+            PlcIPAddress = ipAddress;
+            Rack = v1;
+            Slot = v2;
+        }
     }
 }
