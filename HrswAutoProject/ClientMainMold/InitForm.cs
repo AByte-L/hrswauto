@@ -13,7 +13,6 @@ namespace ClientMainMold
 {
     public partial class InitForm : Form
     {
-        private System.Timers.Timer timer;
         private AutoResetEvent cmmCompEvent;
         private AutoResetEvent plcCompEvent;
         public bool IsInitCompleted { get; set; }
@@ -29,19 +28,18 @@ namespace ClientMainMold
 
         private void InitForm_Load(object sender, EventArgs e)
         {
-            timer = new System.Timers.Timer(1000);
-            timer.Elapsed += Timer_Elapsed;
-            timer.Start();
+            Task.Factory.StartNew(WaitInitProcess);
         }
 
-        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void WaitInitProcess()
         {
-            timer.Stop();
             SetInitInfo("正在连接三坐标服务器....");
-            IsInitCompleted = cmmCompEvent.WaitOne((int)TimeSpan.FromSeconds(30).TotalMilliseconds); // 等待30s超时
+            // 等待连接三坐标初始化5分钟
+            cmmCompEvent.WaitOne((int)TimeSpan.FromMinutes(5).TotalMilliseconds);
             SetInitInfo("正在连接PLC...");
-            IsInitCompleted = plcCompEvent.WaitOne((int)TimeSpan.FromSeconds(15).TotalMilliseconds);
-            this.Invoke(new MethodInvoker(CloseForm));
+            // 等待连接PLC初始化1分钟
+            plcCompEvent.WaitOne((int)TimeSpan.FromMinutes(1).TotalMilliseconds);
+            Invoke(new MethodInvoker(CloseForm));
         }
 
         private void CloseForm()
@@ -51,8 +49,9 @@ namespace ClientMainMold
 
         private void InitForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            timer.Dispose();
+
         }
+
         public void SetInitInfo(string info)
         {
             if (InvokeRequired)

@@ -152,7 +152,7 @@ namespace ServerMainMold
 
         private void RestartToolStripButton_Click(object sender, EventArgs e)
         {
-
+            _msc.ReinitialPCDmist();
         }
 
         private void gotoToolStripButton_Click(object sender, EventArgs e)

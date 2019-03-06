@@ -1,4 +1,5 @@
 ﻿using Gy.HrswAuto.ICmmServer;
+using Gy.HrswAuto.UICommonTools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,13 +27,17 @@ namespace Gy.HrswAuto.ClientMold
         {
             _cmmClient.State = ClientState.CS_Error;
             _cmmClient.ErrorInfo = message;
-            // todo 刷新三坐标界面显示
+            // 刷新三坐标界面显示
+            string str = "三坐标" + _cmmClient.CmmSvrConfig.ServerID.ToString() + "错误: " + message;
+            ClientUICommon.RefreshCmmEventLog(str);
         }
 
         public void ServerWorkStatus(string message)
         {
             // 不更新三坐标状态
-            // todo 刷新三坐标界面显示
+            // 刷新三坐标界面显示
+            string str = "三坐标" + _cmmClient.CmmSvrConfig.ServerID.ToString() + ": " + message;
+            ClientUICommon.RefreshCmmEventLog(str);
         }
 
         public void WorkCompleted(bool isPass)

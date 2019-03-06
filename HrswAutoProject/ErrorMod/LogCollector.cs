@@ -38,7 +38,7 @@ namespace Gy.HrswAuto.ErrorMod
                 }
                 catch (Exception ex)
                 {
-                    LocalLogCollector.WriteMessage(message + ", 回传异常:" + ex.Message); // 记录通信异常事件
+                    LocalLogCollector.WriteMessage(message + ", 通信异常:" + ex.Message); // 记录通信异常事件
                 }
                 finally
                 {

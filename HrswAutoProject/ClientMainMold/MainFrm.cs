@@ -144,10 +144,10 @@ namespace ClientMainMold
             //
             AutoResetEvent cmmArEvt = new AutoResetEvent(false);
             AutoResetEvent plcArEvt = new AutoResetEvent(false);
-            InitForm initForm = null;
+            //InitForm initForm = null;
             Task.Run(() =>
             {
-                initForm = new InitForm(cmmArEvt, plcArEvt);
+                InitForm initForm = new InitForm(cmmArEvt, plcArEvt);
                 initForm.ShowDialog();
             });
             Thread.Sleep(1000); //等待初始窗口启动
