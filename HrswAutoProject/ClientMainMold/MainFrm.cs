@@ -24,13 +24,15 @@ namespace ClientMainMold
     {
         // 料架上的工件结果
         BindingList<PartResultRecord> RackResultRecordList = new BindingList<PartResultRecord>();
-        // 工件结果记录
+        // 历史工件结果
         BindingList<PartResultRecord> resultRecordList = new BindingList<PartResultRecord>();
         BindingList<CmmDataRecord> cmmRecordList = new BindingList<CmmDataRecord>();
         BindingSource partConfBs = new BindingSource();
         string bladePath = @"C:\Program Files (x86)\Hexagon\PC-DMIS Blade 5.0 (Release)\Blade.exe";
 
         bool IsRunning = false; // 
+        private bool _plcConnected;
+
         public MainFrm()
         {
             InitializeComponent();
@@ -42,15 +44,22 @@ namespace ClientMainMold
             ClientUICommon.RefreshRackView = RefreshRackView;
             ClientUICommon.RefreshCmmViewState = RefreshCmmViewState;
             ClientUICommon.RefreshCmmEventLogAction = RefreshCmmEventLog;
+            ClientUICommon.RefreshPlcConnectStateAction = RefreshPlcConnect;
 
+        }
+
+        private void RefreshPlcConnect(string obj)
+        {
+            toolStripStatusLabel1.Text = obj;
         }
 
         private void RefreshCmmEventLog(string obj)
         {
             ClientUICommon.syncContext.Post(o =>
             {
-                string info = DateTime.Now.ToShortTimeString() + " " +  obj;
+                string info = DateTime.Now.ToShortTimeString() + " " + obj;
                 cmmInfoListBox.Items.Add(info);
+                cmmListBox.Items.Add(info);
             }, null);
         }
 
@@ -133,28 +142,38 @@ namespace ClientMainMold
         private void MainFrm_Load(object sender, EventArgs e)
         {
             //
-            AutoResetEvent arevt = new AutoResetEvent(false);
+            AutoResetEvent cmmArEvt = new AutoResetEvent(false);
+            AutoResetEvent plcArEvt = new AutoResetEvent(false);
             InitForm initForm = null;
             Task.Run(() =>
             {
-                initForm = new InitForm(arevt);
+                initForm = new InitForm(cmmArEvt, plcArEvt);
                 initForm.ShowDialog();
             });
+            Thread.Sleep(1000); //等待初始窗口启动
             SetAppPaths();
-            initForm?.SetInitInfo("正在初始化三坐标控制器...");
             ClientManager.Instance.Initialize();
-            Thread.Sleep(1000); //
-            initForm?.SetInitInfo("正在初始化工件管理器...");
-PartConfigManager.Instance.InitPartConfigManager();
-            Thread.Sleep(1000);
+            ClientManager.Instance.InitClients();
+            cmmArEvt.Set();
+            //initForm?.SetInitInfo("正在初始化工件管理器...");
+            PartConfigManager.Instance.InitPartConfigManager();
+            //Thread.Sleep(1000);
             //initForm?.SetInitInfo("正在连接PLC控制器...");
-            //PlcClient.Instance.Initialize();
+            _plcConnected = PlcClient.Instance.Initialize();
+            //Thread.Sleep(1000);
+            plcArEvt.Set();
 
-            arevt.Set();
-
+            if (ClientManager.Instance.CmmConnected(0)) // 第一号三坐标连接成功
+            {
+                cmmConnButton.Enabled = false;
+            }
+            if (_plcConnected) // plc连接成功关闭button1
+            {
+                button1.Enabled = false;
+            }
             splitContainer5.Show();
-
             ShowPanel(SwPanel.plcPanel);
+            plcIPStatusLabel.Text = PlcClient.Instance.PlcIPAddress;
             ResultView.DataSource = RackResultRecordList;
             InitResult();
             partConfBs.DataSource = PartConfigManager.Instance.PartConfList;
@@ -168,6 +187,7 @@ PartConfigManager.Instance.InitPartConfigManager();
         {
             ClientManager.Instance.SaveCmmServer();
             PartConfigManager.Instance.SavePartConfig();
+            PlcClient.Instance.DisconnectPLC();
         }
 
         #endregion
@@ -193,7 +213,7 @@ PartConfigManager.Instance.InitPartConfigManager();
             {
                 cmmRecordList[index].SetClientState(state);
                 cmmRecordList[index].IsFault = (state == ClientState.CS_InitError ||
-                state == ClientState.CS_Error);
+                state == ClientState.CS_Error || state == ClientState.CS_ConnectError);
                 CmmView.InvalidateRow(index);
             }, null);
         }
@@ -242,9 +262,30 @@ PartConfigManager.Instance.InitPartConfigManager();
             CmmView.Invalidate();
         }
 
-        private void InitClientTsb_Click(object sender, EventArgs e)
+        private async void InitClientTsb_Click(object sender, EventArgs e)
         {
-            ClientManager.Instance.InitClients();
+            //ClientManager.Instance.InitClients();
+            int index = CmmView.SelectedRows[0].Index;
+            if (!ClientManager.Instance.CmmConnected(index))
+            {
+                deleteCmmTsb.Enabled = false;
+                InitClientTsb.Enabled = false;
+                cmmConnButton.Enabled = false;
+                cmmConnButton.Text = "正在连接";
+                bool result = await Task.Run(() =>
+                {
+                    ClientManager.Instance.CmmConnect(index);
+                    return ClientManager.Instance.CmmConnected(index);
+                });
+                if (!result)
+                {
+                    cmmConnButton.Enabled = true;
+                }
+                cmmConnButton.Text = "连接";
+                InitClientTsb.Enabled = true;
+                deleteCmmTsb.Enabled = true;
+            }
+
         }
         private void ClearLogInfoTsb_Click(object sender, EventArgs e)
         {
@@ -263,7 +304,7 @@ PartConfigManager.Instance.InitPartConfigManager();
                 if (!Directory.Exists(path))
                 {
                     MessageBox.Show("blades目录不存在", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                     return;
+                    return;
                 }
                 else
                 {
@@ -369,14 +410,30 @@ PartConfigManager.Instance.InitPartConfigManager();
 
         private void writePartIDToPlcToolStripButton_Click(object sender, EventArgs e)
         {
+            if (!_plcConnected)
+            {
+                MessageBox.Show("PLC控制器未连接", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             if (partView.SelectedRows.Count != 1)
             {
                 MessageBox.Show("请选择一个工件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             WritePartIDForm wpform = new WritePartIDForm();
-            wpform.PartId = partView.SelectedRows[0].Cells[0].Value.ToString();
+            wpform.PartId = ((PartConfig)partConfBs[partView.SelectedRows[0].Index]).PartID;
             wpform.ShowDialog();
+        }
+        private void lookupToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (partView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("请选择一个工件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
+            int index = partView.SelectedRows[0].Index;
+            string path = PathManager.Instance.GetBladesFullPath(((PartConfig)partConfBs[index]).PartID);
+            Process.Start("Explorer.exe", path);
         }
         #endregion
 
@@ -574,7 +631,7 @@ PartConfigManager.Instance.InitPartConfigManager();
                 outFont = true;
                 drawFont = new Font(drawFont, FontStyle.Bold); // 黑体显示
             }
-            
+
             using (Brush brush = new SolidBrush(e.ForeColor))
             {
                 CmmDataRecord cd = (CmmDataRecord)comboBox1.Items[e.Index];
@@ -608,7 +665,7 @@ PartConfigManager.Instance.InitPartConfigManager();
             {
                 PartConfig cd = (PartConfig)comboBox2.Items[e.Index];
                 string str = cd.PartID + " " + cd.Description;
-                
+
                 e.Graphics.DrawString(str, drawFont, brush, e.Bounds);
                 if (outFont) drawFont.Dispose();
             }
@@ -616,6 +673,7 @@ PartConfigManager.Instance.InitPartConfigManager();
             e.DrawFocusRectangle();
         }
 
+        #region 主按钮
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             Close();
@@ -623,6 +681,26 @@ PartConfigManager.Instance.InitPartConfigManager();
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            if (!_plcConnected)
+            {
+                MessageBox.Show("PLC控制器未连接", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            for (int i = 0; i < ClientManager.Instance.CmmCount; i++)
+            {
+                if (!ClientManager.Instance.CmmConnected(i))
+                {
+                    DialogResult dr = MessageBox.Show($"三坐标{i + 1}未连接，是否继续?", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (dr == DialogResult.No)
+                    {
+                        return;
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
             if (!IsRunning)
             {
                 ClientManager.Instance.RunDispatchTask();
@@ -639,12 +717,149 @@ PartConfigManager.Instance.InitPartConfigManager();
 
         private void initConnectToolStripButton_Click(object sender, EventArgs e)
         {
+            AutoResetEvent arEvt = new AutoResetEvent(false);
+            ConnectWaitForm cwForm = null;
+            Task.Run(() =>
+            {
+                cwForm = new ConnectWaitForm(arEvt);
+                cwForm.ShowDialog();
+            });
+            Thread.Sleep(1000);
+            cwForm?.SetInitInfo("连接PLC...");
             // 连接PLC
             string ipAddress = "192.168.0.1";
+
             PlcClient.Instance.SetConnectParam(ipAddress, 0, 0);
             PlcClient.Instance.Initialize();
+            cwForm?.SetInitInfo("连接三坐标控制器...");
             // 连接CMM
             ClientManager.Instance.InitClients();
+            arEvt.Set();
+        }
+
+        #endregion
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            //AutoResetEvent cmevt = new AutoResetEvent(false);
+            if (!PlcClient.Instance.IsConnected)
+            {
+                button1.Enabled = false;
+                toolStripStatusLabel1.Text = "正在连接...";
+                button1.Text = "正在连接...";
+                bool connected = await Task.Run(() => PlcClient.Instance.Initialize());
+                if (connected)
+                {
+                    if (button1.InvokeRequired)
+                    {
+                        button1.Invoke(new MethodInvoker(() =>
+                        {
+                            button1.Text = "PLC连接正常";
+                            toolStripStatusLabel1.Text = "PLC连接正常";
+                            button1.Enabled = false;
+                        }));
+                    }
+                    else
+                    {
+                        button1.Text = "PLC连接正常";
+                        toolStripStatusLabel1.Text = "PLC连接正常";
+                        button1.Enabled = false;
+                    }
+                }
+                else
+                {
+                    if (button1.InvokeRequired)
+                    {
+                        button1.Invoke(new MethodInvoker(() =>
+                        {
+                            button1.Text = "连接";
+                            toolStripStatusLabel1.Text = "PLC连接失败";
+                            button1.Enabled = true;
+                        }));
+                    }
+                    else
+                    {
+                        button1.Text = "连接";
+                        toolStripStatusLabel1.Text = "PLC连接失败";
+                        button1.Enabled = true;
+                    }
+                }
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex < 0)
+            {
+                return;
+            }
+            if (ClientManager.Instance.CmmConnected(comboBox1.SelectedIndex))
+            {
+                cmmConnButton.Enabled = false;
+            }
+            else
+            {
+                cmmConnButton.Enabled = true;
+            }
+            if (ClientManager.Instance.CmmActived(comboBox1.SelectedIndex))
+            {
+                enableButton.Text = "离线";
+            }
+            else
+            {
+                enableButton.Text = "联机";
+            }
+        }
+
+        private async void cmmConnButton_Click(object sender, EventArgs e)
+        {
+            int index = comboBox1.SelectedIndex;
+            if (!ClientManager.Instance.CmmConnected(index))
+            {
+                deleteCmmTsb.Enabled = false;
+                InitClientTsb.Enabled = false;
+                cmmConnButton.Enabled = false;
+                cmmConnButton.Text = "正在连接";
+                bool result = await Task.Run(() =>
+                {
+                    ClientManager.Instance.CmmConnect(index);
+                    return ClientManager.Instance.CmmConnected(index);
+                });
+                if (!result)
+                {
+                    cmmConnButton.Enabled = true;
+                }
+                cmmConnButton.Text = "连接";
+                InitClientTsb.Enabled = true;
+                deleteCmmTsb.Enabled = true;
+            }
+        }
+
+        private void enableButton_Click(object sender, EventArgs e)
+        {
+            int index = comboBox1.SelectedIndex;
+            if (index < 0)
+            {
+                return;
+            }
+            if (ClientManager.Instance.CmmActived(index))
+            {
+                enableButton.Text = "联机";
+                ClientManager.Instance.DisableClient(index);
+                cmmRecordList[index].IsActived = false;
+            }
+            else
+            {
+                enableButton.Text = "离线";
+                ClientManager.Instance.EnableClient(index);
+                cmmRecordList[index].IsActived = true;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            cmmListBox.Items.Clear();
+            cmmListBox.Invalidate();
         }
     }
 }

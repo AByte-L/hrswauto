@@ -49,7 +49,7 @@ namespace Gy.HrswAuto.ClientMold
         public bool Connected
         {
             get { return _connected; }
-            set { _connected = value; }
+            private set { _connected = value; }
         }
 
         // 结果处理
@@ -68,6 +68,7 @@ namespace Gy.HrswAuto.ClientMold
         {
             CmmSvrConfig = cmmSvrConfig;
             State = ClientState.CS_None;
+            _connected = false;
         }
 
         public void InitClient()
@@ -79,10 +80,12 @@ namespace Gy.HrswAuto.ClientMold
                 _cmmCtrl = _proxyFactory.GetCmmControl(CmmSvrConfig);
                 _partConfigService = _proxyFactory.GetPartConfigService(CmmSvrConfig);
                 _IsInitialed = _cmmCtrl.IsInitialed(); // 返回服务器端是否初始化
-                Connected = true;
+                _connected = true;
                 if (_IsInitialed)
                 {
                     State = ClientState.CS_Idle;
+                    string cmmError = string.Format($"三坐标{CmmSvrConfig.ServerID} 初始化成功");
+                    ClientUICommon.RefreshCmmEventLog(cmmError);
                 }
                 else
                 {

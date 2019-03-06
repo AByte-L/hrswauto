@@ -23,6 +23,13 @@ namespace Gy.HrswAuto.MasterMold
             get { return _cmmSvrConfigs; }
             set { _cmmSvrConfigs = value; }
         }
+        public int CmmCount
+        {
+            get
+            {
+                return _cmmClients.Count;
+            }
+        }
         public string ClientConfigFileName { get; set; } = "clients.xml";
 
         private Timer _dispatchTimer;
@@ -90,6 +97,16 @@ namespace Gy.HrswAuto.MasterMold
                 _cmmClients[i].InitClient();
                 ClientUICommon.RefreshCmmViewState(i, _cmmClients[i].State); // 初始化是否成功
             }
+        }
+
+        public void CmmConnect(int index)
+        {
+            if (_cmmClients[index].Connected)
+            {
+                return;
+            }
+            _cmmClients[index].InitClient();
+            ClientUICommon.RefreshCmmViewState(index, _cmmClients[index].State);
         }
 
         public void RunDispatchTask()
@@ -175,6 +192,15 @@ namespace Gy.HrswAuto.MasterMold
             _dispatchTimer.Elapsed += _dispatchTimer_Elapsed;
         }
 
+        public bool CmmConnected(int index)
+        {
+            if(index > (_cmmClients.Count- 1))
+            {
+                return true;
+            }
+           return _cmmClients[index].Connected;
+        }
+
         public static ClientManager Instance
         {
             get
@@ -186,6 +212,8 @@ namespace Gy.HrswAuto.MasterMold
                 return _clientManager;
             }
         }
+
+        
 
         #endregion
         public void EnableClient(int index)
@@ -206,6 +234,11 @@ namespace Gy.HrswAuto.MasterMold
             }
             _cmmClients.RemoveAt(index);
             CmmSvrConfigs.RemoveAt(index);
+        }
+
+        public bool CmmActived(int index)
+        {
+            return _cmmClients[index].IsActived;
         }
     }
 }

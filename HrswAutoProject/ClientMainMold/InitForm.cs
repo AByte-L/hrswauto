@@ -14,15 +14,17 @@ namespace ClientMainMold
     public partial class InitForm : Form
     {
         private System.Timers.Timer timer;
-        public AutoResetEvent compEvent { get; set; }
+        private AutoResetEvent cmmCompEvent;
+        private AutoResetEvent plcCompEvent;
         public bool IsInitCompleted { get; set; }
         
-        public InitForm(AutoResetEvent arEvent)
+        public InitForm(AutoResetEvent cmmArEvent, AutoResetEvent plcArEvent)
         {
             InitializeComponent();
             IsInitCompleted = false;
             ShowInTaskbar = false;
-            compEvent = arEvent;
+            cmmCompEvent = cmmArEvent;
+            plcCompEvent = plcArEvent;
         }
 
         private void InitForm_Load(object sender, EventArgs e)
@@ -35,7 +37,10 @@ namespace ClientMainMold
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             timer.Stop();
-            IsInitCompleted = compEvent.WaitOne((int)TimeSpan.FromSeconds(30).TotalMilliseconds); // 等待30s超时
+            SetInitInfo("正在连接三坐标服务器....");
+            IsInitCompleted = cmmCompEvent.WaitOne((int)TimeSpan.FromSeconds(30).TotalMilliseconds); // 等待30s超时
+            SetInitInfo("正在连接PLC...");
+            IsInitCompleted = plcCompEvent.WaitOne((int)TimeSpan.FromSeconds(15).TotalMilliseconds);
             this.Invoke(new MethodInvoker(CloseForm));
         }
 

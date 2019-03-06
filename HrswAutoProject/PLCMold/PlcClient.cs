@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Threading;
 using System;
 using System.Collections.Generic;
+using Gy.HrswAuto.UICommonTools;
+using System.Threading.Tasks;
 
 namespace Gy.HrswAuto.PLCMold
 {
@@ -14,7 +16,13 @@ namespace Gy.HrswAuto.PLCMold
         public string PlcIPAddress { get; set; } = "192.168.100.1";
         public int Rack { get; set; } = 0;
         public int Slot { get; set; } = 0;
-        public bool IsConnected { get; set; } = false;
+        public bool IsConnected
+        {
+            get
+            {
+                return _s7Client.Connected();
+            }
+        }
 
         public bool ResponseGripRequest(int clientID, bool isPassed)
         {
@@ -305,29 +313,50 @@ namespace Gy.HrswAuto.PLCMold
         }
 
         #region 初始化PLC连接
-        Timer _initTimer;
+        //Timer _initTimer;
         AutoResetEvent _initEvent;
 
         public bool Initialize()
         {
-            // 连接时效30s
-            _initTimer = new Timer(new TimerCallback(InitPlcConnect), null, 1000, 2000);
-            bool result = _initEvent.WaitOne((int)TimeSpan.FromSeconds(30).TotalMilliseconds);
+            // 连接时效15s
+            //_initTimer = new Timer(new TimerCallback(InitPlcConnect), null, 1000, 2000);
+            CancellationTokenSource cs = new CancellationTokenSource();
+            Task.Factory.StartNew(InitPlcConnect, cs.Token, cs.Token);
+
+            bool result = _initEvent.WaitOne((int)TimeSpan.FromSeconds(15).TotalMilliseconds);
+
             if (!result)
             {
-                Trace.Write("PLC连接失败");
+                ClientUICommon.RefreshPlcConnectState("PLC连接失败");
                 return false;
             }
+            cs.Cancel();
+            ClientUICommon.RefreshPlcConnectState("PLC连接成功");
             return true;
         }
 
         private void InitPlcConnect(object state) 
         {
+            CancellationToken token = (CancellationToken)state;
             int result = _s7Client.ConnectTo(PlcIPAddress, Rack, Slot);
             Thread.Sleep(10); // 很小的复位时间
-            if (result == 0 && _s7Client.Connected())
+            //if (result == 0 && _s7Client.Connected())
+            //{
+            //    _initEvent.Set();
+            //}
+            while(true)
             {
-                _initEvent.Set();
+                if (token.IsCancellationRequested)
+                {
+                    return ;
+                }
+                if (result == 0 && _s7Client.Connected())
+                {
+                    _initEvent.Set();
+                    break;
+                }
+                result = _s7Client.Connect();
+                Thread.Sleep(10);
             }
         } 
         #endregion
@@ -360,6 +389,16 @@ namespace Gy.HrswAuto.PLCMold
             PlcIPAddress = ipAddress;
             Rack = v1;
             Slot = v2;
+        }
+
+        public void DisconnectPLC()
+        {
+            if (_s7Client.Connected())
+            {
+                // 不判断断开情况
+                int result = _s7Client.Disconnect();
+                Thread.Sleep(100);
+            }
         }
     }
 }

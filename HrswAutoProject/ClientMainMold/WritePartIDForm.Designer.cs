@@ -51,7 +51,6 @@
             this.Name = "WritePartIDForm";
             this.Text = "WritePartIDForm";
             this.Load += new System.EventHandler(this.WritePartIDForm_Load);
-            this.Shown += new System.EventHandler(this.WritePartIDForm_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

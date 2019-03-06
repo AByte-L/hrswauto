@@ -27,9 +27,16 @@ namespace Gy.HrswAuto.UICommonTools
 
         public static Action<string> RefreshCmmEventLogAction;
 
+        public static Action<string> RefreshPlcConnectStateAction;
+
         public static void RefreshCmmEventLog(string cmmError)
         {
             RefreshCmmEventLogAction(cmmError);
+        }
+
+        public static void RefreshPlcConnectState(string v)
+        {
+            RefreshPlcConnectStateAction(v);
         }
     }
 }
