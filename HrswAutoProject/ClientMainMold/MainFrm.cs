@@ -274,8 +274,27 @@ namespace ClientMainMold
                 cmmConnButton.Text = "正在连接";
                 bool result = await Task.Run(() =>
                 {
-                    ClientManager.Instance.CmmConnect(index);
-                    return ClientManager.Instance.CmmConnected(index);
+                    //ClientManager.Instance.CmmConnect(index);
+                    //return ClientManager.Instance.CmmConnected(index);
+                    Stopwatch sw = new Stopwatch();
+                    bool connected = false;
+                    sw.Start();
+                    while (true)
+                    {
+                        ClientManager.Instance.CmmConnect(index);
+                        connected = ClientManager.Instance.CmmConnected(index);
+                        if (connected)
+                        {
+                            break;
+                        }
+                        if (sw.Elapsed > TimeSpan.FromSeconds(15))
+                        {
+                            break;
+                        }
+                        Thread.Sleep(2000);
+                    }
+                    sw.Stop();
+                    return connected;
                 });
                 if (!result)
                 {
@@ -744,6 +763,7 @@ namespace ClientMainMold
             //AutoResetEvent cmevt = new AutoResetEvent(false);
             if (!PlcClient.Instance.IsConnected)
             {
+                toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
                 button1.Enabled = false;
                 toolStripStatusLabel1.Text = "正在连接...";
                 button1.Text = "正在连接...";
@@ -784,6 +804,7 @@ namespace ClientMainMold
                         button1.Enabled = true;
                     }
                 }
+                toolStripProgressBar1.Style = ProgressBarStyle.Blocks;
             }
         }
 
@@ -816,22 +837,45 @@ namespace ClientMainMold
             int index = comboBox1.SelectedIndex;
             if (!ClientManager.Instance.CmmConnected(index))
             {
+                toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
                 deleteCmmTsb.Enabled = false;
                 InitClientTsb.Enabled = false;
                 cmmConnButton.Enabled = false;
                 cmmConnButton.Text = "正在连接";
                 bool result = await Task.Run(() =>
                 {
-                    ClientManager.Instance.CmmConnect(index);
-                    return ClientManager.Instance.CmmConnected(index);
+                    Stopwatch sw = new Stopwatch();
+                    bool connected = false;
+                    sw.Start();
+                    while (true)
+                    {
+                        ClientManager.Instance.CmmConnect(index);
+                        connected = ClientManager.Instance.CmmConnected(index);
+                        if (connected)
+                        {
+                            break;
+                        }
+                        if (sw.Elapsed > TimeSpan.FromSeconds(15))
+                        {
+                            break;
+                        }
+                        Thread.Sleep(2000);
+                    }
+                    sw.Stop();
+                    return connected;
                 });
                 if (!result)
                 {
                     cmmConnButton.Enabled = true;
                 }
+                else
+                {
+                    comboBox1.Refresh();
+                }
                 cmmConnButton.Text = "连接";
                 InitClientTsb.Enabled = true;
                 deleteCmmTsb.Enabled = true;
+                toolStripProgressBar1.Style = ProgressBarStyle.Blocks;
             }
         }
 
@@ -860,6 +904,22 @@ namespace ClientMainMold
         {
             cmmListBox.Items.Clear();
             cmmListBox.Invalidate();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            int index = comboBox1.SelectedIndex;
+            if (index < 0)
+            {
+                return;
+            }
+            ClientManager.Instance.ClearCmmError(index);
+            
+        }
+
+        private void writePartIDButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

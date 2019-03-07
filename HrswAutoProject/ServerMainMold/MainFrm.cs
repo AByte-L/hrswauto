@@ -26,7 +26,7 @@ namespace ServerMainMold
         double _BladeTimeout;
         double _ServiceOpenTimeout;
         private string errorInfo;
-        private string _partFile;
+        //private string _partFile;
 
         bool _notifyIcon = false;
 
@@ -94,23 +94,27 @@ namespace ServerMainMold
             {
                 //初始化PCDMIS失败
                 errorInfo = "未能初始化PCDMIS";
+                LocalLogCollector.WriteMessage(errorInfo);
             }
             // 开启服务器 
             try
             {
                 _ctrlHost.Open(TimeSpan.FromSeconds(_ServiceOpenTimeout));
                 _partServiceHost.Open(TimeSpan.FromSeconds(_ServiceOpenTimeout));
+                LocalLogCollector.WriteMessage(errorInfo);
             }
             catch (TimeoutException)
             {
                 errorInfo = "服务器未正常启动";
+                //RefreshInfoView(errorInfo);
+                LocalLogCollector.WriteMessage(errorInfo);
             }
             finally
             {
                 arevt.Set();
             }
             //logListView.Items.Add(errorInfo);
-            RefreshInfoView(errorInfo);
+            //RefreshInfoView(errorInfo);
         }
 
         private void MainFrm_SizeChanged(object sender, EventArgs e)
@@ -157,7 +161,7 @@ namespace ServerMainMold
 
         private void gotoToolStripButton_Click(object sender, EventArgs e)
         {
-
+            _msc.BackToSafePosition(ServerSettings.GotoSafePrg);
         }
     }
 }

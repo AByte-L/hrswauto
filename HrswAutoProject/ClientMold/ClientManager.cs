@@ -240,5 +240,29 @@ namespace Gy.HrswAuto.MasterMold
         {
             return _cmmClients[index].IsActived;
         }
+
+        public ClientState CmmState(int index)
+        {
+            return _cmmClients[index].State;
+        }
+
+        public void ClearCmmError(int index)
+        {
+            if (_cmmClients[index].State == ClientState.CS_InitError)
+            {
+                if (_cmmClients[index].CmmIsInitialed())
+                {
+                    _cmmClients[index].State = ClientState.CS_Idle;
+                    string str = "三坐标" + _cmmClients[index].CmmSvrConfig.ServerID.ToString() + "错误恢复";
+                    ClientUICommon.RefreshCmmEventLog(str);
+                }
+            }
+            if (_cmmClients[index].State == ClientState.CS_Error)
+            {
+                _cmmClients[index].State = ClientState.CS_Idle;
+                string str = "三坐标" + _cmmClients[index].CmmSvrConfig.ServerID.ToString() + "错误恢复";
+                ClientUICommon.RefreshCmmEventLog(str);
+            }
+        }
     }
 }

@@ -94,13 +94,14 @@ namespace Gy.HrswAuto.ClientMold
                     ClientUICommon.RefreshCmmEventLog(cmmError);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 _IsInitialed = false; // 初始化不成功
-                string cmmError = string.Format($"三坐标{CmmSvrConfig.ServerID} 连接错误");
-                _connected = false;
-                ClientUICommon.RefreshCmmEventLog(cmmError);
-                State = ClientState.CS_ConnectError;
+                                      //string cmmError = string.Format($"三坐标{CmmSvrConfig.ServerID} 连接错误");
+                                      //_connected = false;
+                                      //ClientUICommon.RefreshCmmEventLog(cmmError);
+                                      //State = ClientState.CS_ConnectError;
+                ReportConnectError(ex);
             }
         }
         #endregion
@@ -196,10 +197,7 @@ namespace Gy.HrswAuto.ClientMold
             }
             catch (Exception ex)
 	        {
-                string cmmError = string.Format($"三坐标{CmmSvrConfig.ServerID} 连接异常， 异常信息：{ex.Message}");
-                _connected = false;
-                ClientUICommon.RefreshCmmEventLog(cmmError);
-                State = ClientState.CS_Error;
+                ReportConnectError(ex);
             }
         }
 
@@ -269,6 +267,27 @@ namespace Gy.HrswAuto.ClientMold
             //}
             //return false;
 
+        }
+
+        public bool CmmIsInitialed()
+        {
+            try
+            {
+                return  _cmmCtrl.IsInitialed();
+            }
+            catch (Exception ex)
+            {
+                ReportConnectError(ex);
+            }
+            return false;
+        }
+
+        private void ReportConnectError(Exception ex)
+        {
+            string cmmError = string.Format($"三坐标{CmmSvrConfig.ServerID} 连接异常：{ex.Message}");
+            _connected = false;
+            ClientUICommon.RefreshCmmEventLog(cmmError);
+            State = ClientState.CS_ConnectError;
         }
 
         /// <summary>

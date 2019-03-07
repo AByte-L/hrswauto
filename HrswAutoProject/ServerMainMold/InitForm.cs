@@ -13,7 +13,6 @@ namespace ServerMainMold
 {
     public partial class InitForm : Form
     {
-        private System.Timers.Timer timer;
         public AutoResetEvent compEvent { get; set; }
         public bool IsInitCompleted { get; set; }
         public InitForm(AutoResetEvent arEvent)
@@ -26,25 +25,18 @@ namespace ServerMainMold
 
         private void InitForm_Load(object sender, EventArgs e)
         {
-            timer = new System.Timers.Timer(1000);
-            timer.Elapsed += Timer_Elapsed;
-            timer.Start();
+            Task.Factory.StartNew(WaitServerInit);
         }
-        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+
+        private void WaitServerInit()
         {
-            // 检测Event是否设置
-            timer.Stop();
-            IsInitCompleted = compEvent.WaitOne((int)TimeSpan.FromSeconds(30).TotalMilliseconds); // 等待30s超时
-            this.Invoke(new MethodInvoker(CloseForm));
-        }
-        private void CloseForm()
-        {
-            Close();
+            IsInitCompleted = compEvent.WaitOne((int)TimeSpan.FromSeconds(60).TotalMilliseconds); // 等待60s超时
+            Invoke((Action)(() => Close()));
         }
 
         private void InitForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            timer.Dispose();
+            
         }
     }
 }

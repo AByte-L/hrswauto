@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.infoDataGridView = new System.Windows.Forms.DataGridView();
@@ -40,8 +40,8 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.SetupToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.gotoToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.RestartToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.ClearErrorToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.RestartToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.groupBox1.SuspendLayout();
@@ -54,9 +54,9 @@
             this.groupBox1.Controls.Add(this.infoDataGridView);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(8, 2);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(6);
             this.groupBox1.Size = new System.Drawing.Size(607, 465);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
@@ -72,18 +72,19 @@
             this.Column2});
             this.infoDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.infoDataGridView.Location = new System.Drawing.Point(6, 20);
-            this.infoDataGridView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.infoDataGridView.Margin = new System.Windows.Forms.Padding(2);
             this.infoDataGridView.MultiSelect = false;
             this.infoDataGridView.Name = "infoDataGridView";
             this.infoDataGridView.ReadOnly = true;
             this.infoDataGridView.RowTemplate.Height = 27;
+            this.infoDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.infoDataGridView.Size = new System.Drawing.Size(595, 439);
             this.infoDataGridView.TabIndex = 0;
             // 
             // Column1
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle1;
             this.Column1.HeaderText = "时间";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
@@ -92,8 +93,8 @@
             // Column2
             // 
             this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle2;
             this.Column2.HeaderText = "信息";
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
@@ -113,8 +114,8 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SetupToolStripButton,
             this.gotoToolStripButton,
-            this.RestartToolStripButton,
-            this.ClearErrorToolStripButton});
+            this.ClearErrorToolStripButton,
+            this.RestartToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(8, 467);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(607, 47);
@@ -143,6 +144,17 @@
             this.gotoToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.gotoToolStripButton.Click += new System.EventHandler(this.gotoToolStripButton_Click);
             // 
+            // ClearErrorToolStripButton
+            // 
+            this.ClearErrorToolStripButton.AutoSize = false;
+            this.ClearErrorToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearErrorToolStripButton.Image")));
+            this.ClearErrorToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ClearErrorToolStripButton.Name = "ClearErrorToolStripButton";
+            this.ClearErrorToolStripButton.Size = new System.Drawing.Size(73, 44);
+            this.ClearErrorToolStripButton.Text = "清除错误";
+            this.ClearErrorToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.ClearErrorToolStripButton.Click += new System.EventHandler(this.ClearErrorToolStripButton_Click);
+            // 
             // RestartToolStripButton
             // 
             this.RestartToolStripButton.AutoSize = false;
@@ -152,17 +164,8 @@
             this.RestartToolStripButton.Size = new System.Drawing.Size(73, 44);
             this.RestartToolStripButton.Text = "重启PC";
             this.RestartToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.RestartToolStripButton.Visible = false;
             this.RestartToolStripButton.Click += new System.EventHandler(this.RestartToolStripButton_Click);
-            // 
-            // ClearErrorToolStripButton
-            // 
-            this.ClearErrorToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearErrorToolStripButton.Image")));
-            this.ClearErrorToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ClearErrorToolStripButton.Name = "ClearErrorToolStripButton";
-            this.ClearErrorToolStripButton.Size = new System.Drawing.Size(60, 44);
-            this.ClearErrorToolStripButton.Text = "清除错误";
-            this.ClearErrorToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.ClearErrorToolStripButton.Click += new System.EventHandler(this.ClearErrorToolStripButton_Click);
             // 
             // statusStrip1
             // 
@@ -193,7 +196,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "MainFrm";
             this.Padding = new System.Windows.Forms.Padding(8, 2, 8, 4);
