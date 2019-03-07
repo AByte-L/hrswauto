@@ -35,16 +35,17 @@ namespace Gy.HrswAuto.ErrorMod
                 {
                     //LocalLogCollector.WriteMessage(message);
                     SvrNotify?.ServerInErrorStatus(message);
+                    LocalLogCollector.WriteMessage(message);
                 }
                 catch (Exception ex)
                 {
                     LocalLogCollector.WriteMessage(message + ", 通信异常:" + ex.Message); // 记录通信异常事件
                 }
-                finally
-                {
-                    LocalLogCollector.WriteMessage(message); // 工作出错状态信息
-                    ServerUILinker.WriteUILog(message);
-                }
+                //finally
+                //{
+                //    LocalLogCollector.WriteMessage(message); // 工作出错状态信息
+                //    //ServerUILinker.WriteUILog(message);
+                //}
             }
         }
 
@@ -55,16 +56,17 @@ namespace Gy.HrswAuto.ErrorMod
                 try
                 {
                     SvrNotify?.ServerWorkStatus(message);
+                    LocalLogCollector.WriteMessage(message);
                 }
                 catch (Exception ex)
                 {
-                    LocalLogCollector.WriteMessage(message + ", 回传异常:" + ex.Message); // 记录通信异常事件
+                    LocalLogCollector.WriteMessage(message + ", 通信异常:" + ex.Message); // 记录通信异常事件
                 }
-                finally
-                {
-                    LocalLogCollector.WriteMessage(message); // 服务器工作状态
-                    ServerUILinker.WriteUILog(message);
-                }
+                //finally
+                //{
+                //    LocalLogCollector.WriteMessage(message); // 服务器工作状态
+                //    //ServerUILinker.WriteUILog(message);
+                //}
             }
         }  // 传递服务器工作状态信息，同步方法
     }

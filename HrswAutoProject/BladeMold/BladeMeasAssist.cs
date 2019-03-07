@@ -86,12 +86,12 @@ namespace Gy.HrswAuto.BladeMold
         #endregion
 
         #region PCDmis测量输出结果文件Rtf转换成Blade分析源文件Rpt
-        public void PCDmisRtfToBladeRpt()
+        public bool PCDmisRtfToBladeRpt()
         {
             if (!File.Exists(_rtfFileName))
             {
                 LogCollector.Instance.PostSvrErrorMessage("PCDMIS测量错误，rtf文件未生成");
-                return;
+                return false;
             }
             // 设置rpt文件名
             _rptFileName = Path.Combine(PathManager.Instance.GetReportFullPath(_partConfig.PartID), Path.GetFileNameWithoutExtension(_rtfFileName));
@@ -121,15 +121,15 @@ namespace Gy.HrswAuto.BladeMold
                 }
             }
 
-            CreateBladeRpt(sections);
+            return CreateBladeRpt(sections);
         }
 
-        private void CreateBladeRpt(List<ActSection> sections)
+        private bool CreateBladeRpt(List<ActSection> sections)
         {
             if (_probeDiam < 0.001)
             {
                 LogCollector.Instance.PostSvrErrorMessage("PCDMIS程序错误, 没有获取测尖直径");
-                return;
+                return false;
             }
 
             // 创建报告目录
@@ -188,16 +188,22 @@ namespace Gy.HrswAuto.BladeMold
                     }
                 }
             }
+            return true;
         }
         #endregion
 
         #region 创建用于PCDMIS测量叶片的Blade.txt文件
-        public void CreateBladeTxtFromNominal()
+        public bool CreateBladeTxtFromNominal()
         {
             // 工件工作目录
             string path = PathManager.Instance.GetPartNomPath(_partConfig);
-            Debug.Assert(File.Exists(path)); // 理论文件应该存在
+            //Debug.Assert(File.Exists(path)); // 理论文件应该存在
+            if (!File.Exists(path))
+            {
+                return false;
+            }
             CreateBladeTxt(path);
+            return true;
         }
 
         private void CreateBladeTxt(string nomFileName)

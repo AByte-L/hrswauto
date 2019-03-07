@@ -30,6 +30,14 @@ namespace Gy.HrswAuto.CmmServer
         private BladeContext _bladeContext; // blade分析
         public bool IsBladeMeasure { get; set; } = true;
         private PartConfig _part;
+        private bool _serverInError;
+
+        public bool ServerInError
+        {
+            get { return _serverInError; }
+            set { _serverInError = value; }
+        }
+
         public PartConfig CurPart
         {
             get { return _part; }
@@ -43,6 +51,7 @@ namespace Gy.HrswAuto.CmmServer
             _pcdmisCore = new PCDmisService(pcTimeout/* 测量超时时间 */); // 
             _bladeMeasAssist = new BladeMeasAssist();
             _bladeContext = new BladeContext(bdTimeout);
+            _serverInError = false;
             //_pcdmisMonitorTimer = new Timer(3000); // PCDMIS监控定时器
             //_pcdmisMonitorTimer.Elapsed += _pcdmisMonitorTimer_Elapsed;
         }
@@ -59,11 +68,12 @@ namespace Gy.HrswAuto.CmmServer
             {
                 _pcdmisCore.InitialPCDmis();
                 //_pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent;
-                _pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent1;
+                _pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent;
             }
             catch (Exception)
             {
                 LogCollector.Instance.PostSvrErrorMessage("PCDmis未能初始化");
+                _serverInError = true;
             }
             return _pcdmisCore._IsInitialed;
         }
@@ -75,14 +85,15 @@ namespace Gy.HrswAuto.CmmServer
             if (!e.IsCompleted)
             {
                 LogCollector.Instance.PostSvrErrorMessage("PCDMIS没有完成执行或执行出错");
-                ServerUILinker.WriteUILog(e.PCDmisRunInfo);
+                //ServerUILinker.WriteUILog(e.PCDmisRunInfo);
                 if (e.FaultType == PCDmisFaultType.FT_FatalError)
                 {
                     ReinitialPCDmist();
                 }
+                _serverInError = true;
                 return;
             }
-            ServerUILinker.WriteUILog("PCDMIS测量完成");
+            LocalLogCollector.WriteMessage("PCDMIS测量完成");
             _eventNotify?.WorkCompleted(true);
         }
 
@@ -121,23 +132,34 @@ namespace Gy.HrswAuto.CmmServer
             if (!e.IsCompleted)
             {
                 LogCollector.Instance.PostSvrErrorMessage("PCDMIS没有完成执行或执行出错");
-                //ServerUILinker.WriteUILog(e.PCDmisRunInfo);
                 if (e.FaultType == PCDmisFaultType.FT_FatalError)
                 {
                     ReinitialPCDmist();
                 }
+                _serverInError = true;
+                return;
+            }
+            LogCollector.Instance.PostSvrWorkStatus("PCDMIS执行完成");
+            if (!IsBladeMeasure)
+            {
                 return;
             }
             // 开启Blade异步分析
             string bladeExe = ServerSettings.BladeExe;
             bool ok = await Task.Run(() =>
             {
-                _bladeMeasAssist.PCDmisRtfToBladeRpt(); // 转换rtf到rpt文件
+                bool result = _bladeMeasAssist.PCDmisRtfToBladeRpt(); // 转换rtf到rpt文件
+                if (!result)
+                {
+                    _serverInError = true;
+                    return result;
+                }
                 PathManager.Instance.RptFilePath = _bladeMeasAssist.RptFileName; // rptfilename 全路径
                 return _bladeContext.StartBlade(bladeExe, _bladeMeasAssist.RptFileName);
             });
             if (ok)
             {
+                LogCollector.Instance.PostSvrWorkStatus("Blade分析完成");
                 // 执行结果分析, 分析CMM文件
                 PathManager.Instance.ReportsPath = _bladeContext.CMMFileFullPath; 
                 bool measResult = _bladeMeasAssist.VerifyAnalysisResult(_bladeContext.CMMFileFullPath);
@@ -145,32 +167,83 @@ namespace Gy.HrswAuto.CmmServer
                 try
                 {
                     _eventNotify?.WorkCompleted(measResult); // 通知客户端测量结果是否合格
-                    ServerUILinker.WriteUILog("PCDMIS测量完成");
+                    LogCollector.Instance.PostSvrWorkStatus("检测流完成");
                 }
                 catch (Exception)
                 {
-                    ServerUILinker.WriteUILog("与客户端连接异常");
+                    LocalLogCollector.WriteMessage("与客户端连接异常");
                 }
+            }
+            else
+            {
+                LogCollector.Instance.PostSvrErrorMessage("Blade分析失败");
+                _serverInError = true;
             }
         }
 
         public void ClearServerError()
         {
-            // todo 设置客户端可上件状态
+            try
+            {
+                _serverInError = false;
+                _eventNotify?.ClearCmmServerError();
+                LogCollector.Instance.PostSvrWorkStatus("三坐标服务器重置");
+                //ServerUILinker.WriteUILog("清空错误");
+            }
+            catch (Exception)
+            {
+                LocalLogCollector.WriteMessage("与客户端连接异常");
+            }
         }
 
         public void ReinitialPCDmist()
         {
             Initialize();
         }
+
+        public void BackToSafePosition(string gotoPrg)
+        {
+            IsBladeMeasure = false;
+            try
+            {
+                if (_pcdmisCore._IsInitialed)
+                {
+                    _pcdmisCore.OpenPartProgram(ServerSettings.GotoSafePrg);
+                    if (!_pcdmisCore.ExecutePartProgram())
+                    {
+                        LogCollector.Instance.PostSvrErrorMessage("pcdmis没有启动执行回安全位置程序");
+                        return;
+                    }
+                    else
+                    {
+                        LogCollector.Instance.PostSvrWorkStatus("PCDMIS执行回安全位置程序");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogCollector.Instance.PostSvrErrorMessage("pcdmis出现异常 " + ex.Message);
+            }
+            //finally
+            //{
+            //    IsBladeMeasure = true;
+            //}
+        }
         #endregion
 
         #region 通信接口实现
         public void ConnectWFEvents()
         {
-            _eventNotify = OperationContext.Current.GetCallbackChannel<IWorkflowNotify>();
-            LogCollector.Instance.SvrNotify = _eventNotify;
-            //LocalLogCollector.LogFilePath = @"G:\AutoMeasureItems\ServerPathRoot\log.txt";
+            try
+            {
+                _eventNotify = OperationContext.Current.GetCallbackChannel<IWorkflowNotify>();
+                LogCollector.Instance.SvrNotify = _eventNotify;
+                LocalLogCollector.WriteMessage("控制中心已连接");
+            }
+            catch (Exception ex)
+            {
+                LocalLogCollector.WriteMessage("注册回调事件异常 " + ex.Message);
+            }
         }
 
         public void DisconnectWFEvents()
@@ -185,16 +258,16 @@ namespace Gy.HrswAuto.CmmServer
 
         public void MeasurePart(string partId)
         {
+            IsBladeMeasure = true;
             _part = PartConfigManager.Instance.GetPartConfig(partId);
-            Debug.Assert(_part != null);
+            Debug.Assert(_part != null); 
             string partProgFileName = PathManager.Instance.GetPartProgramPath(_part);
             if (!File.Exists(partProgFileName))
             {
                 LogCollector.Instance.PostSvrErrorMessage("程序文件不存在");
-                //ServerUILinker.WriteUILog("程序文件不存在");
                 return;
             }
-            ServerUILinker.RefreshLog($"测量工件: {partId}, 程序:{partProgFileName}");
+            LocalLogCollector.WriteMessage($"测量工件: {partId}, 程序:{partProgFileName}");
             try
             {
                 _pcdmisCore.OpenPartProgram(partProgFileName);
@@ -204,7 +277,7 @@ namespace Gy.HrswAuto.CmmServer
                 _pcdmisCore.GetProgramCommandParameters(); // 获得测尖直径和输出文件
                 if (!_pcdmisCore.HasOutputFile)
                 {
-                    ServerUILinker.WriteUILog("测量程序无输出，无法进行叶片计算");
+                    //ServerUILinker.WriteUILog("测量程序无输出，无法进行叶片计算");
                     LogCollector.Instance.PostSvrErrorMessage("测量程序无输出，无法进行叶片计算");
                     return;
                 }
@@ -213,7 +286,11 @@ namespace Gy.HrswAuto.CmmServer
                 _bladeMeasAssist.ProbeDiam = _pcdmisCore.ProbeDiam;
                 _bladeMeasAssist.RtfFileName = _pcdmisCore.RtfFileName;
                 // 创建Blade.txt文件
-                _bladeMeasAssist.CreateBladeTxtFromNominal();
+                if (!_bladeMeasAssist.CreateBladeTxtFromNominal())
+                {
+                    LogCollector.Instance.PostSvrErrorMessage("程序文件不存在");
+                    return;
+                }
                 //}
                 //if (_pcdmisCore.HasOutputFile) // 如果程序找到输出文件，则设置blade测量辅助
                 //{
@@ -229,6 +306,10 @@ namespace Gy.HrswAuto.CmmServer
                 {
                     LogCollector.Instance.PostSvrErrorMessage("pcdmis没有启动执行");
                     return;
+                }
+                else
+                {
+                    LogCollector.Instance.PostSvrWorkStatus("pcdmis启动执行 " + _part.ProgFileName);
                 }
             }
             catch (Exception)

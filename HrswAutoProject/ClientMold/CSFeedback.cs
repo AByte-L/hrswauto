@@ -23,6 +23,31 @@ namespace Gy.HrswAuto.ClientMold
             _cmmClient = cmmClient;
         }
 
+        #region 控制反馈
+        public void ClearCmmServerError()
+        {
+            // 恢复到初始状态
+            if (_cmmClient.State == ClientState.CS_InitError || _cmmClient.State == ClientState.CS_Error)
+            {
+                _cmmClient.State = ClientState.CS_Idle;
+                string str = "三坐标" + _cmmClient.CmmSvrConfig.ServerID.ToString() + "错误恢复";
+                ClientUICommon.RefreshCmmEventLog(str);
+            }
+        }
+        public void WorkCompleted(bool isPass)
+        {
+            // 由ClientManager循环处理
+            _cmmClient.IsPass = isPass;
+            _cmmClient.State = ClientState.CS_Completed;
+            //string str = "三坐标" + _cmmClient.CmmSvrConfig.ServerID.ToString() + "测量完成";
+            //ClientUICommon.RefreshCmmEventLog(str);
+
+            // 调试时使用
+            //_cmmClient.WorkContinue();
+        }
+        #endregion
+
+        #region 信息反馈
         public void ServerInErrorStatus(string message)
         {
             _cmmClient.State = ClientState.CS_Error;
@@ -38,15 +63,8 @@ namespace Gy.HrswAuto.ClientMold
             // 刷新三坐标界面显示
             string str = "三坐标" + _cmmClient.CmmSvrConfig.ServerID.ToString() + ": " + message;
             ClientUICommon.RefreshCmmEventLog(str);
-        }
+        } 
+        #endregion
 
-        public void WorkCompleted(bool isPass)
-        {
-            // 由ClientManager循环处理
-            _cmmClient.IsPass = isPass; 
-            _cmmClient.State = ClientState.CS_Completed;
-            // 调试时使用
-            //_cmmClient.WorkContinue();
-        }
     }
 }

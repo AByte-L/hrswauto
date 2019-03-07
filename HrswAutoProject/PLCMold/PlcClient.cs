@@ -355,6 +355,7 @@ namespace Gy.HrswAuto.PLCMold
                     _initEvent.Set();
                     break;
                 }
+                Thread.Sleep(2000); // 等待2s延时连接
                 result = _s7Client.Connect();
                 Thread.Sleep(10);
             }

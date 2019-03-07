@@ -33,6 +33,7 @@ namespace Gy.HrswAuto.MasterMold
         public string ClientConfigFileName { get; set; } = "clients.xml";
 
         private Timer _dispatchTimer;
+        
         public double DispatchInterval { get; set; } = 3; // 
         #region 客户端管理器初始化
         public void Initialize()
@@ -141,10 +142,10 @@ namespace Gy.HrswAuto.MasterMold
                         client.Continue();
                         break;
                     case ClientState.CS_Busy: // 忙碌状态
-                        // todo 刷新client状态显示
+                        //刷新client状态显示
                         break;
                     case ClientState.CS_Error: // 出错状态
-                        // todo 刷新client状态显示
+                        //刷新client状态显示
                         break;
                     case ClientState.CS_ConnectError: // 连接错误不做处理
                         break;
@@ -239,6 +240,30 @@ namespace Gy.HrswAuto.MasterMold
         public bool CmmActived(int index)
         {
             return _cmmClients[index].IsActived;
+        }
+
+        public ClientState CmmState(int index)
+        {
+            return _cmmClients[index].State;
+        }
+
+        public void ClearCmmError(int index)
+        {
+            if (_cmmClients[index].State == ClientState.CS_InitError)
+            {
+                if (_cmmClients[index].CmmIsInitialed())
+                {
+                    _cmmClients[index].State = ClientState.CS_Idle;
+                    string str = "三坐标" + _cmmClients[index].CmmSvrConfig.ServerID.ToString() + "错误恢复";
+                    ClientUICommon.RefreshCmmEventLog(str);
+                }
+            }
+            if (_cmmClients[index].State == ClientState.CS_Error)
+            {
+                _cmmClients[index].State = ClientState.CS_Idle;
+                string str = "三坐标" + _cmmClients[index].CmmSvrConfig.ServerID.ToString() + "错误恢复";
+                ClientUICommon.RefreshCmmEventLog(str);
+            }
         }
     }
 }

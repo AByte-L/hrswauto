@@ -24,6 +24,7 @@ namespace Gy.HrswAuto.ClientMold
         {
             // 三坐标控制代理工厂
             NetTcpBinding cmmBinding = new NetTcpBinding(SecurityMode.None);
+            cmmBinding.OpenTimeout = TimeSpan.FromSeconds(15);
             CSFeedback events = new CSFeedback(cmmClient);
             CmmControlFactory = new DuplexChannelFactory<ICmmControl>(new InstanceContext(events), cmmBinding);
             CmmControlFactory.Open();

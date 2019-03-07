@@ -10,5 +10,7 @@ namespace Gy.HrswAuto.ICmmServer
         void ServerInErrorStatus(string message);
         [OperationContract(IsOneWay = true)]
         void ServerWorkStatus(string message);
+        [OperationContract(IsOneWay = true)]
+        void ClearCmmServerError();
     }
 }
