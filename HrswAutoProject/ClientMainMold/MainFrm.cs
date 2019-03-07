@@ -45,19 +45,6 @@ namespace ClientMainMold
             ClientUICommon.RefreshCmmViewState = RefreshCmmViewState;
             ClientUICommon.RefreshCmmEventLogAction = RefreshCmmEventLog;
             ClientUICommon.RefreshPlcConnectStateAction = RefreshPlcConnect;
-            ClientUICommon.RefreshCmmStatusAction = RefreshCmmStatus;
-
-        }
-
-        private void RefreshCmmStatus(int index)
-        {
-            ClientUICommon.syncContext.Post(o =>
-            {
-                //cmmRecordList[index].SetClientState(state);
-                //cmmRecordList[index].IsFault = (state == ClientState.CS_InitError ||
-                //state == ClientState.CS_Error || state == ClientState.CS_ConnectError);
-                //CmmView.InvalidateRow(index);
-            }, null);
         }
 
         private void RefreshPlcConnect(string obj)

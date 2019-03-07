@@ -332,6 +332,8 @@ namespace Gy.HrswAuto.PLCMold
             }
             cs.Cancel();
             ClientUICommon.RefreshPlcConnectState("PLC连接成功");
+            // todo 连接成功开启心跳信号
+
             return true;
         }
 
@@ -362,7 +364,7 @@ namespace Gy.HrswAuto.PLCMold
         } 
         #endregion
 
-        #region 单例实现
+        #region 创建方法
         private PlcClient()
         {
             _initEvent = new AutoResetEvent(false);
