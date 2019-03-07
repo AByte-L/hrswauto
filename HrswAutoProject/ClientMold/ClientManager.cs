@@ -32,7 +32,8 @@ namespace Gy.HrswAuto.MasterMold
         }
         public string ClientConfigFileName { get; set; } = "clients.xml";
 
-        private Timer _dispatchTimer;
+        private Timer _dispatchTimer; // 任务分派
+        private Timer _heartbeatTimer; // 心跳信号
         
         public double DispatchInterval { get; set; } = 3; // 
         #region 客户端管理器初始化
@@ -191,6 +192,14 @@ namespace Gy.HrswAuto.MasterMold
             _cmmClients = new List<CmmClient>();
             _dispatchTimer = new Timer((DispatchInterval>3? DispatchInterval:3) * 1000); // 刷新间隔不小于3s
             _dispatchTimer.Elapsed += _dispatchTimer_Elapsed;
+
+            _heartbeatTimer = new Timer(3000); // 3s响应时间
+            _heartbeatTimer.Elapsed += _heartbeatTimer_Elapsed;
+        }
+
+        private void _heartbeatTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public bool CmmConnected(int index)

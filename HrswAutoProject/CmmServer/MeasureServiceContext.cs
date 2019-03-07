@@ -288,7 +288,7 @@ namespace Gy.HrswAuto.CmmServer
                 // 创建Blade.txt文件
                 if (!_bladeMeasAssist.CreateBladeTxtFromNominal())
                 {
-                    LogCollector.Instance.PostSvrErrorMessage("程序文件不存在");
+                    LogCollector.Instance.PostSvrErrorMessage("辅助文件创建失败");
                     return;
                 }
                 //}
