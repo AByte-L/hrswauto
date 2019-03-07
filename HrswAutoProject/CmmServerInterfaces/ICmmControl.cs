@@ -22,5 +22,7 @@ namespace Gy.HrswAuto.ICmmServer
         void DisconnectWFEvents();
         [OperationContract]
         bool IsInitialed();
+        [OperationContract]
+        bool QueryCmmServer();
     }
 }

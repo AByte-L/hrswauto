@@ -60,6 +60,7 @@ namespace Gy.HrswAuto.MasterMold
 
                 _cmmClients.Add(client);
             }
+            _heartbeatTimer.Start();
         }
 
         /// <summary>
@@ -185,7 +186,7 @@ namespace Gy.HrswAuto.MasterMold
         }
         #endregion
 
-        #region 单件实现
+        #region CreateMethod
         private static ClientManager _clientManager;
         private ClientManager()
         {
@@ -193,13 +194,32 @@ namespace Gy.HrswAuto.MasterMold
             _dispatchTimer = new Timer((DispatchInterval>3? DispatchInterval:3) * 1000); // 刷新间隔不小于3s
             _dispatchTimer.Elapsed += _dispatchTimer_Elapsed;
 
-            _heartbeatTimer = new Timer(3000); // 3s响应时间
+            _heartbeatTimer = new Timer(3000); 
             _heartbeatTimer.Elapsed += _heartbeatTimer_Elapsed;
         }
 
         private void _heartbeatTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            throw new NotImplementedException();
+            _heartbeatTimer.Stop();
+            // 没有三坐标
+            if (_cmmClients.Count == 0)
+            {
+                return;
+            }
+            for (int i = 0; i < _cmmClients.Count; i++)
+            {
+                _cmmClients[i].QueryCmmServer();
+                if (!_cmmClients[i].Connected)
+                {
+                    _cmmClients[i].State = ClientState.CS_ConnectError;
+                    //ClientUICommon.RefreshCmmStatus(i);
+                    ClientUICommon.RefreshCmmViewState(i, _cmmClients[i].State);
+                }
+            }      
+            //_cmmClients.ForEach(cmm =>
+            //{
+            //});
+            _heartbeatTimer.Start();
         }
 
         public bool CmmConnected(int index)

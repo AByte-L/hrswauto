@@ -19,6 +19,7 @@ namespace Gy.HrswAuto.ClientMold
         private static object syncObj = new object(); // 同步对象
         private static Dictionary<string, int> _partNbSet = new Dictionary<string, int>();
 
+        //private Timer _heartbeatTimer;
         /// <summary>
         /// 服务器端IP和端口配置
         /// </summary>
@@ -267,6 +268,28 @@ namespace Gy.HrswAuto.ClientMold
             //}
             //return false;
 
+        }
+
+        public void QueryCmmServer()
+        {
+            try
+            {
+                _connected = _cmmCtrl.QueryCmmServer();
+            }
+            catch (Exception)
+            {
+                _connected = false;
+                //try
+                //{
+                //    _cmmCtrl = _proxyFactory.GetCmmControl(CmmSvrConfig);
+                //    _partConfigService = _proxyFactory.GetPartConfigService(CmmSvrConfig);
+                //    _connected = true;
+                //}
+                //catch
+                //{
+                //    _connected = false;
+                //}
+            }
         }
 
         public bool CmmIsInitialed()

@@ -255,6 +255,11 @@ namespace Gy.HrswAuto.CmmServer
             }
             return result;
         }
+
+        public bool QueryCmmServer()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

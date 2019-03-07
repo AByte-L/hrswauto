@@ -31,6 +31,10 @@ namespace Gy.HrswAuto.CmmServer
         public bool IsBladeMeasure { get; set; } = true;
         private PartConfig _part;
         private bool _serverInError;
+        private bool _isConnected;
+
+        private DateTime _dateTime;
+        private System.Timers.Timer _timer;
 
         public bool ServerInError
         {
@@ -52,6 +56,13 @@ namespace Gy.HrswAuto.CmmServer
             _bladeMeasAssist = new BladeMeasAssist();
             _bladeContext = new BladeContext(bdTimeout);
             _serverInError = false;
+
+            // 心跳信号
+            _isConnected = false;
+            _dateTime = DateTime.Now;
+            _timer = new System.Timers.Timer(1000);
+            _timer.Elapsed += ListenHeartbeat;
+            _timer.Start();
             //_pcdmisMonitorTimer = new Timer(3000); // PCDMIS监控定时器
             //_pcdmisMonitorTimer.Elapsed += _pcdmisMonitorTimer_Elapsed;
         }
@@ -239,6 +250,10 @@ namespace Gy.HrswAuto.CmmServer
                 _eventNotify = OperationContext.Current.GetCallbackChannel<IWorkflowNotify>();
                 LogCollector.Instance.SvrNotify = _eventNotify;
                 LocalLogCollector.WriteMessage("控制中心已连接");
+                // 心跳信号
+                _isConnected = true;
+                _dateTime = DateTime.Now;
+
             }
             catch (Exception ex)
             {
@@ -346,6 +361,24 @@ namespace Gy.HrswAuto.CmmServer
             //_pcdmisMonitorTimer.Dispose();
             _pcdmisCore.Dispose();
         }
+        private void ListenHeartbeat(object sender, ElapsedEventArgs e)
+        {
+            if (_dateTime.AddSeconds(15) < DateTime.Now)
+            {
+                if (_isConnected)
+                {
+                    LocalLogCollector.WriteMessage("控制中心已断开");
+                    _isConnected = false;
+                }
+            }
+        }
+
+        public bool QueryCmmServer()
+        {
+            _dateTime = DateTime.Now;
+            return true;
+        }
+
         #endregion
     }
 }

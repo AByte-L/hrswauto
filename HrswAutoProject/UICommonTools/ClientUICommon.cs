@@ -29,6 +29,8 @@ namespace Gy.HrswAuto.UICommonTools
 
         public static Action<string> RefreshPlcConnectStateAction;
 
+        public static Action<int> RefreshCmmStatusAction;
+
         public static void RefreshCmmEventLog(string cmmError)
         {
             RefreshCmmEventLogAction(cmmError);
@@ -37,6 +39,11 @@ namespace Gy.HrswAuto.UICommonTools
         public static void RefreshPlcConnectState(string v)
         {
             RefreshPlcConnectStateAction(v);
+        }
+
+        public static void RefreshCmmStatus(int index)
+        {
+            RefreshCmmStatusAction(index);
         }
     }
 }
