@@ -13,6 +13,7 @@ namespace Gy.HrswAuto.PLCMold
         private object syncObj = new object();
         private System.Timers.Timer _hbTimer;
         private bool _isConnected;
+        private bool _reConnect;
 
         // 心跳中断事件
         public event EventHandler DisconnectEvent;
@@ -338,9 +339,9 @@ namespace Gy.HrswAuto.PLCMold
             }
             cs.Cancel();
             ClientUICommon.RefreshPlcConnectState("PLC连接成功");
-            // todo 连接成功开启心跳信号
-
-            return true;
+            //连接成功开启心跳信号
+            _hbTimer.Start();
+            return result;
         }
 
         private void InitPlcConnect(object state) 
@@ -348,10 +349,6 @@ namespace Gy.HrswAuto.PLCMold
             CancellationToken token = (CancellationToken)state;
             int result = _s7Client.ConnectTo(PlcIPAddress, Rack, Slot);
             Thread.Sleep(10); // 很小的复位时间
-            //if (result == 0 && _s7Client.Connected())
-            //{
-            //    _initEvent.Set();
-            //}
             while(true)
             {
                 if (token.IsCancellationRequested)
@@ -377,6 +374,7 @@ namespace Gy.HrswAuto.PLCMold
             _s7Client = new S7Client();
             // 心跳信号实现
             _isConnected = false;
+            _reConnect = true;
             _hbTimer = new System.Timers.Timer(1000);
             _hbTimer.Elapsed += _hbTimer_Elapsed;
 
@@ -399,12 +397,26 @@ namespace Gy.HrswAuto.PLCMold
                 }
                 else
                 {
-                    // 试着进行重新连接
-                    int result = _s7Client.Connect();
-                    // 连接成功
-                    if ((result == 0) && _s7Client.Connected())
+                    // 试着进行的重新连接
+                    if (_reConnect)
                     {
-                        ReconnectEvent?.Invoke(this, null);
+                        Stopwatch sw = new Stopwatch();
+                        sw.Start();
+                        while (true)
+                        {
+                            if (sw.Elapsed > TimeSpan.FromSeconds(5))
+                            {
+                                _reConnect = false;
+                                break;
+                            }
+                            int result = _s7Client.Connect();
+                            // 连接成功
+                            if ((result == 0) && _s7Client.Connected())
+                            {
+                                ReconnectEvent?.Invoke(this, null);
+                            }
+                        }
+                        sw.Stop(); 
                     }
                 }
             }
