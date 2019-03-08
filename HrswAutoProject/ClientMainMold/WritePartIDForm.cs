@@ -18,11 +18,23 @@ namespace ClientMainMold
             get { return partId; }
             set { partId = value; }
         }
+        private PlcClient _plcClient;
+        private Task task = null;
+        private bool _plcHbDis;
 
+        //private AutoResetEvent arEvt = new AutoResetEvent(false);
         public WritePartIDForm()
         {
             InitializeComponent();
             writeok = false;
+            _plcClient = PlcClient.Instance;
+            _plcClient.DisconnectEvent += _plcClient_DisconnectEvent;
+            _plcHbDis = false;
+        }
+
+        private void _plcClient_DisconnectEvent(object sender, EventArgs e)
+        {
+            _plcHbDis = true;
         }
 
         private void WritePartIDForm_Load(object sender, System.EventArgs e)
@@ -36,7 +48,7 @@ namespace ClientMainMold
             //timer = new System.Timers.Timer(1000);
             //timer.Elapsed += Timer_Elapsed;
             //timer.Start();
-            Task.Factory.StartNew(WritePartIDFlow, 30);
+            task = Task.Factory.StartNew(WritePartIDFlow, 30);
         }
 
         private void WritePartIDFlow(object t)
@@ -46,7 +58,7 @@ namespace ClientMainMold
             sw.Start();
             while (true)
             {
-                if (sw.Elapsed > TimeSpan.FromSeconds(time)) // 超过30s跳出，写入失败
+                if (sw.Elapsed > TimeSpan.FromSeconds(time) || _plcHbDis) // 超过30s跳出，写入失败
                 {
                     MessageBox.Show("写入工件ID失败", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     sw.Stop();
@@ -64,11 +76,11 @@ namespace ClientMainMold
                         // 
                         Invoke((Action)(() => label1.Text = "写入完成."));
                         Thread.Sleep(500);
-                        Invoke(new MethodInvoker(Close));
+                        Invoke((Action)(() => Close()));
                     }
                 }
             }
-            Invoke(new MethodInvoker(Close));
+            Invoke((Action)(() => Close()));
         }
 
         private bool WritePartID()
@@ -79,6 +91,12 @@ namespace ClientMainMold
                 wresult = PlcClient.Instance.SetWriteIDFlag(0);
             }
             return wresult;
+        }
+
+        private void WritePartIDForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _plcClient.DisconnectEvent -= _plcClient_DisconnectEvent;
+            _plcClient = null;
         }
     }
 }

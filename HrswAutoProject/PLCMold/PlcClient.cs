@@ -11,6 +11,12 @@ namespace Gy.HrswAuto.PLCMold
     public class PlcClient
     {
         private object syncObj = new object();
+        private System.Timers.Timer _hbTimer;
+        private bool _isConnected;
+
+        // 心跳中断事件
+        public event EventHandler DisconnectEvent;
+        public event EventHandler ReconnectEvent;
         // S7 
         private S7Client _s7Client;
         public string PlcIPAddress { get; set; } = "192.168.100.1";
@@ -369,7 +375,40 @@ namespace Gy.HrswAuto.PLCMold
         {
             _initEvent = new AutoResetEvent(false);
             _s7Client = new S7Client();
+            // 心跳信号实现
+            _isConnected = false;
+            _hbTimer = new System.Timers.Timer(1000);
+            _hbTimer.Elapsed += _hbTimer_Elapsed;
 
+        }
+        /// <summary>
+        /// PLC心跳事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void _hbTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            _hbTimer.Stop();
+            if (!_s7Client.Connected())
+            {
+                // 如果是刚刚断开，触发事件
+                if (_isConnected) 
+                {
+                    DisconnectEvent?.Invoke(this, null); // 包括更新Mainform
+                    _isConnected = false;
+                }
+                else
+                {
+                    // 试着进行重新连接
+                    int result = _s7Client.Connect();
+                    // 连接成功
+                    if ((result == 0) && _s7Client.Connected())
+                    {
+                        ReconnectEvent?.Invoke(this, null);
+                    }
+                }
+            }
+            _hbTimer.Start();
         }
 
         private static PlcClient _plcClient;
@@ -402,6 +441,8 @@ namespace Gy.HrswAuto.PLCMold
                 int result = _s7Client.Disconnect();
                 Thread.Sleep(100);
             }
+            _hbTimer.Dispose();
+            _hbTimer = null;
         }
     }
 }

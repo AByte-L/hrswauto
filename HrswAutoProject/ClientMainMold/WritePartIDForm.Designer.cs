@@ -50,6 +50,7 @@
             this.MinimizeBox = false;
             this.Name = "WritePartIDForm";
             this.Text = "WritePartIDForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WritePartIDForm_FormClosed);
             this.Load += new System.EventHandler(this.WritePartIDForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -25,9 +25,22 @@ namespace Gy.HrswAuto.ClientMold
         public FeedRequest()
         {
             _plcClient = PlcClient.Instance;
+            _plcClient.DisconnectEvent += _plcClient_DisconnectEvent;
+            _plcClient.ReconnectEvent += _plcClient_ReconnectEvent;
             _timer = new Timer(2000); // 2s判断一次PLC请求是否完成
             _timer.Elapsed += _timer_PlcStateMonitor;
             _state = false; // 发送请求
+        }
+
+        protected void _plcClient_ReconnectEvent(object sender, EventArgs e)
+        {
+            _timer.Start();
+        }
+
+        protected void _plcClient_DisconnectEvent(object sender, EventArgs e)
+        {
+            // 关闭动作扫描
+            _timer.Stop(); 
         }
 
         public virtual void _timer_PlcStateMonitor(object sender, ElapsedEventArgs e)
@@ -74,7 +87,6 @@ namespace Gy.HrswAuto.ClientMold
             {
                 _state = _plcClient.ResponseGripRequest(ClientID, IsPassed);
             }
-
             else
             {
                 if (_plcClient.VerifyGripCompleted(ClientID)) // 抓料完成，调用完成事件
@@ -83,12 +95,15 @@ namespace Gy.HrswAuto.ClientMold
                     args.ClientID = ClientID;
                     //GripActionCompletedEvent?.Invoke(this, args);  //           
                     PlcCompletedEventInvoker(this, args);
+                    // 关闭心跳事件
+                    _plcClient.DisconnectEvent -= _plcClient_DisconnectEvent;
+                    _plcClient.ReconnectEvent -= _plcClient_ReconnectEvent;
                     _timer.Dispose();
                     _timer = null;
+                    _plcClient = null;
                     return;
                 }
             }
-
             _timer.Start();
         }
     }
@@ -127,7 +142,11 @@ namespace Gy.HrswAuto.ClientMold
                     args.PartID = partId;
                     //PlaceActionCompletedEvent?.Invoke(this, args);  // 触发上料完成事件       
                     PlcCompletedEventInvoker(this, args);
+                    _plcClient.DisconnectEvent -= _plcClient_DisconnectEvent;
+                    _plcClient.ReconnectEvent -= _plcClient_ReconnectEvent;
                     _timer.Dispose();
+                    _timer = null;
+                    _plcClient = null;
                     return;
                 } 
             }
@@ -172,7 +191,11 @@ namespace Gy.HrswAuto.ClientMold
                     args.ClientID = ClientID;
                     //PlaceActionCompletedEvent?.Invoke(this, args);
                     PlcCompletedEventInvoker(this, args);
+                    _plcClient.DisconnectEvent -= _plcClient_DisconnectEvent;
+                    _plcClient.ReconnectEvent -= _plcClient_ReconnectEvent;
                     _timer.Dispose();
+                    _timer = null;
+                    _plcClient = null;
                     return;
                 } 
             }
@@ -201,6 +224,8 @@ namespace Gy.HrswAuto.ClientMold
             }
             else
             {
+                _plcClient.DisconnectEvent -= _plcClient_DisconnectEvent;
+                _plcClient.ReconnectEvent -= _plcClient_ReconnectEvent;
                 _timer.Dispose();
                 _timer = null;
                 return;
