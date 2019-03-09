@@ -114,48 +114,66 @@ namespace Gy.HrswAuto.MasterMold
 
         public void RunDispatchTask()
         {
+            _plcheartbeat = true;
             _dispatchTimer.Start();
         }
 
         public void PauseDispatchTask()
         {
+            _plcheartbeat = false;
             _dispatchTimer.Stop();
         }
 
         private void _dispatchTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            _dispatchTimer.Stop();
             foreach (var client in _cmmClients)
             {
                 if (!client.IsActived) // 未激活不响应自动事件
                     break;
                 switch (client.State)
                 {
-                    case ClientState.CS_Idle: // 启示空闲状态
+                    case ClientState.CS_Idle:
                         client.State = ClientState.CS_Busy;
-                        client.StartWork();
+                        client.StartWorkFlow();
                         break;
-                    case ClientState.CS_Completed: // 测量完成状态
-                        // 处理回传报告
+                    case ClientState.CS_MeasCompleted:
                         client.State = ClientState.CS_Busy;
                         client.PullReport();
                         break;
-                    case ClientState.CS_Continue: // 继续测量状态
+                    case ClientState.CS_Continue:
+                        break;
+                    case ClientState.CS_GripCompleted:
+                        break;
+                    case ClientState.CS_PlaceCompleted:
                         client.State = ClientState.CS_Busy;
-                        client.Continue();
+                        client.StartMeasureWork();
                         break;
-                    case ClientState.CS_Busy: // 忙碌状态
-                        //刷新client状态显示
+                    case ClientState.CS_Busy:
                         break;
-                    case ClientState.CS_Error: // 出错状态
-                        //刷新client状态显示
+                    case ClientState.CS_Place:
                         break;
-                    case ClientState.CS_ConnectError: // 连接错误不做处理
+                    case ClientState.CS_Grip:
+                        break;
+                    case ClientState.CS_Error:
                         break;
                     case ClientState.CS_InitError:
+                        break;
+                    case ClientState.CS_ConnectError:
+                        break;
+                    case ClientState.CS_RobotGripError:
+                        break;
+                    case ClientState.CS_RobotPlaceError:
+                        break;
+                    case ClientState.CS_None:
                         break;
                     default:
                         break;
                 }
+            }
+            if (_plcheartbeat)
+            {
+                _dispatchTimer.Start();
             }
         }
 
@@ -188,6 +206,8 @@ namespace Gy.HrswAuto.MasterMold
 
         #region CreateMethod
         private static ClientManager _clientManager;
+        private bool _plcheartbeat;
+
         private ClientManager()
         {
             _cmmClients = new List<CmmClient>();
@@ -196,6 +216,7 @@ namespace Gy.HrswAuto.MasterMold
 
             _heartbeatTimer = new Timer(3000); 
             _heartbeatTimer.Elapsed += _heartbeatTimer_Elapsed;
+            _plcheartbeat = true;
         }
 
         private void _heartbeatTimer_Elapsed(object sender, ElapsedEventArgs e)

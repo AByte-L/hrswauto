@@ -53,7 +53,7 @@ namespace ClientMainMold
                 ClientState.CS_Idle, "三坐标空闲"
             },
             {
-                ClientState.CS_Completed, "工件检测完成"
+                ClientState.CS_MeasCompleted, "工件检测完成"
             },
             {
                 ClientState.CS_Continue, "等待继续测量"

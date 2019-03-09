@@ -88,7 +88,7 @@ namespace Gy.HrswAuto.ClientMold
         //public override void Perform()
         //{
         //    //_timer.Start();
-        //    //_plcClient.ResponseGripRequest(ClientID, IsPassed);
+        //    //_plcClient.SendGripRequest(ClientID, IsPassed);
         //}
 
         //public override void _timer_PlcStateMonitor(object sender, ElapsedEventArgs e)
@@ -97,7 +97,7 @@ namespace Gy.HrswAuto.ClientMold
         //    //_timer.Stop(); // 暂停检测, 避免重复触发
         //    if (!_state)
         //    {
-        //        _state = _plcClient.ResponseGripRequest(ClientID, IsPassed);
+        //        _state = _plcClient.SendGripRequest(ClientID, IsPassed);
         //    }
         //    else
         //    {
@@ -130,7 +130,7 @@ namespace Gy.HrswAuto.ClientMold
                 }
                 if (!_state)
                 {
-                    _state = _plcClient.ResponseGripRequest(ClientID, IsPassed);
+                    _state = _plcClient.SendGripRequest(ClientID, IsPassed);
                 }
                 else
                 {
@@ -164,7 +164,7 @@ namespace Gy.HrswAuto.ClientMold
         //public override void Perform()
         //{
         //    //_timer.Start();
-        //    //_plcClient.ResponsePlaceRequest(ClientID);
+        //    //_plcClient.SendPlaceRequest(ClientID);
         //}
 
         //public override void _timer_PlcStateMonitor(object sender, ElapsedEventArgs e)
@@ -173,7 +173,7 @@ namespace Gy.HrswAuto.ClientMold
         //    //_timer.Stop(); 
         //    if (!_state) // 循环写
         //    {
-        //        _state = _plcClient.ResponsePlaceRequest(ClientID);
+        //        _state = _plcClient.SendPlaceRequest(ClientID);
         //    }
         //    else
         //    {
@@ -206,11 +206,12 @@ namespace Gy.HrswAuto.ClientMold
                 }
                 if (!_state) // 循环写
                 {
-                    _state = _plcClient.ResponsePlaceRequest(ClientID);
+                    _state = _plcClient.SendPlaceRequest(ClientID);
                 }
                 else
                 {
-                    if (_plcClient.VerifyPlaceCompleted(ClientID)) // 放料完成，调用完成事件
+                    string partID;
+                    if (_plcClient.VerifyPlaceCompleted(ClientID, out partID)) // 放料完成，调用完成事件
                     {
                         string partId = _plcClient.ReadPartID(ClientID);
                         ResponsePlcEventArgs args = new ResponsePlcEventArgs();
@@ -290,9 +291,10 @@ namespace Gy.HrswAuto.ClientMold
                 }
                 else
                 {
-                    if (_plcClient.VerifyPlaceCompleted(ClientID)) // 放料完成，调用完成事件
+                    string partID; 
+                    if (_plcClient.VerifyPlaceCompleted(ClientID, out partID)) // 放料完成，调用完成事件
                     {
-                        string partID = _plcClient.ReadPartID(ClientID); // 读取零件标识
+                        partID = _plcClient.ReadPartID(ClientID); // 读取零件标识
                         ResponsePlcEventArgs args = new ResponsePlcEventArgs();
                         args.PartID = partID;
                         args.ClientID = ClientID;

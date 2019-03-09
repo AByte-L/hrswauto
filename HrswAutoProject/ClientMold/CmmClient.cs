@@ -105,6 +105,7 @@ namespace Gy.HrswAuto.ClientMold
                 ReportConnectError(ex);
             }
         }
+
         #endregion
 
         #region 本地方法
@@ -143,11 +144,18 @@ namespace Gy.HrswAuto.ClientMold
         {
             // 送抓料取料命令
             //SendPlaceAndGripRequest(CurPartRecord.IsPass);
+            State = ClientState.CS_Busy;
             SendGripRequest(IsPass);
         }
 
-        public void StartWork()
+        internal void StartMeasureWork()
         {
+            StartMeasureWorkFlow(CurPartId);
+        }
+
+        public void StartWorkFlow()
+        {
+            //State = ClientState.CS_Busy;
             SendPlaceRequest();
         }
 
@@ -161,7 +169,7 @@ namespace Gy.HrswAuto.ClientMold
         /// <param name="partId"></param>
         public void StartMeasureWorkFlow(string partId)
         {
-            CurPartId = partId;
+            //CurPartId = partId;
             //if (!FindPart(partId))
             //{
             //    // 提示未发现工件
@@ -201,6 +209,8 @@ namespace Gy.HrswAuto.ClientMold
                 ReportConnectError(ex);
             }
         }
+
+
 
         /// <summary>
         /// 设置服务器工件配置
@@ -364,8 +374,9 @@ namespace Gy.HrswAuto.ClientMold
                 return ures.IsSuccess;
             }
         }
-        public void PullReport() // TODO 调试下载文件
+        public void PullReport() 
         {
+            //State = ClientState.CS_Busy;
             // 获取当前的cmm和rpt报告文件
             int partCount;
             lock (syncObj)
@@ -439,17 +450,70 @@ namespace Gy.HrswAuto.ClientMold
         #endregion
 
         #region PLC方法
+
+        private RobotAction _robotAction;
+
+        public void ChangeState(RobotAction state)
+        {
+            _robotAction = state;
+        }
+
+        public void OnRespondPlcRequest()
+        {
+            _robotAction.Perform();
+        }
         /// <summary>
         /// 发送上料请求
         /// </summary>
         public void SendPlaceRequest()
         {
-            PlaceFeedRequest placeFeedRequest = new PlaceFeedRequest();
-            placeFeedRequest.ClientID = CmmSvrConfig.ServerID;
-            placeFeedRequest.PlcCompletedEvent += OnPlaceActionCompletedEvent;
-            placeFeedRequest.Perform();
+            _robotAction = new RobotPlaceRequest(this);
+            _robotAction.Perform();
         }
 
+        /// <summary>
+        /// 发送下料请求
+        /// </summary>
+        /// <param name="isPassed">当前测量工件是否合格</param>
+        public void SendGripRequest(bool isPass)
+        {
+            _robotAction = new RobotGripRequest(this, isPass);
+            _robotAction.Perform();
+        }
+        /// <summary>
+        /// 响应下料完成
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        internal void OnGripCompleted(object sender, EventArgs e)
+        {
+            // todo 返回料架的事件不定，需要一直监控料架
+            PartRack.Instance.RefreshSlots(_resultRecord);
+            // 继续上料
+            // todo 定义标志可以停止流程
+            State = ClientState.CS_Continue; // 
+        }
+
+        /// <summary>
+        /// 响应上料完成
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        internal void OnPlaceCompleted(object sender, CompletedEventArgs e)
+        {
+            if (!FindPart(e.PartID))
+            {
+                //SendPartIDErrorSign(e.ClientID);
+                //Trace.Write("工件标识错误");
+                string str = "三坐标" + CmmSvrConfig.ServerID.ToString() + ":" + "读取工件标识错误";
+                ClientUICommon.RefreshCmmEventLog(str);
+                State = ClientState.CS_Error; // 设置客户端为错误状态
+                return;
+            }
+            State = ClientState.CS_PlaceCompleted;
+
+            //StartMeasureWorkFlow(e.PartID);
+        }
         /// <summary>
         /// 上料完成事件处理函数
         /// </summary>
@@ -467,22 +531,11 @@ namespace Gy.HrswAuto.ClientMold
                 State = ClientState.CS_Error; // 设置客户端为错误状态
                 return;
             }
-
-            StartMeasureWorkFlow(e.PartID);
+            CurPartId = e.PartID;
+            //StartMeasureWorkFlow(e.PartID);
         }
 
-        /// <summary>
-        /// 发送抓取下料请求
-        /// </summary>
-        /// <param name="isPassed">当前测量工件是否合格</param>
-        public void SendGripRequest(bool isPassed)
-        {
-            GripFeedRequest gripFeedRequest = new GripFeedRequest();
-            gripFeedRequest.ClientID = CmmSvrConfig.ServerID;
-            gripFeedRequest.IsPassed = isPassed;
-            gripFeedRequest.PlcCompletedEvent += OnGripActionCompletedEvent;
-            gripFeedRequest.Perform(); // 执行请求
-        }
+
 
         // 抓取完成之后，需要等待机器人放置工件
         /// <summary>
@@ -545,6 +598,8 @@ namespace Gy.HrswAuto.ClientMold
             ++runCount;
             timer.Dispose();
         }
+
+
         #endregion
     }
 }

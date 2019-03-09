@@ -31,13 +31,13 @@ namespace Gy.HrswAuto.PLCMold
             }
         }
 
-        public bool ResponseGripRequest(int clientID, bool isPassed)
+        public bool SendGripRequest(int clientID, bool isPassed)
         {
             return SetGripFlag(clientID, isPassed);
         }
 
 
-        public bool ResponsePlaceRequest(int clientID)
+        public bool SendPlaceRequest(int clientID)
         {
             return SetPlaceFlag(clientID);
         }
@@ -276,14 +276,17 @@ namespace Gy.HrswAuto.PLCMold
             return false;
         }
 
-        public bool VerifyPlaceCompleted(int clientId)
+        public bool VerifyPlaceCompleted(int clientId, out string partID)
         {
             byte[] buf = new byte[1];
+            partID = string.Empty;
             if (ReadData(clientId, 1, 1, buf))
             {
                 if (S7.GetBitAt(buf, 0, 0))
                 {
+                    partID = S7.GetStringAt(buf, 2); // 获取partID;
                     ResetGripOkFlag(clientId); // 重置标志
+                    Thread.Sleep(100);
                     return true;
                 }
             }

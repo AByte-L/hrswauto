@@ -38,7 +38,7 @@ namespace Gy.HrswAuto.ClientMold
         {
             // 由ClientManager循环处理
             _cmmClient.IsPass = isPass;
-            _cmmClient.State = ClientState.CS_Completed;
+            _cmmClient.State = ClientState.CS_MeasCompleted;
             //string str = "三坐标" + _cmmClient.CmmSvrConfig.ServerID.ToString() + "测量完成";
             //ClientUICommon.RefreshCmmEventLog(str);
 
