@@ -85,6 +85,12 @@
     <Compile Include="PartConfForm.Designer.cs">
       <DependentUpon>PartConfForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlcSetupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlcSetupForm.Designer.cs">
+      <DependentUpon>PlcSetupForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingleInstanceApplication.cs" />
@@ -111,6 +117,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PartConfForm.resx">
       <DependentUpon>PartConfForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlcSetupForm.resx">
+      <DependentUpon>PlcSetupForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

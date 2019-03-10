@@ -28,7 +28,7 @@ namespace Gy.HrswAuto.PLCMold
         }
 
         private ResultRecord CurPartResult;
-        private bool _plcHbDis; 
+        private bool _plcHbDis;
         private PartRack()
         {
             //_timer = new Timer(2000);
@@ -63,70 +63,15 @@ namespace Gy.HrswAuto.PLCMold
                 {
                     break;
                 }
-                if (_plcClient.ReadUnloadFlag())
+                if (_plcClient.ReadUnloadSlot(15, out _slotNumber))
                 {
-                    // 卸料标志，3s内读取槽号
-                    Stopwatch sw = new Stopwatch();
-                    sw.Start();
-                    while (true)
-                    {
-                        if (sw.Elapsed > TimeSpan.FromSeconds(2.5))
-                        {
-                            // 读取失败，更新状态条
-                            ClientUICommon.RefreshStatusInfomation("读取槽号失败");
-                            IsReadOk = false;
-                            return;
-                        }
-                        if (_plcClient.ReadSlotNumber(out _slotNumber))
-                        {
-                            IsReadOk = true;
-                            // 更新料架界面
-                            ClientUICommon.RefreshRackView(CurPartResult, _slotNumber);
-                            return;
-                        }
-                        Thread.Sleep(100);
-                    }
-                    sw.Stop();
+                    IsReadOk = true;
+                    ClientUICommon.RefreshRackView(CurPartResult, _slotNumber);
+                    break;
                 }
-                Thread.Sleep(500);
+                Thread.Sleep(300);
             }
         }
-
-
-        //private void _timer_Elapsed(object sender, ElapsedEventArgs e)
-        //{
-        //    _timer.Stop();
-        //    if (_plcClient.ReadUnloadFlag())
-        //    {
-        //        // 卸料标志，3s内读取槽号
-        //        Stopwatch sw = new Stopwatch();
-        //        sw.Start();
-        //        while (true)
-        //        {
-        //            if (sw.Elapsed > TimeSpan.FromSeconds(2.5))
-        //            {
-        //                // 读取失败，更新状态条
-        //                ClientUICommon.RefreshStatusInfomation("读取槽号失败");
-        //                IsReadOk = false;
-        //                break;
-        //            }
-        //            if (_plcClient.ReadSlotNumber(out _slotNumber))
-        //            {
-        //                IsReadOk = true;
-        //                // 更新料架界面
-        //                ClientUICommon.RefreshRackView(CurPartResult, _slotNumber);
-        //                break;
-        //            }
-        //        }
-        //        sw.Stop();
-        //        _plcClient.DisconnectEvent -= _plcClient_DisconnectEvent;
-        //        _plcClient.ReconnectEvent -= _plcClient_ReconnectEvent;
-        //        _timer.Dispose();
-        //        _timer = null;
-        //        _plcClient = null;
-        //    }
-        //    _timer.Start();
-        //}
 
         public void RefreshSlots(ResultRecord partResult)
         {
@@ -148,6 +93,5 @@ namespace Gy.HrswAuto.PLCMold
                 return _partRack;
             }
         }
-
     }
 }

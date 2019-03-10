@@ -206,6 +206,12 @@ namespace Gy.HrswAuto.MasterMold
 
         #region CreateMethod
         private static ClientManager _clientManager;
+
+        public void CloseHeartbeat()
+        {
+            _heartbeatTimer.Close();
+        }
+
         private bool _plcheartbeat;
 
         private ClientManager()
@@ -219,6 +225,11 @@ namespace Gy.HrswAuto.MasterMold
             _plcheartbeat = true;
         }
 
+        /// <summary>
+        /// 三坐标连接心跳信号
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void _heartbeatTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             _heartbeatTimer.Stop();
@@ -227,16 +238,24 @@ namespace Gy.HrswAuto.MasterMold
             {
                 return;
             }
-            for (int i = 0; i < _cmmClients.Count; i++)
+            try
             {
-                _cmmClients[i].QueryCmmServer();
-                if (!_cmmClients[i].Connected)
+                for (int i = 0; i < _cmmClients.Count; i++)
                 {
-                    _cmmClients[i].State = ClientState.CS_ConnectError;
-                    //ClientUICommon.RefreshCmmStatus(i);
-                    ClientUICommon.RefreshCmmViewState(i, _cmmClients[i].State);
+                    _cmmClients[i].QueryCmmServer();
+                    if (!_cmmClients[i].Connected)
+                    {
+                        _cmmClients[i].State = ClientState.CS_ConnectError;
+                        //ClientUICommon.RefreshCmmStatus(i);
+                        ClientUICommon.RefreshCmmViewState(i, _cmmClients[i].State);
+                        // todo 这里有调试错误
+                    }
                 }
-            }      
+            }
+            catch (Exception)
+            {
+                // todo 主界面退出后可能还会启动几轮心跳信号 
+            }
             //_cmmClients.ForEach(cmm =>
             //{
             //});

@@ -96,7 +96,7 @@ namespace Gy.HrswAuto.ClientMold
                     {
                         // 开始等待抓料响应
                         ChangeAction(new RobotGripResponse(_client));
-                        _client.OnRespondPlcRequest();
+                        _client.OnPerformPlcRequest();
                         break;
                     }
                 }
@@ -176,7 +176,7 @@ namespace Gy.HrswAuto.ClientMold
                     {
                         // 开始等待抓料响应
                         ChangeAction(new RobotPlaceResponse(_client));
-                        _client.OnRespondPlcRequest();
+                        _client.OnPerformPlcRequest();
                         break;
                     }
                 }
@@ -226,6 +226,50 @@ namespace Gy.HrswAuto.ClientMold
                 Thread.Sleep(1000);
             }
             CompletedEvent -= _client.OnGripCompleted;
+            base.PerformAction();
+        }
+    }
+
+    /// <summary>
+    /// 发送三坐标准备就绪信号
+    /// </summary>
+    public class CmmInitReady: RobotAction
+    {
+        public CmmInitReady(CmmClient client) : base(client)
+        {
+        }
+
+        protected override void PerformAction()
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            while (true)
+            {
+                if (!_heartbeat)
+                {
+                    // 更新界面 PLC断开连接
+                    break;
+                }
+                else if (sw.Elapsed > TimeSpan.FromMinutes(2))
+                {
+                    // 更新界面， PLC发送准备就绪信号失败
+                    break;
+                }
+                else
+                {
+                    if (_plcClient.SendCmmReadySignal(_client.CmmSvrConfig.ServerID))
+                    {
+                        // 等待PLC准备就绪
+                        Thread.Sleep(5000); 
+                        // 开始等待抓料响应
+                        ChangeAction(new RobotPlaceRequest(_client));
+                        _client.OnPerformPlcRequest();
+                        break;
+                    }
+                }
+                Thread.Sleep(1000);
+            }
+            sw.Stop();
             base.PerformAction();
         }
     }

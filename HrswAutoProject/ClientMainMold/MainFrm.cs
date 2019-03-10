@@ -33,6 +33,9 @@ namespace ClientMainMold
         bool IsRunning = false; // 
         private bool _plcConnected;
 
+        // todo 调试变量
+        bool _FormClosed = false;
+
         public MainFrm()
         {
             InitializeComponent();
@@ -185,6 +188,7 @@ namespace ClientMainMold
         private void MainFrm_FormClosed(object sender, FormClosedEventArgs e)
         {
             ClientManager.Instance.SaveCmmServer();
+            ClientManager.Instance.CloseHeartbeat();
             PartConfigManager.Instance.SavePartConfig();
             PlcClient.Instance.DisconnectPLC();
         }
@@ -267,6 +271,7 @@ namespace ClientMainMold
             int index = CmmView.SelectedRows[0].Index;
             if (!ClientManager.Instance.CmmConnected(index))
             {
+                toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
                 deleteCmmTsb.Enabled = false;
                 InitClientTsb.Enabled = false;
                 cmmConnButton.Enabled = false;
@@ -302,6 +307,7 @@ namespace ClientMainMold
                 cmmConnButton.Text = "连接";
                 InitClientTsb.Enabled = true;
                 deleteCmmTsb.Enabled = true;
+                toolStripProgressBar1.Style = ProgressBarStyle.Blocks;
             }
 
         }
@@ -438,8 +444,14 @@ namespace ClientMainMold
                 MessageBox.Show("请选择一个工件", "信息", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            int index = partView.SelectedRows[0].Index;
+            string partId = ((PartConfig)partConfBs[index]).PartID;
+            if (!(MessageBox.Show($"是否将{partId}写入工件", "信息", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes))
+            {
+                return;
+            }
             WritePartIDForm wpform = new WritePartIDForm();
-            wpform.PartId = ((PartConfig)partConfBs[partView.SelectedRows[0].Index]).PartID;
+            wpform.PartId = partId;
             wpform.ShowDialog();
         }
         private void lookupToolStripButton_Click(object sender, EventArgs e)
@@ -482,7 +494,6 @@ namespace ClientMainMold
            {
                if (slotNumber <= 0)
                {
-                   // todo 槽号不能小于0
                    return;
                }
                int pos = slotNumber - 1;
@@ -918,7 +929,30 @@ namespace ClientMainMold
 
         private void writePartIDButton_Click(object sender, EventArgs e)
         {
+            if (!_plcConnected)
+            {
+                MessageBox.Show("PLC控制器未连接", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            int index = comboBox2.SelectedIndex;
+            string partId = ((PartConfig)partConfBs[index]).PartID;
+            if (!(MessageBox.Show($"是否将{partId}写入工件", "信息", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes))
+            {
+                return;
+            }
+            WritePartIDForm wpform = new WritePartIDForm();
+            wpform.PartId = partId;
+            wpform.ShowDialog();
+        }
 
+        private void plcSetupBtn_Click(object sender, EventArgs e)
+        {
+            PlcSetupForm psForm = new PlcSetupForm();
+            if (psForm.ShowDialog() == DialogResult.OK)
+            {
+                // 
+                plcIPStatusLabel.Text = psForm.IpAddress;
+            }
         }
     }
 }

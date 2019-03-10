@@ -21,6 +21,7 @@ namespace ClientMainMold
         private PlcClient _plcClient;
         private Task task = null;
         private bool _plcHbDis;
+        private bool _isCancel;
 
         //private AutoResetEvent arEvt = new AutoResetEvent(false);
         public WritePartIDForm()
@@ -30,6 +31,7 @@ namespace ClientMainMold
             _plcClient = PlcClient.Instance;
             _plcClient.DisconnectEvent += _plcClient_DisconnectEvent;
             _plcHbDis = false;
+            _isCancel = false;
         }
 
         private void _plcClient_DisconnectEvent(object sender, EventArgs e)
@@ -48,7 +50,7 @@ namespace ClientMainMold
             //timer = new System.Timers.Timer(1000);
             //timer.Elapsed += Timer_Elapsed;
             //timer.Start();
-            task = Task.Factory.StartNew(WritePartIDFlow, 30);
+            task = Task.Factory.StartNew(WritePartIDFlow, 60);
         }
 
         private void WritePartIDFlow(object t)
@@ -61,30 +63,37 @@ namespace ClientMainMold
                 if (sw.Elapsed > TimeSpan.FromSeconds(time) || _plcHbDis) // 超过30s跳出，写入失败
                 {
                     MessageBox.Show("写入工件ID失败", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    sw.Stop();
+                    break;
+                }
+                if (_isCancel) // 取消
+                {
+                    Invoke((Action)(() => label1.Text = "取消写入..."));
                     break;
                 }
                 if (!writeok)
                 {
-                    Invoke((Action)(() => label1.Text = "正在写入工件ID..."));
+                    Invoke((Action)(() => label1.Text = "正在写入工件ID到PLC中..."));
                     writeok = WritePartID();
                 }
                 else
                 {
-                    if (PlcClient.Instance.VerifyWirteIDCompleted())
+                    Invoke((Action)(() => label1.Text = "等待写码器写码..."));
+                    if (PlcClient.Instance.VerifyWirteIDCompleted(0))
                     {
                         // 
                         Invoke((Action)(() => label1.Text = "写入完成."));
-                        Thread.Sleep(500);
                         Invoke((Action)(() => Close()));
                     }
                 }
+                        Thread.Sleep(500);
             }
+            sw.Stop();
             Invoke((Action)(() => Close()));
         }
 
         private bool WritePartID()
         {
+            // todo 更改存储器号，这个是写入工件RFID的存储器号
             bool wresult = PlcClient.Instance.SetPartID(0, partId);
             if (wresult)
             {
@@ -97,6 +106,11 @@ namespace ClientMainMold
         {
             _plcClient.DisconnectEvent -= _plcClient_DisconnectEvent;
             _plcClient = null;
+        }
+
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            _isCancel = true;
         }
     }
 }

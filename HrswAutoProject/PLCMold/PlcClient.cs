@@ -31,79 +31,154 @@ namespace Gy.HrswAuto.PLCMold
             }
         }
 
-        public bool SendGripRequest(int clientID, bool isPassed)
+        #region 发送请求标志
+        /// <summary>
+        /// 设置三坐标准备就绪信号
+        /// </summary>
+        /// <param name="serverID"></param>
+        /// <returns></returns>
+        public bool SendCmmReadySignal(int serverID)
         {
-            return SetGripFlag(clientID, isPassed);
+            int[] pos = new int[1] { 0 }; // 第0位
+            bool result = WritePlcFlags(serverID, 0, true, pos);
+            return result;
         }
 
+        /// <summary>
+        /// 发送下料请求
+        /// </summary>
+        /// <param name="clientID"></param>
+        /// <param name="isPassed"></param>
+        /// <returns></returns>
+        public bool SendGripRequest(int clientID, bool isPass)
+        {
+            bool result = false;
+            if (isPass) // 合格
+            {
+                result = WritePlcFlags(clientID, 0, true, new int[] { 2, 3 });
+            }
+            else
+            {
+                result = WritePlcFlags(clientID, 0, true, new int[] { 2, 4 });
+            }
+            return result;
+        }
 
+        /// <summary>
+        /// 发送上料请求
+        /// </summary>
+        /// <param name="clientID"></param>
+        /// <returns></returns>
         public bool SendPlaceRequest(int clientID)
         {
-            return SetPlaceFlag(clientID);
-        }
+            bool result = WritePlcFlags(clientID, 0, true, new int[] { 1 });
+            return result;
+        } 
+        #endregion
 
-        public bool ResponsePlaceAndGripFeedRequest(int clientID, bool isPassed)
+        #region 验证请求动作完成
+        /// <summary>
+        /// 验证下料完成标志
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <returns></returns>
+        public bool VerifyGripCompleted(int clientId)
         {
-            return SetAllFlag(clientID, isPassed);
+            bool result = false;
+            byte[] buf = new byte[1];
+            result = ReadData(clientId, 0, 1, buf);
+            if (result)
+            {
+                result = S7.GetBitAt(buf, 0, 6);
+                if (result)
+                {
+                    // 重置标志位
+                    result = WritePlcFlags(clientId, 0, false, new int[] { 6 });
+                }
+            }
+            return result;
         }
 
-        public bool ReadUnloadFlag()
+        /// <summary>
+        /// 验证上料完成
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="partID"></param>
+        /// <returns></returns>
+        public bool VerifyPlaceCompleted(int clientId, out string partID)
+        {
+            bool result = false;
+            byte[] buf = new byte[258];
+            partID = string.Empty;
+            if (result = ReadData(clientId, 0, 258, buf))
+            {
+                if (result = S7.GetBitAt(buf, 0, 5))
+                {
+                    if (result)
+                    {
+                        partID = S7.GetStringAt(buf, 2); // 获取partID;
+                        S7.SetBitAt(ref buf, 0, 5, false);
+                        S7.SetCharsAt(buf, 2, "");
+                        result = WriteData(clientId, 0, 258, buf);// 重置标志和PartID
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 确认槽标志及槽号
+        /// </summary>
+        /// <param name="slot"></param>
+        /// <returns></returns>
+        public bool ReadUnloadSlot(int Dbnmb, out int slot)
+        {
+            byte[] buf = new byte[4];
+            bool result = ReadData(Dbnmb, 0, 4, buf);
+            slot = -1;
+            if (result)
+            {
+                result = S7.GetBitAt(buf, 0, 0);
+                if (result)
+                {
+                    slot = S7.GetIntAt(buf, 2);
+                }
+            }
+            return result;
+        }
+
+        #endregion
+
+        #region PLC读写方法
+        /// <summary>
+        /// 写PLC标志
+        /// </summary>
+        /// <param name="serverID">存储器号</param>
+        /// <param name="offset">标志位字节偏置</param>
+        /// <param name="value">设置或者复位</param>
+        /// <param name="pos">要设置的字节位位置</param>
+        /// <returns></returns>
+        private bool WritePlcFlags(int serverID, int offset, bool value, params int[] pos)
         {
             lock (syncObj)
             {
                 byte[] buf = new byte[1];
-                int result = _s7Client.DBRead(15, 0, 1, buf);
+                int result = _s7Client.DBRead(serverID, offset, 1, buf);
                 Thread.Sleep(100);
-                if (result == 0)
-                {
-                    return S7.GetBitAt(buf, 0, 0);
-                }
-                else
+                if (result != 0)
                 {
                     return false;
                 }
-            }
-        }
-
-        public bool VerifyWirteIDCompleted()
-        {
-            lock (syncObj)
-            {
-                byte[] buf = new byte[1];
-                int result = _s7Client.MBRead(0, 1, buf);
+                foreach (int index in pos)
+                {
+                    S7.SetBitAt(ref buf, 0, index, value);
+                }
+                result = _s7Client.DBWrite(serverID, offset, 1, buf);
                 Thread.Sleep(100);
-                if (result == 0)
-                {
-                    return S7.GetBitAt(buf, 0, 0);
-                }
-                else
-                {
-                    // todo 更新界面
-                    return false;
-                }
+                //Debug.Assert(result == 0);
+                return result == 0;
             }
         }
-
-        internal bool ReadSlotNumber(out int slotNumber)
-        {
-            bool ok = true;
-            lock (syncObj)
-            {
-                byte[] buf = new byte[2];
-                int result = _s7Client.DBRead(15, 2, 2, buf);
-                Thread.Sleep(100);
-                if (ok = (result == 0))
-                {
-                    slotNumber = S7.GetIntAt(buf, 0);
-                }
-                else
-                {
-                    slotNumber = 0;
-                 }
-                return ok;
-            }
-        }
-
         /// <summary>
         /// 读取大块存储器
         /// </summary>
@@ -114,13 +189,12 @@ namespace Gy.HrswAuto.PLCMold
         /// <returns></returns>
         public bool ReadData(int DBNumber, int start, int size, byte[] buf)
         {
-            //byte[] buf = new byte[512];
             lock (syncObj)
             {
                 if (_s7Client.Connected())
                 {
                     int result = _s7Client.DBRead(DBNumber, start, size, buf);
-                    Thread.Sleep(100); // 等待数据交换
+                    Thread.Sleep(200); // 等待数据交换
                     if (result != 0)
                     {
                         Trace.Write("PLC 读取错误");
@@ -145,7 +219,7 @@ namespace Gy.HrswAuto.PLCMold
                 if (_s7Client.Connected())
                 {
                     int result = _s7Client.DBWrite(dbNb, start, size, buf);
-                    Thread.Sleep(100); // 等待数据交换
+                    Thread.Sleep(200); // 等待数据交换
                     if (result != 0)
                     {
                         Trace.Write("PLC 写入错误");
@@ -155,75 +229,13 @@ namespace Gy.HrswAuto.PLCMold
             }
             return true;
         }
+        #endregion
 
-        public bool SetAllFlag(int clientID, bool isPassed)
-        {
-            int[] bn = new int[3];
-            bn[0] = 0;
-            bn[1] = 1;
-            bn[2] = isPassed ? 2 : 3;
-            return SetPlcFlags(clientID, 0, true, bn);
-        }
-
-        public bool ResetAllOkFlag(int clientId)
-        {
-            int[] bn = { 0, 1 };
-            return SetPlcFlags(clientId, 1, false, bn);
-        }
-        
-
-        /// <summary>
-        /// 清除上料完成标志
-        /// </summary>
-        /// <param name="clientId"></param>
-        public bool ResetPlaceOkFlag(int clientId)
-        {
-            int[] bn = { 0 };
-            return SetPlcFlags(clientId, 1, false, bn);
-        }
-        /// <summary>
-        /// 清除抓取完成标志
-        /// </summary>
-        /// <param name="clientId"></param>
-        public bool ResetGripOkFlag(int clientId)
-        {
-            int[] bn = { 1 };
-            return SetPlcFlags(clientId, 1, false, bn);
-        }
-        /// <summary>
-        /// 设置上料请求标志
-        /// </summary>
-        /// <param name="clientId"></param>
-        public bool SetPlaceFlag(int clientId)
-        {
-            int[] bn = { 0 };
-            return SetPlcFlags(clientId, 0, true, bn);
-        }
-        /// <summary>
-        /// 设置下料请求标志
-        /// </summary>
-        /// <param name="clientId"></param>
-        /// <param name="Pass"></param>
-        public bool SetGripFlag(int clientId, bool Pass)
-        {
-            int[] bn = new int[2];
-            bn[0] = 1;
-            bn[1] = Pass ? 2 : 3;
-            return SetPlcFlags(clientId, 0, true, bn); // 设置合格位
-            //int[] bn1 = { 3 };
-            //SetPlcFlags(clientId, 0, true, bn1); // 设置抓取位
-        }
-
+        #region 写工件ID
         public bool SetWriteIDFlag(int clientId)
         {
-            int[] bn = { 4 };
-            return SetPlcFlags(clientId, 0, true, bn);
-        }
-
-        public bool SetIDErrorFlag(int clientId)
-        {
-            int[] bn = { 5 };
-            return SetPlcFlags(clientId, 0, true, bn);
+            // Byte 0.0
+            return WritePlcFlags(clientId, 0, true, new int[] { 0 });
         }
 
         public bool SetPartID(int clientId, string partId)
@@ -231,96 +243,35 @@ namespace Gy.HrswAuto.PLCMold
             int result = 1;
             byte[] buf = new byte[256];
             S7.SetStringAt(buf, 0, 256, partId);
-            lock(syncObj)
+            lock (syncObj)
             {
                 if (_s7Client.Connected())
                 {
-                    result = _s7Client.DBWrite(clientId, 2, 256, buf);
-                    Thread.Sleep(100); // 等待数据交换
-                                       // todo 更新状态条
-                                       //Debug.Assert(result == 0); 
+                    result = _s7Client.DBWrite(clientId, 0, 256, buf);
+                    Thread.Sleep(200); // 等待数据交换
                 }
             }
             return result == 0;
         }
 
-
-        public string ReadPartID(int clientId)
-        {
-            byte[] buf = new byte[256];
-            lock (syncObj)
-            {
-                int result = _s7Client.DBRead(clientId, 2, 256, buf);
-                Thread.Sleep(100); // 等待数据交换
-                Debug.Assert(result == 0);
-            }
-            return S7.GetStringAt(buf, 0);
-        }
-
-        /// <summary>
-        /// 验证下料完成标志
-        /// </summary>
-        /// <param name="clientId"></param>
-        /// <returns></returns>
-        public bool VerifyGripCompleted(int clientId)
+        public bool VerifyWirteIDCompleted(int nmb)
         {
             byte[] buf = new byte[1];
-            if (ReadData(clientId, 1, 1, buf))
+            bool result = false;
+            lock(syncObj)
             {
-                if (S7.GetBitAt(buf, 0, 1))
+                if (_s7Client.Connected())
                 {
-                    ResetGripOkFlag(clientId); // 重置标志
-                    return true;
+                    result = ReadData(nmb, 0, 1, buf);
+                    if (result = S7.GetBitAt(buf, 0, 1))
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
         }
-
-        public bool VerifyPlaceCompleted(int clientId, out string partID)
-        {
-            byte[] buf = new byte[1];
-            partID = string.Empty;
-            if (ReadData(clientId, 1, 1, buf))
-            {
-                if (S7.GetBitAt(buf, 0, 0))
-                {
-                    partID = S7.GetStringAt(buf, 2); // 获取partID;
-                    ResetGripOkFlag(clientId); // 重置标志
-                    Thread.Sleep(100);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-
-
-        /// <summary>
-        /// 设置PLC存储器字节位
-        /// </summary>
-        /// <param name="clientId">存储器号</param>
-        /// <param name="byteOffset">字节偏置</param>
-        /// <param name="value">1or0</param>
-        /// <param name="bitNbs">要设置的位数组</param>
-        private bool SetPlcFlags(int clientId, int byteOffset, bool value, params int[] bitNbs)
-        {
-            lock (syncObj)
-            {
-                byte[] buf = new byte[1];
-                int result = _s7Client.DBRead(clientId, byteOffset, 1, buf);
-                Thread.Sleep(100);
-                Debug.Assert(result == 0);
-                // 
-                foreach (var bn in bitNbs)
-                {
-                    S7.SetBitAt(ref buf, 0, bn, false);
-                }
-                result = _s7Client.DBWrite(clientId, byteOffset, 1, buf);
-                Thread.Sleep(100);
-                //Debug.Assert(result == 0);
-                return result == 0;
-            }
-        }
+        #endregion
 
         #region 初始化PLC连接
         //Timer _initTimer;

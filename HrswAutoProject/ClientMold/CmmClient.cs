@@ -156,7 +156,7 @@ namespace Gy.HrswAuto.ClientMold
         public void StartWorkFlow()
         {
             //State = ClientState.CS_Busy;
-            SendPlaceRequest();
+            SendCmmReadyMessage();
         }
 
 
@@ -395,6 +395,8 @@ namespace Gy.HrswAuto.ClientMold
             {
                 // todo 更新用户界面
                 State = ClientState.CS_Error;
+                //ClientUICommon.RefreshCmmViewState(CmmSvrConfig.ServerID, State);
+                ClientUICommon.RefreshCmmEventLog("下载结果文件出错");
                 return;
             }
             ok = DownFileFromServer("rpt");
@@ -402,6 +404,8 @@ namespace Gy.HrswAuto.ClientMold
             {
                 // todo 更新用户界面
                 State = ClientState.CS_Error;
+                //ClientUICommon.RefreshCmmViewState(CmmSvrConfig.ServerID, State);
+                ClientUICommon.RefreshCmmEventLog("下载结果文件出错");
                 return;
             }
             // 添加报告记录，并且更改成可继续测量状态
@@ -458,8 +462,14 @@ namespace Gy.HrswAuto.ClientMold
             _robotAction = state;
         }
 
-        public void OnRespondPlcRequest()
+        public void OnPerformPlcRequest()
         {
+            _robotAction.Perform();
+        }
+
+        public void SendCmmReadyMessage()
+        {
+            _robotAction = new CmmInitReady(this);
             _robotAction.Perform();
         }
         /// <summary>
@@ -490,7 +500,7 @@ namespace Gy.HrswAuto.ClientMold
             // todo 返回料架的事件不定，需要一直监控料架
             PartRack.Instance.RefreshSlots(_resultRecord);
             // 继续上料
-            // todo 定义标志可以停止流程
+            // todo 定义标志可以停止流程, 比如改变State为Stop状态
             State = ClientState.CS_Continue; // 
         }
 
@@ -514,69 +524,7 @@ namespace Gy.HrswAuto.ClientMold
 
             //StartMeasureWorkFlow(e.PartID);
         }
-        /// <summary>
-        /// 上料完成事件处理函数
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnPlaceActionCompletedEvent(object sender, ResponsePlcEventArgs e)
-        {
-            // 工件标识错误，发送工件未找到错误信号
-            if (!FindPart(e.PartID))
-            {
-                SendPartIDErrorSign(e.ClientID);
-                //Trace.Write("工件标识错误");
-                string str = "三坐标" + e.ClientID.ToString() + ":" + "读取工件标识错误";
-                ClientUICommon.RefreshCmmEventLog(str);
-                State = ClientState.CS_Error; // 设置客户端为错误状态
-                return;
-            }
-            CurPartId = e.PartID;
-            //StartMeasureWorkFlow(e.PartID);
-        }
 
-
-
-        // 抓取完成之后，需要等待机器人放置工件
-        /// <summary>
-        /// 下料抓取完成事件处理函数
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnGripActionCompletedEvent(object sender, ResponsePlcEventArgs e)
-        {
-            //if (State.HasFlag(ClientState.CS_Continue)) // 如果客户状态是继续测量则发送上料信号
-            //{
-            PartRack.Instance.RefreshSlots(_resultRecord);
-            SendPlaceRequest();
-            //}
-
-        }
-
-        /// <summary>
-        /// 发送下料并上料请求
-        /// </summary>
-        /// <param name="isPassed">当前工件是否合格</param>
-        public void SendPlaceAndGripRequest(bool isPassed)
-        {
-            PlaceAndGripFeedRequest placeAndGripFeedRequest = new PlaceAndGripFeedRequest();
-            placeAndGripFeedRequest.ClientID = CmmSvrConfig.ServerID;
-            placeAndGripFeedRequest.IsPass = isPassed;
-            placeAndGripFeedRequest.PlcCompletedEvent += OnPlaceActionCompletedEvent;
-            placeAndGripFeedRequest.Perform();
-        }
-
-        /// <summary>
-        /// 发送工件标识错误信号
-        /// </summary>
-        /// <param name="partID"></param>
-        public void SendPartIDErrorSign(int clientId)
-        {
-            //PlcPartIDErrorResponse(partID);
-            ErrorFeedBack partIdErr = new ErrorFeedBack();
-            partIdErr.ClientID = clientId;
-            partIdErr.Perform();
-        }
         #endregion
 
         #region 测试方法
