@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.infoDataGridView = new System.Windows.Forms.DataGridView();
@@ -44,6 +44,7 @@
             this.RestartToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.infoDataGridView)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -83,8 +84,8 @@
             // 
             // Column1
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle5;
             this.Column1.HeaderText = "时间";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
@@ -93,8 +94,8 @@
             // Column2
             // 
             this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle6;
             this.Column2.HeaderText = "信息";
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
@@ -115,6 +116,7 @@
             this.SetupToolStripButton,
             this.gotoToolStripButton,
             this.ClearErrorToolStripButton,
+            this.toolStripButton1,
             this.RestartToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(8, 467);
             this.toolStrip1.Name = "toolStrip1";
@@ -127,6 +129,7 @@
             this.SetupToolStripButton.AutoSize = false;
             this.SetupToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("SetupToolStripButton.Image")));
             this.SetupToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SetupToolStripButton.Margin = new System.Windows.Forms.Padding(0, 1, 5, 2);
             this.SetupToolStripButton.Name = "SetupToolStripButton";
             this.SetupToolStripButton.Size = new System.Drawing.Size(73, 44);
             this.SetupToolStripButton.Text = "设置";
@@ -138,6 +141,7 @@
             this.gotoToolStripButton.AutoSize = false;
             this.gotoToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("gotoToolStripButton.Image")));
             this.gotoToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.gotoToolStripButton.Margin = new System.Windows.Forms.Padding(0, 1, 5, 2);
             this.gotoToolStripButton.Name = "gotoToolStripButton";
             this.gotoToolStripButton.Size = new System.Drawing.Size(73, 44);
             this.gotoToolStripButton.Text = "回安全位";
@@ -149,6 +153,7 @@
             this.ClearErrorToolStripButton.AutoSize = false;
             this.ClearErrorToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearErrorToolStripButton.Image")));
             this.ClearErrorToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ClearErrorToolStripButton.Margin = new System.Windows.Forms.Padding(0, 1, 5, 2);
             this.ClearErrorToolStripButton.Name = "ClearErrorToolStripButton";
             this.ClearErrorToolStripButton.Size = new System.Drawing.Size(73, 44);
             this.ClearErrorToolStripButton.Text = "清除错误";
@@ -185,6 +190,18 @@
             this.notifyIcon1.Text = "服务器";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.AutoSize = false;
+            this.toolStripButton1.Image = global::ServerMainMold.Properties.Resources.Exit;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Margin = new System.Windows.Forms.Padding(0, 1, 5, 2);
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(73, 44);
+            this.toolStripButton1.Text = "退出";
+            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // MainFrm
             // 
@@ -228,5 +245,6 @@
         private System.Windows.Forms.ToolStripButton ClearErrorToolStripButton;
         private System.Windows.Forms.ToolStripButton gotoToolStripButton;
         private System.Windows.Forms.ToolStripButton RestartToolStripButton;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }

@@ -187,6 +187,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="RecordLog.txt" />
+    <None Include="Resources\folder.png" />
+    <None Include="Resources\lookCmmReport.png" />
+    <None Include="Resources\DelCmm1.png" />
+    <None Include="Resources\BladeReport.png" />
+    <None Include="Resources\AddCmm1.png" />
+    <None Include="Resources\reset.png" />
+    <None Include="Resources\onlinecmm.png" />
+    <None Include="Resources\offlinecmm.png" />
+    <None Include="Resources\initconnectcmm.png" />
+    <None Include="Resources\delcmm.png" />
+    <None Include="Resources\addcmm.png" />
+    <None Include="Resources\WritePartID.png" />
+    <None Include="Resources\ModifyPart.png" />
+    <None Include="Resources\DeletePart.png" />
+    <None Include="Resources\BrowsePart.png" />
+    <None Include="Resources\AddPart.png" />
     <None Include="Resources\cmm.png" />
     <None Include="Resources\home.png" />
     <None Include="Resources\parts.png" />

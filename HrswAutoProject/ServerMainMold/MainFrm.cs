@@ -163,5 +163,10 @@ namespace ServerMainMold
         {
             _msc.BackToSafePosition(ServerSettings.GotoSafePrg);
         }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
