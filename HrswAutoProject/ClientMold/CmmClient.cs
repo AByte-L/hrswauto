@@ -393,7 +393,7 @@ namespace Gy.HrswAuto.ClientMold
             bool ok = DownFileFromServer("cmm");
             if (!ok)
             {
-                // todo 更新用户界面
+                // 更新用户界面
                 State = ClientState.CS_Error;
                 //ClientUICommon.RefreshCmmViewState(CmmSvrConfig.ServerID, State);
                 ClientUICommon.RefreshCmmEventLog("下载结果文件出错");
@@ -402,7 +402,7 @@ namespace Gy.HrswAuto.ClientMold
             ok = DownFileFromServer("rpt");
             if (!ok)
             {
-                // todo 更新用户界面
+                // 更新用户界面
                 State = ClientState.CS_Error;
                 //ClientUICommon.RefreshCmmViewState(CmmSvrConfig.ServerID, State);
                 ClientUICommon.RefreshCmmEventLog("下载结果文件出错");

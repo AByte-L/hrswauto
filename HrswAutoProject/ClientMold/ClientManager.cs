@@ -34,7 +34,7 @@ namespace Gy.HrswAuto.MasterMold
 
         private Timer _dispatchTimer; // 任务分派
         private Timer _heartbeatTimer; // 心跳信号
-        
+
         public double DispatchInterval { get; set; } = 3; // 
         #region 客户端管理器初始化
         public void Initialize()
@@ -217,10 +217,10 @@ namespace Gy.HrswAuto.MasterMold
         private ClientManager()
         {
             _cmmClients = new List<CmmClient>();
-            _dispatchTimer = new Timer((DispatchInterval>3? DispatchInterval:3) * 1000); // 刷新间隔不小于3s
+            _dispatchTimer = new Timer((DispatchInterval > 3 ? DispatchInterval : 3) * 1000); // 刷新间隔不小于3s
             _dispatchTimer.Elapsed += _dispatchTimer_Elapsed;
 
-            _heartbeatTimer = new Timer(3000); 
+            _heartbeatTimer = new Timer(3000);
             _heartbeatTimer.Elapsed += _heartbeatTimer_Elapsed;
             _plcheartbeat = true;
         }
@@ -234,20 +234,25 @@ namespace Gy.HrswAuto.MasterMold
         {
             _heartbeatTimer.Stop();
             // 没有三坐标
-            if (_cmmClients.Count == 0)
-            {
-                return;
-            }
+            //if (_cmmClients.Count == 0)
+            //{
+            //    return;
+            //}
             try
             {
                 for (int i = 0; i < _cmmClients.Count; i++)
                 {
+                    bool oldConnected = _cmmClients[i].Connected;
                     _cmmClients[i].QueryCmmServer();
                     if (!_cmmClients[i].Connected)
                     {
                         _cmmClients[i].State = ClientState.CS_ConnectError;
                         //ClientUICommon.RefreshCmmStatus(i);
-                        ClientUICommon.RefreshCmmViewState(i, _cmmClients[i].State);
+                        if (oldConnected)
+                        {
+                            ClientUICommon.RefreshCmmViewState(i, _cmmClients[i].State);
+                            ClientUICommon.RefreshCmmEventLog($"三坐标{_cmmClients[i].CmmSvrConfig.ServerID} 连接错误。");
+                        }
                         // todo 这里有调试错误
                     }
                 }
@@ -264,11 +269,11 @@ namespace Gy.HrswAuto.MasterMold
 
         public bool CmmConnected(int index)
         {
-            if(index > (_cmmClients.Count- 1))
+            if (index > (_cmmClients.Count - 1))
             {
                 return true;
             }
-           return _cmmClients[index].Connected;
+            return _cmmClients[index].Connected;
         }
 
         public static ClientManager Instance
@@ -283,7 +288,7 @@ namespace Gy.HrswAuto.MasterMold
             }
         }
 
-        
+
 
         #endregion
         public void EnableClient(int index)
@@ -298,7 +303,7 @@ namespace Gy.HrswAuto.MasterMold
 
         public void DeleteClient(int index)
         {
-            if (index <0)
+            if (index < 0)
             {
                 return;
             }

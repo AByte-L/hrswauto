@@ -876,6 +876,7 @@ namespace ClientMainMold
                 });
                 if (!result)
                 {
+                    ClientUICommon.RefreshCmmEventLog("连接三坐标服务器失败");
                     cmmConnButton.Enabled = true;
                 }
                 else

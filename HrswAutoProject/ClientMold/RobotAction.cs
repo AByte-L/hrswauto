@@ -85,7 +85,7 @@ namespace Gy.HrswAuto.ClientMold
                     // 更新界面 PLC断开连接
                     break;
                 }
-                else if (sw.Elapsed > TimeSpan.FromMinutes(2))
+                else if (sw.Elapsed > TimeSpan.FromMinutes(10))
                 {
                     // 更新界面， PLC发送抓料响应失败
                     break;
@@ -126,7 +126,7 @@ namespace Gy.HrswAuto.ClientMold
                     // 更新界面 PLC断开连接
                     break;
                 }
-                else if (sw.Elapsed > TimeSpan.FromMinutes(2))
+                else if (sw.Elapsed > TimeSpan.FromMinutes(10))
                 {
                     // 更新界面， PLC发送抓料响应失败
                     break;
@@ -165,7 +165,7 @@ namespace Gy.HrswAuto.ClientMold
                     // 更新界面 PLC断开连接
                     break;
                 }
-                else if (sw.Elapsed > TimeSpan.FromMinutes(2))
+                else if (sw.Elapsed > TimeSpan.FromMinutes(10))
                 {
                     // 更新界面， PLC发送上料请求失败
                     break;
@@ -207,7 +207,7 @@ namespace Gy.HrswAuto.ClientMold
                     // 更新界面 PLC断开连接
                     break;
                 }
-                else if (sw.Elapsed > TimeSpan.FromMinutes(2))
+                else if (sw.Elapsed > TimeSpan.FromMinutes(10))
                 {
                     // 更新界面， PLC发送抓料响应失败
                     break;
@@ -250,7 +250,7 @@ namespace Gy.HrswAuto.ClientMold
                     // 更新界面 PLC断开连接
                     break;
                 }
-                else if (sw.Elapsed > TimeSpan.FromMinutes(2))
+                else if (sw.Elapsed > TimeSpan.FromMinutes(10))
                 {
                     // 更新界面， PLC发送准备就绪信号失败
                     break;
