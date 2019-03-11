@@ -172,7 +172,7 @@ namespace Gy.HrswAuto.CmmServer
             {
                 LogCollector.Instance.PostSvrWorkStatus("Blade分析完成");
                 // 执行结果分析, 分析CMM文件
-                PathManager.Instance.ReportsPath = _bladeContext.CMMFileFullPath; 
+                PathManager.Instance.ReportsPath = _bladeContext.CMMFileFullPath;
                 bool measResult = _bladeMeasAssist.VerifyAnalysisResult(_bladeContext.CMMFileFullPath);
                 // 如果客户端断开，跳出异常
                 try
@@ -271,11 +271,11 @@ namespace Gy.HrswAuto.CmmServer
             return _pcdmisCore._IsInitialed;
         }
 
-        public void MeasurePart(string partId)
+        public void MeasurePart1(string partId)
         {
             IsBladeMeasure = true;
             _part = PartConfigManager.Instance.GetPartConfig(partId);
-            Debug.Assert(_part != null); 
+            Debug.Assert(_part != null);
             string partProgFileName = PathManager.Instance.GetPartProgramPath(_part);
             if (!File.Exists(partProgFileName))
             {
@@ -337,6 +337,22 @@ namespace Gy.HrswAuto.CmmServer
                 //throw;
             }
         }
+
+        #region 测试方法 
+        public void MeasurePart(string partId) // todo 测试方法
+        {
+            _part = PartConfigManager.Instance.GetPartConfig(partId);
+            Debug.Assert(_part != null);
+            string partProgFileName = PathManager.Instance.GetPartProgramPath(_part);
+            if (!File.Exists(partProgFileName))
+            {
+                LogCollector.Instance.PostSvrErrorMessage("程序文件不存在");
+                return;
+            }
+            LocalLogCollector.WriteMessage($"测量工件: {partId}, 程序:{partProgFileName}");
+            BackToSafePosition(partProgFileName);
+        } 
+        #endregion
 
         // 关闭PCDmis的错误对话框
         private bool CloseCrashSender()

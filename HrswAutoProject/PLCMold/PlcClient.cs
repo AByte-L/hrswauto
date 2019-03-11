@@ -341,6 +341,7 @@ namespace Gy.HrswAuto.PLCMold
         private void _hbTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             _hbTimer.Stop();
+             = _s7Client.Connected();
             if (!_s7Client.Connected())
             {
                 // 如果是刚刚断开，触发事件

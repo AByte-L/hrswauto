@@ -521,7 +521,7 @@ namespace Gy.HrswAuto.ClientMold
                 return;
             }
             State = ClientState.CS_PlaceCompleted;
-
+            CurPartId = e.PartID;
             //StartMeasureWorkFlow(e.PartID);
         }
 
