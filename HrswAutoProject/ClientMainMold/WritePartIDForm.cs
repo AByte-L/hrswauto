@@ -67,7 +67,8 @@ namespace ClientMainMold
                 }
                 if (_isCancel) // 取消
                 {
-                    Invoke((Action)(() => label1.Text = "取消写入..."));
+                    // 主线程已取消, 不能在写入标签
+                    //Invoke((Action)(() => label1.Text = "取消写入..."));
                     break;
                 }
                 if (!writeok)

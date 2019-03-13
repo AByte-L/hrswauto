@@ -27,7 +27,8 @@ namespace Gy.HrswAuto.PLCMold
         {
             get
             {
-                return _s7Client.Connected();
+                //return _s7Client.Connected();
+                return _isConnected;
             }
         }
 
@@ -289,8 +290,10 @@ namespace Gy.HrswAuto.PLCMold
             if (!result)
             {
                 ClientUICommon.RefreshPlcConnectState("PLC连接失败");
+                _isConnected = false;
                 return false;
             }
+            _isConnected = true;
             cs.Cancel();
             ClientUICommon.RefreshPlcConnectState("PLC连接成功");
             //连接成功开启心跳信号
@@ -309,9 +312,11 @@ namespace Gy.HrswAuto.PLCMold
                 {
                     return ;
                 }
-                if (result == 0 && _s7Client.Connected())
+                if (result == 0/* && _s7Client.Connected()*/)
                 {
                     _initEvent.Set();
+                    ReconnectEvent?.Invoke(this, null);
+                    _isConnected = true;
                     break;
                 }
                 Thread.Sleep(2000); // 等待2s延时连接
@@ -341,44 +346,55 @@ namespace Gy.HrswAuto.PLCMold
         private void _hbTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             _hbTimer.Stop();
-             = _s7Client.Connected();
-            if (!_s7Client.Connected())
+            int result = 1; // 不为0的正整数
+            lock (syncObj)
             {
-                // 如果是刚刚断开，触发事件
-                if (_isConnected) 
+                result = _s7Client.DBRead(10, 0, 1, _hbbuf);
+                // PLC CPU可达, 更新心跳时间
+            }
+            if (result == 0)
+            {
+                _hbNow = DateTime.Now;
+            }
+
+            if (_hbNow.AddSeconds(3) < DateTime.Now) //连接时长超过10s表示心跳信号中断
+            {
+                if (_isConnected) // 第一次连接中断
                 {
-                    DisconnectEvent?.Invoke(this, null); // 包括更新Mainform
+                    DisconnectEvent?.Invoke(this, null); // 更新包括Mainform
                     _isConnected = false;
                 }
-                else
-                {
-                    // 试着进行的重新连接
-                    if (_reConnect)
-                    {
-                        Stopwatch sw = new Stopwatch();
-                        sw.Start();
-                        while (true)
-                        {
-                            if (sw.Elapsed > TimeSpan.FromSeconds(5))
-                            {
-                                _reConnect = false;
-                                break;
-                            }
-                            int result = _s7Client.Connect();
-                            // 连接成功
-                            if ((result == 0) && _s7Client.Connected())
-                            {
-                                ReconnectEvent?.Invoke(this, null);
-                            }
-                        }
-                        sw.Stop(); 
-                    }
-                }
+                //else // 试着重新连接
+                //{
+                //    if (_reConnect) // 自动进行5s的重连
+                //    {
+                //        Stopwatch sw = new Stopwatch();
+                //        sw.Start();
+                //        while (true)
+                //        {
+                //            if (sw.Elapsed > TimeSpan.FromSeconds(5))
+                //            {
+                //                _reConnect = false;
+                //                break;
+                //            }
+                //            int connOk = _s7Client.Connect();
+                //            // 连接成功
+                //            if (connOk == 0)
+                //            {
+                //                ReconnectEvent?.Invoke(this, null);
+                //                _isConnected = true;
+                //            }
+                //        }
+                //        sw.Stop();
+                //    }
+                //}
             }
             _hbTimer.Start();
         }
 
         private static PlcClient _plcClient;
+        private byte[] _hbbuf = new byte[1];
+        private DateTime _hbNow;
 
         public static PlcClient Instance
         {

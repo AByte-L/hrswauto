@@ -339,7 +339,7 @@ namespace Gy.HrswAuto.CmmServer
         }
 
         #region 测试方法 
-        public void MeasurePart(string partId) // todo 测试方法
+        public void MeasurePart(string partId) // todo MeasureServiceContext 测试方法
         {
             _part = PartConfigManager.Instance.GetPartConfig(partId);
             Debug.Assert(_part != null);

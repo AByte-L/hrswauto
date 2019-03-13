@@ -1,5 +1,6 @@
 ﻿using Gy.HrswAuto.ClientMold;
 using Gy.HrswAuto.DataMold;
+using Gy.HrswAuto.PLCMold;
 using Gy.HrswAuto.UICommonTools;
 using Gy.HrswAuto.Utilities;
 using System;
@@ -60,7 +61,20 @@ namespace Gy.HrswAuto.MasterMold
 
                 _cmmClients.Add(client);
             }
+            // 设置心跳信号
+            PlcClient.Instance.DisconnectEvent += Plc_DisconnectEvent;
+            PlcClient.Instance.ReconnectEvent += Plc_ReconnectEvent;
             _heartbeatTimer.Start();
+        }
+
+        private void Plc_ReconnectEvent(object sender, EventArgs e)
+        {
+            _plcHeartbeat = true;
+        }
+
+        private void Plc_DisconnectEvent(object sender, EventArgs e)
+        {
+            _plcHeartbeat = false;
         }
 
         /// <summary>
@@ -114,13 +128,13 @@ namespace Gy.HrswAuto.MasterMold
 
         public void RunDispatchTask()
         {
-            _plcheartbeat = true;
+            _dispatchTaskEnable = true;
             _dispatchTimer.Start();
         }
 
         public void PauseDispatchTask()
         {
-            _plcheartbeat = false;
+            _dispatchTaskEnable = false;
             _dispatchTimer.Stop();
         }
 
@@ -134,8 +148,11 @@ namespace Gy.HrswAuto.MasterMold
                 switch (client.State)
                 {
                     case ClientState.CS_Idle:
-                        client.State = ClientState.CS_Busy;
-                        client.StartWorkFlow();
+                        if (_plcHeartbeat)
+                        {
+                            client.State = ClientState.CS_Busy;
+                            client.StartWorkFlow();
+                        }
                         break;
                     case ClientState.CS_MeasCompleted:
                         client.State = ClientState.CS_Busy;
@@ -146,8 +163,11 @@ namespace Gy.HrswAuto.MasterMold
                     case ClientState.CS_GripCompleted:
                         break;
                     case ClientState.CS_PlaceCompleted:
-                        client.State = ClientState.CS_Busy;
-                        client.StartMeasureWork();
+                        if (_plcHeartbeat)
+                        {
+                            client.State = ClientState.CS_Busy;
+                            client.StartMeasureWork();
+                        }
                         break;
                     case ClientState.CS_Busy:
                         break;
@@ -171,7 +191,7 @@ namespace Gy.HrswAuto.MasterMold
                         break;
                 }
             }
-            if (_plcheartbeat)
+            if (_dispatchTaskEnable)
             {
                 _dispatchTimer.Start();
             }
@@ -212,7 +232,8 @@ namespace Gy.HrswAuto.MasterMold
             _heartbeatTimer.Close();
         }
 
-        private bool _plcheartbeat;
+        private bool _dispatchTaskEnable;
+        private bool _plcHeartbeat;
 
         private ClientManager()
         {
@@ -222,7 +243,8 @@ namespace Gy.HrswAuto.MasterMold
 
             _heartbeatTimer = new Timer(3000);
             _heartbeatTimer.Elapsed += _heartbeatTimer_Elapsed;
-            _plcheartbeat = true;
+            _dispatchTaskEnable = true;
+            _plcHeartbeat = true;
         }
 
         /// <summary>
@@ -261,6 +283,7 @@ namespace Gy.HrswAuto.MasterMold
             {
                 // todo 主界面退出后可能还会启动几轮心跳信号 
             }
+
             //_cmmClients.ForEach(cmm =>
             //{
             //});
@@ -285,6 +308,14 @@ namespace Gy.HrswAuto.MasterMold
                     _clientManager = new ClientManager();
                 }
                 return _clientManager;
+            }
+        }
+
+        public bool PlcConnected
+        {
+            set
+            {
+                _plcHeartbeat = value;
             }
         }
 
@@ -337,6 +368,16 @@ namespace Gy.HrswAuto.MasterMold
                 _cmmClients[index].State = ClientState.CS_Idle;
                 string str = "三坐标" + _cmmClients[index].CmmSvrConfig.ServerID.ToString() + "错误恢复";
                 ClientUICommon.RefreshCmmEventLog(str);
+            }
+            // PLC连接错误
+            if (!_plcHeartbeat)
+            {
+                _cmmClients.ForEach(client =>
+                {
+                    client.State = ClientState.CS_Idle;
+                    string str = "三坐标服务器" + "复位";
+                    ClientUICommon.RefreshCmmEventLog(str);
+                });
             }
         }
     }

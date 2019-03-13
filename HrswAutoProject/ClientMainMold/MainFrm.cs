@@ -154,17 +154,17 @@ namespace ClientMainMold
             });
             Thread.Sleep(1000); //等待初始窗口启动
             SetAppPaths();
+            // 初始化三坐标
             ClientManager.Instance.Initialize();
             ClientManager.Instance.InitClients();
             cmmArEvt.Set();
-            //initForm?.SetInitInfo("正在初始化工件管理器...");
+            // 初始化PLC
+            PlcClient.Instance.DisconnectEvent += PLC_DisconnectEvent;
+            PlcClient.Instance.ReconnectEvent += PLC_ReconnectEvent;
             PartConfigManager.Instance.InitPartConfigManager();
-            //Thread.Sleep(1000);
-            //initForm?.SetInitInfo("正在连接PLC控制器...");
             _plcConnected = PlcClient.Instance.Initialize();
-            //Thread.Sleep(1000);
             plcArEvt.Set();
-
+            ClientManager.Instance.PlcConnected = _plcConnected;
             if (ClientManager.Instance.CmmConnected(0)) // 第一号三坐标连接成功
             {
                 cmmConnButton.Enabled = false;
@@ -185,11 +185,28 @@ namespace ClientMainMold
             //InitPartConfView();
         }
 
+        private void PLC_ReconnectEvent(object sender, EventArgs e)
+        {
+            _plcConnected = true;
+        }
+
+        private void PLC_DisconnectEvent(object sender, EventArgs e)
+        {
+            Invoke((Action)(() =>
+            {
+                toolStripStatusLabel1.Text = "PLC连接错误";
+                button1.Text = "连接";
+                button1.Enabled = true;
+                _plcConnected = false;
+            }));
+        }
+
         private void MainFrm_FormClosed(object sender, FormClosedEventArgs e)
         {
             ClientManager.Instance.SaveCmmServer();
             ClientManager.Instance.CloseHeartbeat();
             PartConfigManager.Instance.SavePartConfig();
+            PlcClient.Instance.DisconnectEvent -= PLC_DisconnectEvent;
             PlcClient.Instance.DisconnectPLC();
         }
 
@@ -795,6 +812,7 @@ namespace ClientMainMold
                         toolStripStatusLabel1.Text = "PLC连接正常";
                         button1.Enabled = false;
                     }
+                    _plcConnected = true;
                 }
                 else
                 {
@@ -813,6 +831,7 @@ namespace ClientMainMold
                         toolStripStatusLabel1.Text = "PLC连接失败";
                         button1.Enabled = true;
                     }
+                    _plcConnected = false;
                 }
                 toolStripProgressBar1.Style = ProgressBarStyle.Blocks;
             }
