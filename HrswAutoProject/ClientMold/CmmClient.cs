@@ -392,17 +392,18 @@ namespace Gy.HrswAuto.ClientMold
             //State = ClientState.CS_Busy;
             // 获取当前的cmm和rpt报告文件
             int partCount;
+            _resultRecord = null;
+            _resultRecord = new ResultRecord();
             lock (syncObj)
             {
                 partCount = _partNbSet[CurPartId]; // 获得标识的工件个数
+            _resultRecord.PartNumber = ++partCount;
             }
-            _resultRecord = null;
-            _resultRecord = new ResultRecord();
             _resultRecord.PartID = CurPartId;
             _resultRecord.IsPass = IsPass;
             _resultRecord.ServerID = CmmSvrConfig.ServerID;
             _resultRecord.MeasDateTime = DateTime.Now;
-            _resultRecord.PartNumber = ++partCount;
+            _resultRecord.MeasProgram = PartConfigManager.Instance.GetPartConfig(CurPartId).ProgFileName;
             bool ok = DownFileFromServer("cmm");
             if (!ok)
             {

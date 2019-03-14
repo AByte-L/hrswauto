@@ -66,6 +66,7 @@ namespace ClientMainMold
                 prRecord.RptFileName = resultRecord.RptFileName;
                 prRecord.ServerID = resultRecord.ServerID.ToString();
                 prRecord.ReportFilePath = resultRecord.FilePath;
+                prRecord.PcProgram = resultRecord.MeasProgram;
                 resultRecordList.Add(prRecord);
                 //dataGridView1.InvalidateRow(resultRecordList.Count - 1);
             }, null);
@@ -543,6 +544,7 @@ namespace ClientMainMold
                RackResultRecordList[pos].ReportFilePath = result.FilePath;
                RackResultRecordList[pos].PartNumber = result.PartNumber.ToString();
                RackResultRecordList[pos].MeasDateTime = result.MeasDateTime;
+               RackResultRecordList[pos].PcProgram = result.MeasProgram;
                ResultView.InvalidateRow(pos);
                //resultRecordList.Add(new PartResultRecord(RackResultRecordList[pos]));
                //dataGridView1.InvalidateRow(resultRecordList.Count - 1);

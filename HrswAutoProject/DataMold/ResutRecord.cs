@@ -16,5 +16,6 @@ namespace Gy.HrswAuto.DataMold
         public int PartNumber { get; set; }
         public int ServerID { get; set; }
         public DateTime MeasDateTime { get; set; }
+        public string MeasProgram { get; set; }
     }
 }
