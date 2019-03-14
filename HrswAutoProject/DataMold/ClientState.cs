@@ -64,7 +64,8 @@ namespace Gy.HrswAuto.ClientMold
         /// <summary>
         /// 无
         /// </summary>
-        CS_None
+        CS_None,
+        CS_PlcConnectError
     }
 
 }

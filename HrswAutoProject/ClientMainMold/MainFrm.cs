@@ -39,15 +39,36 @@ namespace ClientMainMold
         public MainFrm()
         {
             InitializeComponent();
+            ResultView.AutoGenerateColumns = false; 
             // 设置Path
             cmmDataRecordBindingSource.DataSource = cmmRecordList;
             resultRowBindingSource.DataSource = RackResultRecordList;
+            partResultRecordBindingSource.DataSource = resultRecordList;
             ClientUICommon.syncContext = SynchronizationContext.Current;
             ClientUICommon.AddCmmToView = AddClientView;
             ClientUICommon.RefreshRackView = RefreshRackView;
             ClientUICommon.RefreshCmmViewState = RefreshCmmViewState;
             ClientUICommon.RefreshCmmEventLogAction = RefreshCmmEventLog;
             ClientUICommon.RefreshPlcConnectStateAction = RefreshPlcConnect;
+            ClientUICommon.AddCommonReportAction = AddCommonReport;
+        }
+
+        private void AddCommonReport(ResultRecord resultRecord)
+        {
+            ClientUICommon.syncContext.Post(o =>
+            {
+                PartResultRecord prRecord = new PartResultRecord();
+                prRecord.IsPass = resultRecord.IsPass? "合格" : "不合格";
+                prRecord.MeasDateTime = resultRecord.MeasDateTime;
+                prRecord.PartID = resultRecord.PartID;
+                prRecord.PartNumber = resultRecord.PartNumber.ToString();
+                prRecord.ReportFileName = resultRecord.CmmFileName;
+                prRecord.RptFileName = resultRecord.RptFileName;
+                prRecord.ServerID = resultRecord.ServerID.ToString();
+                prRecord.ReportFilePath = resultRecord.FilePath;
+                resultRecordList.Add(prRecord);
+                //dataGridView1.InvalidateRow(resultRecordList.Count - 1);
+            }, null);
         }
 
         private void RefreshPlcConnect(string obj)
@@ -523,13 +544,14 @@ namespace ClientMainMold
                RackResultRecordList[pos].PartNumber = result.PartNumber.ToString();
                RackResultRecordList[pos].MeasDateTime = result.MeasDateTime;
                ResultView.InvalidateRow(pos);
-               resultRecordList.Add(new PartResultRecord(RackResultRecordList[pos]));
-               dataGridView1.InvalidateRow(resultRecordList.Count - 1);
+               //resultRecordList.Add(new PartResultRecord(RackResultRecordList[pos]));
+               //dataGridView1.InvalidateRow(resultRecordList.Count - 1);
            }, null);
         }
 
         private void ResetResult()
         {
+            DateTime now = DateTime.Now;
             for (int i = 0; i < 60; i++)
             {
                 RackResultRecordList[i].PartID = string.Empty;
@@ -538,10 +560,10 @@ namespace ClientMainMold
                 RackResultRecordList[i].ReportFileName = string.Empty;
                 RackResultRecordList[i].RptFileName = string.Empty;
                 RackResultRecordList[i].ReportFilePath = string.Empty;
-                RackResultRecordList[i].MeasDateTime = string.Empty;
+                RackResultRecordList[i].MeasDateTime = now;
                 RackResultRecordList[i].PartNumber = string.Empty;
-                ResultView.Invalidate();
             }
+                ResultView.Invalidate();
         }
 
         private void checkReportTtoolStripButton_Click(object sender, EventArgs e)
@@ -794,7 +816,7 @@ namespace ClientMainMold
                 button1.Enabled = false;
                 toolStripStatusLabel1.Text = "正在连接...";
                 button1.Text = "正在连接...";
-                bool connected = await Task.Run(() => PlcClient.Instance.Initialize());
+                bool connected = await Task.Run(() => PlcClient.Instance.ReconnectPlc());
                 if (connected)
                 {
                     if (button1.InvokeRequired)

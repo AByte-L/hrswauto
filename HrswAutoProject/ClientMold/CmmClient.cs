@@ -70,6 +70,19 @@ namespace Gy.HrswAuto.ClientMold
             CmmSvrConfig = cmmSvrConfig;
             State = ClientState.CS_None;
             _connected = false;
+            PlcClient.Instance.DisconnectEvent += Plc_DisconnectEvent;
+            PlcClient.Instance.ReconnectEvent += Plc_ReconnectEvent;
+        }
+
+        private void Plc_ReconnectEvent(object sender, EventArgs e)
+        {
+            State = ClientState.CS_Idle;
+        }
+
+        private void Plc_DisconnectEvent(object sender, EventArgs e)
+        {
+            // todo 保存一个先前的状态，恢复到先前的状态还是从头运行
+            State = ClientState.CS_PlcConnectError;
         }
 
         public void InitClient()
@@ -145,7 +158,7 @@ namespace Gy.HrswAuto.ClientMold
             // 送抓料取料命令
             //SendPlaceAndGripRequest(CurPartRecord.IsPass);
             State = ClientState.CS_Busy;
-            SendGripRequest(IsPass);
+            SendGripRequest();
         }
 
         internal void StartMeasureWork()
@@ -388,7 +401,7 @@ namespace Gy.HrswAuto.ClientMold
             _resultRecord.PartID = CurPartId;
             _resultRecord.IsPass = IsPass;
             _resultRecord.ServerID = CmmSvrConfig.ServerID;
-            _resultRecord.MeasDateTime = DateTime.Now.ToString("yy-MM-dd hh:mm:ss");
+            _resultRecord.MeasDateTime = DateTime.Now;
             _resultRecord.PartNumber = ++partCount;
             bool ok = DownFileFromServer("cmm");
             if (!ok)
@@ -411,7 +424,7 @@ namespace Gy.HrswAuto.ClientMold
             // 添加报告记录，并且更改成可继续测量状态
             resultRecords.Add(_resultRecord);
             //ClientUICommon.AddPartResult(_resultRecord);
-            State = ClientState.CS_Continue;
+            State = ClientState.CS_Grip;
         }
 
         private bool DownFileFromServer(string v)
@@ -421,9 +434,11 @@ namespace Gy.HrswAuto.ClientMold
             DownFileResult res = _partConfigService.DownLoadFile(df);
             if (res.IsSuccess)
             {
-                string path = Path.GetDirectoryName(res.Message); // 在客户端建立相同的目录
-                                                                  // 记录结果信息
+                //string path = Path.GetDirectoryName(res.Message); // 在客户端建立相同的目录,记录结果信息
+                // todo 调试修改路径
+                string path = @"D:\Reports";
                 _resultRecord.FilePath = path;
+                string filename = Path.Combine(path, Path.GetFileName(res.Message));
                 if (v.Equals("cmm", StringComparison.CurrentCultureIgnoreCase))
                 {
                     _resultRecord.CmmFileName = Path.GetFileName(res.Message);
@@ -438,7 +453,7 @@ namespace Gy.HrswAuto.ClientMold
                     Directory.CreateDirectory(path);
                 }
                 byte[] buffer = new byte[res.FileSize];
-                using (FileStream fs = new FileStream(res.Message, FileMode.Create, FileAccess.Write))
+                using (FileStream fs = new FileStream(filename/* todo res.Message*/, FileMode.Create, FileAccess.Write))
                 {
                     int count = 0;
                     while ((count = res.FileStream.Read(buffer, 0, buffer.Length)) > 0)
@@ -485,9 +500,9 @@ namespace Gy.HrswAuto.ClientMold
         /// 发送下料请求
         /// </summary>
         /// <param name="isPassed">当前测量工件是否合格</param>
-        public void SendGripRequest(bool isPass)
+        public void SendGripRequest()
         {
-            _robotAction = new RobotGripRequest(this, isPass);
+            _robotAction = new RobotGripRequest(this, IsPass);
             _robotAction.Perform();
         }
         /// <summary>
@@ -499,9 +514,11 @@ namespace Gy.HrswAuto.ClientMold
         {
             // todo 返回料架的事件不定，需要一直监控料架
             PartRack.Instance.RefreshSlots(_resultRecord);
+            // 更新总体报告列表
+            ClientUICommon.AddCommonReport(_resultRecord);
             // 继续上料
             // todo 定义标志可以停止流程, 比如改变State为Stop状态
-            State = ClientState.CS_Continue; // 
+            State = ClientState.CS_GripCompleted; // 
         }
 
         /// <summary>
@@ -520,8 +537,8 @@ namespace Gy.HrswAuto.ClientMold
                 State = ClientState.CS_Error; // 设置客户端为错误状态
                 return;
             }
-            State = ClientState.CS_PlaceCompleted;
             CurPartId = e.PartID;
+            State = ClientState.CS_PlaceCompleted;
             //StartMeasureWorkFlow(e.PartID);
         }
 

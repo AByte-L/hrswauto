@@ -124,11 +124,15 @@ namespace Gy.HrswAuto.CmmServer
             string path = ""; 
             if (downfile.FileType.Equals("cmm", StringComparison.CurrentCultureIgnoreCase))
             {
-                path = PathManager.Instance.ReportsPath;
+                //path = PathManager.Instance.ReportsPath;
+                // todo 测试更改目录
+                path = @"D:\ServerPathRoot\blades\TestPart12\Results\cab5.CMM";
             }
             else if (downfile.FileType.Equals("rpt", StringComparison.CurrentCultureIgnoreCase))
             {
-                path = PathManager.Instance.RptFilePath;
+                //path = PathManager.Instance.RptFilePath;
+                // todo 测试更改目录
+                path = @"D:\ServerPathRoot\blades\TestPart12\Results\propsww.rpt";
             }
             else
             {

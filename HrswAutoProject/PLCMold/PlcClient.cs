@@ -282,6 +282,8 @@ namespace Gy.HrswAuto.PLCMold
         {
             // 连接时效15s
             //_initTimer = new Timer(new TimerCallback(InitPlcConnect), null, 1000, 2000);
+            _hbTimer.Stop();
+            _initPlcConnect = false;
             CancellationTokenSource cs = new CancellationTokenSource();
             Task.Factory.StartNew(InitPlcConnect, cs.Token, cs.Token);
 
@@ -310,13 +312,14 @@ namespace Gy.HrswAuto.PLCMold
             {
                 if (token.IsCancellationRequested)
                 {
-                    return ;
+                    break;
                 }
                 if (result == 0/* && _s7Client.Connected()*/)
                 {
                     _initEvent.Set();
                     ReconnectEvent?.Invoke(this, null);
                     _isConnected = true;
+                    _initPlcConnect = true;
                     break;
                 }
                 Thread.Sleep(2000); // 等待2s延时连接
@@ -324,6 +327,35 @@ namespace Gy.HrswAuto.PLCMold
                 Thread.Sleep(10);
             }
         } 
+
+        public bool ReconnectPlc()
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            while (true)
+            {
+                // 等待5s的重连
+                if (sw.Elapsed > TimeSpan.FromSeconds(5))
+                {
+                    break;
+                }
+                int result = _s7Client.Connect();
+                Thread.Sleep(50);
+                if (result == 0)
+                {
+                    ReconnectEvent?.Invoke(this, null);
+                    _isConnected = true;
+                    break;
+                }
+                Thread.Sleep(800);
+            }
+            sw.Stop();
+            if (_isConnected)
+            {
+                _hbTimer.Start();
+            }
+            return _isConnected;
+        }
         #endregion
 
         #region 创建方法
@@ -363,6 +395,7 @@ namespace Gy.HrswAuto.PLCMold
                 {
                     DisconnectEvent?.Invoke(this, null); // 更新包括Mainform
                     _isConnected = false;
+                    return;
                 }
                 //else // 试着重新连接
                 //{
@@ -389,12 +422,16 @@ namespace Gy.HrswAuto.PLCMold
                 //    }
                 //}
             }
-            _hbTimer.Start();
+            if (_isConnected)
+            {
+                _hbTimer.Start(); 
+            }
         }
 
         private static PlcClient _plcClient;
         private byte[] _hbbuf = new byte[1];
         private DateTime _hbNow;
+        private bool _initPlcConnect;
 
         public static PlcClient Instance
         {

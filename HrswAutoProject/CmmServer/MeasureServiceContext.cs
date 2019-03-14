@@ -78,8 +78,8 @@ namespace Gy.HrswAuto.CmmServer
             try
             {
                 _pcdmisCore.InitialPCDmis();
+                _pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent1;
                 //_pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent;
-                _pcdmisCore.PCDmisMeasureEvent += _pcdmisCore_PCDmisMeasureEvent;
             }
             catch (Exception)
             {
@@ -104,7 +104,7 @@ namespace Gy.HrswAuto.CmmServer
                 _serverInError = true;
                 return;
             }
-            LocalLogCollector.WriteMessage("PCDMIS测量完成");
+            LogCollector.Instance.PostSvrWorkStatus("PCDMIS执行完成");
             _eventNotify?.WorkCompleted(true);
         }
 

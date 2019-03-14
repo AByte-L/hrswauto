@@ -42,7 +42,7 @@ namespace ClientMainMold
         public string ReportFileName { get; set; } // cmm报告文件
         public string ReportFilePath { get; set; } // 报告文件路径
         public string RptFileName { get; set; } // rpt结果文件
-        public string MeasDateTime { get; set; } // 日期-时间
+        public DateTime MeasDateTime { get; set; } // 日期-时间
       }
 
     public class CmmDataRecord

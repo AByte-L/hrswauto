@@ -147,33 +147,54 @@ namespace Gy.HrswAuto.MasterMold
                     break;
                 switch (client.State)
                 {
-                    case ClientState.CS_Idle:
+                    case ClientState.CS_Idle: // 三坐标空闲，可以上料
                         if (_plcHeartbeat)
                         {
                             client.State = ClientState.CS_Busy;
                             client.StartWorkFlow();
                         }
                         break;
-                    case ClientState.CS_MeasCompleted:
+                    case ClientState.CS_MeasCompleted: // 三坐标测量完成
                         client.State = ClientState.CS_Busy;
-                        client.PullReport();
+                        client.PullReport(); // 下载报告文件
                         break;
-                    case ClientState.CS_Continue:
+                    case ClientState.CS_Continue: // 调试使用
+                        if (_plcHeartbeat)
+                        {
+                            client.State = ClientState.CS_Busy;
+                            client.SendGripRequest(); 
+                        }
                         break;
-                    case ClientState.CS_GripCompleted:
+                    case ClientState.CS_GripCompleted: // 抓取完成
+                        if (_plcHeartbeat)
+                        {
+                            client.State = ClientState.CS_Busy;
+                            client.SendPlaceRequest(); 
+                        }
                         break;
-                    case ClientState.CS_PlaceCompleted:
+                    case ClientState.CS_PlaceCompleted: // 放置完成
                         if (_plcHeartbeat)
                         {
                             client.State = ClientState.CS_Busy;
                             client.StartMeasureWork();
                         }
                         break;
-                    case ClientState.CS_Busy:
+                    case ClientState.CS_Busy: // 忙碌状态
+                        // todo 更新进度条？
                         break;
-                    case ClientState.CS_Place:
+                    case ClientState.CS_Place: // 放置请求
+                        if (_plcHeartbeat)
+                        {
+                            client.State = ClientState.CS_Busy;
+                            client.SendPlaceRequest();
+                        }
                         break;
-                    case ClientState.CS_Grip:
+                    case ClientState.CS_Grip: // 抓取请求
+                        if (_plcHeartbeat)
+                        {
+                            client.State = ClientState.CS_Busy;
+                            client.SendGripRequest();
+                        }
                         break;
                     case ClientState.CS_Error:
                         break;
@@ -186,6 +207,8 @@ namespace Gy.HrswAuto.MasterMold
                     case ClientState.CS_RobotPlaceError:
                         break;
                     case ClientState.CS_None:
+                        break;
+                    case ClientState.CS_PlcConnectError:
                         break;
                     default:
                         break;
@@ -274,6 +297,7 @@ namespace Gy.HrswAuto.MasterMold
                         {
                             ClientUICommon.RefreshCmmViewState(i, _cmmClients[i].State);
                             ClientUICommon.RefreshCmmEventLog($"三坐标{_cmmClients[i].CmmSvrConfig.ServerID} 连接错误。");
+                            oldConnected = false;
                         }
                         // todo 这里有调试错误
                     }
@@ -370,15 +394,15 @@ namespace Gy.HrswAuto.MasterMold
                 ClientUICommon.RefreshCmmEventLog(str);
             }
             // PLC连接错误
-            if (!_plcHeartbeat)
-            {
-                _cmmClients.ForEach(client =>
-                {
-                    client.State = ClientState.CS_Idle;
-                    string str = "三坐标服务器" + "复位";
-                    ClientUICommon.RefreshCmmEventLog(str);
-                });
-            }
+            //if (!_plcHeartbeat)
+            //{
+            //    _cmmClients.ForEach(client =>
+            //    {
+            //        client.State = ClientState.CS_Idle;
+            //        string str = "三坐标服务器" + "复位";
+            //        ClientUICommon.RefreshCmmEventLog(str);
+            //    });
+            //}
         }
     }
 }

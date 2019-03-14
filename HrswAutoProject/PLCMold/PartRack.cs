@@ -69,7 +69,7 @@ namespace Gy.HrswAuto.PLCMold
                     ClientUICommon.RefreshRackView(CurPartResult, _slotNumber);
                     break;
                 }
-                Thread.Sleep(300);
+                Thread.Sleep(1500);
             }
         }
 

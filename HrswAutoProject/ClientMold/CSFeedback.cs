@@ -60,7 +60,7 @@ namespace Gy.HrswAuto.ClientMold
         public void ServerWorkStatus(string message)
         {
             // todo CSFeedback 测试修改状态
-            _cmmClient.State = ClientState.CS_Idle;
+            //_cmmClient.State = ClientState.CS_Idle;
             // 不更新三坐标状态
             // 刷新三坐标界面显示
             string str = "三坐标" + _cmmClient.CmmSvrConfig.ServerID.ToString() + ": " + message;
