@@ -78,12 +78,12 @@ namespace ClientMainMold
                 }
                 else
                 {
-                    Invoke((Action)(() => label1.Text = "等待写码器写码..."));
-                    if (PlcClient.Instance.VerifyWirteIDCompleted(0))
+                    Invoke((Action)(() => label1.Text = "等待写码器写码完成..."));
+                    if (PlcClient.Instance.VerifyWirteIDCompleted(48))
                     {
                         // 
                         Invoke((Action)(() => label1.Text = "写入完成."));
-                        Invoke((Action)(() => Close()));
+                        break;
                     }
                 }
                         Thread.Sleep(500);
@@ -95,10 +95,10 @@ namespace ClientMainMold
         private bool WritePartID()
         {
             // todo 更改存储器号，这个是写入工件RFID的存储器号
-            bool wresult = PlcClient.Instance.SetPartID(0, partId);
+            bool wresult = PlcClient.Instance.SetPartID(48, partId);
             if (wresult)
             {
-                wresult = PlcClient.Instance.SetWriteIDFlag(0);
+                wresult = PlcClient.Instance.SetWriteIDFlag(48);
             }
             return wresult;
         }

@@ -33,9 +33,9 @@
             System.Windows.Forms.Label normFileNameLabel;
             System.Windows.Forms.Label tolFileNameLabel;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
@@ -226,30 +226,30 @@
             // 
             // flvFileNameLabel
             // 
-            flvFileNameLabel.Location = new System.Drawing.Point(6, 48);
+            flvFileNameLabel.Location = new System.Drawing.Point(5, 38);
             flvFileNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             flvFileNameLabel.Name = "flvFileNameLabel";
-            flvFileNameLabel.Size = new System.Drawing.Size(74, 15);
+            flvFileNameLabel.Size = new System.Drawing.Size(59, 12);
             flvFileNameLabel.TabIndex = 0;
             flvFileNameLabel.Text = "算法文件:";
             flvFileNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // normFileNameLabel
             // 
-            normFileNameLabel.Location = new System.Drawing.Point(6, 79);
+            normFileNameLabel.Location = new System.Drawing.Point(5, 63);
             normFileNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             normFileNameLabel.Name = "normFileNameLabel";
-            normFileNameLabel.Size = new System.Drawing.Size(74, 15);
+            normFileNameLabel.Size = new System.Drawing.Size(59, 12);
             normFileNameLabel.TabIndex = 2;
             normFileNameLabel.Text = "理论值:";
             normFileNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tolFileNameLabel
             // 
-            tolFileNameLabel.Location = new System.Drawing.Point(6, 112);
+            tolFileNameLabel.Location = new System.Drawing.Point(5, 90);
             tolFileNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             tolFileNameLabel.Name = "tolFileNameLabel";
-            tolFileNameLabel.Size = new System.Drawing.Size(74, 15);
+            tolFileNameLabel.Size = new System.Drawing.Size(59, 12);
             tolFileNameLabel.TabIndex = 8;
             tolFileNameLabel.Text = "公差文件:";
             tolFileNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -266,17 +266,18 @@
             // 
             this.splitContainer1.Panel1.Controls.Add(this.mainToolStrip);
             this.splitContainer1.Panel1.Controls.Add(this.pictureBox1);
-            this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 10);
+            this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitter1);
-            this.splitContainer1.Panel2.Controls.Add(this.resultPanel);
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer5);
+            this.splitContainer1.Panel2.Controls.Add(this.resultPanel);
             this.splitContainer1.Panel2.Controls.Add(this.cmmPanel);
-            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(12, 12, 12, 0);
-            this.splitContainer1.Size = new System.Drawing.Size(1580, 1011);
-            this.splitContainer1.SplitterDistance = 112;
+            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);
+            this.splitContainer1.Size = new System.Drawing.Size(1264, 671);
+            this.splitContainer1.SplitterDistance = 74;
+            this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 0;
             // 
             // mainToolStrip
@@ -294,10 +295,10 @@
             this.partToolStripButton,
             this.toolStripLabel1,
             this.plcToolStripButton});
-            this.mainToolStrip.Location = new System.Drawing.Point(661, 10);
+            this.mainToolStrip.Location = new System.Drawing.Point(529, 8);
             this.mainToolStrip.Name = "mainToolStrip";
             this.mainToolStrip.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.mainToolStrip.Size = new System.Drawing.Size(909, 92);
+            this.mainToolStrip.Size = new System.Drawing.Size(727, 58);
             this.mainToolStrip.Stretch = true;
             this.mainToolStrip.TabIndex = 1;
             this.mainToolStrip.Text = "toolStrip1";
@@ -313,7 +314,7 @@
             this.resultTtoolStripButton.AutoSize = false;
             this.resultTtoolStripButton.BackgroundImage = global::ClientMainMold.Properties.Resources.tabpageback;
             this.resultTtoolStripButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.resultTtoolStripButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.resultTtoolStripButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.resultTtoolStripButton.Image = global::ClientMainMold.Properties.Resources.report;
             this.resultTtoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.resultTtoolStripButton.Name = "resultTtoolStripButton";
@@ -335,7 +336,7 @@
             this.cmmToolStripButton.AutoSize = false;
             this.cmmToolStripButton.BackgroundImage = global::ClientMainMold.Properties.Resources.tabpageback;
             this.cmmToolStripButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.cmmToolStripButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cmmToolStripButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cmmToolStripButton.Image = global::ClientMainMold.Properties.Resources.cmm;
             this.cmmToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cmmToolStripButton.Name = "cmmToolStripButton";
@@ -357,7 +358,7 @@
             this.partToolStripButton.BackColor = System.Drawing.Color.Transparent;
             this.partToolStripButton.BackgroundImage = global::ClientMainMold.Properties.Resources.tabpageback;
             this.partToolStripButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.partToolStripButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.partToolStripButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.partToolStripButton.Image = global::ClientMainMold.Properties.Resources.parts;
             this.partToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.partToolStripButton.Name = "partToolStripButton";
@@ -380,7 +381,7 @@
             this.plcToolStripButton.BackColor = System.Drawing.Color.Transparent;
             this.plcToolStripButton.BackgroundImage = global::ClientMainMold.Properties.Resources.tabpageback;
             this.plcToolStripButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.plcToolStripButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.plcToolStripButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.plcToolStripButton.Image = global::ClientMainMold.Properties.Resources.home;
             this.plcToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.plcToolStripButton.Name = "plcToolStripButton";
@@ -397,11 +398,11 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Left;
             this.pictureBox1.ErrorImage = null;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(10, 10);
+            this.pictureBox1.Location = new System.Drawing.Point(8, 8);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Padding = new System.Windows.Forms.Padding(12, 12, 12, 19);
-            this.pictureBox1.Size = new System.Drawing.Size(651, 92);
+            this.pictureBox1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 15);
+            this.pictureBox1.Size = new System.Drawing.Size(521, 58);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -410,10 +411,10 @@
             // 
             this.splitter1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter1.Location = new System.Drawing.Point(12, 12);
+            this.splitter1.Location = new System.Drawing.Point(10, 10);
             this.splitter1.Margin = new System.Windows.Forms.Padding(2);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(1556, 2);
+            this.splitter1.Size = new System.Drawing.Size(1244, 2);
             this.splitter1.TabIndex = 0;
             this.splitter1.TabStop = false;
             // 
@@ -422,10 +423,10 @@
             this.resultPanel.Controls.Add(this.tabControl1);
             this.resultPanel.Controls.Add(this.label3);
             this.resultPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.resultPanel.Location = new System.Drawing.Point(12, 12);
+            this.resultPanel.Location = new System.Drawing.Point(10, 10);
             this.resultPanel.Margin = new System.Windows.Forms.Padding(2);
             this.resultPanel.Name = "resultPanel";
-            this.resultPanel.Size = new System.Drawing.Size(1556, 883);
+            this.resultPanel.Size = new System.Drawing.Size(1244, 584);
             this.resultPanel.TabIndex = 2;
             // 
             // tabControl1
@@ -435,11 +436,10 @@
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ImageList = this.imageList1;
             this.tabControl1.ItemSize = new System.Drawing.Size(100, 30);
-            this.tabControl1.Location = new System.Drawing.Point(0, 12);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Location = new System.Drawing.Point(0, 10);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1556, 871);
+            this.tabControl1.Size = new System.Drawing.Size(1244, 574);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 4;
             // 
@@ -451,10 +451,9 @@
             this.tabPage1.Controls.Add(this.toolStrip3);
             this.tabPage1.ImageIndex = 0;
             this.tabPage1.Location = new System.Drawing.Point(4, 34);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPage1.Size = new System.Drawing.Size(1548, 833);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Size = new System.Drawing.Size(1236, 536);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "料架";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -479,8 +478,7 @@
             this.measDateTimeDataGridViewTextBoxColumn});
             this.ResultView.DataSource = this.resultRowBindingSource;
             this.ResultView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ResultView.Location = new System.Drawing.Point(4, 4);
-            this.ResultView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ResultView.Location = new System.Drawing.Point(3, 3);
             this.ResultView.MultiSelect = false;
             this.ResultView.Name = "ResultView";
             this.ResultView.ReadOnly = true;
@@ -488,7 +486,7 @@
             this.ResultView.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.ResultView.RowTemplate.Height = 30;
             this.ResultView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ResultView.Size = new System.Drawing.Size(1538, 773);
+            this.ResultView.Size = new System.Drawing.Size(1228, 488);
             this.ResultView.TabIndex = 3;
             // 
             // slotIDDataGridViewTextBoxColumn
@@ -543,9 +541,9 @@
             // measDateTimeDataGridViewTextBoxColumn
             // 
             this.measDateTimeDataGridViewTextBoxColumn.DataPropertyName = "MeasDateTime";
-            dataGridViewCellStyle1.Format = "G";
-            dataGridViewCellStyle1.NullValue = null;
-            this.measDateTimeDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Format = "G";
+            dataGridViewCellStyle2.NullValue = null;
+            this.measDateTimeDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
             this.measDateTimeDataGridViewTextBoxColumn.HeaderText = "日期-时间";
             this.measDateTimeDataGridViewTextBoxColumn.Name = "measDateTimeDataGridViewTextBoxColumn";
             this.measDateTimeDataGridViewTextBoxColumn.ReadOnly = true;
@@ -565,9 +563,9 @@
             this.browseToolStripButton,
             this.runBladeToolStripButton,
             this.ResetToolStripButton});
-            this.toolStrip3.Location = new System.Drawing.Point(4, 777);
+            this.toolStrip3.Location = new System.Drawing.Point(3, 491);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(1538, 50);
+            this.toolStrip3.Size = new System.Drawing.Size(1228, 40);
             this.toolStrip3.TabIndex = 4;
             this.toolStrip3.Text = "toolStrip3";
             // 
@@ -577,7 +575,7 @@
             this.checkReportTtoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.checkReportTtoolStripButton.Margin = new System.Windows.Forms.Padding(0, 1, 5, 2);
             this.checkReportTtoolStripButton.Name = "checkReportTtoolStripButton";
-            this.checkReportTtoolStripButton.Size = new System.Drawing.Size(93, 47);
+            this.checkReportTtoolStripButton.Size = new System.Drawing.Size(80, 37);
             this.checkReportTtoolStripButton.Text = "查看报告";
             this.checkReportTtoolStripButton.Click += new System.EventHandler(this.checkReportTtoolStripButton_Click);
             // 
@@ -587,7 +585,7 @@
             this.browseToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.browseToolStripButton.Margin = new System.Windows.Forms.Padding(0, 1, 5, 2);
             this.browseToolStripButton.Name = "browseToolStripButton";
-            this.browseToolStripButton.Size = new System.Drawing.Size(93, 47);
+            this.browseToolStripButton.Size = new System.Drawing.Size(80, 37);
             this.browseToolStripButton.Text = "浏览目录";
             this.browseToolStripButton.Click += new System.EventHandler(this.browseToolStripButton_Click);
             // 
@@ -597,7 +595,7 @@
             this.runBladeToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.runBladeToolStripButton.Margin = new System.Windows.Forms.Padding(0, 1, 5, 2);
             this.runBladeToolStripButton.Name = "runBladeToolStripButton";
-            this.runBladeToolStripButton.Size = new System.Drawing.Size(103, 47);
+            this.runBladeToolStripButton.Size = new System.Drawing.Size(89, 37);
             this.runBladeToolStripButton.Text = "Blade分析";
             this.runBladeToolStripButton.Click += new System.EventHandler(this.runBladeToolStripButton_Click);
             // 
@@ -606,7 +604,7 @@
             this.ResetToolStripButton.Image = global::ClientMainMold.Properties.Resources.reset;
             this.ResetToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ResetToolStripButton.Name = "ResetToolStripButton";
-            this.ResetToolStripButton.Size = new System.Drawing.Size(93, 47);
+            this.ResetToolStripButton.Size = new System.Drawing.Size(80, 37);
             this.ResetToolStripButton.Text = "重置料架";
             this.ResetToolStripButton.Click += new System.EventHandler(this.ResetToolStripButton_Click);
             // 
@@ -618,10 +616,9 @@
             this.tabPage2.Controls.Add(this.toolStrip4);
             this.tabPage2.ImageIndex = 1;
             this.tabPage2.Location = new System.Drawing.Point(4, 34);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPage2.Size = new System.Drawing.Size(1548, 833);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage2.Size = new System.Drawing.Size(1237, 659);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "报告";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -646,13 +643,12 @@
             this.measDateTimeDataGridViewTextBoxColumn1});
             this.dataGridView1.DataSource = this.partResultRecordBindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(4, 4);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 30;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1538, 773);
+            this.dataGridView1.Size = new System.Drawing.Size(1229, 611);
             this.dataGridView1.TabIndex = 1;
             // 
             // partIDDataGridViewTextBoxColumn1
@@ -700,9 +696,9 @@
             // measDateTimeDataGridViewTextBoxColumn1
             // 
             this.measDateTimeDataGridViewTextBoxColumn1.DataPropertyName = "MeasDateTime";
-            dataGridViewCellStyle2.Format = "G";
-            dataGridViewCellStyle2.NullValue = null;
-            this.measDateTimeDataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Format = "G";
+            dataGridViewCellStyle3.NullValue = null;
+            this.measDateTimeDataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle3;
             this.measDateTimeDataGridViewTextBoxColumn1.HeaderText = "日期-时间";
             this.measDateTimeDataGridViewTextBoxColumn1.Name = "measDateTimeDataGridViewTextBoxColumn1";
             this.measDateTimeDataGridViewTextBoxColumn1.ReadOnly = true;
@@ -722,9 +718,9 @@
             this.wholeBrowseToolStripButton,
             this.wholeToolStripButton});
             this.toolStrip4.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.toolStrip4.Location = new System.Drawing.Point(4, 777);
+            this.toolStrip4.Location = new System.Drawing.Point(3, 614);
             this.toolStrip4.Name = "toolStrip4";
-            this.toolStrip4.Size = new System.Drawing.Size(1538, 50);
+            this.toolStrip4.Size = new System.Drawing.Size(1229, 40);
             this.toolStrip4.TabIndex = 0;
             this.toolStrip4.Text = "toolStrip4";
             // 
@@ -734,7 +730,7 @@
             this.wholeCheckToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.wholeCheckToolStripButton.Margin = new System.Windows.Forms.Padding(0, 1, 5, 2);
             this.wholeCheckToolStripButton.Name = "wholeCheckToolStripButton";
-            this.wholeCheckToolStripButton.Size = new System.Drawing.Size(93, 47);
+            this.wholeCheckToolStripButton.Size = new System.Drawing.Size(80, 37);
             this.wholeCheckToolStripButton.Text = "查看报告";
             this.wholeCheckToolStripButton.Click += new System.EventHandler(this.wholeCheckToolStripButton_Click);
             // 
@@ -744,7 +740,7 @@
             this.wholeBrowseToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.wholeBrowseToolStripButton.Margin = new System.Windows.Forms.Padding(0, 1, 5, 2);
             this.wholeBrowseToolStripButton.Name = "wholeBrowseToolStripButton";
-            this.wholeBrowseToolStripButton.Size = new System.Drawing.Size(93, 47);
+            this.wholeBrowseToolStripButton.Size = new System.Drawing.Size(80, 37);
             this.wholeBrowseToolStripButton.Text = "浏览目录";
             this.wholeBrowseToolStripButton.Click += new System.EventHandler(this.wholeBrowseToolStripButton_Click);
             // 
@@ -753,7 +749,7 @@
             this.wholeToolStripButton.Image = global::ClientMainMold.Properties.Resources.BladeReport;
             this.wholeToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.wholeToolStripButton.Name = "wholeToolStripButton";
-            this.wholeToolStripButton.Size = new System.Drawing.Size(103, 47);
+            this.wholeToolStripButton.Size = new System.Drawing.Size(89, 37);
             this.wholeToolStripButton.Text = "Blade分析";
             this.wholeToolStripButton.Click += new System.EventHandler(this.wholeToolStripButton_Click);
             // 
@@ -768,30 +764,27 @@
             // 
             this.label3.Dock = System.Windows.Forms.DockStyle.Top;
             this.label3.Location = new System.Drawing.Point(0, 0);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(1556, 12);
+            this.label3.Size = new System.Drawing.Size(1244, 10);
             this.label3.TabIndex = 2;
             // 
             // splitContainer5
             // 
             this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer5.Location = new System.Drawing.Point(12, 12);
-            this.splitContainer5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer5.Location = new System.Drawing.Point(10, 10);
             this.splitContainer5.Name = "splitContainer5";
             // 
             // splitContainer5.Panel1
             // 
             this.splitContainer5.Panel1.Controls.Add(this.groupBox5);
-            this.splitContainer5.Panel1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer5.Panel1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
             // 
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.Controls.Add(this.plcPanel);
             this.splitContainer5.Panel2.Controls.Add(this.partPanel);
-            this.splitContainer5.Size = new System.Drawing.Size(1556, 883);
-            this.splitContainer5.SplitterDistance = 331;
-            this.splitContainer5.SplitterWidth = 5;
+            this.splitContainer5.Size = new System.Drawing.Size(1244, 584);
+            this.splitContainer5.SplitterDistance = 264;
             this.splitContainer5.TabIndex = 2;
             // 
             // groupBox5
@@ -799,11 +792,10 @@
             this.groupBox5.Controls.Add(this.pictureBox2);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox5.Location = new System.Drawing.Point(4, 4);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox5.Location = new System.Drawing.Point(3, 3);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.groupBox5.Size = new System.Drawing.Size(323, 875);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.groupBox5.Size = new System.Drawing.Size(258, 578);
             this.groupBox5.TabIndex = 2;
             this.groupBox5.TabStop = false;
             // 
@@ -812,10 +804,10 @@
             this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox2.Image = global::ClientMainMold.Properties.Resources.blade;
-            this.pictureBox2.Location = new System.Drawing.Point(6, 24);
+            this.pictureBox2.Location = new System.Drawing.Point(5, 19);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(311, 845);
+            this.pictureBox2.Size = new System.Drawing.Size(248, 554);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
@@ -827,7 +819,7 @@
             this.plcPanel.Location = new System.Drawing.Point(0, 0);
             this.plcPanel.Margin = new System.Windows.Forms.Padding(2);
             this.plcPanel.Name = "plcPanel";
-            this.plcPanel.Size = new System.Drawing.Size(1220, 883);
+            this.plcPanel.Size = new System.Drawing.Size(976, 584);
             this.plcPanel.TabIndex = 3;
             // 
             // tableLayoutPanel1
@@ -839,31 +831,27 @@
             this.tableLayoutPanel1.Controls.Add(this.groupBox3, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1220, 883);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(976, 584);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.splitContainer6);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox4.Location = new System.Drawing.Point(797, 4);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Location = new System.Drawing.Point(637, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox4.Size = new System.Drawing.Size(419, 850);
+            this.groupBox4.Size = new System.Drawing.Size(336, 558);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             // 
             // splitContainer6
             // 
             this.splitContainer6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer6.Location = new System.Drawing.Point(4, 22);
-            this.splitContainer6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer6.Location = new System.Drawing.Point(3, 17);
             this.splitContainer6.Name = "splitContainer6";
             this.splitContainer6.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -874,9 +862,8 @@
             // splitContainer6.Panel2
             // 
             this.splitContainer6.Panel2.Controls.Add(this.groupBox9);
-            this.splitContainer6.Size = new System.Drawing.Size(411, 824);
-            this.splitContainer6.SplitterDistance = 490;
-            this.splitContainer6.SplitterWidth = 5;
+            this.splitContainer6.Size = new System.Drawing.Size(330, 538);
+            this.splitContainer6.SplitterDistance = 319;
             this.splitContainer6.TabIndex = 7;
             // 
             // groupBox7
@@ -891,8 +878,8 @@
             this.groupBox7.Location = new System.Drawing.Point(0, 0);
             this.groupBox7.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Padding = new System.Windows.Forms.Padding(12, 8, 12, 8);
-            this.groupBox7.Size = new System.Drawing.Size(411, 490);
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(10, 6, 10, 6);
+            this.groupBox7.Size = new System.Drawing.Size(330, 319);
             this.groupBox7.TabIndex = 6;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "三坐标";
@@ -905,21 +892,19 @@
             this.cmmListBox.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cmmListBox.FormattingEnabled = true;
             this.cmmListBox.HorizontalScrollbar = true;
-            this.cmmListBox.ItemHeight = 23;
-            this.cmmListBox.Location = new System.Drawing.Point(12, 111);
-            this.cmmListBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmmListBox.ItemHeight = 20;
+            this.cmmListBox.Location = new System.Drawing.Point(10, 97);
             this.cmmListBox.Name = "cmmListBox";
             this.cmmListBox.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.cmmListBox.Size = new System.Drawing.Size(387, 216);
+            this.cmmListBox.Size = new System.Drawing.Size(310, 92);
             this.cmmListBox.TabIndex = 5;
             // 
             // label4
             // 
             this.label4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label4.Location = new System.Drawing.Point(12, 327);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(10, 189);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(387, 10);
+            this.label4.Size = new System.Drawing.Size(310, 8);
             this.label4.TabIndex = 8;
             // 
             // tableLayoutPanel3
@@ -933,14 +918,13 @@
             this.tableLayoutPanel3.Controls.Add(this.button2, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.button3, 2, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(12, 337);
-            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(10, 197);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tableLayoutPanel3.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(387, 145);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(310, 116);
             this.tableLayoutPanel3.TabIndex = 6;
             // 
             // cmmConnButton
@@ -950,10 +934,9 @@
             this.cmmConnButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.cmmConnButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmmConnButton.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.cmmConnButton.Location = new System.Drawing.Point(10, 10);
-            this.cmmConnButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmmConnButton.Location = new System.Drawing.Point(8, 8);
             this.cmmConnButton.Name = "cmmConnButton";
-            this.cmmConnButton.Size = new System.Drawing.Size(117, 58);
+            this.cmmConnButton.Size = new System.Drawing.Size(94, 47);
             this.cmmConnButton.TabIndex = 0;
             this.cmmConnButton.Text = "连接";
             this.cmmConnButton.UseVisualStyleBackColor = true;
@@ -964,10 +947,9 @@
             this.enableButton.AutoSize = true;
             this.enableButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.enableButton.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.enableButton.Location = new System.Drawing.Point(135, 10);
-            this.enableButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.enableButton.Location = new System.Drawing.Point(108, 8);
             this.enableButton.Name = "enableButton";
-            this.enableButton.Size = new System.Drawing.Size(117, 58);
+            this.enableButton.Size = new System.Drawing.Size(94, 47);
             this.enableButton.TabIndex = 4;
             this.enableButton.Text = "离线";
             this.enableButton.UseVisualStyleBackColor = true;
@@ -977,10 +959,9 @@
             // 
             this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button2.Location = new System.Drawing.Point(260, 10);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button2.Location = new System.Drawing.Point(208, 8);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(117, 58);
+            this.button2.Size = new System.Drawing.Size(94, 47);
             this.button2.TabIndex = 5;
             this.button2.Text = "清空";
             this.button2.UseVisualStyleBackColor = true;
@@ -990,10 +971,9 @@
             // 
             this.button3.BackColor = System.Drawing.Color.Red;
             this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button3.Location = new System.Drawing.Point(260, 76);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button3.Location = new System.Drawing.Point(208, 61);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(117, 59);
+            this.button3.Size = new System.Drawing.Size(94, 47);
             this.button3.TabIndex = 6;
             this.button3.Text = "清除错误";
             this.button3.UseVisualStyleBackColor = false;
@@ -1002,10 +982,9 @@
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Location = new System.Drawing.Point(12, 73);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(10, 67);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(387, 38);
+            this.label1.Size = new System.Drawing.Size(310, 30);
             this.label1.TabIndex = 7;
             // 
             // comboBox1
@@ -1019,11 +998,10 @@
             this.comboBox1.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.comboBox1.IntegralHeight = false;
             this.comboBox1.ItemHeight = 35;
-            this.comboBox1.Location = new System.Drawing.Point(12, 32);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox1.Location = new System.Drawing.Point(10, 26);
             this.comboBox1.MaxDropDownItems = 4;
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(387, 41);
+            this.comboBox1.Size = new System.Drawing.Size(310, 41);
             this.comboBox1.TabIndex = 3;
             this.comboBox1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBox1_DrawItem);
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
@@ -1037,10 +1015,9 @@
             this.groupBox9.Controls.Add(this.tableLayoutPanel4);
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox9.Location = new System.Drawing.Point(0, 0);
-            this.groupBox9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Padding = new System.Windows.Forms.Padding(12, 8, 12, 8);
-            this.groupBox9.Size = new System.Drawing.Size(411, 329);
+            this.groupBox9.Padding = new System.Windows.Forms.Padding(10, 6, 10, 6);
+            this.groupBox9.Size = new System.Drawing.Size(330, 215);
             this.groupBox9.TabIndex = 6;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "PLC";
@@ -1056,14 +1033,13 @@
             this.tableLayoutPanel4.Controls.Add(this.writePartIDButton, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.plcSetupBtn, 2, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(12, 197);
-            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(10, 110);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tableLayoutPanel4.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.tableLayoutPanel4.RowCount = 2;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(387, 124);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(310, 99);
             this.tableLayoutPanel4.TabIndex = 6;
             // 
             // button1
@@ -1071,10 +1047,9 @@
             this.tableLayoutPanel4.SetColumnSpan(this.button1, 2);
             this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button1.Location = new System.Drawing.Point(10, 10);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Location = new System.Drawing.Point(8, 8);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(178, 48);
+            this.button1.Size = new System.Drawing.Size(144, 38);
             this.button1.TabIndex = 5;
             this.button1.Text = "连接";
             this.button1.UseVisualStyleBackColor = true;
@@ -1085,10 +1060,9 @@
             this.tableLayoutPanel4.SetColumnSpan(this.writePartIDButton, 2);
             this.writePartIDButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.writePartIDButton.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.writePartIDButton.Location = new System.Drawing.Point(10, 66);
-            this.writePartIDButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.writePartIDButton.Location = new System.Drawing.Point(8, 52);
             this.writePartIDButton.Name = "writePartIDButton";
-            this.writePartIDButton.Size = new System.Drawing.Size(178, 48);
+            this.writePartIDButton.Size = new System.Drawing.Size(144, 39);
             this.writePartIDButton.TabIndex = 6;
             this.writePartIDButton.Text = "写码";
             this.writePartIDButton.UseVisualStyleBackColor = true;
@@ -1099,10 +1073,10 @@
             this.tableLayoutPanel4.SetColumnSpan(this.plcSetupBtn, 2);
             this.plcSetupBtn.Dock = System.Windows.Forms.DockStyle.Fill;
             this.plcSetupBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.plcSetupBtn.Location = new System.Drawing.Point(194, 8);
+            this.plcSetupBtn.Location = new System.Drawing.Point(157, 7);
             this.plcSetupBtn.Margin = new System.Windows.Forms.Padding(2);
             this.plcSetupBtn.Name = "plcSetupBtn";
-            this.plcSetupBtn.Size = new System.Drawing.Size(185, 52);
+            this.plcSetupBtn.Size = new System.Drawing.Size(146, 40);
             this.plcSetupBtn.TabIndex = 7;
             this.plcSetupBtn.Text = "设置";
             this.plcSetupBtn.UseVisualStyleBackColor = true;
@@ -1113,11 +1087,9 @@
             this.groupBox3.Controls.Add(this.toolStrip5);
             this.groupBox3.Controls.Add(this.groupBox6);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(4, 4);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox3.Size = new System.Drawing.Size(785, 850);
+            this.groupBox3.Size = new System.Drawing.Size(628, 558);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             // 
@@ -1135,10 +1107,10 @@
             this.toolStripButton1,
             this.toolStripLabel7,
             this.initConnectToolStripButton});
-            this.toolStrip5.Location = new System.Drawing.Point(4, 721);
+            this.toolStrip5.Location = new System.Drawing.Point(3, 455);
             this.toolStrip5.Name = "toolStrip5";
             this.toolStrip5.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.toolStrip5.Size = new System.Drawing.Size(777, 125);
+            this.toolStrip5.Size = new System.Drawing.Size(622, 100);
             this.toolStrip5.TabIndex = 2;
             this.toolStrip5.Text = "toolStrip5";
             // 
@@ -1155,7 +1127,7 @@
             this.toolStripButton2.AutoSize = false;
             this.toolStripButton2.BackgroundImage = global::ClientMainMold.Properties.Resources.buttonback2;
             this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.Font = new System.Drawing.Font("Microsoft YaHei UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.toolStripButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
@@ -1178,7 +1150,7 @@
             this.toolStripButton1.BackgroundImage = global::ClientMainMold.Properties.Resources.buttonBack1;
             this.toolStripButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.Font = new System.Drawing.Font("Microsoft YaHei UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.toolStripButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
@@ -1200,7 +1172,7 @@
             this.initConnectToolStripButton.AutoSize = false;
             this.initConnectToolStripButton.BackgroundImage = global::ClientMainMold.Properties.Resources.buttonBack1;
             this.initConnectToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.initConnectToolStripButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.initConnectToolStripButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.initConnectToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("initConnectToolStripButton.Image")));
             this.initConnectToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.initConnectToolStripButton.Name = "initConnectToolStripButton";
@@ -1215,11 +1187,11 @@
             this.groupBox6.Controls.Add(this.comboBox2);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox6.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox6.Location = new System.Drawing.Point(4, 22);
+            this.groupBox6.Location = new System.Drawing.Point(3, 17);
             this.groupBox6.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Padding = new System.Windows.Forms.Padding(12, 8, 12, 8);
-            this.groupBox6.Size = new System.Drawing.Size(777, 100);
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(10, 6, 10, 6);
+            this.groupBox6.Size = new System.Drawing.Size(622, 80);
             this.groupBox6.TabIndex = 1;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "工件列表";
@@ -1235,11 +1207,10 @@
             this.comboBox2.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.comboBox2.IntegralHeight = false;
             this.comboBox2.ItemHeight = 35;
-            this.comboBox2.Location = new System.Drawing.Point(12, 32);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox2.Location = new System.Drawing.Point(10, 26);
             this.comboBox2.MaxDropDownItems = 4;
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(753, 41);
+            this.comboBox2.Size = new System.Drawing.Size(602, 41);
             this.comboBox2.TabIndex = 0;
             this.comboBox2.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBox2_DrawItem);
             // 
@@ -1254,7 +1225,7 @@
             this.partPanel.Location = new System.Drawing.Point(0, 0);
             this.partPanel.Margin = new System.Windows.Forms.Padding(2);
             this.partPanel.Name = "partPanel";
-            this.partPanel.Size = new System.Drawing.Size(1220, 883);
+            this.partPanel.Size = new System.Drawing.Size(976, 584);
             this.partPanel.TabIndex = 1;
             // 
             // tableLayoutPanel2
@@ -1265,11 +1236,10 @@
             this.tableLayoutPanel2.Controls.Add(this.splitContainer3, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1220, 883);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(976, 584);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // splitContainer3
@@ -1283,16 +1253,17 @@
             // 
             this.splitContainer3.Panel1.Controls.Add(this.toolStrip1);
             this.splitContainer3.Panel1.Controls.Add(this.partView);
-            this.splitContainer3.Panel1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.splitContainer3.Panel1.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.splitContainer3.Panel1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.splitContainer3.Panel1.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
             // 
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer3.Panel2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.splitContainer3.Panel2.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.splitContainer3.Size = new System.Drawing.Size(1216, 879);
-            this.splitContainer3.SplitterDistance = 743;
+            this.splitContainer3.Panel2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.splitContainer3.Panel2.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.splitContainer3.Size = new System.Drawing.Size(972, 580);
+            this.splitContainer3.SplitterDistance = 593;
+            this.splitContainer3.SplitterWidth = 3;
             this.splitContainer3.TabIndex = 2;
             // 
             // toolStrip1
@@ -1308,9 +1279,9 @@
             this.toolStripSeparator1,
             this.writePartIDToPlcToolStripButton,
             this.lookupToolStripButton});
-            this.toolStrip1.Location = new System.Drawing.Point(6, 823);
+            this.toolStrip1.Location = new System.Drawing.Point(5, 535);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(731, 50);
+            this.toolStrip1.Size = new System.Drawing.Size(583, 40);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -1321,7 +1292,7 @@
             this.addPartToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addPartToolStripButton.Name = "addPartToolStripButton";
             this.addPartToolStripButton.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.addPartToolStripButton.Size = new System.Drawing.Size(68, 47);
+            this.addPartToolStripButton.Size = new System.Drawing.Size(61, 37);
             this.addPartToolStripButton.Text = "添加";
             this.addPartToolStripButton.Click += new System.EventHandler(this.addPartToolStripButton_Click);
             // 
@@ -1331,7 +1302,7 @@
             this.modifyToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.modifyToolStripButton1.Name = "modifyToolStripButton1";
             this.modifyToolStripButton1.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.modifyToolStripButton1.Size = new System.Drawing.Size(68, 47);
+            this.modifyToolStripButton1.Size = new System.Drawing.Size(61, 37);
             this.modifyToolStripButton1.Text = "更改";
             this.modifyToolStripButton1.Click += new System.EventHandler(this.modifyToolStripButton1_Click);
             // 
@@ -1341,14 +1312,14 @@
             this.delPartToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.delPartToolStripButton.Name = "delPartToolStripButton";
             this.delPartToolStripButton.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.delPartToolStripButton.Size = new System.Drawing.Size(68, 47);
+            this.delPartToolStripButton.Size = new System.Drawing.Size(61, 37);
             this.delPartToolStripButton.Text = "删除";
             this.delPartToolStripButton.Click += new System.EventHandler(this.delPartToolStripButton_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 50);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 40);
             // 
             // writePartIDToPlcToolStripButton
             // 
@@ -1356,7 +1327,7 @@
             this.writePartIDToPlcToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.writePartIDToPlcToolStripButton.Name = "writePartIDToPlcToolStripButton";
             this.writePartIDToPlcToolStripButton.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.writePartIDToPlcToolStripButton.Size = new System.Drawing.Size(68, 47);
+            this.writePartIDToPlcToolStripButton.Size = new System.Drawing.Size(61, 37);
             this.writePartIDToPlcToolStripButton.Text = "写码";
             this.writePartIDToPlcToolStripButton.Click += new System.EventHandler(this.writePartIDToPlcToolStripButton_Click);
             // 
@@ -1366,7 +1337,7 @@
             this.lookupToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.lookupToolStripButton.Name = "lookupToolStripButton";
             this.lookupToolStripButton.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.lookupToolStripButton.Size = new System.Drawing.Size(68, 47);
+            this.lookupToolStripButton.Size = new System.Drawing.Size(61, 37);
             this.lookupToolStripButton.Text = "浏览";
             this.lookupToolStripButton.Click += new System.EventHandler(this.lookupToolStripButton_Click);
             // 
@@ -1382,23 +1353,22 @@
             this.progFileNameDataGridViewTextBoxColumn,
             this.Column1});
             this.partView.DataSource = this.partConfigBindingSource;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.partView.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.partView.DefaultCellStyle = dataGridViewCellStyle1;
             this.partView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.partView.Location = new System.Drawing.Point(6, 6);
-            this.partView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.partView.Location = new System.Drawing.Point(5, 5);
             this.partView.MultiSelect = false;
             this.partView.Name = "partView";
             this.partView.ReadOnly = true;
             this.partView.RowTemplate.Height = 35;
             this.partView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.partView.Size = new System.Drawing.Size(731, 867);
+            this.partView.Size = new System.Drawing.Size(583, 570);
             this.partView.TabIndex = 0;
             // 
             // partIDDataGridViewTextBoxColumn2
@@ -1431,11 +1401,11 @@
             this.groupBox2.Controls.Add(tolFileNameLabel);
             this.groupBox2.Controls.Add(this.tolFileNameTextBox);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(6, 6);
+            this.groupBox2.Location = new System.Drawing.Point(5, 5);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(457, 867);
+            this.groupBox2.Size = new System.Drawing.Size(366, 570);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Blade文件信息";
@@ -1444,30 +1414,30 @@
             // 
             this.flvFileNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.partConfigBindingSource, "FlvFileName", true));
             this.flvFileNameTextBox.Enabled = false;
-            this.flvFileNameTextBox.Location = new System.Drawing.Point(139, 45);
+            this.flvFileNameTextBox.Location = new System.Drawing.Point(111, 36);
             this.flvFileNameTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.flvFileNameTextBox.Name = "flvFileNameTextBox";
-            this.flvFileNameTextBox.Size = new System.Drawing.Size(308, 25);
+            this.flvFileNameTextBox.Size = new System.Drawing.Size(247, 21);
             this.flvFileNameTextBox.TabIndex = 1;
             // 
             // normFileNameTextBox
             // 
             this.normFileNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.partConfigBindingSource, "NormFileName", true));
             this.normFileNameTextBox.Enabled = false;
-            this.normFileNameTextBox.Location = new System.Drawing.Point(139, 76);
+            this.normFileNameTextBox.Location = new System.Drawing.Point(111, 61);
             this.normFileNameTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.normFileNameTextBox.Name = "normFileNameTextBox";
-            this.normFileNameTextBox.Size = new System.Drawing.Size(308, 25);
+            this.normFileNameTextBox.Size = new System.Drawing.Size(247, 21);
             this.normFileNameTextBox.TabIndex = 3;
             // 
             // tolFileNameTextBox
             // 
             this.tolFileNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.partConfigBindingSource, "TolFileName", true));
             this.tolFileNameTextBox.Enabled = false;
-            this.tolFileNameTextBox.Location = new System.Drawing.Point(139, 109);
+            this.tolFileNameTextBox.Location = new System.Drawing.Point(111, 87);
             this.tolFileNameTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.tolFileNameTextBox.Name = "tolFileNameTextBox";
-            this.tolFileNameTextBox.Size = new System.Drawing.Size(308, 25);
+            this.tolFileNameTextBox.Size = new System.Drawing.Size(247, 21);
             this.tolFileNameTextBox.TabIndex = 9;
             // 
             // cmmPanel
@@ -1475,32 +1445,30 @@
             this.cmmPanel.Controls.Add(this.splitContainer2);
             this.cmmPanel.Controls.Add(this.label2);
             this.cmmPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmmPanel.Location = new System.Drawing.Point(12, 12);
+            this.cmmPanel.Location = new System.Drawing.Point(10, 10);
             this.cmmPanel.Margin = new System.Windows.Forms.Padding(2);
             this.cmmPanel.Name = "cmmPanel";
-            this.cmmPanel.Size = new System.Drawing.Size(1556, 883);
+            this.cmmPanel.Size = new System.Drawing.Size(1244, 584);
             this.cmmPanel.TabIndex = 4;
             // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 12);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer2.Location = new System.Drawing.Point(0, 10);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.Controls.Add(this.CmmView);
             this.splitContainer2.Panel1.Controls.Add(this.cmmToolStrip);
-            this.splitContainer2.Panel1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            this.splitContainer2.Panel1.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer2.Panel2.Controls.Add(this.toolStrip2);
-            this.splitContainer2.Size = new System.Drawing.Size(1556, 871);
-            this.splitContainer2.SplitterDistance = 1018;
-            this.splitContainer2.SplitterWidth = 5;
+            this.splitContainer2.Size = new System.Drawing.Size(1244, 574);
+            this.splitContainer2.SplitterDistance = 813;
             this.splitContainer2.TabIndex = 0;
             // 
             // CmmView
@@ -1520,15 +1488,14 @@
             this.stateImageDataGridViewImageColumn});
             this.CmmView.DataSource = this.cmmDataRecordBindingSource;
             this.CmmView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CmmView.Location = new System.Drawing.Point(0, 8);
-            this.CmmView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CmmView.Location = new System.Drawing.Point(0, 6);
             this.CmmView.MultiSelect = false;
             this.CmmView.Name = "CmmView";
             this.CmmView.ReadOnly = true;
             this.CmmView.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.CmmView.RowTemplate.Height = 50;
             this.CmmView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.CmmView.Size = new System.Drawing.Size(1018, 807);
+            this.CmmView.Size = new System.Drawing.Size(813, 523);
             this.CmmView.TabIndex = 1;
             // 
             // ServerName
@@ -1590,9 +1557,9 @@
             this.toolStripSeparator3,
             this.InitClientTsb,
             this.ClearErrorTsb});
-            this.cmmToolStrip.Location = new System.Drawing.Point(0, 815);
+            this.cmmToolStrip.Location = new System.Drawing.Point(0, 529);
             this.cmmToolStrip.Name = "cmmToolStrip";
-            this.cmmToolStrip.Size = new System.Drawing.Size(1018, 56);
+            this.cmmToolStrip.Size = new System.Drawing.Size(813, 45);
             this.cmmToolStrip.TabIndex = 0;
             this.cmmToolStrip.Text = "toolStrip2";
             // 
@@ -1602,7 +1569,7 @@
             this.addCmmTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addCmmTsb.Name = "addCmmTsb";
             this.addCmmTsb.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.addCmmTsb.Size = new System.Drawing.Size(88, 53);
+            this.addCmmTsb.Size = new System.Drawing.Size(81, 42);
             this.addCmmTsb.Text = "添加";
             this.addCmmTsb.ToolTipText = "添加三坐标";
             this.addCmmTsb.Click += new System.EventHandler(this.addCmmTsb_Click);
@@ -1613,7 +1580,7 @@
             this.deleteCmmTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteCmmTsb.Name = "deleteCmmTsb";
             this.deleteCmmTsb.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.deleteCmmTsb.Size = new System.Drawing.Size(88, 53);
+            this.deleteCmmTsb.Size = new System.Drawing.Size(81, 42);
             this.deleteCmmTsb.Text = "删除";
             this.deleteCmmTsb.ToolTipText = "删除三坐标";
             this.deleteCmmTsb.Click += new System.EventHandler(this.deleteCmmTsb_Click);
@@ -1621,7 +1588,7 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 56);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 45);
             // 
             // enableCmmTsb
             // 
@@ -1629,7 +1596,7 @@
             this.enableCmmTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.enableCmmTsb.Name = "enableCmmTsb";
             this.enableCmmTsb.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.enableCmmTsb.Size = new System.Drawing.Size(88, 53);
+            this.enableCmmTsb.Size = new System.Drawing.Size(81, 42);
             this.enableCmmTsb.Text = "激活";
             this.enableCmmTsb.ToolTipText = "激活";
             this.enableCmmTsb.Click += new System.EventHandler(this.enableCmmTsb_Click);
@@ -1640,7 +1607,7 @@
             this.disableCmmTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.disableCmmTsb.Name = "disableCmmTsb";
             this.disableCmmTsb.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.disableCmmTsb.Size = new System.Drawing.Size(88, 53);
+            this.disableCmmTsb.Size = new System.Drawing.Size(81, 42);
             this.disableCmmTsb.Text = "离线";
             this.disableCmmTsb.ToolTipText = "单机处理";
             this.disableCmmTsb.Click += new System.EventHandler(this.disableCmmTsb_Click);
@@ -1648,7 +1615,7 @@
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 56);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 45);
             // 
             // InitClientTsb
             // 
@@ -1656,7 +1623,7 @@
             this.InitClientTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.InitClientTsb.Name = "InitClientTsb";
             this.InitClientTsb.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.InitClientTsb.Size = new System.Drawing.Size(88, 53);
+            this.InitClientTsb.Size = new System.Drawing.Size(81, 42);
             this.InitClientTsb.Text = "连接";
             this.InitClientTsb.Click += new System.EventHandler(this.InitClientTsb_Click);
             // 
@@ -1665,7 +1632,7 @@
             this.ClearErrorTsb.Image = global::ClientMainMold.Properties.Resources.reset;
             this.ClearErrorTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ClearErrorTsb.Name = "ClearErrorTsb";
-            this.ClearErrorTsb.Size = new System.Drawing.Size(113, 53);
+            this.ClearErrorTsb.Size = new System.Drawing.Size(100, 42);
             this.ClearErrorTsb.Text = "清除错误";
             this.ClearErrorTsb.Click += new System.EventHandler(this.ClearErrorTsb_Click);
             // 
@@ -1675,10 +1642,8 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox1.Size = new System.Drawing.Size(533, 815);
+            this.groupBox1.Size = new System.Drawing.Size(427, 529);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "记录";
@@ -1691,12 +1656,11 @@
             this.cmmInfoListBox.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cmmInfoListBox.FormattingEnabled = true;
             this.cmmInfoListBox.HorizontalScrollbar = true;
-            this.cmmInfoListBox.ItemHeight = 23;
-            this.cmmInfoListBox.Location = new System.Drawing.Point(4, 24);
-            this.cmmInfoListBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmmInfoListBox.ItemHeight = 20;
+            this.cmmInfoListBox.Location = new System.Drawing.Point(3, 19);
             this.cmmInfoListBox.Name = "cmmInfoListBox";
             this.cmmInfoListBox.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.cmmInfoListBox.Size = new System.Drawing.Size(525, 787);
+            this.cmmInfoListBox.Size = new System.Drawing.Size(421, 507);
             this.cmmInfoListBox.TabIndex = 1;
             // 
             // toolStrip2
@@ -1708,10 +1672,10 @@
             this.toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ClearLogInfoTsb});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 815);
+            this.toolStrip2.Location = new System.Drawing.Point(0, 529);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.toolStrip2.Size = new System.Drawing.Size(533, 56);
+            this.toolStrip2.Size = new System.Drawing.Size(427, 45);
             this.toolStrip2.TabIndex = 0;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -1722,7 +1686,7 @@
             this.ClearLogInfoTsb.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ClearLogInfoTsb.Name = "ClearLogInfoTsb";
             this.ClearLogInfoTsb.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ClearLogInfoTsb.Size = new System.Drawing.Size(43, 53);
+            this.ClearLogInfoTsb.Size = new System.Drawing.Size(36, 42);
             this.ClearLogInfoTsb.Text = "清空";
             this.ClearLogInfoTsb.Click += new System.EventHandler(this.ClearLogInfoTsb_Click);
             // 
@@ -1730,15 +1694,14 @@
             // 
             this.label2.Dock = System.Windows.Forms.DockStyle.Top;
             this.label2.Location = new System.Drawing.Point(0, 0);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(1556, 12);
+            this.label2.Size = new System.Drawing.Size(1244, 10);
             this.label2.TabIndex = 2;
             // 
             // statusStrip1
             // 
             this.statusStrip1.AutoSize = false;
-            this.statusStrip1.Font = new System.Drawing.Font("Microsoft YaHei UI", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.statusStrip1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
@@ -1746,10 +1709,11 @@
             this.plcIPStatusLabel,
             this.toolStripProgressBar1});
             this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1011);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 671);
             this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 11, 0);
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.statusStrip1.Size = new System.Drawing.Size(1580, 44);
+            this.statusStrip1.Size = new System.Drawing.Size(1264, 35);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -1793,20 +1757,19 @@
             this.toolStripProgressBar1.AutoSize = false;
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(162, 36);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(130, 29);
             // 
             // MainFrm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1580, 1055);
+            this.ClientSize = new System.Drawing.Size(1264, 706);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.MinimumSize = new System.Drawing.Size(1596, 1023);
+            this.MinimumSize = new System.Drawing.Size(1280, 694);
             this.Name = "MainFrm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "自动测量";

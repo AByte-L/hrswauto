@@ -996,6 +996,7 @@ namespace ClientMainMold
             {
                 // 
                 plcIPStatusLabel.Text = psForm.IpAddress;
+                PlcClient.Instance.SetConnectParam(psForm.IpAddress, 0, 0);
             }
         }
     }

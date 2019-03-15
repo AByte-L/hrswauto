@@ -20,7 +20,7 @@ namespace Gy.HrswAuto.PLCMold
         public event EventHandler ReconnectEvent;
         // S7 
         private S7Client _s7Client;
-        public string PlcIPAddress { get; set; } = "192.168.100.1";
+        public string PlcIPAddress { get; set; } = "192.168.0.1";
         public int Rack { get; set; } = 0;
         public int Slot { get; set; } = 0;
         public bool IsConnected
@@ -236,7 +236,7 @@ namespace Gy.HrswAuto.PLCMold
         public bool SetWriteIDFlag(int clientId)
         {
             // Byte 0.0
-            return WritePlcFlags(clientId, 0, true, new int[] { 0 });
+            return WritePlcFlags(clientId, 256, true, new int[] { 0 });
         }
 
         public bool SetPartID(int clientId, string partId)
@@ -249,6 +249,10 @@ namespace Gy.HrswAuto.PLCMold
                 if (_s7Client.Connected())
                 {
                     result = _s7Client.DBWrite(clientId, 0, 256, buf);
+                    if (result != 0)
+                    {
+                        return false;
+                    }
                     Thread.Sleep(200); // 等待数据交换
                 }
             }
@@ -263,14 +267,14 @@ namespace Gy.HrswAuto.PLCMold
             {
                 if (_s7Client.Connected())
                 {
-                    result = ReadData(nmb, 0, 1, buf);
-                    if (result = S7.GetBitAt(buf, 0, 1))
+                    result = ReadData(nmb, 256, 1, buf);
+                    if (result)
                     {
-                        return true;
+                        result =S7.GetBitAt(buf, 0, 1);
                     }
                 }
             }
-            return false;
+            return result;
         }
         #endregion
 
@@ -339,7 +343,7 @@ namespace Gy.HrswAuto.PLCMold
                 {
                     break;
                 }
-                int result = _s7Client.Connect();
+                int result = _s7Client.ConnectTo(PlcIPAddress, Rack, Slot);
                 Thread.Sleep(50);
                 if (result == 0)
                 {
