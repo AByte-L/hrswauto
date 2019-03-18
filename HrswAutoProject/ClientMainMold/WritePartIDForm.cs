@@ -83,6 +83,7 @@ namespace ClientMainMold
                     {
                         // 
                         Invoke((Action)(() => label1.Text = "写入完成."));
+                        System.Media.SystemSounds.Hand.Play();
                         break;
                     }
                 }

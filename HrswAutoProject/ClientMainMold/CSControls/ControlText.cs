@@ -26,6 +26,8 @@ namespace IPInputControl.Ctrl
         {
             if (keyData == Keys.Tab)
             {
+                if (Text.Length == 0)
+                    return true;
                 return false;
             }
             return base.ProcessCmdKey(ref msg, keyData);

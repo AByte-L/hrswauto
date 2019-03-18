@@ -106,7 +106,7 @@ namespace IPInputControl.Ctrl
                                 txt_2.Focus();
                             }
                         }
-                        else if (ParentTxt.Text == "")
+                        else if (ParentTxt.Text != "")
                         {
                             txt_2.Focus();
                         }
@@ -125,7 +125,7 @@ namespace IPInputControl.Ctrl
                                 txt_3.Focus();
                             }
                         }
-                        else if (ParentTxt.Text == "")
+                        else if (ParentTxt.Text != "")
                         {
                             txt_3.Focus();
                         }
@@ -144,7 +144,7 @@ namespace IPInputControl.Ctrl
                                 txt_4.Focus();
                             }
                         }
-                        else if (ParentTxt.Text == "")
+                        else if (ParentTxt.Text != "")
                         {
                             txt_4.Focus();
                         }

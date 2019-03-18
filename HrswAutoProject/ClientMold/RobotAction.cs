@@ -191,6 +191,7 @@ namespace Gy.HrswAuto.ClientMold
     /// </summary>
     public class RobotPlaceResponse : RobotAction
     {
+
         public RobotPlaceResponse(CmmClient client) : base(client)
         {
             CompletedEvent += client.OnPlaceCompleted;
@@ -198,35 +199,108 @@ namespace Gy.HrswAuto.ClientMold
 
         protected override void PerformAction()
         {
+            //Stopwatch sw = new Stopwatch();
+            //sw.Start();
+            //while (true)
+            //{
+            //    if (!_heartbeat)
+            //    {
+            //        // 更新界面 PLC断开连接
+            //        break;
+            //    }
+            //    else if (sw.Elapsed > TimeSpan.FromMinutes(10))
+            //    {
+            //        // 更新界面， PLC发送抓料响应失败
+            //        break;
+            //    }
+            //    else
+            //    {
+            //        string partID = string.Empty;
+            //        //if (_plcClient.VerifyPlaceCompleted(_client.CmmSvrConfig.ServerID, out partID)) // 抓料完成，调用完成事件
+            //        //{
+            //        //    CompletedEventArgs ce = new CompletedEventArgs(partID);
+            //        //    CompletedEventInvoker(this, ce);
+            //        //    // 关闭心跳事件
+            //        //    break;
+            //        //}
+            //        if (_plcClient.VerifyDuringPlacement(_client.CmmSvrConfig.ServerID, out partID))
+            //        {
+
+            //        }
+            //    }
+            //    Thread.Sleep(1000);
+            //}
+            
+            string partId = string.Empty;
+            var rdtask = Task.Run(() => ReadPartID(out partId));
+            if (rdtask.Result)
+            {
+                var vftask = Task.Run(() => VerifyCompleted());
+                if (vftask.Result)
+                {
+                    CompletedEventArgs ce = new CompletedEventArgs(partId);
+                    CompletedEventInvoker(this, ce);
+                }
+                else
+                {
+                    // todo 报告放置工作出错
+                }
+            }
+            else
+            {
+                // todo 报告放置时读取RFID错误
+            }
+            CompletedEvent -= _client.OnGripCompleted;
+            base.PerformAction();
+        }
+
+        private bool VerifyCompleted()
+        {
+            bool result = false;
             Stopwatch sw = new Stopwatch();
             sw.Start();
             while (true)
             {
-                if (!_heartbeat)
+                if (sw.Elapsed > TimeSpan.FromMinutes(10) || !_heartbeat)
                 {
-                    // 更新界面 PLC断开连接
+                    // 超时或中断连接跳出
+                    result = false;
                     break;
                 }
-                else if (sw.Elapsed > TimeSpan.FromMinutes(10))
+                result = _plcClient.VerifyPlaceCompleted(_client.CmmSvrConfig.ServerID);
+                if (result)
                 {
-                    // 更新界面， PLC发送抓料响应失败
                     break;
-                }
-                else
-                {
-                    string partID = string.Empty;
-                    if (_plcClient.VerifyPlaceCompleted(_client.CmmSvrConfig.ServerID, out partID)) // 抓料完成，调用完成事件
-                    {
-                        CompletedEventArgs ce = new CompletedEventArgs(partID);
-                        CompletedEventInvoker(this, ce);
-                        // 关闭心跳事件
-                        break;
-                    }
                 }
                 Thread.Sleep(1000);
             }
-            CompletedEvent -= _client.OnGripCompleted;
-            base.PerformAction();
+            sw.Stop();
+            return result;
+        }
+
+        private bool ReadPartID(out string rfid)
+        {
+            bool result = false;
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            while (true)
+            {
+                if (sw.Elapsed > TimeSpan.FromMinutes(1) || !_heartbeat) 
+                {
+                    // 超时或中断连接跳出
+                    result = false;
+                    rfid = string.Empty;
+                    break; 
+                }
+                result = _plcClient.VerifyDuringPlacement(_client.CmmSvrConfig.ServerID, out rfid);
+                if (result)
+                {
+                    break;
+                }
+                Thread.Sleep(1000);
+            }
+            sw.Stop();
+            return result;
         }
     }
 

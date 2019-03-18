@@ -24,6 +24,8 @@ https://blog.csdn.net/hefeng_aspnet/article/details/15498187 分组
 https://www.cnblogs.com/wei2yi/p/3248333.html WCF心跳信号
 https://www.gaoding.com/clip?id=32711106 在线抠图
 
+https://blog.csdn.net/wangzhen209/article/details/53285651/ 播放声音
+
 公共资源，设置
 
 客户端设置

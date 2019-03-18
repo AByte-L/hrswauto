@@ -101,28 +101,54 @@ namespace Gy.HrswAuto.PLCMold
         }
 
         /// <summary>
+        /// 确认上料过程中，并读取RFID
+        /// </summary>
+        /// <param name="serverID"></param>
+        /// <param name="partID"></param>
+        /// <returns></returns>
+        public bool VerifyDuringPlacement(int serverID, out string partID)
+        {
+            bool result = false;
+            byte[] buf = new byte[1];
+            partID = string.Empty;
+            if (result = ReadData(serverID, 0, 1, buf)) 
+            {
+                if (result = S7.GetBitAt(buf, 0, 7)) // 确认上料过程中标志
+                {
+                    byte[] str = new byte[256];
+                    result = ReadData(47, 0, 256, str);
+                    if (result)
+                    {
+                        partID = S7.GetStringAt(str, 0);
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
         /// 验证上料完成
         /// </summary>
         /// <param name="clientId"></param>
         /// <param name="partID"></param>
         /// <returns></returns>
-        public bool VerifyPlaceCompleted(int clientId, out string partID)
+        public bool VerifyPlaceCompleted(int clientId)
         {
             bool result = false;
-            byte[] buf = new byte[258];
-            partID = string.Empty;
-            if (result = ReadData(clientId, 0, 258, buf))
+            byte[] buf = new byte[1];
+            if (result = ReadData(clientId, 0, 1, buf))
             {
-                if (result = S7.GetBitAt(buf, 0, 5))
-                {
-                    if (result)
-                    {
-                        partID = S7.GetStringAt(buf, 2); // 获取partID;
-                        S7.SetBitAt(ref buf, 0, 5, false);
-                        S7.SetCharsAt(buf, 2, "");
-                        result = WriteData(clientId, 0, 258, buf);// 重置标志和PartID
-                    }
-                }
+                result = S7.GetBitAt(buf, 0, 5);
+                //if (result = S7.GetBitAt(buf, 0, 5))
+                //{
+                //    if (result)
+                //    {
+                //        partID = S7.GetStringAt(buf, 2); // 获取partID;
+                //        S7.SetBitAt(ref buf, 0, 5, false);
+                //        S7.SetCharsAt(buf, 2, "");
+                //        result = WriteData(clientId, 0, 258, buf);// 重置标志和PartID
+                //    }
+                //}
             }
             return result;
         }
@@ -205,6 +231,9 @@ namespace Gy.HrswAuto.PLCMold
             }
             return true;
         }
+
+
+
         /// <summary>
         /// 写入大块存储器
         /// </summary>

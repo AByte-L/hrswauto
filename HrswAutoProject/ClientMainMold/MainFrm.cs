@@ -90,14 +90,25 @@ namespace ClientMainMold
         #region 主界面
         private static void SetAppPaths()
         {
-            PathManager.Instance.RootPath = @"D:\clientPathRoot";
-            PathManager.Instance.BladesPath = "blades";
-            PathManager.Instance.PartProgramsPath = "programs";
-            PathManager.Instance.ReportsPath = "results";
-            PathManager.Instance.SettingsPath = "settings";
-            PathManager.Instance.SettingsSavePath = "settingssave";
-            PathManager.Instance.TempPath = "temp";
+            PathManager.Instance.RootPath = Properties.Settings.Default.RootPath;
+            PathManager.Instance.BladesPath = Properties.Settings.Default.BladePath;
+            PathManager.Instance.PartProgramsPath = Properties.Settings.Default.PartProgramsPath;
+            PathManager.Instance.ReportsPath = Properties.Settings.Default.ReportsPath;
+            PathManager.Instance.SettingsPath = Properties.Settings.Default.SettingsPath;
+            PathManager.Instance.SettingsSavePath = Properties.Settings.Default.SettingsSavePath;
+            PathManager.Instance.TempPath = Properties.Settings.Default.temp;
+            PlcClient.Instance.PlcIPAddress = Properties.Settings.Default.PlcIpAddress;
+        }
 
+        private static void SetAppSettings()
+        {
+            Properties.Settings.Default.RootPath = PathManager.Instance.RootPath;
+            Properties.Settings.Default.BladePath = PathManager.Instance.BladesPath;
+            Properties.Settings.Default.PartProgramsPath = PathManager.Instance.PartProgramsPath ;
+            Properties.Settings.Default.ReportsPath= PathManager.Instance.ReportsPath ;
+            Properties.Settings.Default.SettingsPath = PathManager.Instance.SettingsPath;
+            Properties.Settings.Default.SettingsSavePath = PathManager.Instance.SettingsSavePath;
+            Properties.Settings.Default.temp = PathManager.Instance.TempPath;
         }
 
         private void ShowPanel(SwPanel panel)
@@ -194,6 +205,7 @@ namespace ClientMainMold
             if (_plcConnected) // plc连接成功关闭button1
             {
                 button1.Enabled = false;
+                plcSetupBtn.Enabled = false;
             }
             splitContainer5.Show();
             ShowPanel(SwPanel.plcPanel);
@@ -219,6 +231,7 @@ namespace ClientMainMold
                 toolStripStatusLabel1.Text = "PLC连接错误";
                 button1.Text = "连接";
                 button1.Enabled = true;
+                plcSetupBtn.Enabled = true;
                 _plcConnected = false;
             }));
         }
@@ -230,6 +243,7 @@ namespace ClientMainMold
             PartConfigManager.Instance.SavePartConfig();
             PlcClient.Instance.DisconnectEvent -= PLC_DisconnectEvent;
             PlcClient.Instance.DisconnectPLC();
+            Properties.Settings.Default.Save();
         }
 
         #endregion
@@ -307,7 +321,11 @@ namespace ClientMainMold
         private async void InitClientTsb_Click(object sender, EventArgs e)
         {
             //ClientManager.Instance.InitClients();
+            if (CmmView.SelectedRows.Count == 0)
+                return;
             int index = CmmView.SelectedRows[0].Index;
+            if (index == -1)
+                return; 
             if (!ClientManager.Instance.CmmConnected(index))
             {
                 toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
@@ -816,6 +834,7 @@ namespace ClientMainMold
             {
                 toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
                 button1.Enabled = false;
+                plcSetupBtn.Enabled = false;
                 toolStripStatusLabel1.Text = "正在连接...";
                 button1.Text = "正在连接...";
                 bool connected = await Task.Run(() => PlcClient.Instance.ReconnectPlc());
@@ -828,6 +847,7 @@ namespace ClientMainMold
                             button1.Text = "PLC连接正常";
                             toolStripStatusLabel1.Text = "PLC连接正常";
                             button1.Enabled = false;
+                            plcSetupBtn.Enabled = false;
                         }));
                     }
                     else
@@ -835,6 +855,7 @@ namespace ClientMainMold
                         button1.Text = "PLC连接正常";
                         toolStripStatusLabel1.Text = "PLC连接正常";
                         button1.Enabled = false;
+                        plcSetupBtn.Enabled = false;
                     }
                     _plcConnected = true;
                 }
@@ -847,6 +868,7 @@ namespace ClientMainMold
                             button1.Text = "连接";
                             toolStripStatusLabel1.Text = "PLC连接失败";
                             button1.Enabled = true;
+                            plcSetupBtn.Enabled = true;
                         }));
                     }
                     else
@@ -854,6 +876,7 @@ namespace ClientMainMold
                         button1.Text = "连接";
                         toolStripStatusLabel1.Text = "PLC连接失败";
                         button1.Enabled = true;
+                        plcSetupBtn.Enabled = true;
                     }
                     _plcConnected = false;
                 }
@@ -996,6 +1019,7 @@ namespace ClientMainMold
             {
                 // 
                 plcIPStatusLabel.Text = psForm.IpAddress;
+                Properties.Settings.Default.PlcIpAddress = psForm.IpAddress;
                 PlcClient.Instance.SetConnectParam(psForm.IpAddress, 0, 0);
             }
         }

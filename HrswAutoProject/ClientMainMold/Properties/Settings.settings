@@ -1,7 +1,30 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ClientMainMold.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="RootPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\clientPathRoot</Value>
+    </Setting>
+    <Setting Name="BladePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">blades</Value>
+    </Setting>
+    <Setting Name="PartProgramsPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">programs</Value>
+    </Setting>
+    <Setting Name="ReportsPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">results</Value>
+    </Setting>
+    <Setting Name="SettingsPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">settings</Value>
+    </Setting>
+    <Setting Name="SettingsSavePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">settingssave</Value>
+    </Setting>
+    <Setting Name="temp" Type="System.String" Scope="User">
+      <Value Profile="(Default)">temp</Value>
+    </Setting>
+    <Setting Name="PlcIpAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.0.1</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

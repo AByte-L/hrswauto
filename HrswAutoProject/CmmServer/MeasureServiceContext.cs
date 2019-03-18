@@ -379,7 +379,7 @@ namespace Gy.HrswAuto.CmmServer
         }
         private void ListenHeartbeat(object sender, ElapsedEventArgs e)
         {
-            if (_dateTime.AddSeconds(15) < DateTime.Now)
+            if (_dateTime.AddSeconds(5) < DateTime.Now)
             {
                 if (_isConnected)
                 {
