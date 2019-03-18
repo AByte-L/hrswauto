@@ -31,6 +31,7 @@ namespace Gy.HrswAuto.UICommonTools
 
         public static Action<ResultRecord> AddCommonReportAction;
 
+        public static Action<string> RefreshPlcLogAction;
         public static void RefreshCmmEventLog(string cmmError)
         {
             RefreshCmmEventLogAction(cmmError);
@@ -38,12 +39,17 @@ namespace Gy.HrswAuto.UICommonTools
 
         public static void RefreshPlcConnectState(string v)
         {
-            RefreshPlcConnectStateAction(v);
+            RefreshPlcConnectStateAction?.Invoke(v);
         }
 
         public static void AddCommonReport(ResultRecord _resultRecord)
         {
-            AddCommonReportAction(_resultRecord);
+            AddCommonReportAction?.Invoke(_resultRecord);
+        }
+
+        public static void RefreshPlcLog(string v)
+        {
+            RefreshPlcLogAction?.Invoke(v);
         }
     }
 }

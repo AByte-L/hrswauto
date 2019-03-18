@@ -85,6 +85,12 @@
     <Compile Include="PartConfForm.Designer.cs">
       <DependentUpon>PartConfForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlcLogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlcLogForm.Designer.cs">
+      <DependentUpon>PlcLogForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PlcSetupForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +124,9 @@
     <EmbeddedResource Include="PartConfForm.resx">
       <DependentUpon>PartConfForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PlcLogForm.resx">
+      <DependentUpon>PlcLogForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PlcSetupForm.resx">
       <DependentUpon>PlcSetupForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -138,6 +147,7 @@
     <None Include="Properties\DataSources\Gy.HrswAuto.ClientMold.CmmClient.datasource" />
     <None Include="Properties\DataSources\Gy.HrswAuto.DataMold.PartConfig.datasource" />
     <None Include="Properties\DataSources\PartResultRecord.datasource" />
+    <None Include="Properties\DataSources\PlcLog.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

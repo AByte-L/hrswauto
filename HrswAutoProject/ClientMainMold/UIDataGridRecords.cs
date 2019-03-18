@@ -139,4 +139,11 @@ namespace ClientMainMold
             }
         }
     }
+
+    public class PlcLog
+    {
+        public DateTime DTime { get; set; }
+        public string PlcAction { get; set; }
+        public string LogString { get; set; }
+    }
 }

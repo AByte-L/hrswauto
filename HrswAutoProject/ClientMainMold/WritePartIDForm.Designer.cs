@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.wCancelButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -42,26 +42,26 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "等待写入工件标识。。。。";
             // 
-            // CancelButton
+            // wCancelButton
             // 
-            this.CancelButton.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(146, 82);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(86, 26);
-            this.CancelButton.TabIndex = 1;
-            this.CancelButton.Text = "取消";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.wCancelButton.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.wCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.wCancelButton.Location = new System.Drawing.Point(146, 82);
+            this.wCancelButton.Name = "wCancelButton";
+            this.wCancelButton.Size = new System.Drawing.Size(86, 26);
+            this.wCancelButton.TabIndex = 1;
+            this.wCancelButton.Text = "取消";
+            this.wCancelButton.UseVisualStyleBackColor = true;
+            this.wCancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // WritePartIDForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(382, 129);
-            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.wCancelButton);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "WritePartIDForm";
@@ -76,6 +76,6 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button wCancelButton;
     }
 }

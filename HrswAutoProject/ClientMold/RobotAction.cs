@@ -1,4 +1,5 @@
 ﻿using Gy.HrswAuto.PLCMold;
+using Gy.HrswAuto.UICommonTools;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -76,6 +77,7 @@ namespace Gy.HrswAuto.ClientMold
 
         protected override void PerformAction()
         {
+            ClientUICommon.RefreshPlcLog("PLC-抓取请求");
             Stopwatch sw = new Stopwatch();
             sw.Start();
             while (true)
@@ -117,6 +119,7 @@ namespace Gy.HrswAuto.ClientMold
 
         protected override void PerformAction()
         {
+            ClientUICommon.RefreshPlcLog("PLC-等待抓取完成");
             Stopwatch sw = new Stopwatch();
             sw.Start();
             while (true)
@@ -156,6 +159,7 @@ namespace Gy.HrswAuto.ClientMold
         }
         protected override void PerformAction()
         {
+            ClientUICommon.RefreshPlcLog("PLC-上料请求");
             Stopwatch sw = new Stopwatch();
             sw.Start();
             while (true)
@@ -230,7 +234,7 @@ namespace Gy.HrswAuto.ClientMold
             //    }
             //    Thread.Sleep(1000);
             //}
-            
+            //ClientUICommon.RefreshPlcLog("PLC-等待上料完成");
             string partId = string.Empty;
             var rdtask = Task.Run(() => ReadPartID(out partId));
             if (rdtask.Result)
@@ -243,12 +247,14 @@ namespace Gy.HrswAuto.ClientMold
                 }
                 else
                 {
-                    // todo 报告放置工作出错
+                    // 报告放置工作出错
+                    ClientUICommon.RefreshPlcLog("PLC-上料出错");
                 }
             }
             else
             {
-                // todo 报告放置时读取RFID错误
+                // 报告放置时读取RFID错误
+                ClientUICommon.RefreshPlcLog("PLC-读取RFID出错");
             }
             CompletedEvent -= _client.OnGripCompleted;
             base.PerformAction();
@@ -256,6 +262,7 @@ namespace Gy.HrswAuto.ClientMold
 
         private bool VerifyCompleted()
         {
+            ClientUICommon.RefreshPlcLog("PLC-等待上料完成");
             bool result = false;
             Stopwatch sw = new Stopwatch();
             sw.Start();
@@ -295,6 +302,7 @@ namespace Gy.HrswAuto.ClientMold
                 result = _plcClient.VerifyDuringPlacement(_client.CmmSvrConfig.ServerID, out rfid);
                 if (result)
                 {
+                    ClientUICommon.RefreshPlcLog($"PLC-读取RFID : {rfid}");
                     break;
                 }
                 Thread.Sleep(1000);
@@ -315,6 +323,7 @@ namespace Gy.HrswAuto.ClientMold
 
         protected override void PerformAction()
         {
+            ClientUICommon.RefreshPlcLog("PLC-三坐标准备就绪");
             Stopwatch sw = new Stopwatch();
             sw.Start();
             while (true)

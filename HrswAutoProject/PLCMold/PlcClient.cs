@@ -191,6 +191,7 @@ namespace Gy.HrswAuto.PLCMold
             {
                 byte[] buf = new byte[1];
                 int result = _s7Client.DBRead(serverID, offset, 1, buf);
+                PlcUILinker.Log($"WritePlcFlags DB{serverID} off{offset}-Read", _s7Client.ErrorText(result));
                 Thread.Sleep(100);
                 if (result != 0)
                 {
@@ -201,6 +202,7 @@ namespace Gy.HrswAuto.PLCMold
                     S7.SetBitAt(ref buf, 0, index, value);
                 }
                 result = _s7Client.DBWrite(serverID, offset, 1, buf);
+                PlcUILinker.Log($"WritePlcFlags DB{serverID} off{offset}-Write", _s7Client.ErrorText(result));
                 Thread.Sleep(100);
                 //Debug.Assert(result == 0);
                 return result == 0;
@@ -221,6 +223,7 @@ namespace Gy.HrswAuto.PLCMold
                 if (_s7Client.Connected())
                 {
                     int result = _s7Client.DBRead(DBNumber, start, size, buf);
+                    PlcUILinker.Log($"ReadData DB{DBNumber} off{start}-Read", _s7Client.ErrorText(result));
                     Thread.Sleep(200); // 等待数据交换
                     if (result != 0)
                     {
@@ -249,6 +252,7 @@ namespace Gy.HrswAuto.PLCMold
                 if (_s7Client.Connected())
                 {
                     int result = _s7Client.DBWrite(dbNb, start, size, buf);
+                    PlcUILinker.Log($"WriteData DB{dbNb} off{start}-Write", _s7Client.ErrorText(result));
                     Thread.Sleep(200); // 等待数据交换
                     if (result != 0)
                     {
@@ -278,6 +282,7 @@ namespace Gy.HrswAuto.PLCMold
                 if (_s7Client.Connected())
                 {
                     result = _s7Client.DBWrite(clientId, 0, 256, buf);
+                    PlcUILinker.Log($"SetPartID DB{clientId} off0-256DBWrite", _s7Client.ErrorText(result));
                     if (result != 0)
                     {
                         return false;

@@ -51,6 +51,16 @@ namespace ClientMainMold
             ClientUICommon.RefreshCmmEventLogAction = RefreshCmmEventLog;
             ClientUICommon.RefreshPlcConnectStateAction = RefreshPlcConnect;
             ClientUICommon.AddCommonReportAction = AddCommonReport;
+            ClientUICommon.RefreshPlcLogAction = RefreshPlcLogBox;
+        }
+
+        private void RefreshPlcLogBox(string obj)
+        {
+            ClientUICommon.syncContext.Post(o =>
+            {
+                string info = DateTime.Now.ToShortTimeString() + " " + obj;
+                PlcLogListBox.Items.Add(info);
+            }, null);
         }
 
         private void AddCommonReport(ResultRecord resultRecord)
@@ -229,6 +239,8 @@ namespace ClientMainMold
             Invoke((Action)(() =>
             {
                 toolStripStatusLabel1.Text = "PLC连接错误";
+                string info = DateTime.Now.ToShortTimeString() + " PLC连接错误";
+                PlcLogListBox.Items.Add(info);
                 button1.Text = "连接";
                 button1.Enabled = true;
                 plcSetupBtn.Enabled = true;
@@ -1022,6 +1034,17 @@ namespace ClientMainMold
                 Properties.Settings.Default.PlcIpAddress = psForm.IpAddress;
                 PlcClient.Instance.SetConnectParam(psForm.IpAddress, 0, 0);
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (!_plcConnected)
+            {
+                MessageBox.Show("PLC控制器未连接", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            PlcLogForm plfrm = new PlcLogForm();
+            plfrm.Show();
         }
     }
 }
